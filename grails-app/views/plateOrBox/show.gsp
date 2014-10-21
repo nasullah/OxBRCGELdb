@@ -5,7 +5,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'plateOrBox.label', default: 'PlateOrBox')}" />
+	<g:set var="entityName" value="${message(code: 'plateOrBox.label', default: 'Plate or Box')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
 </head>
 
@@ -50,6 +50,13 @@
 				<td valign="top" class="value">${fieldValue(bean: plateOrBoxInstance, field: "intendedAssay")}</td>
 				
 			</tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="plateOrBox.barcode.label" default="Barcode" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: plateOrBoxInstance, field: "barcode")}</td>
+
+            </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="plateOrBox.notes.label" default="Notes" /></td>
@@ -70,7 +77,7 @@
 				
 				<td valign="top" style="text-align: left;" class="value">
 					<ul>
-					<g:each in="${plateOrBoxInstance.well}" var="w">
+					<g:each in="${plateOrBoxInstance.well.sort{it.letter+it.number}}" var="w">
 						<li><g:link controller="position" action="show" id="${w.id}">${w?.encodeAsHTML()}</g:link></li>
 					</g:each>
 					</ul>

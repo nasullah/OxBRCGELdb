@@ -16,27 +16,27 @@
 	<table class="table">
 		<tbody>
 
-        <g:if test="${centrifugationInstance?.derivation?.id !=null}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="centrifugation.derivation.label" default="Derivation" /></td>
+            <g:if test="${centrifugationInstance?.derivation?.id !=null}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="centrifugation.derivation.label" default="Derivation" /></td>
 
-                <td valign="top" class="value"><g:link controller="derivation" action="show" id="${centrifugationInstance?.derivation?.id}">${centrifugationInstance?.derivation?.encodeAsHTML()}</g:link></td>
+                    <td valign="top" class="value"><g:link controller="derivation" action="show" id="${centrifugationInstance?.derivation?.id}">${centrifugationInstance?.derivation?.encodeAsHTML()}</g:link></td>
 
-            </tr>
-        </g:if>
-        <g:if test="${centrifugationInstance?.specimen?.id !=null}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="centrifugation.specimen.label" default="Specimen" /></td>
-
-                <td valign="top" class="value"><g:link controller="specimen" action="show" id="${centrifugationInstance?.specimen?.id}">${centrifugationInstance?.specimen?.encodeAsHTML()}</g:link></td>
-
-            </tr>
-        </g:if>
+                </tr>
+            </g:if>
+            %{--<g:if test="${centrifugationInstance?.specimen?.id !=null}">--}%
+                %{--<tr class="prop">--}%
+                    %{--<td valign="top" class="name"><g:message code="centrifugation.specimen.label" default="Specimen" /></td>--}%
+    %{----}%
+                    %{--<td valign="top" class="value"><g:link controller="specimen" action="show" id="${centrifugationInstance?.specimen?.id}">${centrifugationInstance?.specimen?.encodeAsHTML()}</g:link></td>--}%
+    %{----}%
+                %{--</tr>--}%
+            %{--</g:if>--}%
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="centrifugation.reportDate.label" default="Report Date" /></td>
 				
-				<td valign="top" class="value"><g:formatDate date="${centrifugationInstance?.reportDate}" /></td>
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${centrifugationInstance?.reportDate}" /></td>
 				
 			</tr>
 		

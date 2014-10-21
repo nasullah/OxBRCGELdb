@@ -17,16 +17,16 @@
 		<tbody>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="studySubject.study.label" default="Study" /></td>
+				<td valign="top" class="name"><g:message code="studySubject.participant.label" default="Participant" /></td>
 				
-				<td valign="top" class="value"><g:link controller="study" action="show" id="${studySubjectInstance?.study?.id}">${studySubjectInstance?.study?.encodeAsHTML()}</g:link></td>
+				<td valign="top" class="value"><g:link controller="participant" action="show" id="${studySubjectInstance?.participant?.id}">${studySubjectInstance?.participant?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="studySubject.participant.label" default="Participant" /></td>
+				<td valign="top" class="name"><g:message code="studySubject.study.label" default="Study" /></td>
 				
-				<td valign="top" class="value"><g:link controller="participant" action="show" id="${studySubjectInstance?.participant?.id}">${studySubjectInstance?.participant?.encodeAsHTML()}</g:link></td>
+				<td valign="top" class="value"><g:link controller="study" action="show" id="${studySubjectInstance?.study?.id}">${studySubjectInstance?.study?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		
@@ -36,6 +36,14 @@
 				<td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "studySubjectIdentifier")}</td>
 				
 			</tr>
+
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="studySubject.consentFormVersion.label" default="Consent Form Version" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "consentFormVersion")}</td>
+
+            </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="studySubject.consentStatus.label" default="Consent Status" /></td>
@@ -47,21 +55,14 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="studySubject.recruitmentDate.label" default="Recruitment Date" /></td>
 				
-				<td valign="top" class="value"><g:formatDate date="${studySubjectInstance?.recruitmentDate}" /></td>
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${studySubjectInstance?.recruitmentDate}" /></td>
 				
 			</tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="studySubject.recruitedBy.label" default="Recruited By" /></td>
 				
-				<td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "recruitedBy")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="studySubject.consentFormVersion.label" default="Consent Form Version" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "consentFormVersion")}</td>
+				<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${studySubjectInstance?.recruitedBy?.id}">${studySubjectInstance?.recruitedBy?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		

@@ -4,12 +4,15 @@ package geldb
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import org.grails.plugin.filterpane.FilterPaneUtils
+import grails.plugins.springsecurity.*
 /**
  * ParticipantController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
+@Secured(['ROLE_USER', 'ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class ParticipantController {
+
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -18,10 +21,28 @@ class ParticipantController {
         respond Participant.list(params), model: [participantInstanceCount: Participant.count()]
     }
 
-//    def list(Integer max) {
-//        params.max = Math.min(max ?: 10, 100)
-//        respond Participant.list(params), model: [participantInstanceCount: Participant.count()]
-//    }
+    def listBloodFollowUp() {
+
+        List <Participant> results = Participant.createCriteria().list{
+
+            specimen {
+                ne('sampleType', PrimarySampleType.valueOf('Full_blood'))
+                and {
+                    aliquot {
+                        dNA_Extract {
+                            eq('passFail', true)
+                        }
+                    }
+                }
+
+            }
+
+        }
+//        results.findAll("from Participant as p where not exists " +
+//                "(from Specimen as s where s.participant = p and s.sampleType = 'Full Blood (BLD)')")
+    [participantList: results]
+    }
+
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -35,6 +56,7 @@ class ParticipantController {
                                      participantInstanceTotal: filterPaneService.count( params, Participant ),
                                      filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
     }
+
 
     def show(Participant participantInstance) {
         respond participantInstance

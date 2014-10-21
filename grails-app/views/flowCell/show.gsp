@@ -53,11 +53,13 @@
 		</tbody>
 	</table>
 </section>
-<hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="lane" action="create" params="['flowCell.id': flowCellInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'lane.label', default: 'Lane')])}</g:link>
-    </a></div>
-</div>
+<g:if test="${flowCellInstance.containedLane.size() <= 1}">
+    <hr style="border:1; height:1px" />
+    <div class="one-to-many">
+        <div><a class='btn btn-primary btn-small' <g:link controller="lane" action="create" params="['flowCell.id': flowCellInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'lane.label', default: 'Lane')])}</g:link>
+        </a></div>
+    </div>
+</g:if>
 <hr style="border:1; height:1px" />
 </body>
 

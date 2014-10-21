@@ -3,11 +3,13 @@ package geldb
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
-
+import grails.plugins.springsecurity.*
 /**
  * DerivationController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
+
+@Secured(['ROLE_USER', 'ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class DerivationController {
 

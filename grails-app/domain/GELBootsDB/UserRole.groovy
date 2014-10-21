@@ -1,7 +1,9 @@
 package GELBootsDB
 
+import grails.plugins.springsecurity.Secured
 import org.apache.commons.lang.builder.HashCodeBuilder
 
+@Secured(['ROLE_ADMIN'])
 class UserRole implements Serializable {
 
 	User user

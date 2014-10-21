@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Oxford Molecular Diagnostics Centre (OMDC) NGS LIMS</title>
+    <title>Oxford Molecular Diagnostics Centre (OMDC) NGS-LIMS</title>
     <meta name="layout" content="kickstart" />
 </head>
 
@@ -23,7 +23,7 @@
     </p>
 
     <p>
-        Requirements, use cases, model review and testing to date: Adam Burns, Maite Cabes, Charles Crichton, Jim Davies, Andrew Devereau, Kate Gibson, Divija Jatavallabhula, Monica Jones, Joanne Mason, Jane Niederer, Pauline Robbe, Anna Schuh, Anneke Seller, Jenny Taylor, Clare Verrill and Jessica Wright
+        Requirements, use cases, model review and testing to date: Adam Burns, Maite Cabes, Charles Crichton, Jim Davies, Andrew Devereau, Kate Gibson, Divija Jatavallabhula, Monica Jones, Joanne Mason, Jane Niederer, Pauline Robbe, Anna Schuh, Anneke Seller, Jenny Taylor, Clare Verrill, Jessica Wright, Adam Lambert, Bhumika Patel and Stephanie Jones.
 
     </p>
 

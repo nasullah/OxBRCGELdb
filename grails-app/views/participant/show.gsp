@@ -1,4 +1,3 @@
-
 <%@ page import="geldb.FluidSpecimen; geldb.Participant" %>
 <%@ page import="geldb.SolidSpecimen" %>
 <!DOCTYPE html>
@@ -34,7 +33,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="participant.dateOfBirth.label" default="Date Of Birth" /></td>
 				
-				<td valign="top" class="value"><g:formatDate date="${participantInstance?.dateOfBirth}" /></td>
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${participantInstance?.dateOfBirth}" /></td>
 				
 			</tr>
 		
@@ -62,40 +61,40 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="participant.diagnosis.label" default="Diagnosis" /></td>
 				
-				<td valign="top" class="value">${fieldValue(bean: participantInstance, field: "diagnosis")}</td>
+				<td valign="top" class="value"><g:link controller="ICD10" action="show" id="${participantInstance?.diagnosis?.id}">${participantInstance?.diagnosis?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 
-        <g:if test="${participantInstance.specimen !=null}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="participant.specimen.label" default="Specimen" /></td>
+            <g:if test="${participantInstance.specimen !=null}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="participant.specimen.label" default="Specimen" /></td>
 
-                <td valign="top" style="text-align: left;" class="value">
-                    <% def solidSpecimen = SolidSpecimen.listOrderById() %>
-                    <% def fluidSpecimen = FluidSpecimen.listOrderById() %>
+                    <td valign="top" style="text-align: left;" class="value">
+                        <% def solidSpecimen = SolidSpecimen.listOrderById() %>
+                        <% def fluidSpecimen = FluidSpecimen.listOrderById() %>
 
-                    <ul>
-                        <g:each in="${solidSpecimen}" var="item">
-                            <g:each in="${participantInstance.specimen}" var="s">
-                                <g:if test="${item.id ==s.id}">
-                                    <li><g:link controller="solidSpecimen" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
-                                </g:if>
+                        <ul>
+                            <g:each in="${solidSpecimen}" var="item">
+                                <g:each in="${participantInstance.specimen}" var="s">
+                                    <g:if test="${item.id ==s.id}">
+                                        <li><g:link controller="solidSpecimen" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
+                                    </g:if>
+                                </g:each>
                             </g:each>
-                        </g:each>
-                    </ul>
-                    <ul>
-                        <g:each in="${fluidSpecimen}" var="item">
-                            <g:each in="${participantInstance.specimen}" var="s">
-                                <g:if test="${item.id ==s.id}">
-                                    <li><g:link controller="fluidSpecimen" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
-                                </g:if>
+                        </ul>
+                        <ul>
+                            <g:each in="${fluidSpecimen}" var="item">
+                                <g:each in="${participantInstance.specimen}" var="s">
+                                    <g:if test="${item.id ==s.id}">
+                                        <li><g:link controller="fluidSpecimen" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
+                                    </g:if>
+                                </g:each>
                             </g:each>
-                        </g:each>
-                    </ul>
-                </td>
+                        </ul>
+                    </td>
 
-            </tr>
-        </g:if>
+                </tr>
+            </g:if>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="participant.studySubject.label" default="Study Subject" /></td>
@@ -113,22 +112,26 @@
 		</tbody>
 	</table>
 </section>
+
+<hr style="border:1; height:1px" />
+<div class="one-to-many">
+    <div><a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]">Associate Participant with Study </g:link>
+    </a></div>
+</div>
+
+<hr style="border:1; height:1px" />
+<div class="one-to-many">
+    <div><a class='btn btn-primary btn-small' <g:link controller="fluidSpecimen" action="create" params="['participant.id': participantInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'fluidSpecimen.label', default: 'Fluid Specimen')])}</g:link>
+    </a></div>
+</div>
+
 <hr style="border:1; height:1px" />
 <div class="one-to-many">
     <div><a class='btn btn-primary btn-small' <g:link controller="solidSpecimen" action="create" params="['participant.id': participantInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'solidSpecimen.label', default: 'Solid Specimen')])}</g:link>
     </a></div>
 </div>
 <hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="fluidSpecimen" action="create" params="['participant.id': participantInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'fluidSpecimen.label', default: 'Fluid Specimen')])}</g:link>
-    </a></div>
-</div>
-<hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]">Associate Participant with Study </g:link>
-    </a></div>
-</div>
-<hr style="border:1; height:1px" />
+
 </body>
 
 </html>

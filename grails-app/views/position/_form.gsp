@@ -16,25 +16,26 @@
 					<span class="help-inline">${hasErrors(bean: positionInstance, field: 'plateOrBox', 'error')}</span>
 				</div>
 			</div>
-<div class="row">
-    <div class="col-lg-6">
-			<div class="${hasErrors(bean: positionInstance, field: 'letter', 'error')} ">
-				<label for="letter" class="control-label"><g:message code="position.letter.label" default="Letter" /></label>
-				<div>
-					<g:textField class="form-control" name="letter" value="${positionInstance?.letter}"/>
-					<span class="help-inline">${hasErrors(bean: positionInstance, field: 'letter', 'error')}</span>
-				</div>
-			</div>
-    </div>
-    <div class="col-lg-6">
-			<div class="${hasErrors(bean: positionInstance, field: 'number', 'error')} ">
-				<label for="number" class="control-label"><g:message code="position.number.label" default="Number" /></label>
-				<div>
-					<g:textField class="form-control" name="number" value="${positionInstance?.number}"/>
-					<span class="help-inline">${hasErrors(bean: positionInstance, field: 'number', 'error')}</span>
-				</div>
-			</div>
-    </div>
-</div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: positionInstance, field: 'letter', 'error')} ">
+                        <label for="letter" class="control-label"><g:message code="position.letter.label" default="Letter" /></label>
+                        <div>
+                            <g:textField class="form-control" name="letter" value="${positionInstance?.letter}"/>
+                            <span class="help-inline">${hasErrors(bean: positionInstance, field: 'letter', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: positionInstance, field: 'number', 'error')} ">
+                        <label for="number" class="control-label"><g:message code="position.number.label" default="Number" /></label>
+                        <div>
+                            <g:textField class="form-control" name="number" value="${positionInstance?.number}"/>
+                            <span class="help-inline">${hasErrors(bean: positionInstance, field: 'number', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 

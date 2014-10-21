@@ -9,27 +9,28 @@
 					<span class="help-inline">${hasErrors(bean: sequencingReportsInstance, field: 'sequencingRun', 'error')}</span>
 				</div>
 			</div>
-<div class="row">
-    <div class="col-lg-6">
-			<div class="${hasErrors(bean: sequencingReportsInstance, field: 'bAMpath', 'error')} ">
-				<label for="bAMpath" class="control-label"><g:message code="sequencingReports.bAMpath.label" default="BAM path" /></label>
-				<div>
-					<g:textField class="form-control" name="bAMpath" value="${sequencingReportsInstance?.bAMpath}"/>
-					<span class="help-inline">${hasErrors(bean: sequencingReportsInstance, field: 'bAMpath', 'error')}</span>
-				</div>
-			</div>
-    </div>
 
-    <div class="col-lg-6">
-			<div class="${hasErrors(bean: sequencingReportsInstance, field: 'reportPath', 'error')} ">
-				<label for="reportPath" class="control-label"><g:message code="sequencingReports.reportPath.label" default="Report Path" /></label>
-				<div>
-					<g:textField class="form-control" name="reportPath" value="${sequencingReportsInstance?.reportPath}"/>
-					<span class="help-inline">${hasErrors(bean: sequencingReportsInstance, field: 'reportPath', 'error')}</span>
-				</div>
-			</div>
-    </div>
-</div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: sequencingReportsInstance, field: 'bAMpath', 'error')} ">
+                        <label for="bAMpath" class="control-label"><g:message code="sequencingReports.bAMpath.label" default="BAM path" /></label>
+                        <div>
+                            <g:textField class="form-control" name="bAMpath" value="${sequencingReportsInstance?.bAMpath}"/>
+                            <span class="help-inline">${hasErrors(bean: sequencingReportsInstance, field: 'bAMpath', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: sequencingReportsInstance, field: 'reportPath', 'error')} ">
+                        <label for="reportPath" class="control-label"><g:message code="sequencingReports.reportPath.label" default="Report Path" /></label>
+                        <div>
+                            <g:textField class="form-control" name="reportPath" value="${sequencingReportsInstance?.reportPath}"/>
+                            <span class="help-inline">${hasErrors(bean: sequencingReportsInstance, field: 'reportPath', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 			%{--<div class="${hasErrors(bean: sequencingReportsInstance, field: 'vCFpath', 'error')} ">--}%
 				%{--<label for="vCFpath" class="control-label"><g:message code="sequencingReports.vCFpath.label" default="V CF path" /></label>--}%

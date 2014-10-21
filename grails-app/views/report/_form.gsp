@@ -34,15 +34,16 @@
 					<span class="help-inline">${hasErrors(bean: reportInstance, field: 'reportStaff', 'error')}</span>
 				</div>
 			</div>
-<div class="row">
-    <div class="col-lg-6">
-			<div class="${hasErrors(bean: reportInstance, field: 'comments', 'error')} ">
-				<label for="comments" class="control-label"><g:message code="report.comments.label" default="Comments" /></label>
-				<div>
-					<g:textArea class="form-control" name="comments" cols="40" rows="5" value="${reportInstance?.comments}"/>
-					<span class="help-inline">${hasErrors(bean: reportInstance, field: 'comments', 'error')}</span>
-				</div>
-			</div>
-        </div>
-</div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: reportInstance, field: 'comments', 'error')} ">
+                        <label for="comments" class="control-label"><g:message code="report.comments.label" default="Comments" /></label>
+                        <div>
+                            <g:textArea class="form-control" name="comments" cols="40" rows="5" value="${reportInstance?.comments}"/>
+                            <span class="help-inline">${hasErrors(bean: reportInstance, field: 'comments', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 

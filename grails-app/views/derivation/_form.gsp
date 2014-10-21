@@ -10,13 +10,27 @@
 				</div>
 			</div>
 
-			<div class="${hasErrors(bean: derivationInstance, field: 'derivationTimeDate', 'error')} required">
-				<label for="derivationTimeDate" class="control-label"><g:message code="derivation.derivationTimeDate.label" default="Derivation Time Date" /><span class="required-indicator">*</span></label>
-				<div>
-					<bs:datePicker name="derivationTimeDate" precision="day"  value="${derivationInstance?.derivationTimeDate}"  />
-					<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationTimeDate', 'error')}</span>
-				</div>
-			</div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: derivationInstance, field: 'derivationDate', 'error')} required">
+                        <label for="derivationDate" class="control-label"><g:message code="derivation.derivationDate.label" default="Derivation Date" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <bs:datePicker name="derivationDate" precision="day"  value="${derivationInstance?.derivationDate}"  />
+                            <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationDate', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')} ">
+                        <label for="derivationTime" class="control-label"><g:message code="derivation.derivationTime.label" default="Derivation Time" /></label>
+                        <div>
+                            <g:textField class="form-control" name="derivationTime" value="${derivationInstance?.derivationTime}"/>
+                            <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 			<div class="${hasErrors(bean: derivationInstance, field: 'derivedBy', 'error')} required">
 				<label for="derivedBy" class="control-label"><g:message code="derivation.derivedBy.label" default="Derived By" /><span class="required-indicator">*</span></label>
@@ -25,26 +39,36 @@
 					<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivedBy', 'error')}</span>
 				</div>
 			</div>
-<div class="row">
-    <div class="col-lg-6">
-			<div class="${hasErrors(bean: derivationInstance, field: 'derivationProcess', 'error')} required">
-				<label for="derivationProcess" class="control-label"><g:message code="derivation.derivationProcess.label" default="Derivation Process" /><span class="required-indicator">*</span></label>
-				<div>
-					<g:select class="form-control" name="derivationProcess" from="${geldb.DerivationType?.values()}" keys="${geldb.DerivationType.values()*.name()}" required="" value="${derivationInstance?.derivationProcess?.name()}"/>
-					<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationProcess', 'error')}</span>
-				</div>
-			</div>
-    </div>
-    <div class="col-lg-6">
-			<div class="${hasErrors(bean: derivationInstance, field: 'notes', 'error')} ">
-				<label for="notes" class="control-label"><g:message code="derivation.notes.label" default="Notes" /></label>
-				<div>
-					<g:textArea class="form-control" name="notes" cols="40" rows="5" value="${derivationInstance?.notes}"/>
-					<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'notes', 'error')}</span>
-				</div>
-			</div>
-    </div>
-</div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: derivationInstance, field: 'notes', 'error')} ">
+                        <label for="notes" class="control-label"><g:message code="derivation.notes.label" default="Notes" /></label>
+                        <div>
+                            <g:textArea class="form-control" name="notes" cols="40" rows="5" value="${derivationInstance?.notes}"/>
+                            <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'notes', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: derivationInstance, field: 'derivationProcess', 'error')} required">
+                        <label for="derivationProcess" class="control-label"><g:message code="derivation.derivationProcess.label" default="Derivation Process" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <g:select class="form-control" name="derivationProcess" from="${geldb.DerivationType?.values()}" keys="${geldb.DerivationType.values()*.name()}" required="" value="${derivationInstance?.derivationProcess?.name()}"/>
+                            <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationProcess', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			%{--<div class="${hasErrors(bean: derivationInstance, field: 'report', 'error')} ">--}%
+				%{--<label for="report" class="control-label"><g:message code="derivation.report.label" default="Report" /></label>--}%
+				%{--<div>--}%
+					%{--<g:select class="form-control" id="report" name="report.id" from="${geldb.Report.list()}" optionKey="id" value="${derivationInstance?.report?.id}" class="many-to-one" noSelection="['null': '']"/>--}%
+					%{--<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'report', 'error')}</span>--}%
+				%{--</div>--}%
+			%{--</div>--}%
 
 			%{--<div class="${hasErrors(bean: derivationInstance, field: 'derivedAliquots', 'error')} ">--}%
 				%{--<label for="derivedAliquots" class="control-label"><g:message code="derivation.derivedAliquots.label" default="Derived Aliquots" /></label>--}%
@@ -55,28 +79,11 @@
     %{--<li><g:link controller="aliquot" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>--}%
 %{--</g:each>--}%
 %{--<li class="add">--}%
-%{--<g:link controller="aliquot" action="create" params="['derivedFrom.id': derivationInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>--}%
+%{--<g:link controller="aliquot" action="create" params="['derivation.id': derivationInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>--}%
 %{--</li>--}%
 %{--</ul>--}%
 
 					%{--<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivedAliquots', 'error')}</span>--}%
-				%{--</div>--}%
-			%{--</div>--}%
-
-			%{--<div class="${hasErrors(bean: derivationInstance, field: 'report', 'error')} ">--}%
-				%{--<label for="report" class="control-label"><g:message code="derivation.report.label" default="Report" /></label>--}%
-				%{--<div>--}%
-					%{----}%
-%{--<ul class="one-to-many">--}%
-%{--<g:each in="${derivationInstance?.report?}" var="r">--}%
-    %{--<li><g:link controller="report" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>--}%
-%{--</g:each>--}%
-%{--<li class="add">--}%
-%{--<g:link controller="report" action="create" params="['derivation.id': derivationInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'report.label', default: 'Report')])}</g:link>--}%
-%{--</li>--}%
-%{--</ul>--}%
-
-					%{--<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'report', 'error')}</span>--}%
 				%{--</div>--}%
 			%{--</div>--}%
 

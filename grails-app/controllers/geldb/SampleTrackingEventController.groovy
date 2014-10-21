@@ -3,11 +3,12 @@ package geldb
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
-
+import grails.plugins.springsecurity.*
 /**
  * SampleTrackingEventController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
+@Secured(['ROLE_USER', 'ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class SampleTrackingEventController {
 
@@ -29,6 +30,10 @@ class SampleTrackingEventController {
 
     def create() {
         respond new SampleTrackingEvent(params)
+    }
+
+    def getIDByScanner(){
+         Specimen.findBySapphireIdentifier("%${params.barcode}%").id
     }
 
     @Transactional

@@ -19,7 +19,7 @@
 			
 				<th><g:message code="sampleTrackingEvent.specimen.label" default="Specimen" /></th>
 			
-				<g:sortableColumn property="sampleTrackingEventType" title="${message(code: 'sampleTrackingEvent.sampleTrackingEventType.label', default: 'Sample Tracking Event Type')}" />
+				<th><g:message code="sampleTrackingEvent.sampleTrackingEventType.label" default="Sample Tracking Event Type" /></th>
 			
 				<g:sortableColumn property="date" title="${message(code: 'sampleTrackingEvent.date.label', default: 'Date')}" />
 			

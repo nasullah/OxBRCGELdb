@@ -15,6 +15,7 @@
 
 	<table class="table">
 		<tbody>
+
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="DNA_Library.na_extract.label" default="DNA Extract" /></td>
 
@@ -27,26 +28,19 @@
                 </td>
 
             </tr>
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Library.localIdentifier.label" default="Local Identifier" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: DNA_LibraryInstance, field: "localIdentifier")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Library.size.label" default="Size" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: DNA_LibraryInstance, field: "size")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Library.unit.label" default="Unit" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: DNA_LibraryInstance, field: "unit")}</td>
-				
-			</tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Library.lane.label" default="Lane" /></td>
+
+                <td valign="top" style="text-align: left;" class="value">
+                    <ul>
+                        <g:each in="${DNA_LibraryInstance.lane}" var="l">
+                            <li><g:link controller="lane" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                    </ul>
+                </td>
+
+            </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Library.exhausted.label" default="Exhausted" /></td>
@@ -63,12 +57,18 @@
 			</tr>
 		
 			<tr class="prop">
+				<td valign="top" class="name"><g:message code="DNA_Library.passFailReason.label" default="Pass Fail Reason" /></td>
+				
+				<td valign="top" class="value">${fieldValue(bean: DNA_LibraryInstance, field: "passFailReason")}</td>
+				
+			</tr>
+		
+			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Library.notes.label" default="Notes" /></td>
 				
 				<td valign="top" class="value">${fieldValue(bean: DNA_LibraryInstance, field: "notes")}</td>
 				
 			</tr>
-
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Library.dNA_QC_qPCR.label" default="DNA QC qPCR" /></td>
@@ -119,19 +119,6 @@
 				
 			</tr>
 
-
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="DNA_Library.lane.label" default="Lane" /></td>
-
-                <td valign="top" style="text-align: left;" class="value">
-                    <ul>
-                        <g:each in="${DNA_LibraryInstance.lane}" var="l">
-                            <li><g:link controller="lane" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
-                        </g:each>
-                    </ul>
-                </td>
-
-            </tr>
 		
 		</tbody>
 	</table>

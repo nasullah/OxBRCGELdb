@@ -5,7 +5,7 @@
 <head>
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'studySubject.label', default: 'Study Subject')}" />
-	<title>Associate Participant with Study</title>
+	<title><g:message code="default.create.label" args="[entityName]" /></title>
 </head>
 
 <body>

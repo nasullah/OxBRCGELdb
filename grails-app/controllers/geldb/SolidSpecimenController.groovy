@@ -4,11 +4,12 @@ package geldb
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import org.grails.plugin.filterpane.FilterPaneUtils
-
+import grails.plugins.springsecurity.*
 /**
  * SolidSpecimenController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
+@Secured(['ROLE_USER', 'ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class SolidSpecimenController {
 
@@ -23,6 +24,7 @@ class SolidSpecimenController {
 //        params.max = Math.min(max ?: 10, 100)
 //        respond SolidSpecimen.list(params), model: [solidSpecimenInstanceCount: SolidSpecimen.count()]
 //    }
+
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [solidSpecimenInstanceList: SolidSpecimen.list(params), solidSpecimenInstanceTotal: SolidSpecimen.count()]

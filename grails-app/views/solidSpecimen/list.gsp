@@ -15,42 +15,38 @@
 <section id="list-solidSpecimen" class="first">
 
 	<table class="table table-bordered margin-top-medium">
-		<thead>
-			<tr>
-			
-				<g:sortableColumn property="localIdentifier" title="${message(code: 'solidSpecimen.localIdentifier.label', default: 'Local Identifier')}" />
-			
-				<g:sortableColumn property="size" title="${message(code: 'solidSpecimen.size.label', default: 'Size')}" />
-			
-				<g:sortableColumn property="unit" title="${message(code: 'solidSpecimen.unit.label', default: 'Unit')}" />
-			
-				<g:sortableColumn property="exhausted" title="${message(code: 'solidSpecimen.exhausted.label', default: 'Exhausted')}" />
-			
-				<g:sortableColumn property="passFail" title="${message(code: 'solidSpecimen.passFail.label', default: 'Pass Fail')}" />
-			
-				<g:sortableColumn property="notes" title="${message(code: 'solidSpecimen.notes.label', default: 'Notes')}" />
-			
-			</tr>
-		</thead>
-		<tbody>
-		<g:each in="${solidSpecimenInstanceList}" status="i" var="solidSpecimenInstance">
-			<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-			
-				<td><g:link action="show" id="${solidSpecimenInstance.id}">${fieldValue(bean: solidSpecimenInstance, field: "localIdentifier")}</g:link></td>
-			
-				<td>${fieldValue(bean: solidSpecimenInstance, field: "size")}</td>
-			
-				<td>${fieldValue(bean: solidSpecimenInstance, field: "unit")}</td>
-			
-				<td><g:formatBoolean boolean="${solidSpecimenInstance.exhausted}" /></td>
-			
-				<td><g:formatBoolean boolean="${solidSpecimenInstance.passFail}" /></td>
-			
-				<td>${fieldValue(bean: solidSpecimenInstance, field: "notes")}</td>
-			
-			</tr>
-		</g:each>
-		</tbody>
+        <thead>
+        <tr>
+
+            <g:sortableColumn property="sapphireIdentifier" title="${message(code: 'solidSpecimen.histologyNumber.label', default: 'Histology Number')}" />
+
+            <g:sortableColumn property="passFail" title="${message(code: 'solidSpecimen.passFail.label', default: 'Pass Fail')}" />
+
+            <g:sortableColumn property="passFailReason" title="${message(code: 'solidSpecimen.passFailReason.label', default: 'Pass Fail Reason')}" />
+
+            <g:sortableColumn property="notes" title="${message(code: 'solidSpecimen.notes.label', default: 'Notes')}" />
+
+            %{--<th><g:message code="solidSpecimen.participant.label" default="Participant" /></th>--}%
+
+        </tr>
+        </thead>
+        <tbody>
+        <g:each in="${solidSpecimenInstanceList}" status="i" var="solidSpecimenInstance">
+            <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+
+                <td><g:link action="show" id="${solidSpecimenInstance.id}">${fieldValue(bean: solidSpecimenInstance, field: "histologyNumber")}</g:link></td>
+
+                <td><g:formatBoolean boolean="${solidSpecimenInstance.passFail}" /></td>
+
+                <td>${fieldValue(bean: solidSpecimenInstance, field: "passFailReason")}</td>
+
+                <td>${fieldValue(bean: solidSpecimenInstance, field: "notes")}</td>
+
+                %{--<td>${fieldValue(bean: solidSpecimenInstance, field: "participant")}</td>--}%
+
+            </tr>
+        </g:each>
+        </tbody>
 	</table>
     <div>
         <g:paginate total="${solidSpecimenInstanceTotal == null ? SolidSpecimen.count(): solidSpecimenInstanceTotal}" params="${filterParams}" />
@@ -59,8 +55,9 @@
 </section>
 <filterpane:filterPane domain="geldb.SolidSpecimen"
                        excludeProperties="vasculerClampingTimeAtSurgery, collectionDate"
-                       associatedProperties="participant.familyName,participant.diagnosis,
-                                             participant.identifierType,participant.identifierValue "/>
+                       associatedProperties="participant.familyName,participant.givenName,
+                                             participant.nHSNumber,participant.hospitalNumber,
+                                             participant.diagnosis"/>
 <hr style="border:1; height:1px" />
 
 </body>

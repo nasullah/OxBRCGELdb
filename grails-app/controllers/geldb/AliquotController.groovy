@@ -4,11 +4,12 @@ package geldb
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import org.grails.plugin.filterpane.FilterPaneUtils
-
+import grails.plugins.springsecurity.*
 /**
  * AliquotController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
+@Secured(['ROLE_USER', 'ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class AliquotController {
 

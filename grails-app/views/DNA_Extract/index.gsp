@@ -17,17 +17,15 @@
 		<thead>
 			<tr>
 			
-				<g:sortableColumn property="localIdentifier" title="${message(code: 'DNA_Extract.localIdentifier.label', default: 'Local Identifier')}" />
-			
-				<g:sortableColumn property="size" title="${message(code: 'DNA_Extract.size.label', default: 'Size')}" />
-			
-				<g:sortableColumn property="unit" title="${message(code: 'DNA_Extract.unit.label', default: 'Unit')}" />
-			
 				<g:sortableColumn property="exhausted" title="${message(code: 'DNA_Extract.exhausted.label', default: 'Exhausted')}" />
 			
 				<g:sortableColumn property="passFail" title="${message(code: 'DNA_Extract.passFail.label', default: 'Pass Fail')}" />
 			
+				<g:sortableColumn property="passFailReason" title="${message(code: 'DNA_Extract.passFailReason.label', default: 'Pass Fail Reason')}" />
+			
 				<g:sortableColumn property="notes" title="${message(code: 'DNA_Extract.notes.label', default: 'Notes')}" />
+			
+				%{--<g:sortableColumn property="dNAConcentration" title="${message(code: 'DNA_Extract.dNAConcentration.label', default: 'D NAC oncentration')}" />--}%
 			
 			</tr>
 		</thead>
@@ -35,17 +33,15 @@
 		<g:each in="${DNA_ExtractInstanceList}" status="i" var="DNA_ExtractInstance">
 			<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 			
-				<td><g:link action="show" id="${DNA_ExtractInstance.id}">${fieldValue(bean: DNA_ExtractInstance, field: "localIdentifier")}</g:link></td>
-			
-				<td>${fieldValue(bean: DNA_ExtractInstance, field: "size")}</td>
-			
-				<td>${fieldValue(bean: DNA_ExtractInstance, field: "unit")}</td>
-			
-				<td><g:formatBoolean boolean="${DNA_ExtractInstance.exhausted}" /></td>
-			
+				<td><g:link action="show" id="${DNA_ExtractInstance.id}">${fieldValue(bean: DNA_ExtractInstance, field: "exhausted")}</g:link></td>
+
 				<td><g:formatBoolean boolean="${DNA_ExtractInstance.passFail}" /></td>
 			
+				<td>${fieldValue(bean: DNA_ExtractInstance, field: "passFailReason")}</td>
+			
 				<td>${fieldValue(bean: DNA_ExtractInstance, field: "notes")}</td>
+			
+				%{--<td>${fieldValue(bean: DNA_ExtractInstance, field: "dNAConcentration")}</td>--}%
 			
 			</tr>
 		</g:each>

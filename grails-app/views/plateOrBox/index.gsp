@@ -5,7 +5,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'plateOrBox.label', default: 'PlateOrBox')}" />
+	<g:set var="entityName" value="${message(code: 'plateOrBox.label', default: 'Plate or Box')}" />
 	<title><g:message code="default.index.label" args="[entityName]" /></title>
 </head>
 

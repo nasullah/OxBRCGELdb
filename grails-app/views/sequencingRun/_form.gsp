@@ -10,27 +10,27 @@
 				</div>
 			</div>
 
-<div class="row">
-    <div class="col-lg-6">
-        <div class="${hasErrors(bean: sequencingRunInstance, field: 'machineName', 'error')} ">
-            <label for="machineName" class="control-label"><g:message code="sequencingRun.machineName.label" default="Machine Name" /></label>
-            <div>
-                <g:textField class="form-control" name="machineName" value="${sequencingRunInstance?.machineName}"/>
-                <span class="help-inline">${hasErrors(bean: sequencingRunInstance, field: 'machineName', 'error')}</span>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: sequencingRunInstance, field: 'machineName', 'error')} ">
+                        <label for="machineName" class="control-label"><g:message code="sequencingRun.machineName.label" default="Machine Name" /></label>
+                        <div>
+                            <g:textField class="form-control" name="machineName" value="${sequencingRunInstance?.machineName}"/>
+                            <span class="help-inline">${hasErrors(bean: sequencingRunInstance, field: 'machineName', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<g:if test="${sequencingRunInstance?.sequencingReports?.id !=null}">
-    <div class="${hasErrors(bean: sequencingRunInstance, field: 'sequencingReports', 'error')} ">
-        <label for="sequencingReports" class="control-label"><g:message code="sequencingRun.sequencingReports.label" default="Sequencing Reports" /></label>
-        <div>
-            <g:select class="form-control" id="sequencingReports" name="sequencingReports.id" from="${geldb.SequencingReports.list()}" optionKey="id" value="${sequencingRunInstance?.sequencingReports?.id}" class="many-to-one" noSelection="['null': '']"/>
-            <span class="help-inline">${hasErrors(bean: sequencingRunInstance, field: 'sequencingReports', 'error')}</span>
-        </div>
-    </div>
-</g:if>
+            %{--<g:if test="${sequencingRunInstance?.sequencingReports?.id !=null}">--}%
+                %{--<div class="${hasErrors(bean: sequencingRunInstance, field: 'sequencingReports', 'error')} ">--}%
+                    %{--<label for="sequencingReports" class="control-label"><g:message code="sequencingRun.sequencingReports.label" default="Sequencing Reports" /></label>--}%
+                    %{--<div>--}%
+                        %{--<g:select class="form-control" id="sequencingReports" name="sequencingReports.id" from="${geldb.SequencingReports.list()}" optionKey="id" value="${sequencingRunInstance?.sequencingReports?.id}" class="many-to-one" noSelection="['null': '']"/>--}%
+                        %{--<span class="help-inline">${hasErrors(bean: sequencingRunInstance, field: 'sequencingReports', 'error')}</span>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
+            %{--</g:if>--}%
 
 			%{--<div class="${hasErrors(bean: sequencingRunInstance, field: 'loadedFlowCell', 'error')} ">--}%
 				%{--<label for="loadedFlowCell" class="control-label"><g:message code="sequencingRun.loadedFlowCell.label" default="Loaded Flow Cell" /></label>--}%

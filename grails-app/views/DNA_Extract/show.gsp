@@ -15,40 +15,20 @@
 
 	<table class="table">
 		<tbody>
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="DNA_Extract.aliquot.label" default="Aliquot" /></td>
-
-            <td valign="top" style="text-align: left;" class="value">
-                <ul>
-                    <g:each in="${DNA_ExtractInstance.aliquot}" var="a">
-                        <li><g:link controller="aliquot" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
-                    </g:each>
-                </ul>
-            </td>
-
-        </tr>
 
 
-        <tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Extract.localIdentifier.label" default="Local Identifier" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "localIdentifier")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Extract.size.label" default="Size" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "size")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Extract.unit.label" default="Unit" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "unit")}</td>
-				
-			</tr>
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.aliquot.label" default="Aliquot" /></td>
+
+                <td valign="top" style="text-align: left;" class="value">
+                    <ul>
+                        <g:each in="${DNA_ExtractInstance.aliquot}" var="a">
+                            <li><g:link controller="aliquot" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                    </ul>
+                </td>
+
+            </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Extract.exhausted.label" default="Exhausted" /></td>
@@ -61,6 +41,13 @@
 				<td valign="top" class="name"><g:message code="DNA_Extract.passFail.label" default="Pass Fail" /></td>
 				
 				<td valign="top" class="value"><g:formatBoolean boolean="${DNA_ExtractInstance?.passFail}" /></td>
+				
+			</tr>
+		
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="DNA_Extract.passFailReason.label" default="Pass Fail Reason" /></td>
+				
+				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "passFailReason")}</td>
 				
 			</tr>
 		
@@ -81,7 +68,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Extract.extractionDate.label" default="Extraction Date" /></td>
 				
-				<td valign="top" class="value"><g:formatDate date="${DNA_ExtractInstance?.extractionDate}" /></td>
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${DNA_ExtractInstance?.extractionDate}" /></td>
 				
 			</tr>
 		
@@ -105,7 +92,7 @@
 				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAExtractionKit")}</td>
 				
 			</tr>
-
+		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Extract.dNA_Library.label" default="DNA Library" /></td>
 				
@@ -124,7 +111,7 @@
 </section>
 <hr style="border:1; height:1px" />
 <div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="DNA_Library" action="create" >${message(code: 'default.add.label', args: [message(code: 'DNA_Library.label', default: 'DNA Library')])}</g:link>
+    <div><a class='btn btn-primary btn-small' <g:link controller="DNA_Library" action="create" params="['na_extract': DNA_ExtractInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'DNA_Library.label', default: 'DNA Library')])}</g:link>
     </a></div>
 </div>
 <hr style="border:1; height:1px" />

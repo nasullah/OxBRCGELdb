@@ -9,26 +9,27 @@
 					<span class="help-inline">${hasErrors(bean: flowCellInstance, field: 'sequencingRun', 'error')}</span>
 				</div>
 			</div>
-<div class="row">
-    <div class="col-lg-6">
-			<div class="${hasErrors(bean: flowCellInstance, field: 'libraryLoadingConcentration', 'error')} required">
-				<label for="libraryLoadingConcentration" class="control-label"><g:message code="flowCell.libraryLoadingConcentration.label" default="Library Loading Concentration" /><span class="required-indicator">*</span></label>
-				<div>
-					<g:field class="form-control" name="libraryLoadingConcentration" value="${fieldValue(bean: flowCellInstance, field: 'libraryLoadingConcentration')}" required=""/>
-					<span class="help-inline">${hasErrors(bean: flowCellInstance, field: 'libraryLoadingConcentration', 'error')}</span>
-				</div>
-			</div>
-    </div>
-    <div class="col-lg-6">
-			<div class="${hasErrors(bean: flowCellInstance, field: 'clusterDensity', 'error')} required">
-				<label for="clusterDensity" class="control-label"><g:message code="flowCell.clusterDensity.label" default="Cluster Density" /><span class="required-indicator">*</span></label>
-				<div>
-					<g:field class="form-control" name="clusterDensity" value="${fieldValue(bean: flowCellInstance, field: 'clusterDensity')}" required=""/>
-					<span class="help-inline">${hasErrors(bean: flowCellInstance, field: 'clusterDensity', 'error')}</span>
-				</div>
-			</div>
-    </div>
-</div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: flowCellInstance, field: 'libraryLoadingConcentration', 'error')} required">
+                        <label for="libraryLoadingConcentration" class="control-label"><g:message code="flowCell.libraryLoadingConcentration.label" default="Library Loading Concentration" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <g:field class="form-control" name="libraryLoadingConcentration" value="${fieldValue(bean: flowCellInstance, field: 'libraryLoadingConcentration')}" required=""/>
+                            <span class="help-inline">${hasErrors(bean: flowCellInstance, field: 'libraryLoadingConcentration', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: flowCellInstance, field: 'clusterDensity', 'error')} required">
+                        <label for="clusterDensity" class="control-label"><g:message code="flowCell.clusterDensity.label" default="Cluster Density" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <g:field class="form-control" name="clusterDensity" value="${fieldValue(bean: flowCellInstance, field: 'clusterDensity')}" required=""/>
+                            <span class="help-inline">${hasErrors(bean: flowCellInstance, field: 'clusterDensity', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 			%{--<div class="${hasErrors(bean: flowCellInstance, field: 'containedLane', 'error')} ">--}%
 				%{--<label for="containedLane" class="control-label"><g:message code="flowCell.containedLane.label" default="Contained Lane" /></label>--}%

@@ -16,35 +16,28 @@
 	<table class="table">
 		<tbody>
 
-        <g:if test="${fixationReportInstance?.derivation?.id !=null}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="fixationReport.derivation.label" default="Derivation" /></td>
+            <g:if test="${fixationReportInstance?.solidSpecimen?.id !=null}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="fixationReport.solidSpecimen.label" default="Solid Specimen" /></td>
 
-                <td valign="top" class="value"><g:link controller="derivation" action="show" id="${fixationReportInstance?.derivation?.id}">${fixationReportInstance?.derivation?.encodeAsHTML()}</g:link></td>
+                    <td valign="top" class="value"><g:link controller="solidSpecimen" action="show" id="${fixationReportInstance?.solidSpecimen?.id}">${fixationReportInstance?.solidSpecimen?.encodeAsHTML()}</g:link></td>
 
-            </tr>
-        </g:if>
-        <g:if test="${fixationReportInstance?.specimen?.id !=null}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="fixationReport.specimen.label" default="Specimen" /></td>
+                </tr>
+            </g:if>
 
-                <td valign="top" class="value"><g:link controller="specimen" action="show" id="${fixationReportInstance?.specimen?.id}">${fixationReportInstance?.specimen?.encodeAsHTML()}</g:link></td>
+            <g:if test="${fixationReportInstance?.derivation?.id !=null}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="fixationReport.derivation.label" default="Derivation" /></td>
 
-            </tr>
-        </g:if>
-        <g:if test="${fixationReportInstance?.solidSpecimen?.id !=null}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="fixationReport.solidSpecimen.label" default="Solid Specimen" /></td>
+                    <td valign="top" class="value"><g:link controller="derivation" action="show" id="${fixationReportInstance?.derivation?.id}">${fixationReportInstance?.derivation?.encodeAsHTML()}</g:link></td>
 
-                <td valign="top" class="value"><g:link controller="solidSpecimen" action="show" id="${fixationReportInstance?.solidSpecimen?.id}">${fixationReportInstance?.solidSpecimen?.encodeAsHTML()}</g:link></td>
+                </tr>
+            </g:if>
 
-            </tr>
-        </g:if>
-		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fixationReport.reportDate.label" default="Report Date" /></td>
 				
-				<td valign="top" class="value"><g:formatDate date="${fixationReportInstance?.reportDate}" /></td>
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${fixationReportInstance?.reportDate}" /></td>
 				
 			</tr>
 		
@@ -70,9 +63,23 @@
 			</tr>
 		
 			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fixationReport.fixationStartDate.label" default="Fixation Start Date" /></td>
+				
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${fixationReportInstance?.fixationStartDate}" /></td>
+				
+			</tr>
+		
+			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fixationReport.fixationStartTime.label" default="Fixation Start Time" /></td>
 				
 				<td valign="top" class="value">${fieldValue(bean: fixationReportInstance, field: "fixationStartTime")}</td>
+				
+			</tr>
+		
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fixationReport.fixationEndDate.label" default="Fixation End Date" /></td>
+				
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${fixationReportInstance?.fixationEndDate}" /></td>
 				
 			</tr>
 		
@@ -89,6 +96,36 @@
 				<td valign="top" class="value"><g:formatBoolean boolean="${fixationReportInstance?.fixationTimeUnknown}" /></td>
 				
 			</tr>
+		
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fixationReport.fixationTimeApproximate.label" default="Fixation Time Approximate" /></td>
+				
+				<td valign="top" class="value">${fixationReportInstance?.fixationTimeApproximate?.encodeAsHTML()}</td>
+				
+			</tr>
+		
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fixationReport.fixationPeriod.label" default="Fixation Period" /></td>
+				
+				<td valign="top" class="value"><g:link controller="period" action="show" id="${fixationReportInstance?.fixationPeriod?.id}">${fixationReportInstance?.fixationPeriod?.encodeAsHTML()}</g:link></td>
+				
+			</tr>
+		
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fixationReport.fixationProcessingSchedule.label" default="Fixation Processing Schedule" /></td>
+				
+				<td valign="top" class="value">${fixationReportInstance?.fixationProcessingSchedule?.encodeAsHTML()}</td>
+				
+			</tr>
+		
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fixationReport.fixationNote.label" default="Fixation Note" /></td>
+				
+				<td valign="top" class="value">${fieldValue(bean: fixationReportInstance, field: "fixationNote")}</td>
+				
+			</tr>
+		
+
 		
 		</tbody>
 	</table>

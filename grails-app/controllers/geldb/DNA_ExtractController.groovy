@@ -4,10 +4,12 @@ package geldb
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import org.grails.plugin.filterpane.FilterPaneUtils
+import grails.plugins.springsecurity.*
 /**
  * DNA_ExtractController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
+@Secured(['ROLE_USER', 'ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class DNA_ExtractController {
 
@@ -17,6 +19,11 @@ class DNA_ExtractController {
         params.max = Math.min(max ?: 10, 100)
         respond DNA_Extract.list(params), model: [DNA_ExtractInstanceCount: DNA_Extract.count()]
     }
+
+//    def list(Integer max) {
+//        params.max = Math.min(max ?: 10, 100)
+//        respond DNA_Extract.list(params), model: [DNA_ExtractInstanceCount: DNA_Extract.count()]
+//    }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)

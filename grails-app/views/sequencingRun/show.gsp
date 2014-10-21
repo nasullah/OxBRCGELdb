@@ -19,7 +19,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="sequencingRun.runDate.label" default="Run Date" /></td>
 				
-				<td valign="top" class="value"><g:formatDate date="${sequencingRunInstance?.runDate}" /></td>
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${sequencingRunInstance?.runDate}" /></td>
 				
 			</tr>
 		
@@ -53,19 +53,23 @@
 		</tbody>
 	</table>
 </section>
-<hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="flowCell" action="create" params="['sequencingRun.id': sequencingRunInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'flowCell.label', default: 'Flow Cell')])}</g:link>
-    </a></div>
-</div>
-<hr style="border:1; height:1px" />
+<g:if test="${sequencingRunInstance.loadedFlowCell.size() <= 1}">
+    <hr style="border:1; height:1px" />
+    <div class="one-to-many">
+        <div><a class='btn btn-primary btn-small' <g:link controller="flowCell" action="create" params="['sequencingRun.id': sequencingRunInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'flowCell.label', default: 'Flow Cell')])}</g:link>
+        </a></div>
+    </div>
+</g:if>
+
 <g:if test="${sequencingRunInstance?.sequencingReports ==null}">
+    <hr style="border:1; height:1px" />
     <div class="one-to-many">
         <div><a class='btn btn-primary btn-small' <g:link controller="sequencingReports" action="create" params="['sequencingRun.id': sequencingRunInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'sequencingReports.label', default: 'Sequencing Reports')])}</g:link>
         </a></div>
     </div>
-    <hr style="border:1; height:1px" />
+
 </g:if>
+<hr style="border:1; height:1px" />
 </body>
 
 </html>

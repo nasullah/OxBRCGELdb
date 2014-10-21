@@ -19,7 +19,7 @@
 			
 				<th><g:message code="studySubject.study.label" default="Study" /></th>
 			
-				<th><g:message code="studySubject.participant.label" default="Participant" /></th>
+				<th><g:message code="studySubject.Participant.label" default="Participant" /></th>
 			
 				<g:sortableColumn property="studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'Study Subject Identifier')}" />
 			
@@ -27,7 +27,7 @@
 			
 				<g:sortableColumn property="recruitmentDate" title="${message(code: 'studySubject.recruitmentDate.label', default: 'Recruitment Date')}" />
 			
-				<g:sortableColumn property="recruitedBy" title="${message(code: 'studySubject.recruitedBy.label', default: 'Recruited By')}" />
+				<th><g:message code="studySubject.recruitedBy.label" default="Recruited By" /></th>
 			
 			</tr>
 		</thead>
@@ -43,7 +43,7 @@
 			
 				<td><g:formatBoolean boolean="${studySubjectInstance.consentStatus}" /></td>
 			
-				<td><g:formatDate date="${studySubjectInstance.recruitmentDate}" /></td>
+				<td><g:formatDate format="dd/MM/yyyy" date="${studySubjectInstance.recruitmentDate}" /></td>
 			
 				<td>${fieldValue(bean: studySubjectInstance, field: "recruitedBy")}</td>
 			

@@ -17,17 +17,17 @@
 		<thead>
 			<tr>
 			
-				<g:sortableColumn property="localIdentifier" title="${message(code: 'fluidSpecimen.localIdentifier.label', default: 'Local Identifier')}" />
-			
-				<g:sortableColumn property="size" title="${message(code: 'fluidSpecimen.size.label', default: 'Size')}" />
-			
-				<g:sortableColumn property="unit" title="${message(code: 'fluidSpecimen.unit.label', default: 'Unit')}" />
-			
 				<g:sortableColumn property="exhausted" title="${message(code: 'fluidSpecimen.exhausted.label', default: 'Exhausted')}" />
 			
 				<g:sortableColumn property="passFail" title="${message(code: 'fluidSpecimen.passFail.label', default: 'Pass Fail')}" />
 			
+				<g:sortableColumn property="passFailReason" title="${message(code: 'fluidSpecimen.passFailReason.label', default: 'Pass Fail Reason')}" />
+			
 				<g:sortableColumn property="notes" title="${message(code: 'fluidSpecimen.notes.label', default: 'Notes')}" />
+			
+				%{--<th><g:message code="fluidSpecimen.participant.label" default="Participant" /></th>--}%
+			
+				<g:sortableColumn property="collectionDate" title="${message(code: 'fluidSpecimen.collectionDate.label', default: 'Collection Date')}" />
 			
 			</tr>
 		</thead>
@@ -35,17 +35,17 @@
 		<g:each in="${fluidSpecimenInstanceList}" status="i" var="fluidSpecimenInstance">
 			<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 			
-				<td><g:link action="show" id="${fluidSpecimenInstance.id}">${fieldValue(bean: fluidSpecimenInstance, field: "localIdentifier")}</g:link></td>
-			
-				<td>${fieldValue(bean: fluidSpecimenInstance, field: "size")}</td>
-			
-				<td>${fieldValue(bean: fluidSpecimenInstance, field: "unit")}</td>
-			
-				<td><g:formatBoolean boolean="${fluidSpecimenInstance.exhausted}" /></td>
+				<td><g:link action="show" id="${fluidSpecimenInstance.id}">${fieldValue(bean: fluidSpecimenInstance, field: "exhausted")}</g:link></td>
 			
 				<td><g:formatBoolean boolean="${fluidSpecimenInstance.passFail}" /></td>
 			
+				<td>${fieldValue(bean: fluidSpecimenInstance, field: "passFailReason")}</td>
+			
 				<td>${fieldValue(bean: fluidSpecimenInstance, field: "notes")}</td>
+			
+				%{--<td>${fieldValue(bean: fluidSpecimenInstance, field: "participant")}</td>--}%
+			
+				<td><g:formatDate format="yyyy-MM-dd" date="${fluidSpecimenInstance.collectionDate}" /></td>
 			
 			</tr>
 		</g:each>

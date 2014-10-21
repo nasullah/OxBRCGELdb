@@ -37,7 +37,8 @@
 			
 				<td>${fieldValue(bean: positionInstance, field: "number")}</td>
 			
-				<td>${fieldValue(bean: positionInstance, field: "containedAliquot")}</td>
+				%{--<td>${fieldValue(bean: positionInstance, field: "containedAliquot")}</td>--}%
+                <td><g:link controller="aliquot" action="show" id="${positionInstance.containedAliquot.id}">${fieldValue(bean: positionInstance, field: "containedAliquot")}</g:link></td>
 			
 			</tr>
 		</g:each>

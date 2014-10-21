@@ -16,33 +16,34 @@
 	<table class="table">
 		<tbody>
 
+
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="solidSpecimen.participant.label" default="Participant" /></td>
 
                 <td valign="top" class="value"><g:link controller="participant" action="show" id="${solidSpecimenInstance?.participant?.id}">${solidSpecimenInstance?.participant?.encodeAsHTML()}</g:link></td>
 
             </tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.localIdentifier.label" default="Local Identifier" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "localIdentifier")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.size.label" default="Size" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "size")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.unit.label" default="Unit" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "unit")}</td>
-				
-			</tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="solidSpecimen.histologyNumber.label" default="Histology Number" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "histologyNumber")}</td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="solidSpecimen.tumourType.label" default="Tumour Type" /></td>
+
+                <td valign="top" class="value"><g:link controller="tumourType" action="show" id="${solidSpecimenInstance?.tumourType?.id}">${solidSpecimenInstance?.tumourType?.encodeAsHTML()}</g:link></td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="solidSpecimen.sampleType.label" default="Sample Type" /></td>
+
+                <td valign="top" class="value"><g:link controller="collectionMethod" action="show" id="${solidSpecimenInstance?.sampleType?.id}">${solidSpecimenInstance?.sampleType?.encodeAsHTML()}</g:link></td>
+
+            </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="solidSpecimen.exhausted.label" default="Exhausted" /></td>
@@ -59,6 +60,13 @@
 			</tr>
 		
 			<tr class="prop">
+				<td valign="top" class="name"><g:message code="solidSpecimen.passFailReason.label" default="Pass Fail Reason" /></td>
+				
+				<td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "passFailReason")}</td>
+				
+			</tr>
+		
+			<tr class="prop">
 				<td valign="top" class="name"><g:message code="solidSpecimen.notes.label" default="Notes" /></td>
 				
 				<td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "notes")}</td>
@@ -66,16 +74,9 @@
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.histologyNumber.label" default="Histology Number" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "histologyNumber")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
 				<td valign="top" class="name"><g:message code="solidSpecimen.collectionDate.label" default="Collection Date" /></td>
 				
-				<td valign="top" class="value"><g:formatDate date="${solidSpecimenInstance?.collectionDate}" /></td>
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${solidSpecimenInstance?.collectionDate}" /></td>
 				
 			</tr>
 		
@@ -89,7 +90,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="solidSpecimen.collectionLocation.label" default="Collection Location" /></td>
 				
-				<td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "collectionLocation")}</td>
+				<td valign="top" class="value"><g:link controller="location" action="show" id="${solidSpecimenInstance?.collectionLocation?.id}">${solidSpecimenInstance?.collectionLocation?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		
@@ -108,58 +109,44 @@
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.sampleType.label" default="Sample Type" /></td>
+				<td valign="top" class="name"><g:message code="solidSpecimen.surgeon.label" default="Surgeon" /></td>
 				
-				<td valign="top" class="value">${solidSpecimenInstance?.sampleType?.encodeAsHTML()}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.anatomicSite.label" default="Anatomic Site" /></td>
-				
-				<td valign="top" class="value">${solidSpecimenInstance?.anatomicSite?.encodeAsHTML()}</td>
+				<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${solidSpecimenInstance?.surgeon?.id}">${solidSpecimenInstance?.surgeon?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.collectionMethod.label" default="Collection Method" /></td>
+				<td valign="top" class="name"><g:message code="solidSpecimen.pathologist.label" default="Pathologist" /></td>
 				
-				<td valign="top" class="value">${solidSpecimenInstance?.collectionMethod?.encodeAsHTML()}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.vasculerClampingTimeAtSurgery.label" default="Vasculer Clamping Time At Surgery" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "vasculerClampingTimeAtSurgery")}</td>
+				<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${solidSpecimenInstance?.pathologist?.id}">${solidSpecimenInstance?.pathologist?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.warmIschemiaTimeIfClampingNotKnown.label" default="Warm Ischemia Time If Clamping Not Known" /></td>
+				<td valign="top" class="name"><g:message code="solidSpecimen.anatomicalSite.label" default="Anatomical Site" /></td>
 				
-				<td valign="top" class="value">${solidSpecimenInstance?.warmIschemiaTimeIfClampingNotKnown?.encodeAsHTML()}</td>
+				<td valign="top" class="value"><g:link controller="anatomicalSite" action="show" id="${solidSpecimenInstance?.anatomicalSite?.id}">${solidSpecimenInstance?.anatomicalSite?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="solidSpecimen.methodOfTransportToPathologist.label" default="Method Of Transport To Pathologist" /></td>
 				
-				<td valign="top" class="value">${solidSpecimenInstance?.methodOfTransportToPathologist?.encodeAsHTML()}</td>
+				<td valign="top" class="value"><g:link controller="methodOfTransport" action="show" id="${solidSpecimenInstance?.methodOfTransportToPathologist?.id}">${solidSpecimenInstance?.methodOfTransportToPathologist?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.fixationReport.label" default="Fixation Report" /></td>
+				<td valign="top" class="name"><g:message code="solidSpecimen.specimenWeight.label" default="Specimen Weight" /></td>
 				
-				<td valign="top" class="value"><g:link controller="fixationReport" action="show" id="${solidSpecimenInstance?.fixationReport?.id}">${solidSpecimenInstance?.fixationReport?.encodeAsHTML()}</g:link></td>
+				<td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "specimenWeight")}</td>
 				
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.solidSpecimenReport.label" default="Solid Specimen Report" /></td>
+				<td valign="top" class="name"><g:message code="solidSpecimen.massUnit.label" default="Mass Unit" /></td>
 				
-				<td valign="top" class="value"><g:link controller="solidSpecimenReport" action="show" id="${solidSpecimenInstance?.solidSpecimenReport?.id}">${solidSpecimenInstance?.solidSpecimenReport?.encodeAsHTML()}</g:link></td>
+				<td valign="top" class="value"><g:link controller="units" action="show" id="${solidSpecimenInstance?.massUnit?.id}">${solidSpecimenInstance?.massUnit?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		
@@ -177,12 +164,12 @@
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.postmortem.label" default="Postmortem" /></td>
+				<td valign="top" class="name"><g:message code="solidSpecimen.fixationReport.label" default="Fixation Report" /></td>
 				
 				<td valign="top" style="text-align: left;" class="value">
 					<ul>
-					<g:each in="${solidSpecimenInstance.postmortem}" var="p">
-						<li><g:link controller="postmortem" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
+					<g:each in="${solidSpecimenInstance.fixationReport}" var="f">
+						<li><g:link controller="fixationReport" action="show" id="${f.id}">${f?.encodeAsHTML()}</g:link></li>
 					</g:each>
 					</ul>
 				</td>
@@ -190,12 +177,12 @@
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.report.label" default="Report" /></td>
+				<td valign="top" class="name"><g:message code="solidSpecimen.solidSpecimenReport.label" default="Solid Specimen Report" /></td>
 				
 				<td valign="top" style="text-align: left;" class="value">
 					<ul>
-					<g:each in="${solidSpecimenInstance.report}" var="r">
-						<li><g:link controller="report" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
+					<g:each in="${solidSpecimenInstance.solidSpecimenReport}" var="s">
+						<li><g:link controller="solidSpecimenReport" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
 					</g:each>
 					</ul>
 				</td>
@@ -223,30 +210,22 @@
     <div><a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['specimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>
     </a></div>
 </div>
-%{--<hr style="border:1; height:1px" />--}%
-%{--<div class="one-to-many">--}%
-%{--<div><a class='btn btn-primary btn-small' <g:link controller="sampleTrackingEvent" action="create" params="['specimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'sampleTrackingEvent.label', default: 'Sample Tracking Event')])}</g:link>--}%
-%{--</a></div>--}%
-%{--</div>--}%
-<g:if test="${solidSpecimenInstance?.fixationReport?.id ==null}">
+
+<g:if test="${!solidSpecimenInstance.fixationReport}">
     <hr style="border:1; height:1px" />
     <div class="one-to-many">
         <div><a class='btn btn-primary btn-small' <g:link controller="fixationReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Fixation Report')])}</g:link>
         </a></div>
     </div>
 </g:if>
-<g:if test="${solidSpecimenInstance?.solidSpecimenReport?.id ==null}">
+<g:if test="${!solidSpecimenInstance.solidSpecimenReport}">
     <hr style="border:1; height:1px" />
     <div class="one-to-many">
         <div><a class='btn btn-primary btn-small' <g:link controller="solidSpecimenReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'solidSpecimenReport.label', default: 'Solid Specimen Report')])}</g:link>
         </a></div>
     </div>
 </g:if>
-<hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['specimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>
-    </a></div>
-</div>
+
 <hr style="border:1; height:1px" />
 </body>
 

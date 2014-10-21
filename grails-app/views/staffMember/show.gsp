@@ -15,6 +15,14 @@
 
 	<table class="table">
 		<tbody>
+
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="staffMember.staffRole.label" default="Staff Role" /></td>
+
+                <td valign="top" class="value"><g:link controller="staffRole" action="show" id="${staffMemberInstance?.staffRole?.id}">${staffMemberInstance?.staffRole?.encodeAsHTML()}</g:link></td>
+
+            </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="staffMember.staffName.label" default="Staff Name" /></td>
@@ -22,13 +30,7 @@
 				<td valign="top" class="value">${fieldValue(bean: staffMemberInstance, field: "staffName")}</td>
 				
 			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="staffMember.staffRole.label" default="Staff Role" /></td>
-				
-				<td valign="top" class="value">${staffMemberInstance?.staffRole?.encodeAsHTML()}</td>
-				
-			</tr>
+
 		
 		</tbody>
 	</table>

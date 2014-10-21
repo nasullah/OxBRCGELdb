@@ -3,8 +3,8 @@ This is the standard dialog that initiates the delete action.
 -->
 
 <!-- Modal dialog -->
-<div id="DeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div id="DeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" style="position: absolute; left: 0%;">
     <div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>

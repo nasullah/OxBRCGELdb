@@ -1,5 +1,7 @@
 
 <%@ page import="geldb.Report" %>
+<%@ page import="geldb.FluidSpecimen" %>
+<%@ page import="geldb.SolidSpecimen" %>
 <!DOCTYPE html>
 <html>
 
@@ -29,10 +31,16 @@
                 <td valign="top" class="name"><g:message code="report.specimen.label" default="Specimen" /></td>
 
             <td valign="top" class="value">
-                <% def fluidSpecimen = FluidSpecimen.listOrderById() %>
+                <% def fluidSpecimen = FluidSpecimen?.listOrderById() %>
+                <% def solidSpecimen = SolidSpecimen?.listOrderById() %>
                 <g:each in="${fluidSpecimen}" var="item">
                     <g:if test="${item.id == reportInstance?.specimen?.id}">
-                        <g:link controller="fluidSpecimen" action="show" id="${reportInstance?.specimen?.id}">${reportInstance?.specimen?.encodeAsHTML()}</g:link></td>
+                        <g:link controller="fluidSpecimen" action="show" id="${reportInstance?.specimen?.id}">${reportInstance?.specimen?.encodeAsHTML()}</g:link>
+                    </g:if>
+                </g:each>
+                <g:each in="${solidSpecimen}" var="item">
+                    <g:if test="${item.id == reportInstance?.specimen?.id}">
+                        <g:link controller="solidSpecimen" action="show" id="${reportInstance?.specimen?.id}">${reportInstance?.specimen?.encodeAsHTML()}</g:link>
                     </g:if>
                 </g:each>
 
@@ -42,7 +50,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="report.reportDate.label" default="Report Date" /></td>
 				
-				<td valign="top" class="value"><g:formatDate date="${reportInstance?.reportDate}" /></td>
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${reportInstance?.reportDate}" /></td>
 				
 			</tr>
 		

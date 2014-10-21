@@ -4,11 +4,12 @@ package geldb
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import org.grails.plugin.filterpane.FilterPaneUtils
-
+import grails.plugins.springsecurity.*
 /**
  * DNA_LibraryController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
+@Secured(['ROLE_USER', 'ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class DNA_LibraryController {
 
@@ -23,6 +24,7 @@ class DNA_LibraryController {
 //        params.max = Math.min(max ?: 10, 100)
 //        respond DNA_Library.list(params), model: [DNA_LibraryInstanceCount: DNA_Library.count()]
 //    }
+
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [DNA_LibraryInstanceList: DNA_Library.list(params), DNA_LibraryInstanceTotal: DNA_Library.count()]

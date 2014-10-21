@@ -16,32 +16,13 @@
 	<table class="table">
 		<tbody>
 
+
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="fluidSpecimen.participant.label" default="Participant" /></td>
 
                 <td valign="top" class="value"><g:link controller="participant" action="show" id="${fluidSpecimenInstance?.participant?.id}">${fluidSpecimenInstance?.participant?.encodeAsHTML()}</g:link></td>
 
             </tr>
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.localIdentifier.label" default="Local Identifier" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "localIdentifier")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.size.label" default="Size" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "size")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.unit.label" default="Unit" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "unit")}</td>
-				
-			</tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.exhausted.label" default="Exhausted" /></td>
@@ -58,6 +39,13 @@
 			</tr>
 		
 			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fluidSpecimen.passFailReason.label" default="Pass Fail Reason" /></td>
+				
+				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "passFailReason")}</td>
+				
+			</tr>
+		
+			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.notes.label" default="Notes" /></td>
 				
 				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "notes")}</td>
@@ -65,16 +53,9 @@
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.histologyNumber.label" default="Histology Number" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "histologyNumber")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.collectionDate.label" default="Collection Date" /></td>
 				
-				<td valign="top" class="value"><g:formatDate date="${fluidSpecimenInstance?.collectionDate}" /></td>
+				<td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${fluidSpecimenInstance?.collectionDate}" /></td>
 				
 			</tr>
 		
@@ -88,7 +69,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.collectionLocation.label" default="Collection Location" /></td>
 				
-				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "collectionLocation")}</td>
+				<td valign="top" class="value"><g:link controller="location" action="show" id="${fluidSpecimenInstance?.collectionLocation?.id}">${fluidSpecimenInstance?.collectionLocation?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		
@@ -107,16 +88,30 @@
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.sampleType.label" default="Sample Type" /></td>
+				<td valign="top" class="name"><g:message code="fluidSpecimen.primaryContainer.label" default="Primary Container" /></td>
 				
-				<td valign="top" class="value">${fluidSpecimenInstance?.sampleType?.encodeAsHTML()}</td>
+				<td valign="top" class="value">${fluidSpecimenInstance?.primaryContainer?.encodeAsHTML()}</td>
 				
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.primaryContainerType.label" default="Primary Container Type" /></td>
+				<td valign="top" class="name"><g:message code="fluidSpecimen.fluidSampleType.label" default="Fluid Sample Type" /></td>
 				
-				<td valign="top" class="value">${fluidSpecimenInstance?.primaryContainerType?.encodeAsHTML()}</td>
+				<td valign="top" class="value">${fluidSpecimenInstance?.fluidSampleType?.encodeAsHTML()}</td>
+				
+			</tr>
+		
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fluidSpecimen.fluidSpecimenVolume.label" default="Fluid Specimen Volume" /></td>
+				
+				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "fluidSpecimenVolume")}</td>
+				
+			</tr>
+		
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fluidSpecimen.volumeUnit.label" default="Volume Unit" /></td>
+				
+				<td valign="top" class="value"><g:link controller="units" action="show" id="${fluidSpecimenInstance?.volumeUnit?.id}">${fluidSpecimenInstance?.volumeUnit?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		
@@ -127,32 +122,6 @@
 					<ul>
 					<g:each in="${fluidSpecimenInstance.aliquot}" var="a">
 						<li><g:link controller="aliquot" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
-					</g:each>
-					</ul>
-				</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.postmortem.label" default="Postmortem" /></td>
-				
-				<td valign="top" style="text-align: left;" class="value">
-					<ul>
-					<g:each in="${fluidSpecimenInstance.postmortem}" var="p">
-						<li><g:link controller="postmortem" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
-					</g:each>
-					</ul>
-				</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.report.label" default="Report" /></td>
-				
-				<td valign="top" style="text-align: left;" class="value">
-					<ul>
-					<g:each in="${fluidSpecimenInstance.report}" var="r">
-						<li><g:link controller="report" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
 					</g:each>
 					</ul>
 				</td>
@@ -180,25 +149,7 @@
     <div><a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['specimen.id': fluidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>
     </a></div>
 </div>
-
-    <hr style="border:1; height:1px" />
-     <div class="one-to-many">
-        <div><a class='btn btn-primary btn-small' <g:link controller="report" action="create" params="['specimen.id': fluidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Report')])}</g:link>
-        </a></div>
-    </div>
-
 <hr style="border:1; height:1px" />
-
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['specimen.id': fluidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>
-    </a></div>
-</div>
-<hr style="border:1; height:1px" />
-%{--<div class="one-to-many">--}%
-    %{--<div><a class='btn btn-primary btn-small' <g:link controller="sampleTrackingEvent" action="create" params="['specimen.id': fluidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'sampleTrackingEvent.label', default: 'Sample Tracking Event')])}</g:link>--}%
-    %{--</a></div>--}%
-%{--</div>--}%
-%{--<hr style="border:1; height:1px" />--}%
 </body>
 
 </html>

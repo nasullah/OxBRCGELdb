@@ -17,7 +17,7 @@
 		<thead>
 			<tr>
 			
-				<th><g:message code="postmortem.specimen.label" default="Specimen" /></th>
+				<th><g:message code="postmortem.solidSpecimenReport.label" default="Solid Specimen Report" /></th>
 			
 				<g:sortableColumn property="delayInHours" title="${message(code: 'postmortem.delayInHours.label', default: 'Delay In Hours')}" />
 			
@@ -31,7 +31,7 @@
 		<g:each in="${postmortemInstanceList}" status="i" var="postmortemInstance">
 			<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 			
-				<td><g:link action="show" id="${postmortemInstance.id}">${fieldValue(bean: postmortemInstance, field: "specimen")}</g:link></td>
+				<td><g:link action="show" id="${postmortemInstance.id}">${fieldValue(bean: postmortemInstance, field: "solidSpecimenReport")}</g:link></td>
 			
 				<td>${fieldValue(bean: postmortemInstance, field: "delayInHours")}</td>
 			

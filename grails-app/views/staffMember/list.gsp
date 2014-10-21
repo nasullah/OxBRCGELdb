@@ -19,7 +19,7 @@
 			
 				<g:sortableColumn property="staffName" title="${message(code: 'staffMember.staffName.label', default: 'Staff Name')}" />
 			
-				<g:sortableColumn property="staffRole" title="${message(code: 'staffMember.staffRole.label', default: 'Staff Role')}" />
+				<th><g:message code="staffMember.staffRole.label" default="Staff Role" /></th>
 			
 			</tr>
 		</thead>

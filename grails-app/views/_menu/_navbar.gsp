@@ -8,11 +8,10 @@
 	           	<span class="icon-bar"></span>
 	           	<span class="icon-bar"></span>
 			</button>
-	
-			<a class="navbar-brand" href="${createLink(uri: '/')}">
-				<img class="logo" src="${resource(plugin: 'kickstart', dir:'images', file:'brand_logo.png')}" alt="${meta(name:'app.name')}" width="16px" height="16px"/> 
-				${meta(name:'app.name')}
-				<small> v${meta(name:'app.version')}</small>
+
+			<a class="navbar-brand" href="${createLink(uri: '/')}" style="color: #ffffff">
+                <img class="logo" src="${resource(dir:'images', file:'logo.jpg')}" width="35px" height="35px"/>
+                OMDC NGS-LIMS
 			</a>
 		</div>
 
