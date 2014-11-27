@@ -50,6 +50,7 @@ class SequencingReportsController {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'sequencingReportsInstance.label', default: 'SequencingReports'), sequencingReportsInstance.id])
                 redirect sequencingReportsInstance
+
             }
             '*' { respond sequencingReportsInstance, [status: CREATED] }
         }

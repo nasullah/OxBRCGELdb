@@ -1,11 +1,11 @@
 <%@ page import="geldb.Position" %>
 
 
-            <div class="${hasErrors(bean: positionInstance, field: 'containedAliquot', 'error')} required">
-                <label for="containedAliquot" class="control-label"><g:message code="position.containedAliquot.label" default="Contained Aliquot" /><span class="required-indicator">*</span></label>
+            <div class="${hasErrors(bean: positionInstance, field: 'identifiedSample', 'error')} required">
+                <label for="identifiedSample" class="control-label"><g:message code="position.identifiedSample.label" default="Contained Item" /><span class="required-indicator">*</span></label>
                 <div>
-                    <g:select class="form-control" id="containedAliquot" name="containedAliquot.id" from="${geldb.Aliquot.list()}" optionKey="id" required="" value="${positionInstance?.containedAliquot?.id}" class="many-to-one"/>
-                    <span class="help-inline">${hasErrors(bean: positionInstance, field: 'containedAliquot', 'error')}</span>
+                    <g:select class="form-control" id="identifiedSample" name="identifiedSample.id" from="${geldb.IdentifiedSample.list()}" optionKey="id" required="" value="${positionInstance?.identifiedSample?.id}" class="many-to-one"/>
+                    <span class="help-inline">${hasErrors(bean: positionInstance, field: 'identifiedSample', 'error')}</span>
                 </div>
             </div>
 

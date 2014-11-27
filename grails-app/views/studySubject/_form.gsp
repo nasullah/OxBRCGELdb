@@ -64,8 +64,7 @@
                     <div class="${hasErrors(bean: studySubjectInstance, field: 'recruitedBy', 'error')} ">
                         <label for="recruitedBy" class="control-label"><g:message code="studySubject.recruitedBy.label" default="Recruited By" /></label>
                         <div>
-                            <g:select class="form-control" id="recruitedBy" name="recruitedBy.id" from="${geldb.StaffMember.list()}"
-                                      optionKey="id" value="${studySubjectInstance?.recruitedBy?.id}"  noSelection="['null': '']"/>
+                            <g:textField class="form-control" name="recruitedBy" value="${studySubjectInstance?.recruitedBy}"/>
                             <span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'recruitedBy', 'error')}</span>
                         </div>
                     </div>

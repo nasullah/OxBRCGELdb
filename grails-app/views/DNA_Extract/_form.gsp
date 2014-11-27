@@ -1,12 +1,23 @@
 <%@ page import="geldb.DNA_Extract" %>
 
 
+            <hr style="border:1; height:1px" />
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-success" value="Find" onClick= 'getAliquots()'><span class="glyphicon glyphicon-search"></span> Find Aliquot</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'aliquot', 'error')} ">
-                <label for="aliquot" class="control-label"><g:message code="DNA_Extract.aliquot.label" default="Aliquot" /></label>
-                <div>
-                    <g:select class="form-control" name="aliquot" from="${geldb.Aliquot.findAllBySpecimen(DNA_ExtractInstance?.aliquot?.specimen)}"
-                              multiple="multiple" optionKey="id" size="5" value="${DNA_ExtractInstance?.aliquot*.id}" class="many-to-many"/>
-                    <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'aliquot', 'error')}</span>
+                <label for="aliquot" class="control-label"><g:message code="DNA_Extract.aliquot.label" default="Aliquot" /><span class="required-indicator">*</span></label>
+                <div id="selectAliquot">
+                    <g:select class=""  name="1" from="${''}" optionKey="" value="${''}" required=""/>
                 </div>
             </div>
 
@@ -104,11 +115,37 @@
                 </div>
             </div>
 
-			%{--<div class="${hasErrors(bean: DNA_ExtractInstance, field: 'dNA_Library', 'error')} ">--}%
-				%{--<label for="dNA_Library" class="control-label"><g:message code="DNA_Extract.dNA_Library.label" default="D NA Library" /></label>--}%
-				%{--<div>--}%
-					%{----}%
-					%{--<span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'dNA_Library', 'error')}</span>--}%
-				%{--</div>--}%
-			%{--</div>--}%
+            <div class="modal fade" id="notFound">
+                <div class="modal-dialog" style="position: absolute; left: 0%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Not Found!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>No aliquot found with the Gel Id you entered</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" ><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>
+                            <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<g:javascript plugin="jquery" library="jquery" />
+<script>
+    function getAliquots(){
+        ${remoteFunction (controller: 'DNA_Extract',
+                        action: 'findAliquotsByGeLId',
+                        params: '"search=" + $("#search").val()',
+                        update: 'selectAliquot',
+                        onFailure:'error()'
+                )}
+    }
+
+    function error(){
+        $('#notFound').modal()
+    }
+</script>
 

@@ -35,26 +35,13 @@
 				</td>
 				
 			</tr>
-		%{----}%
-			%{--<tr class="prop">--}%
-				%{--<td valign="top" class="name"><g:message code="study.studySubject.label" default="Study Subject" /></td>--}%
-				%{----}%
-				%{--<td valign="top" style="text-align: left;" class="value">--}%
-					%{--<ul>--}%
-					%{--<g:each in="${studyInstance.studySubject}" var="s">--}%
-						%{--<li><g:link controller="studySubject" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>--}%
-					%{--</g:each>--}%
-					%{--</ul>--}%
-				%{--</td>--}%
-				%{----}%
-			%{--</tr>--}%
 		
 		</tbody>
 	</table>
 </section>
 <hr style="border:1; height:1px" />
 <div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="studyIdentifier" action="create" params="['study.id': studyInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'studyIdentifier.label', default: 'Study Identifier')])}</g:link>
+    <div><a class='btn btn-primary btn-small' <g:link controller="studyIdentifier" action="create" params="['study.id': studyInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'studyIdentifier.label', default: 'Study Identifier')])}</g:link>
     </a></div>
 </div>
 <hr style="border:1; height:1px" />

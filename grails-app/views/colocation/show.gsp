@@ -47,14 +47,17 @@
 		</tbody>
 	</table>
 </section>
+
+<hr style="border:1; height:1px" />
+
+<p class="text-primary">Available Action</p>
+
 <g:if test="${colocationInstance?.pairedAliquot?.id == null}">
-    <hr style="border:1; height:1px" />
-    <div class="one-to-many">
-        <div><a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['colocation.id': colocationInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>
-        </a></div>
-    </div>
-    <hr style="border:1; height:1px" />
+    <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['colocation.id': colocationInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>
 </g:if>
+
+<hr style="border:1; height:1px" />
+
 </body>
 
 </html>

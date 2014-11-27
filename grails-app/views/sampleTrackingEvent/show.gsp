@@ -19,18 +19,18 @@
 		<tbody>
 
         <tr class="prop">
-            <td valign="top" class="name"><g:message code="sampleTrackingEvent.specimen.label" default="Specimen" /></td>
+            <td valign="top" class="name"><g:message code="sampleTrackingEvent.identifiedSample.label" default="Specimen" /></td>
         <td valign="top" class="value">
             <% def fluidSpecimen = FluidSpecimen.listOrderById() %>
             <% def solidSpecimen = SolidSpecimen.listOrderById() %>
             <g:each in="${solidSpecimen}" var="item">
-                <g:if test="${item.id == sampleTrackingEventInstance?.specimen?.id}">
-                    <g:link controller="solidSpecimen" action="show" id="${sampleTrackingEventInstance?.specimen?.id}">${sampleTrackingEventInstance?.specimen?.encodeAsHTML()}</g:link>
+                <g:if test="${item.id == sampleTrackingEventInstance?.identifiedSample?.id}">
+                    <g:link controller="solidSpecimen" action="show" id="${sampleTrackingEventInstance?.identifiedSample?.id}">${sampleTrackingEventInstance?.identifiedSample?.encodeAsHTML()}</g:link>
                 </g:if>
             </g:each>
             <g:each in="${fluidSpecimen}" var="item">
-                <g:if test="${item.id == sampleTrackingEventInstance?.specimen?.id}">
-                    <g:link controller="fluidSpecimen" action="show" id="${sampleTrackingEventInstance?.specimen?.id}">${sampleTrackingEventInstance?.specimen?.encodeAsHTML()}</g:link></td>
+                <g:if test="${item.id == sampleTrackingEventInstance?.identifiedSample?.id}">
+                    <g:link controller="fluidSpecimen" action="show" id="${sampleTrackingEventInstance?.identifiedSample?.id}">${sampleTrackingEventInstance?.identifiedSample?.encodeAsHTML()}</g:link></td>
                 </g:if>
             </g:each>
 

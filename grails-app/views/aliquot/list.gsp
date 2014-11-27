@@ -17,18 +17,13 @@
     <table class="table table-bordered margin-top-medium">
         <thead>
         <tr>
-
             <g:sortableColumn property="aliquotType" title="${message(code: 'aliquot.aliquotType.label', default: 'Aliquot Type')}" />
 
             <g:sortableColumn property="blockNumber" title="${message(code: 'aliquot.blockNumber.label', default: 'Block Number')}" />
 
             <g:sortableColumn property="biobankIdentifier" title="${message(code: 'aliquot.biobankIdentifier.label', default: 'Biobank Identifier')}" />
 
-            <g:sortableColumn property="notes" title="${message(code: 'aliquot.notes.label', default: 'Notes')}" />
-
-            %{--<th><g:message code="aliquot.specimen.label" default="Specimen" /></th>--}%
-            %{----}%
-            %{--<th><g:message code="aliquot.derivedFrom.label" default="Derived From" /></th>--}%
+            <g:sortableColumn property="aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
 
         </tr>
         </thead>
@@ -40,15 +35,9 @@
 
                 <td>${fieldValue(bean: aliquotInstance, field: "blockNumber")}</td>
 
-                %{--<td>${fieldValue(bean: aliquotInstance, field: "passFailReason")}</td>--}%
-
                 <td>${fieldValue(bean: aliquotInstance, field: "biobankIdentifier")}</td>
 
-                <td>${fieldValue(bean: aliquotInstance, field: "notes")}</td>
-
-                %{--<td>${fieldValue(bean: aliquotInstance, field: "specimen")}</td>--}%
-                %{----}%
-                %{--<td>${fieldValue(bean: aliquotInstance, field: "derivedFrom")}</td>--}%
+                <td>${fieldValue(bean: aliquotInstance.specimen.participant.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
 
             </tr>
         </g:each>
@@ -61,7 +50,8 @@
 </section>
 <filterpane:filterPane domain="geldb.Aliquot"
                        associatedProperties="specimen.participant.familyName, specimen.participant.familyName, specimen.participant.diagnosis,
-                                             specimen.participant.hospitalNumber, specimen.participant.nHSNumber "/>
+                                             specimen.participant.hospitalNumber, specimen.participant.nHSNumber,
+                                             specimen.participant.studySubject.studySubjectIdentifier"/>
 <hr style="border:1; height:1px" />
 </section>
 

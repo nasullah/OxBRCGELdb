@@ -46,11 +46,11 @@ class FixationReportController {
         }
 
         fixationReportInstance.save flush: true
-
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'fixationReportInstance.label', default: 'FixationReport'), fixationReportInstance.id])
-                redirect fixationReportInstance
+                //redirect fixationReportInstance
+                redirect(controller:'solidSpecimen',action: 'show', params: [id:fixationReportInstance.solidSpecimen.id])
             }
             '*' { respond fixationReportInstance, [status: CREATED] }
         }

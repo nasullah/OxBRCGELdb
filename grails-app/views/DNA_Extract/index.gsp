@@ -23,10 +23,8 @@
 			
 				<g:sortableColumn property="passFailReason" title="${message(code: 'DNA_Extract.passFailReason.label', default: 'Pass Fail Reason')}" />
 			
-				<g:sortableColumn property="notes" title="${message(code: 'DNA_Extract.notes.label', default: 'Notes')}" />
-			
-				%{--<g:sortableColumn property="dNAConcentration" title="${message(code: 'DNA_Extract.dNAConcentration.label', default: 'D NAC oncentration')}" />--}%
-			
+				<g:sortableColumn property="DNA_Extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
+
 			</tr>
 		</thead>
 		<tbody>
@@ -39,10 +37,8 @@
 			
 				<td>${fieldValue(bean: DNA_ExtractInstance, field: "passFailReason")}</td>
 			
-				<td>${fieldValue(bean: DNA_ExtractInstance, field: "notes")}</td>
-			
-				%{--<td>${fieldValue(bean: DNA_ExtractInstance, field: "dNAConcentration")}</td>--}%
-			
+				<td>${fieldValue(bean: DNA_ExtractInstance.aliquot.specimen.participant.studySubject, field: "studySubjectIdentifier").toString().replace('[','').replace(']','')}</td>
+
 			</tr>
 		</g:each>
 		</tbody>

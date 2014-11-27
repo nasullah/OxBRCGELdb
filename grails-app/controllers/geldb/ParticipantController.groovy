@@ -5,6 +5,8 @@ import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import org.grails.plugin.filterpane.FilterPaneUtils
 import grails.plugins.springsecurity.*
+import grails.converters.JSON
+import groovy.json.JsonSlurper
 /**
  * ParticipantController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
@@ -14,6 +16,7 @@ import grails.plugins.springsecurity.*
 class ParticipantController {
 
 
+    def consentService
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -21,28 +24,70 @@ class ParticipantController {
         respond Participant.list(params), model: [participantInstanceCount: Participant.count()]
     }
 
-    def listBloodFollowUp() {
+    def getJson () {
+        params.nhsOrHospitalNumberId
 
-        List <Participant> results = Participant.createCriteria().list{
-
-            specimen {
-                ne('sampleType', PrimarySampleType.valueOf('Full_blood'))
-                and {
-                    aliquot {
-                        dNA_Extract {
-                            eq('passFail', true)
-                        }
-                    }
-                }
-
-            }
+        //call Greenlight service here
+        def results = consentService.getConsent( params.nhsOrHospitalNumberId)
+        //internal error accessing Greenlight
+        if(results.errors){
+            flash.message = results.errorMessage;
 
         }
-//        results.findAll("from Participant as p where not exists " +
-//                "(from Specimen as s where s.participant = p and s.sampleType = 'Full Blood (BLD)')")
-    [participantList: results]
+        //Greenlight can not find the patient
+        if(results.errors.errors){
+            flash.message = "Can not find the patient"
+
+        }
+
+        def lastName = results.consent.lastName
+        def firstName = results.consent.firstName
+        def dateOfBirth =results.consent.dateOfBirth
+        def nhsNumber = results.consent.nhsNumber
+        def hospitalNumber =  results.consent.hospitalNumber
+
+        def consentFormId = ""
+        def consentTakerName = ""
+        def lastCompleted = new Date()
+        def version =""
+        def foundGEL = false
+        results.consent.consents.each{ c->
+            if(c.namePrefix == "GEL"){
+                foundGEL = true
+                consentFormId    = c.consentFormId
+                consentTakerName = c.consentTakerName
+                lastCompleted    = c.lastCompleted
+            }
+        }
+
+        //we find the patient and has the consent form
+        if(foundGEL){
+
+            def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
+                    dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null)
+
+            def studySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL Study'), studySubjectIdentifier: consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: lastCompleted,
+                    recruitedBy:consentTakerName, consentFormVersion: version)
+            participantInstance.addToStudySubject(studySubjectInstance).save(failOnError: true)
+            redirect(action: "show", id: participantInstance.id)
+
+        }//find the patient but it does not have GEL form
+        else{
+            flash.message = "Patient ${nhsNumber} doesn't have any GEL consent form"
+        }
     }
 
+    def listBloodFollowUp() {
+
+        List <Participant> results = Participant.createCriteria().listDistinct{
+            specimen {
+                aliquot {
+                    eq('aliquotType',AliquotType.findByAliquotTypeName('Plasma'))
+                }
+            }
+        }
+    [participantList: results]
+    }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)

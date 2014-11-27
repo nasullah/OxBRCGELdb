@@ -1,5 +1,9 @@
 
-<%@ page import="geldb.Position" %>
+<%@ page import="geldb.DNA_Library; geldb.DNA_Extract; geldb.Position" %>
+<%@ page import="geldb.SolidSpecimen" %>
+<%@ page import="geldb.FluidSpecimen" %>
+<%@ page import="geldb.Aliquot" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -17,10 +21,43 @@
 		<tbody>
 
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="position.containedAliquot.label" default="Contained Aliquot" /></td>
+                <td valign="top" class="name"><g:message code="position.identifiedSample.label" default="Contained Item" /></td>
 
-                <td valign="top" class="value"><g:link controller="aliquot" action="show" id="${positionInstance?.containedAliquot?.id}">${positionInstance?.containedAliquot?.encodeAsHTML()}</g:link></td>
+                <% def solidSpecimen = SolidSpecimen.listOrderById() %>
+                <% def fluidSpecimen = FluidSpecimen.listOrderById() %>
+                <% def aliquots = Aliquot.listOrderById() %>
+                <% def DNAExtract = DNA_Extract.listOrderById() %>
+                <% def DNALibrary = DNA_Library.listOrderById() %>
 
+                <g:each in="${solidSpecimen}" var="item">
+                        <g:if test="${positionInstance?.identifiedSample?.id ==item.id}">
+                            <td valign="top" class="value"><g:link controller="solidSpecimen" action="show" id="${positionInstance?.identifiedSample?.id}">${positionInstance?.identifiedSample?.encodeAsHTML()}</g:link></td>
+                        </g:if>
+                </g:each>
+
+                <g:each in="${fluidSpecimen}" var="item">
+                    <g:if test="${positionInstance?.identifiedSample?.id ==item.id}">
+                        <td valign="top" class="value"><g:link controller="fluidSpecimen" action="show" id="${positionInstance?.identifiedSample?.id}">${positionInstance?.identifiedSample?.encodeAsHTML()}</g:link></td>
+                    </g:if>
+                </g:each>
+
+                <g:each in="${aliquots}" var="item">
+                    <g:if test="${positionInstance?.identifiedSample?.id ==item.id}">
+                        <td valign="top" class="value"><g:link controller="aliquot" action="show" id="${positionInstance?.identifiedSample?.id}">${positionInstance?.identifiedSample?.encodeAsHTML()}</g:link></td>
+                    </g:if>
+                </g:each>
+
+                <g:each in="${DNAExtract}" var="item">
+                    <g:if test="${positionInstance?.identifiedSample?.id ==item.id}">
+                        <td valign="top" class="value"><g:link controller="DNA_Extract" action="show" id="${positionInstance?.identifiedSample?.id}">${positionInstance?.identifiedSample?.encodeAsHTML()}</g:link></td>
+                    </g:if>
+                </g:each>
+
+                <g:each in="${DNALibrary}" var="item">
+                    <g:if test="${positionInstance?.identifiedSample?.id ==item.id}">
+                        <td valign="top" class="value"><g:link controller="DNA_Library" action="show" id="${positionInstance?.identifiedSample?.id}">${positionInstance?.identifiedSample?.encodeAsHTML()}</g:link></td>
+                    </g:if>
+                </g:each>
             </tr>
 		
 			<tr class="prop">

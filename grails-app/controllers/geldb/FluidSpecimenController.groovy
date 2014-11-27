@@ -20,10 +20,6 @@ class FluidSpecimenController {
         respond FluidSpecimen.list(params), model: [fluidSpecimenInstanceCount: FluidSpecimen.count()]
     }
 
-//    def list(Integer max) {
-//        params.max = Math.min(max ?: 10, 100)
-//        respond FluidSpecimen.list(params), model: [fluidSpecimenInstanceCount: FluidSpecimen.count()]
-//    }
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [fluidSpecimenInstanceList: FluidSpecimen.list(params), fluidSpecimenInstanceTotal: FluidSpecimen.count()]
@@ -35,6 +31,22 @@ class FluidSpecimenController {
         render( view:'list', model:[ fluidSpecimenInstanceList: filterPaneService.filter( params, FluidSpecimen ),
                                      fluidSpecimenInstanceTotal: filterPaneService.count( params, FluidSpecimen ),
                                      filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
+    }
+
+    def findParticipantByGeLId() {
+        def gelId= params.search
+
+        List <Participant> listParticipantByGeLId = Participant.createCriteria().listDistinct{
+            studySubject {
+                eq('studySubjectIdentifier',gelId)
+            }
+        }
+        if (listParticipantByGeLId){
+            render(template: "participantList",  model: [listParticipantByGeLId: listParticipantByGeLId])
+        }
+        else {
+            flash.message = "Patient with ${gelId} doesn't exist"
+        }
     }
 
     def show(FluidSpecimen fluidSpecimenInstance) {

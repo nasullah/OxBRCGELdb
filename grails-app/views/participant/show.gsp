@@ -65,7 +65,29 @@
 				
 			</tr>
 
-            <g:if test="${participantInstance.specimen !=null}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="participant.centre.label" default="Centre" /></td>
+
+                <td valign="top" class="value"><g:link controller="centre" action="show" id="${participantInstance?.centre?.id}">${participantInstance?.centre?.encodeAsHTML()}</g:link></td>
+
+            </tr>
+
+            <g:if test="${participantInstance.studySubject}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="participant.studySubject.label" default="Study Subject" /></td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                            <g:each in="${participantInstance.studySubject}" var="s">
+                                <li><g:link controller="studySubject" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
+                            </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${participantInstance.specimen}">
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="participant.specimen.label" default="Specimen" /></td>
 
@@ -96,40 +118,16 @@
                 </tr>
             </g:if>
 		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="participant.studySubject.label" default="Study Subject" /></td>
-				
-				<td valign="top" style="text-align: left;" class="value">
-					<ul>
-					<g:each in="${participantInstance.studySubject}" var="s">
-						<li><g:link controller="studySubject" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
-					</g:each>
-					</ul>
-				</td>
-				
-			</tr>
-		
 		</tbody>
 	</table>
 </section>
 
 <hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]">Associate Participant with Study </g:link>
-    </a></div>
-</div>
 
-<hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="fluidSpecimen" action="create" params="['participant.id': participantInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'fluidSpecimen.label', default: 'Fluid Specimen')])}</g:link>
-    </a></div>
-</div>
+<p class="text-primary">Available Action</p>
 
-<hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="solidSpecimen" action="create" params="['participant.id': participantInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'solidSpecimen.label', default: 'Solid Specimen')])}</g:link>
-    </a></div>
-</div>
+<a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with Study </g:link>
+
 <hr style="border:1; height:1px" />
 
 </body>

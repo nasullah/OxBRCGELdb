@@ -49,7 +49,8 @@ class StudySubjectController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'studySubjectInstance.label', default: 'StudySubject'), studySubjectInstance.id])
-                redirect studySubjectInstance
+                //redirect studySubjectInstance
+                redirect(controller:'participant',action: 'show', params: [id:studySubjectInstance.participant.id])
             }
             '*' { respond studySubjectInstance, [status: CREATED] }
         }

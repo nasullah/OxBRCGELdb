@@ -24,9 +24,7 @@
 
             <g:sortableColumn property="passFailReason" title="${message(code: 'solidSpecimen.passFailReason.label', default: 'Pass Fail Reason')}" />
 
-            <g:sortableColumn property="notes" title="${message(code: 'solidSpecimen.notes.label', default: 'Notes')}" />
-
-            %{--<th><g:message code="solidSpecimen.participant.label" default="Participant" /></th>--}%
+            <g:sortableColumn property="solidSpecimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'solidSpecimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
 
         </tr>
         </thead>
@@ -40,9 +38,7 @@
 
                 <td>${fieldValue(bean: solidSpecimenInstance, field: "passFailReason")}</td>
 
-                <td>${fieldValue(bean: solidSpecimenInstance, field: "notes")}</td>
-
-                %{--<td>${fieldValue(bean: solidSpecimenInstance, field: "participant")}</td>--}%
+                <td>${fieldValue(bean: solidSpecimenInstance.participant.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
 
             </tr>
         </g:each>
@@ -57,7 +53,7 @@
                        excludeProperties="vasculerClampingTimeAtSurgery, collectionDate"
                        associatedProperties="participant.familyName,participant.givenName,
                                              participant.nHSNumber,participant.hospitalNumber,
-                                             participant.diagnosis"/>
+                                             participant.diagnosis, participant.studySubject.studySubjectIdentifier"/>
 <hr style="border:1; height:1px" />
 
 </body>

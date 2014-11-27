@@ -28,6 +28,20 @@ class LaneController {
         respond laneInstance
     }
 
+    def findDNALibraryByGeLId() {
+        def gelId= params.search
+
+        def listDNALibraryByGeLId = DNA_Library.where{
+         na_extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier == gelId
+        }.findAll()
+        if (listDNALibraryByGeLId){
+            render(template: "listDNALibraryList",  model: [listDNALibraryByGeLId: listDNALibraryByGeLId])
+        }
+        else {
+            flash.message = "DNA Library with ${gelId} doesn't exist"
+        }
+    }
+
     def create() {
         respond new Lane(params)
     }
@@ -76,7 +90,8 @@ class LaneController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Lane.label', default: 'Lane'), laneInstance.id])
-                redirect laneInstance
+                //redirect laneInstance
+                redirect(controller:'flowCell',action: 'show', params: [id:laneInstance.flowCell.id])
             }
             '*' { respond laneInstance, [status: OK] }
         }

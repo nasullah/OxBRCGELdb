@@ -20,11 +20,6 @@ class SolidSpecimenController {
         respond SolidSpecimen.list(params), model: [solidSpecimenInstanceCount: SolidSpecimen.count()]
     }
 
-//    def list(Integer max) {
-//        params.max = Math.min(max ?: 10, 100)
-//        respond SolidSpecimen.list(params), model: [solidSpecimenInstanceCount: SolidSpecimen.count()]
-//    }
-
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [solidSpecimenInstanceList: SolidSpecimen.list(params), solidSpecimenInstanceTotal: SolidSpecimen.count()]
@@ -36,6 +31,22 @@ class SolidSpecimenController {
         render( view:'list', model:[ solidSpecimenInstanceList: filterPaneService.filter( params, SolidSpecimen ),
                                      solidSpecimenInstanceTotal: filterPaneService.count( params, SolidSpecimen ),
                                      filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
+    }
+
+    def findParticipantByGeLId() {
+        def gelId= params.search
+
+        List <Participant> listParticipantByGeLId = Participant.createCriteria().listDistinct{
+            studySubject {
+                eq('studySubjectIdentifier',gelId)
+            }
+        }
+        if (listParticipantByGeLId){
+            render(template: "participantList",  model: [listParticipantByGeLId: listParticipantByGeLId])
+        }
+        else {
+            flash.message = "Patient with ${gelId} doesn't exist"
+        }
     }
 
     def show(SolidSpecimen solidSpecimenInstance) {

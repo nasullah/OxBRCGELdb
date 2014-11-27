@@ -21,10 +21,6 @@
             <g:link controller="Aliquot" action="index">Aliquot</g:link>
         </li>
 
-        %{--<li>--}%
-            %{--<g:link controller="Derivation" action="index">Derivation</g:link>--}%
-        %{--</li>--}%
-
         <li>
             <g:link controller="PlateOrBox" action="index">Plate or Box</g:link>
         </li>

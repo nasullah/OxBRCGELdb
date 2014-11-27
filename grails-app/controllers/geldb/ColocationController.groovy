@@ -51,6 +51,7 @@ class ColocationController {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'colocationInstance.label', default: 'Colocation'), colocationInstance.id])
                 redirect colocationInstance
+                //redirect(controller:'aliquot',action: 'show', params: [id:colocationInstance.aliquot.id])
             }
             '*' { respond colocationInstance, [status: CREATED] }
         }

@@ -1,12 +1,22 @@
 <%@ page import="geldb.StaffRole; geldb.UnitType; geldb.Units; geldb.SolidSpecimen" %>
 
+            <hr style="border:1; height:1px" />
 
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required=""></g:textField>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-success" value="Find" onClick= 'getParticipant()'><span class="glyphicon glyphicon-search"></span> Find Participant</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="${hasErrors(bean: solidSpecimenInstance, field: 'participant', 'error')} required">
                 <label for="participant" class="control-label"><g:message code="solidSpecimen.participant.label" default="Participant" /><span class="required-indicator">*</span></label>
-                <div>
-                    <g:select class="form-control" id="participant" name="participant.id" from="${geldb.Participant.list()}" optionKey="id" required="" value="${solidSpecimenInstance?.participant?.id}" class="many-to-one"/>
-                    <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'participant', 'error')}</span>
+                <div id="selectParticipant">
+                    <g:select class=""  name="1" from="${''}" optionKey="" value="${''}" required=""/>
                 </div>
             </div>
 
@@ -156,7 +166,7 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'methodOfTransportToPathologist', 'error')} ">
-                        <label for="methodOfTransportToPathologist" class="control-label"><g:message code="solidSpecimen.methodOfTransportToPathologist.label" default="Method Of Transport To Pathologist" /></label>
+                        <label for="methodOfTransportToPathologist" class="control-label"><g:message code="solidSpecimen.methodOfTransportToPathologist.label" default="Method of Transport to Pathologist" /></label>
                         <div>
                             <g:select class="form-control" id="methodOfTransportToPathologist" name="methodOfTransportToPathologist.id" from="${geldb.MethodOfTransport.list()}" optionKey="id" value="${solidSpecimenInstance?.methodOfTransportToPathologist?.id}"  noSelection="['null': '']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'methodOfTransportToPathologist', 'error')}</span>
@@ -198,70 +208,37 @@
                 </div>
             </div>
 
-            %{--<div class="${hasErrors(bean: solidSpecimenInstance, field: 'aliquot', 'error')} ">--}%
-            %{--<label for="aliquot" class="control-label"><g:message code="solidSpecimen.aliquot.label" default="Aliquot" /></label>--}%
-            %{--<div>--}%
-            %{----}%
-            %{--<ul class="one-to-many">--}%
-            %{--<g:each in="${solidSpecimenInstance?.aliquot?}" var="a">--}%
-            %{--<li><g:link controller="aliquot" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>--}%
-            %{--</g:each>--}%
-            %{--<li class="add">--}%
-            %{--<g:link controller="aliquot" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>--}%
-            %{--</li>--}%
-            %{--</ul>--}%
+            <div class="modal fade" id="notFound">
+                <div class="modal-dialog" style="position: absolute; left: 0%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Not Found!</h4>
+                        </div>
+                        <div class="modal-body" onfocus='dialogBody()'>
+                            <p>No participant found with the Gel Id you entered</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class='btn btn-primary btn-small' <g:link controller="participant" action="create" ><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'participant.label', default: 'Participant')])}</g:link>
+                            <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            %{--<span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'aliquot', 'error')}</span>--}%
-            %{--</div>--}%
-            %{--</div>--}%
+<g:javascript plugin="jquery" library="jquery" />
+<script>
+    function getParticipant(){
+        ${remoteFunction (controller: 'solidSpecimen',
+                        action: 'findParticipantByGeLId',
+                        params: '"search=" + $("#search").val()',
+                        update: 'selectParticipant',
+                        onFailure:'error()'
+                )}
+    }
 
-            %{--<div class="${hasErrors(bean: solidSpecimenInstance, field: 'fixationReport', 'error')} ">--}%
-            %{--<label for="fixationReport" class="control-label"><g:message code="solidSpecimen.fixationReport.label" default="Fixation Report" /></label>--}%
-            %{--<div>--}%
-            %{----}%
-            %{--<ul class="one-to-many">--}%
-            %{--<g:each in="${solidSpecimenInstance?.fixationReport?}" var="f">--}%
-            %{--<li><g:link controller="fixationReport" action="show" id="${f.id}">${f?.encodeAsHTML()}</g:link></li>--}%
-            %{--</g:each>--}%
-            %{--<li class="add">--}%
-            %{--<g:link controller="fixationReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'FixationReport')])}</g:link>--}%
-            %{--</li>--}%
-            %{--</ul>--}%
+    function error(){
+        $('#notFound').modal()
+    }
+</script>
 
-            %{--<span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'fixationReport', 'error')}</span>--}%
-            %{--</div>--}%
-            %{--</div>--}%
-
-            %{--<div class="${hasErrors(bean: solidSpecimenInstance, field: 'solidSpecimenReport', 'error')} ">--}%
-            %{--<label for="solidSpecimenReport" class="control-label"><g:message code="solidSpecimen.solidSpecimenReport.label" default="Solid Specimen Report" /></label>--}%
-            %{--<div>--}%
-            %{----}%
-            %{--<ul class="one-to-many">--}%
-            %{--<g:each in="${solidSpecimenInstance?.solidSpecimenReport?}" var="s">--}%
-            %{--<li><g:link controller="solidSpecimenReport" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>--}%
-            %{--</g:each>--}%
-            %{--<li class="add">--}%
-            %{--<g:link controller="solidSpecimenReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'solidSpecimenReport.label', default: 'SolidSpecimenReport')])}</g:link>--}%
-            %{--</li>--}%
-            %{--</ul>--}%
-
-            %{--<span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'solidSpecimenReport', 'error')}</span>--}%
-            %{--</div>--}%
-            %{--</div>--}%
-
-            %{--<div class="${hasErrors(bean: solidSpecimenInstance, field: 'trackingEvent', 'error')} ">--}%
-            %{--<label for="trackingEvent" class="control-label"><g:message code="solidSpecimen.trackingEvent.label" default="Tracking Event" /></label>--}%
-            %{--<div>--}%
-            %{----}%
-            %{--<ul class="one-to-many">--}%
-            %{--<g:each in="${solidSpecimenInstance?.trackingEvent?}" var="t">--}%
-            %{--<li><g:link controller="sampleTrackingEvent" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>--}%
-            %{--</g:each>--}%
-            %{--<li class="add">--}%
-            %{--<g:link controller="sampleTrackingEvent" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'sampleTrackingEvent.label', default: 'SampleTrackingEvent')])}</g:link>--}%
-            %{--</li>--}%
-            %{--</ul>--}%
-
-            %{--<span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'trackingEvent', 'error')}</span>--}%
-            %{--</div>--}%
-            %{--</div>--}%

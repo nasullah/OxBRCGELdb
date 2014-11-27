@@ -15,17 +15,48 @@
 <div class="row">
 
     <div class="col-lg-6">
+        <g:form controller="participant" action="getJson">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Participant's NHS Number">
+            <g:textField type="text" name="nhsOrHospitalNumberId" class="form-control"  placeholder="Participant's NHS Number" ></g:textField>
             <div class="input-group-btn">
-                <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-import"></span> Import</button>
+                <button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-import"></span> Import</button>
 
             </div><!-- /btn-group -->
+        </g:form>
         </div><!-- /input-group -->
     </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
 
+<g:javascript plugin="jquery" library="jquery" />
+<script>
 
+    function callController(){
+        var baseUrl = "${createLink(controller:'participant', action:'getJson')}"
+
+        var nhsOrHospitalNumber = $('#'+'nhsOrHospitalNumberId').val();
+        var url = baseUrl + "?nhsOrHospitalNumber="+nhsOrHospitalNumber
+        $.ajax({
+
+            url:url,
+            dataType: 'json',
+
+            success: function(data) {
+                alert(data)
+                //$('#ddd').val(JSON.stringify(res))
+
+            },
+            error: function(err) {
+
+            },
+            complete: function() {
+            }
+        });
+    }
+
+
+</script>
 </body>
 
+
 </html>
+

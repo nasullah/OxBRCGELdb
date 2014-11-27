@@ -20,11 +20,6 @@ class DNA_ExtractController {
         respond DNA_Extract.list(params), model: [DNA_ExtractInstanceCount: DNA_Extract.count()]
     }
 
-//    def list(Integer max) {
-//        params.max = Math.min(max ?: 10, 100)
-//        respond DNA_Extract.list(params), model: [DNA_ExtractInstanceCount: DNA_Extract.count()]
-//    }
-
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [DNA_ExtractInstanceList: DNA_Extract.list(params), DNA_ExtractInstanceTotal: DNA_Extract.count()]
@@ -36,6 +31,20 @@ class DNA_ExtractController {
         render( view:'list', model:[ DNA_ExtractInstanceList: filterPaneService.filter( params, DNA_Extract ),
                                      DNA_ExtractInstanceTotal: filterPaneService.count( params, DNA_Extract ),
                                      filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
+    }
+
+    def findAliquotsByGeLId() {
+        def gelId= params.search
+
+        def listAliquotsByGeLId = Aliquot.where{
+            specimen.participant.studySubject.studySubjectIdentifier == gelId
+        }.findAll()
+        if (listAliquotsByGeLId){
+            render(template: "aliquotList",  model: [listAliquotsByGeLId: listAliquotsByGeLId])
+        }
+        else {
+            flash.message = "Aliquot with ${gelId} doesn't exist"
+        }
     }
 
     def show(DNA_Extract DNA_ExtractInstance) {

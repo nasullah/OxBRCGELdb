@@ -94,12 +94,12 @@
 				
 			</tr>
 		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimenReport.postmortem.label" default="Postmortem" /></td>
-				
-				<td valign="top" class="value"><g:link controller="postmortem" action="show" id="${solidSpecimenReportInstance?.postmortem?.id}">${solidSpecimenReportInstance?.postmortem?.encodeAsHTML()}</g:link></td>
-				
-			</tr>
+			%{--<tr class="prop">--}%
+				%{--<td valign="top" class="name"><g:message code="solidSpecimenReport.postmortem.label" default="Postmortem" /></td>--}%
+				%{----}%
+				%{--<td valign="top" class="value"><g:link controller="postmortem" action="show" id="${solidSpecimenReportInstance?.postmortem?.id}">${solidSpecimenReportInstance?.postmortem?.encodeAsHTML()}</g:link></td>--}%
+				%{----}%
+			%{--</tr>--}%
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="solidSpecimenReport.samplePhoto.label" default="Sample Photo" /></td>
@@ -117,19 +117,19 @@
 		</tbody>
 	</table>
 </section>
-<g:if test="${!solidSpecimenReportInstance.postmortem}">
+
 <hr style="border:1; height:1px" />
-    <div class="one-to-many">
-        <div><a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['solidSpecimenReport.id': solidSpecimenReportInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>
-        </a></div>
-    </div>
-</g:if>
-<hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="samplePhoto" action="create" params="['solidSpecimenReport.id': solidSpecimenReportInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'samplePhoto.label', default: 'Sample Photo')])}</g:link>
-    </a></div>
-</div>
-<hr style="border:1; height:1px" />
+
+<p class="text-primary">Available Actions</p>
+
+%{--<g:if test="${!solidSpecimenReportInstance.postmortem}">--}%
+    %{--<a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['solidSpecimenReport.id': solidSpecimenReportInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>--}%
+%{--</g:if>--}%
+
+%{--<a class='btn btn-primary btn-small' <g:link controller="samplePhoto" action="create" params="['solidSpecimenReport.id': solidSpecimenReportInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'samplePhoto.label', default: 'Sample Photo')])}</g:link>--}%
+
+%{--<hr style="border:1; height:1px" />--}%
+
 </body>
 
 </html>

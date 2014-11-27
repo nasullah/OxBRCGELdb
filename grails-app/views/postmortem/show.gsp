@@ -17,9 +17,9 @@
 		<tbody>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="postmortem.solidSpecimenReport.label" default="Solid Specimen Report" /></td>
+				<td valign="top" class="name"><g:message code="postmortem.specimen.label" default="Specimen" /></td>
 				
-				<td valign="top" class="value"><g:link controller="solidSpecimenReport" action="show" id="${postmortemInstance?.solidSpecimenReport?.id}">${postmortemInstance?.solidSpecimenReport?.encodeAsHTML()}</g:link></td>
+				<td valign="top" class="value"><g:link controller="specimen" action="show" id="${postmortemInstance?.specimen?.id}">${postmortemInstance?.specimen?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 		

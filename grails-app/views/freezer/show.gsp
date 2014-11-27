@@ -15,6 +15,13 @@
 
 	<table class="table">
 		<tbody>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="freezer.centre.label" default="Centre" /></td>
+
+                <td valign="top" class="value"><g:link controller="centre" action="show" id="${freezerInstance?.centre?.id}">${freezerInstance?.centre?.encodeAsHTML()}</g:link></td>
+
+            </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="freezer.freezerName.label" default="Freezer Name" /></td>
@@ -60,12 +67,15 @@
 		</tbody>
 	</table>
 </section>
+
 <hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="shelf" action="create" params="['freezer.id': freezerInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'shelf.label', default: 'Shelf')])}</g:link>
-    </a></div>
-</div>
+
+<p class="text-primary">Available Action</p>
+
+<a class='btn btn-primary btn-small' <g:link controller="shelf" action="create" params="['freezer.id': freezerInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'shelf.label', default: 'Shelf')])}</g:link>
+
 <hr style="border:1; height:1px" />
+
 </body>
 
 </html>

@@ -2,11 +2,11 @@
 
 
 
-			<div class="${hasErrors(bean: postmortemInstance, field: 'solidSpecimenReport', 'error')} required">
-				<label for="solidSpecimenReport" class="control-label"><g:message code="postmortem.solidSpecimenReport.label" default="Solid Specimen Report" /><span class="required-indicator">*</span></label>
+			<div class="${hasErrors(bean: postmortemInstance, field: 'specimen', 'error')} required">
+				<label for="specimen" class="control-label"><g:message code="postmortem.solidSpecimenReport.label" default="Specimen" /><span class="required-indicator">*</span></label>
 				<div>
-					<g:select class="form-control" id="solidSpecimenReport" name="solidSpecimenReport.id" from="${geldb.SolidSpecimenReport.list()}" optionKey="id" required="" value="${postmortemInstance?.solidSpecimenReport?.id}" class="many-to-one"/>
-					<span class="help-inline">${hasErrors(bean: postmortemInstance, field: 'solidSpecimenReport', 'error')}</span>
+					<g:select class="form-control" id="specimen" name="specimen.id" from="${geldb.Specimen.list()}" optionKey="id" required="" value="${postmortemInstance?.specimen?.id}" class="many-to-one"/>
+					<span class="help-inline">${hasErrors(bean: postmortemInstance, field: 'specimen', 'error')}</span>
 				</div>
 			</div>
 

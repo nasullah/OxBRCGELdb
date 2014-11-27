@@ -1,13 +1,23 @@
 <%@ page import="geldb.DNA_Library" %>
 
 
+            <hr style="border:1; height:1px" />
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-success" value="Find" onClick= 'getDNAExtract()'><span class="glyphicon glyphicon-search"></span> Find DNA Extract</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'na_extract', 'error')} ">
-                <label for="na_extract" class="control-label"><g:message code="DNA_Library.na_extract.label" default="DNA Extract" /></label>
-                <div>
-                    <g:select class="form-control" name="na_extract" from="${geldb.DNA_Extract.list()}"
-                              multiple="multiple" optionKey="id" size="5" value="${DNA_LibraryInstance?.na_extract*.id}" class="many-to-many"/>
-                    <span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'na_extract', 'error')}</span>
+                <label for="na_extract" class="control-label"><g:message code="DNA_Library.na_extract.label" default="DNA Extract" /><span class="required-indicator">*</span></label>
+                <div id="selectDNAExtract">
+                    <g:select class=""  name="1" from="${''}" optionKey="" value="${''}" required=""/>
                 </div>
             </div>
 
@@ -120,5 +130,39 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="notFound">
+                <div class="modal-dialog" style="position: absolute; left: 0%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Not Found!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>No DNA Extract found with the Gel Id you entered</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class='btn btn-primary btn-small' <g:link controller="DNA_Extract" action="create" ><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'DNA_Extract.label', default: 'DNA Extract')])}</g:link>
+                            <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<g:javascript plugin="jquery" library="jquery" />
+<script>
+    function getDNAExtract(){
+        ${remoteFunction (controller: 'DNA_Library',
+                        action: 'findDNAExtractByGeLId',
+                        params: '"search=" + $("#search").val()',
+                        update: 'selectDNAExtract',
+                        onFailure:'error()'
+                )}
+    }
+
+    function error(){
+        $('#notFound').modal()
+    }
+</script>
 
 

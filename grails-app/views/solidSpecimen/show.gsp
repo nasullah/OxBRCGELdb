@@ -149,81 +149,107 @@
 				<td valign="top" class="value"><g:link controller="units" action="show" id="${solidSpecimenInstance?.massUnit?.id}">${solidSpecimenInstance?.massUnit?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.aliquot.label" default="Aliquot" /></td>
-				
-				<td valign="top" style="text-align: left;" class="value">
-					<ul>
-					<g:each in="${solidSpecimenInstance.aliquot}" var="a">
-						<li><g:link controller="aliquot" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
-					</g:each>
-					</ul>
-				</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.fixationReport.label" default="Fixation Report" /></td>
-				
-				<td valign="top" style="text-align: left;" class="value">
-					<ul>
-					<g:each in="${solidSpecimenInstance.fixationReport}" var="f">
-						<li><g:link controller="fixationReport" action="show" id="${f.id}">${f?.encodeAsHTML()}</g:link></li>
-					</g:each>
-					</ul>
-				</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.solidSpecimenReport.label" default="Solid Specimen Report" /></td>
-				
-				<td valign="top" style="text-align: left;" class="value">
-					<ul>
-					<g:each in="${solidSpecimenInstance.solidSpecimenReport}" var="s">
-						<li><g:link controller="solidSpecimenReport" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
-					</g:each>
-					</ul>
-				</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.trackingEvent.label" default="Tracking Event" /></td>
-				
-				<td valign="top" style="text-align: left;" class="value">
-					<ul>
-					<g:each in="${solidSpecimenInstance.trackingEvent}" var="t">
-						<li><g:link controller="sampleTrackingEvent" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
-					</g:each>
-					</ul>
-				</td>
-				
-			</tr>
+
+            <g:if test="${solidSpecimenInstance.postmortem}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="solidSpecimen.postmortem.label" default="Postmortem" /></td>
+
+                    <td valign="top" class="value"><g:link controller="postmortem" action="show" id="${solidSpecimenInstance?.postmortem?.id}">${solidSpecimenInstance?.postmortem?.encodeAsHTML()}</g:link></td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${solidSpecimenInstance.position}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="solidSpecimen.position.label" default="Position" /></td>
+
+                    <td valign="top" class="value"><g:link controller="position" action="show" id="${solidSpecimenInstance?.position?.id}">${solidSpecimenInstance?.position?.encodeAsHTML()}</g:link></td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${solidSpecimenInstance.aliquot}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="solidSpecimen.aliquot.label" default="Aliquot" /></td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                        <g:each in="${solidSpecimenInstance.aliquot}" var="a">
+                            <li><g:link controller="aliquot" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${solidSpecimenInstance.fixationReport}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="solidSpecimen.fixationReport.label" default="Fixation Report" /></td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                        <g:each in="${solidSpecimenInstance.fixationReport}" var="f">
+                            <li><g:link controller="fixationReport" action="show" id="${f.id}">${f?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${solidSpecimenInstance.solidSpecimenReport}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="solidSpecimen.solidSpecimenReport.label" default="Solid Specimen Report" /></td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                        <g:each in="${solidSpecimenInstance.solidSpecimenReport}" var="s">
+                            <li><g:link controller="solidSpecimenReport" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${solidSpecimenInstance.sampleTrackingEvent}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="solidSpecimen.sampleTrackingEvent.label" default="Sample Tracking Event" /></td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                        <g:each in="${solidSpecimenInstance.sampleTrackingEvent}" var="t">
+                            <li><g:link controller="sampleTrackingEvent" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
 		
 		</tbody>
 	</table>
 </section>
+
 <hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['specimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>
-    </a></div>
-</div>
+
+<p class="text-primary">Available Actions</p>
 
 <g:if test="${!solidSpecimenInstance.fixationReport}">
-    <hr style="border:1; height:1px" />
-    <div class="one-to-many">
-        <div><a class='btn btn-primary btn-small' <g:link controller="fixationReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Fixation Report')])}</g:link>
-        </a></div>
-    </div>
+        <a class='btn btn-primary btn-small' <g:link controller="fixationReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Fixation Report')])}</g:link>
 </g:if>
+
 <g:if test="${!solidSpecimenInstance.solidSpecimenReport}">
-    <hr style="border:1; height:1px" />
-    <div class="one-to-many">
-        <div><a class='btn btn-primary btn-small' <g:link controller="solidSpecimenReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'solidSpecimenReport.label', default: 'Solid Specimen Report')])}</g:link>
-        </a></div>
-    </div>
+        <a class='btn btn-primary btn-small' <g:link controller="solidSpecimenReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'solidSpecimenReport.label', default: 'Solid Specimen Report')])}</g:link>
+</g:if>
+
+<g:if test="${!solidSpecimenInstance.position}">
+        <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'solidSpecimenReport.label', default: 'Position')])}</g:link>
+</g:if>
+
+<g:if test="${!solidSpecimenInstance.postmortem}">
+        <a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>
 </g:if>
 
 <hr style="border:1; height:1px" />

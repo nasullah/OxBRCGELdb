@@ -49,7 +49,8 @@ class ShelfController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'shelfInstance.label', default: 'Shelf'), shelfInstance.id])
-                redirect shelfInstance
+                //redirect shelfInstance
+                redirect(controller:'freezer',action: 'show', params: [id:shelfInstance.freezer.id])
             }
             '*' { respond shelfInstance, [status: CREATED] }
         }

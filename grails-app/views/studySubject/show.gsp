@@ -61,10 +61,10 @@
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="studySubject.recruitedBy.label" default="Recruited By" /></td>
-				
-				<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${studySubjectInstance?.recruitedBy?.id}">${studySubjectInstance?.recruitedBy?.encodeAsHTML()}</g:link></td>
-				
-			</tr>
+
+                <td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "recruitedBy")}</td>
+
+            </tr>
 		
 		</tbody>
 	</table>

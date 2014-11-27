@@ -2,10 +2,10 @@
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
 
-// grails.config.locations = [ "classpath:${appName}-config.properties",
-//                             "classpath:${appName}-config.groovy",
-//                             "file:${userHome}/.grails/${appName}-config.properties",
-//                             "file:${userHome}/.grails/${appName}-config.groovy"]
+grails.config.locations = [ "classpath:${appName}-config.properties",
+                             "classpath:${appName}-config.groovy",
+                             "file:${userHome}/.grails/${appName}-config.properties",
+                             "file:${userHome}/.grails/${appName}-config.groovy"]
 
 // if (System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
@@ -121,7 +121,37 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
+
+grails {
+    plugins {
+        springsecurity {
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'GELBootsDB.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'GELBootsDB.UserRole'
-grails.plugins.springsecurity.authority.className = 'GELBootsDB.Role'
+            userLookup.userDomainClassName = 'GELBootsDB.User'
+            userLookup.authorityJoinClassName = 'GELBootsDB.UserRole'
+            authority.className = 'GELBootsDB.Role'
+
+            //ui.register.defaultRoleNames = []
+
+            ui.encodePassword = false
+            ui.password.minLength = 8
+            ui.password.maxLength = 64
+        }
+    }
+}
+
+grails {
+    mail {
+        host = "smtp.gmail.com"
+        port = 465
+        username = "nasullah.alham@gmail.com"
+        password = "adminadmin1"
+        props = ["mail.smtp.auth":"true",
+                 "mail.smtp.socketFactory.port":"465",
+                 "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+                 "mail.smtp.socketFactory.fallback":"false"]
+    }
+}
+
+greenlight.apiUsername = "username"
+greenlight.apiPassword = "username"
+greenlight.urlAddress  = "http://localhost:8080"

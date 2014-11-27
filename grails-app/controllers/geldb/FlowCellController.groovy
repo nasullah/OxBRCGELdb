@@ -49,7 +49,8 @@ class FlowCellController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'flowCellInstance.label', default: 'FlowCell'), flowCellInstance.id])
-                redirect flowCellInstance
+                //redirect flowCellInstance
+                redirect(controller:'sequencingRun',action: 'show', params: [id:flowCellInstance.sequencingRun.id])
             }
             '*' { respond flowCellInstance, [status: CREATED] }
         }

@@ -28,19 +28,6 @@
                 </td>
 
             </tr>
-
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="DNA_Library.lane.label" default="Lane" /></td>
-
-                <td valign="top" style="text-align: left;" class="value">
-                    <ul>
-                        <g:each in="${DNA_LibraryInstance.lane}" var="l">
-                            <li><g:link controller="lane" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
-                        </g:each>
-                    </ul>
-                </td>
-
-            </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Library.exhausted.label" default="Exhausted" /></td>
@@ -119,10 +106,58 @@
 				
 			</tr>
 
+            <g:if test="${DNA_LibraryInstance.lane}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="DNA_Library.lane.label" default="Lane" /></td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                            <g:each in="${DNA_LibraryInstance.lane}" var="l">
+                                <li><g:link controller="lane" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
+                            </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${DNA_LibraryInstance.position}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="DNA_Library.position.label" default="Position" /></td>
+
+                    <td valign="top" class="value"><g:link controller="position" action="show" id="${DNA_LibraryInstance?.position?.id}">${DNA_LibraryInstance?.position?.encodeAsHTML()}</g:link></td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${DNA_LibraryInstance.sampleTrackingEvent}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="DNA_Library.sampleTrackingEvent.label" default="Sample Tracking Event" /></td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                            <g:each in="${DNA_LibraryInstance.sampleTrackingEvent}" var="t">
+                                <li><g:link controller="sampleTrackingEvent" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
+                            </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
 		
 		</tbody>
 	</table>
 </section>
+
+<hr style="border:1; height:1px" />
+
+<p class="text-primary">Available Action</p>
+
+<g:if test="${!DNA_LibraryInstance.position}">
+    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': DNA_LibraryInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
+</g:if>
+
+<hr style="border:1; height:1px" />
 
 </body>
 

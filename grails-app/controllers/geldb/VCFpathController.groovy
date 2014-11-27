@@ -50,7 +50,8 @@ class VCFpathController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'VCFpathInstance.label', default: 'VCFpath'), VCFpathInstance.id])
-                redirect VCFpathInstance
+                //redirect VCFpathInstance
+                redirect(controller:'sequencingRun',action: 'show', params: [id:VCFpathInstance.sequencingReports.sequencingRun.id])
             }
             '*' { respond VCFpathInstance, [status: CREATED] }
         }

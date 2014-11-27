@@ -1,5 +1,6 @@
 package geldb
 
+import org.grails.plugin.filterpane.FilterPaneUtils
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -24,6 +25,19 @@ class SampleTrackingEventController {
         respond SampleTrackingEvent.list(params), model: [sampleTrackingEventInstanceCount: SampleTrackingEvent.count()]
     }
 
+//    def list() {
+//        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+//        [sampleTrackingEventnstanceList: SampleTrackingEvent.list(params), sampleTrackingEventnstanceTotal: Aliquot.count()]
+//    }
+//    def filterPaneService
+//
+//    def filter = {
+//        if(!params.max) params.max = 10
+//        render( view:'list', model:[ aliquotInstanceList: filterPaneService.filter( params, Aliquot ),
+//                                     aliquotInstanceTotal: filterPaneService.count( params, Aliquot ),
+//                                     filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
+//    }
+
     def show(SampleTrackingEvent sampleTrackingEventInstance) {
         respond sampleTrackingEventInstance
     }
@@ -32,8 +46,79 @@ class SampleTrackingEventController {
         respond new SampleTrackingEvent(params)
     }
 
-    def getIDByScanner(){
-         Specimen.findBySapphireIdentifier("%${params.barcode}%").id
+    def createReceived() {
+        respond new SampleTrackingEvent(params)
+        render(view: "createReceived")
+    }
+
+    def findSpecimenToDispatchByGeLId() {
+        def gelId= params.search
+
+        def listSpecimenByGeLId = Specimen.where{
+            participant.studySubject.studySubjectIdentifier == gelId
+        }.list()
+
+        if(!listSpecimenByGeLId.sampleTrackingEvent.sampleTrackingEventType.toString().contains('Despatched to Oxford')){
+            render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
+        }
+    }
+
+    def findReceivedSpecimenByGeLId() {
+        def gelId= params.search
+
+        def listSpecimenByGeLId = Specimen.where{
+            participant.studySubject.studySubjectIdentifier == gelId
+        }.list()
+
+        if(!listSpecimenByGeLId.sampleTrackingEvent.sampleTrackingEventType.toString().contains('Received at Oxford')){
+            render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
+        }
+    }
+
+    def fluidSpecimenInTransit() {
+
+        def dispatchList = FluidSpecimen.where {
+            sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName == 'Despatched to Oxford'
+        }.findAll()
+
+        def receivedList = FluidSpecimen.where {
+            sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName == 'Received at Oxford'
+        }.findAll()
+
+        if(receivedList){
+            def results= dispatchList.intersect(receivedList)
+            if (results){
+                def remainingList = dispatchList.removeAll(results)
+                if (remainingList){
+                    render(view: "fluidSpecimenInTransit",  model: [fluidSpecimenInTransit: dispatchList])
+                }
+            }
+        } else {
+            render(view: "fluidSpecimenInTransit",  model: [fluidSpecimenInTransit: dispatchList])
+        }
+    }
+
+    def solidSpecimenInTransit() {
+
+        List <SolidSpecimen> dispatchList = SolidSpecimen.where {
+            sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName == 'Despatched to Oxford'
+        }.findAll()
+
+        List <SolidSpecimen> receivedList = SolidSpecimen.where {
+            sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName == 'Received at Oxford'
+        }.findAll()
+
+        if(receivedList){
+            def results= dispatchList.intersect(receivedList)
+            if (results){
+                def remainingList = dispatchList.removeAll(results)
+                if (remainingList) {
+                    render(view: "solidSpecimenInTransit", model: [solidSpecimenInTransit: dispatchList])
+                }
+            }
+        } else {
+            render(view: "solidSpecimenInTransit",  model: [solidSpecimenInTransit: dispatchList])
+        }
     }
 
     @Transactional

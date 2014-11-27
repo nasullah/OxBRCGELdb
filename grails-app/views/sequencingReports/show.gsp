@@ -36,29 +36,34 @@
 				<td valign="top" class="value">${fieldValue(bean: sequencingReportsInstance, field: "reportPath")}</td>
 				
 			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="sequencingReports.vCFpath.label" default="VCF path" /></td>
-				
-				<td valign="top" style="text-align: left;" class="value">
-					<ul>
-					<g:each in="${sequencingReportsInstance.vCFpath}" var="v">
-						<li><g:link controller="VCFpath" action="show" id="${v.id}">${v?.encodeAsHTML()}</g:link></li>
-					</g:each>
-					</ul>
-				</td>
-				
-			</tr>
+
+            <g:if test="${sequencingReportsInstance.vCFpath}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="sequencingReports.vCFpath.label" default="VCF path" /></td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                        <g:each in="${sequencingReportsInstance.vCFpath}" var="v">
+                            <li><g:link controller="VCFpath" action="show" id="${v.id}">${v?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
 		
 		</tbody>
 	</table>
 </section>
+
 <hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="VCFpath" action="create" params="['sequencingReports.id': sequencingReportsInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'VCFpath.label', default: 'VCF Path')])}</g:link>
-    </a></div>
-</div>
+
+<p class="text-primary">Available Action</p>
+
+<a class='btn btn-primary btn-small' <g:link controller="VCFpath" action="create" params="['sequencingReports.id': sequencingReportsInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'VCFpath.label', default: 'VCF Path')])}</g:link>
+
 <hr style="border:1; height:1px" />
+
 </body>
 
 </html>

@@ -20,11 +20,6 @@ class DNA_LibraryController {
         respond DNA_Library.list(params), model: [DNA_LibraryInstanceCount: DNA_Library.count()]
     }
 
-//    def list(Integer max) {
-//        params.max = Math.min(max ?: 10, 100)
-//        respond DNA_Library.list(params), model: [DNA_LibraryInstanceCount: DNA_Library.count()]
-//    }
-
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [DNA_LibraryInstanceList: DNA_Library.list(params), DNA_LibraryInstanceTotal: DNA_Library.count()]
@@ -36,6 +31,20 @@ class DNA_LibraryController {
         render( view:'list', model:[ DNA_LibraryInstanceList: filterPaneService.filter( params, DNA_Library ),
                                      DNA_LibraryInstanceTotal: filterPaneService.count( params, DNA_Library ),
                                      filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
+    }
+
+    def findDNAExtractByGeLId() {
+        def gelId= params.search
+
+        def listDNAExtractByGeLId = DNA_Extract.where{
+         aliquot.specimen.participant.studySubject.studySubjectIdentifier == gelId
+        }.findAll()
+        if (listDNAExtractByGeLId){
+            render(template: "dnaExtractList",  model: [listDNAExtractByGeLId: listDNAExtractByGeLId])
+        }
+        else {
+            flash.message = "DNA Extract with ${gelId} doesn't exist"
+        }
     }
 
     def show(DNA_Library DNA_LibraryInstance) {

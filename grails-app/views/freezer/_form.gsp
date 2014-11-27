@@ -3,6 +3,18 @@
 
         <div class="row">
             <div class="col-lg-6">
+                <div class="${hasErrors(bean: freezerInstance, field: 'centre', 'error')} required">
+                    <label for="centre" class="control-label"><g:message code="freezerInstance.centre.label" default="Centre" /><span class="required-indicator">*</span></label>
+                    <div>
+                        <g:select class="form-control" id="centre" name="centre.id" from="${geldb.Centre.list()}" optionKey="id" required="" value="${freezerInstance?.centre?.id}" />
+                        <span class="help-inline">${hasErrors(bean: freezerInstance, field: 'centre', 'error')}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
                 <div class="${hasErrors(bean: freezerInstance, field: 'freezerName', 'error')} ">
                     <label for="freezerName" class="control-label"><g:message code="freezer.freezerName.label" default="Freezer Name" /></label>
                     <div>

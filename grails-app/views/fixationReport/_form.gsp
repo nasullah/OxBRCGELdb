@@ -37,7 +37,7 @@
                     <div class="${hasErrors(bean: fixationReportInstance, field: 'reportStaff', 'error')} required">
                         <label for="reportStaff" class="control-label"><g:message code="fixationReport.reportStaff.label" default="Report Staff" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="reportStaff" name="reportStaff.id" from="${geldb.StaffMember.findAllByStaffRole(StaffRole.findByRole('Biobanker'))}"
+                            <g:select class="form-control" id="reportStaff" name="reportStaff.id" from="${geldb.StaffMember.findAllByStaffRole(StaffRole.findByRole('Pathologist'))}"
                                       optionKey="id" required="" value="${fixationReportInstance?.reportStaff?.id}" />
                             <span class="help-inline">${hasErrors(bean: fixationReportInstance, field: 'reportStaff', 'error')}</span>
                         </div>

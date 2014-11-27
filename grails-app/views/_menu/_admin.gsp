@@ -65,6 +65,13 @@
             </li>
 
             <li class="">
+                <a href="${createLink(uri: '/centre')}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    Add Centre
+                </a>
+            </li>
+
+            <li class="">
                 <a href="${createLink(uri: '/location')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Collection Location
@@ -119,13 +126,6 @@
                     Add Sample Tracking Event Type
                 </a>
             </li>
-
-            %{--<li class="">--}%
-                %{--<a href="${createLink(uri: '/sampleType')}">--}%
-                    %{--<i class="glyphicon glyphicon-plus-sign"></i>--}%
-                    %{--Add Sample Type--}%
-                %{--</a>--}%
-            %{--</li>--}%
 
             <li class="">
                 <a href="${createLink(uri: '/shelf')}">

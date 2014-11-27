@@ -92,29 +92,60 @@
 				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAExtractionKit")}</td>
 				
 			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Extract.dNA_Library.label" default="DNA Library" /></td>
-				
-				<td valign="top" style="text-align: left;" class="value">
-					<ul>
-					<g:each in="${DNA_ExtractInstance.dNA_Library}" var="d">
-						<li><g:link controller="DNA_Library" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
-					</g:each>
-					</ul>
-				</td>
-				
-			</tr>
+
+            <g:if test="${DNA_ExtractInstance.position}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="DNA_Extract.position.label" default="Position" /></td>
+
+                    <td valign="top" class="value"><g:link controller="position" action="show" id="${DNA_ExtractInstance?.position?.id}">${DNA_ExtractInstance?.position?.encodeAsHTML()}</g:link></td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${DNA_ExtractInstance.sampleTrackingEvent}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="DNA_Extract.sampleTrackingEvent.label" default="Sample Tracking Event" /></td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                            <g:each in="${DNA_ExtractInstance.sampleTrackingEvent}" var="t">
+                                <li><g:link controller="sampleTrackingEvent" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
+                            </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${DNA_ExtractInstance.dNA_Library}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="DNA_Extract.dNA_Library.label" default="DNA Library" /></td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                        <g:each in="${DNA_ExtractInstance.dNA_Library}" var="d">
+                            <li><g:link controller="DNA_Library" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
 		
 		</tbody>
 	</table>
 </section>
+
 <hr style="border:1; height:1px" />
-<div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="DNA_Library" action="create" params="['na_extract': DNA_ExtractInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'DNA_Library.label', default: 'DNA Library')])}</g:link>
-    </a></div>
-</div>
+
+<p class="text-primary">Available Action</p>
+
+<g:if test="${!DNA_ExtractInstance.position}">
+    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': DNA_ExtractInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
+</g:if>
+
 <hr style="border:1; height:1px" />
+
 </body>
 
 </html>

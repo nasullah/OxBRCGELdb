@@ -20,10 +20,6 @@ class AliquotController {
         respond Aliquot.list(params), model: [aliquotInstanceCount: Aliquot.count()]
     }
 
-//    def list(Integer max) {
-//        params.max = Math.min(max ?: 10, 100)
-//        respond Aliquot.list(params), model: [aliquotInstanceCount: Aliquot.count()]
-//    }
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [aliquotInstanceList: Aliquot.list(params), aliquotInstanceTotal: Aliquot.count()]
@@ -35,6 +31,20 @@ class AliquotController {
         render( view:'list', model:[ aliquotInstanceList: filterPaneService.filter( params, Aliquot ),
                                      aliquotInstanceTotal: filterPaneService.count( params, Aliquot ),
                                      filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
+    }
+
+    def findSpecimenByGeLId() {
+        def gelId= params.search
+
+        def listSpecimenByGeLId = Specimen.where{
+            participant.studySubject.studySubjectIdentifier == gelId
+        }.findAll()
+        if (listSpecimenByGeLId){
+            render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
+        }
+        else {
+            flash.message = "Specimen with ${gelId} doesn't exist"
+        }
     }
 
     def show(Aliquot aliquotInstance) {
