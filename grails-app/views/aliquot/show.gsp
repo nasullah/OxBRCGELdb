@@ -66,9 +66,9 @@
         </tr>
 
         <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.biobankIdentifier.label" default="Biobank Identifier" /></td>
+            <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Sapphire Identifier" /></td>
 
-            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "biobankIdentifier")}</td>
+            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
 
         </tr>
 
@@ -128,6 +128,13 @@
 
         </tr>
 
+        <tr class="prop">
+            <td valign="top" class="name"><g:message code="aliquot.aliquotPhotograph.label" default="Aliquot Photograph" /></td>
+
+            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "aliquotPhotograph")}</td>
+
+        </tr>
+
         <g:if test="${aliquotInstance.position}">
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.position.label" default="Position" /></td>
@@ -152,14 +159,14 @@
             </tr>
         </g:if>
 
-        <g:if test="${aliquotInstance.aliquotReport}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="aliquot.aliquotReport.label" default="Aliquot Report" /></td>
+        %{--<g:if test="${aliquotInstance.aliquotReport}">--}%
+            %{--<tr class="prop">--}%
+                %{--<td valign="top" class="name"><g:message code="aliquot.aliquotReport.label" default="Aliquot Report" /></td>--}%
 
-                <td valign="top" class="value"><g:link controller="aliquotReport" action="show" id="${aliquotInstance?.aliquotReport?.id}">${aliquotInstance?.aliquotReport?.encodeAsHTML()}</g:link></td>
+                %{--<td valign="top" class="value"><g:link controller="aliquotReport" action="show" id="${aliquotInstance?.aliquotReport?.id}">${aliquotInstance?.aliquotReport?.encodeAsHTML()}</g:link></td>--}%
 
-            </tr>
-        </g:if>
+            %{--</tr>--}%
+        %{--</g:if>--}%
 
         <g:if test="${aliquotInstance.colocationWith || aliquotInstance.colocation}">
             <tr class="prop">
@@ -208,6 +215,22 @@
             </tr>
         </g:if>
 
+        <tr class="prop">
+            <td valign="top" class="name"> Dispatched</td>
+
+            <td valign="top" style="text-align: left;" class="value">
+                <% def dispatchItem = DispatchItem?.listOrderById() %>
+                <ul>
+                    <g:each in="${dispatchItem}" var="item">
+                        <g:if test="${item.identifiedSample.id == aliquotInstance.id}">
+                            <li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>
+                        </g:if>
+                    </g:each>
+                </ul>
+            </td>
+
+        </tr>
+
         </tbody>
     </table>
 </section>
@@ -216,21 +239,12 @@
 
 <p class="text-primary">Available Actions</p>
 
-<a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['specimen.id': aliquotInstance?.specimen?.id,'exhausted': aliquotInstance?.exhausted,'passFail': aliquotInstance?.passFail,
-                                                                                                    'passFailReason': aliquotInstance?.passFailReason,'notes': aliquotInstance?.notes,'barcode': aliquotInstance?.barcode,
-                                                                                                    'aliquotVolumeMass': aliquotInstance?.aliquotVolumeMass,'unit': aliquotInstance?.unit?.id,'blockNumber': aliquotInstance?.blockNumber,
-                                                                                                    'aliquotType': aliquotInstance?.aliquotType?.id,'biobankIdentifier': aliquotInstance?.biobankIdentifier]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate Aliquot')])}</g:link>
-
 <a class='btn btn-primary btn-small' <g:link controller="colocation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'colocation.label', default: 'Colocation')])}</g:link>
 
-<g:if test="${!aliquotInstance.position}">
-    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Plate or Box Storage Position')])}</g:link>
-</g:if>
-
-<g:if test="${!aliquotInstance.aliquotReport}">
-   <a class='btn btn-primary btn-small' <g:link controller="aliquotReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquotReport.label', default: 'Aliquot Report')])}</g:link>
-</g:if>
-
+<a class='btn btn-primary btn-small' <g:link controller="aliquot" action="saveDuplicates" params="['specimen.id': aliquotInstance?.specimen?.id,'exhausted': aliquotInstance?.exhausted,'passFail': aliquotInstance?.passFail,
+                                                                                           'passFailReason': aliquotInstance?.passFailReason,'notes': aliquotInstance?.notes,'barcode': aliquotInstance?.barcode,
+                                                                                           'aliquotVolumeMass': aliquotInstance?.aliquotVolumeMass,'unit': aliquotInstance?.unit?.id,'blockNumber': aliquotInstance?.blockNumber,
+                                                                                           'aliquotType': aliquotInstance?.aliquotType?.id,'sapphireIdentifier': aliquotInstance?.sapphireIdentifier]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate Aliquot')])}</g:link>
 <hr style="border:1; height:1px" />
 
 </body>

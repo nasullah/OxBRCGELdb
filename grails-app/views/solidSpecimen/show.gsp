@@ -32,16 +32,9 @@
             </tr>
 
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="solidSpecimen.tumourType.label" default="Tumour Type" /></td>
+                <td valign="top" class="name"><g:message code="solidSpecimen.collectionMethod.label" default="Collection Method" /></td>
 
-                <td valign="top" class="value"><g:link controller="tumourType" action="show" id="${solidSpecimenInstance?.tumourType?.id}">${solidSpecimenInstance?.tumourType?.encodeAsHTML()}</g:link></td>
-
-            </tr>
-
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="solidSpecimen.sampleType.label" default="Sample Type" /></td>
-
-                <td valign="top" class="value"><g:link controller="collectionMethod" action="show" id="${solidSpecimenInstance?.sampleType?.id}">${solidSpecimenInstance?.sampleType?.encodeAsHTML()}</g:link></td>
+                <td valign="top" class="value"><g:link controller="collectionMethod" action="show" id="${solidSpecimenInstance?.collectionMethod?.id}">${solidSpecimenInstance?.collectionMethod?.encodeAsHTML()}</g:link></td>
 
             </tr>
 		
@@ -150,6 +143,13 @@
 				
 			</tr>
 
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="solidSpecimen.barcode.label" default="Barcode" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "barcode")}</td>
+
+            </tr>
+
             <g:if test="${solidSpecimenInstance.postmortem}">
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="solidSpecimen.postmortem.label" default="Postmortem" /></td>
@@ -183,14 +183,14 @@
                 </tr>
             </g:if>
 
-            <g:if test="${solidSpecimenInstance.fixationReport}">
+            <g:if test="${solidSpecimenInstance.fFPE_Tissue_Report}">
                 <tr class="prop">
-                    <td valign="top" class="name"><g:message code="solidSpecimen.fixationReport.label" default="Fixation Report" /></td>
+                    <td valign="top" class="name"><g:message code="solidSpecimen.fFPE_Tissue_Report.label" default="FFPE Tissue Report" /></td>
 
                     <td valign="top" style="text-align: left;" class="value">
                         <ul>
-                        <g:each in="${solidSpecimenInstance.fixationReport}" var="f">
-                            <li><g:link controller="fixationReport" action="show" id="${f.id}">${f?.encodeAsHTML()}</g:link></li>
+                        <g:each in="${solidSpecimenInstance.fFPE_Tissue_Report}" var="f">
+                            <li><g:link controller="FFPE_Tissue_Report" action="show" id="${f.id}">${f?.encodeAsHTML()}</g:link></li>
                         </g:each>
                         </ul>
                     </td>
@@ -198,14 +198,14 @@
                 </tr>
             </g:if>
 
-            <g:if test="${solidSpecimenInstance.solidSpecimenReport}">
+            <g:if test="${solidSpecimenInstance.frozenTissueReport}">
                 <tr class="prop">
-                    <td valign="top" class="name"><g:message code="solidSpecimen.solidSpecimenReport.label" default="Solid Specimen Report" /></td>
+                    <td valign="top" class="name"><g:message code="solidSpecimen.frozenTissueReport.label" default="Frozen Tissue Report" /></td>
 
                     <td valign="top" style="text-align: left;" class="value">
                         <ul>
-                        <g:each in="${solidSpecimenInstance.solidSpecimenReport}" var="s">
-                            <li><g:link controller="solidSpecimenReport" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
+                        <g:each in="${solidSpecimenInstance.frozenTissueReport}" var="s">
+                            <li><g:link controller="frozenTissueReport" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
                         </g:each>
                         </ul>
                     </td>
@@ -227,6 +227,22 @@
 
                 </tr>
             </g:if>
+
+            <tr class="prop">
+                <td valign="top" class="name"> Dispatched</td>
+
+                <td valign="top" style="text-align: left;" class="value">
+                    <% def dispatchItem = DispatchItem?.listOrderById() %>
+                    <ul>
+                        <g:each in="${dispatchItem}" var="item">
+                            <g:if test="${item.identifiedSample.id == solidSpecimenInstance.id}">
+                                <li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>
+                            </g:if>
+                        </g:each>
+                    </ul>
+                </td>
+
+            </tr>
 		
 		</tbody>
 	</table>
@@ -236,20 +252,16 @@
 
 <p class="text-primary">Available Actions</p>
 
-<g:if test="${!solidSpecimenInstance.fixationReport}">
-        <a class='btn btn-primary btn-small' <g:link controller="fixationReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Fixation Report')])}</g:link>
+<g:if test="${!solidSpecimenInstance.fFPE_Tissue_Report && !solidSpecimenInstance.frozenTissueReport}">
+        <a class='btn btn-primary btn-small' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'FFPE Tissue Report')])}</g:link>
 </g:if>
 
-<g:if test="${!solidSpecimenInstance.solidSpecimenReport}">
-        <a class='btn btn-primary btn-small' <g:link controller="solidSpecimenReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'solidSpecimenReport.label', default: 'Solid Specimen Report')])}</g:link>
-</g:if>
-
-<g:if test="${!solidSpecimenInstance.position}">
-        <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'solidSpecimenReport.label', default: 'Position')])}</g:link>
+<g:if test="${!solidSpecimenInstance.fFPE_Tissue_Report && !solidSpecimenInstance.frozenTissueReport}">
+        <a class='btn btn-primary btn-small' <g:link controller="frozenTissueReport" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'frozenTissueReport.label', default: 'Frozen Tissue Report')])}</g:link>
 </g:if>
 
 <g:if test="${!solidSpecimenInstance.postmortem}">
-        <a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>
+        <a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['specimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>
 </g:if>
 
 <hr style="border:1; height:1px" />

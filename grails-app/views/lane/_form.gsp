@@ -69,6 +69,8 @@
     }
 
     function error(){
+        var select = $("#selectDNALibrary");
+        select.empty().append("Not found");
         $('#notFound').modal()
     }
 </script>

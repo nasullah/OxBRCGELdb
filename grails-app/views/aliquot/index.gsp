@@ -20,7 +20,7 @@
 
                 <g:sortableColumn property="blockNumber" title="${message(code: 'aliquot.blockNumber.label', default: 'Block Number')}" />
 
-                <g:sortableColumn property="biobankIdentifier" title="${message(code: 'aliquot.biobankIdentifier.label', default: 'Biobank Identifier')}" />
+                <g:sortableColumn property="sapphireIdentifier" title="${message(code: 'aliquot.sapphireIdentifier.label', default: 'Sapphire Identifier')}" />
 
                 <g:sortableColumn property="aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
 
@@ -34,7 +34,7 @@
 
                 <td>${fieldValue(bean: aliquotInstance, field: "blockNumber")}</td>
 
-                <td>${fieldValue(bean: aliquotInstance, field: "biobankIdentifier")}</td>
+                <td>${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
 
                 <td>${fieldValue(bean: aliquotInstance.specimen.participant.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
 

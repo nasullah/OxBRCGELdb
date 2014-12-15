@@ -1,4 +1,4 @@
-<%@ page import="geldb.StaffRole; geldb.UnitType; geldb.Units; geldb.SolidSpecimen" %>
+<%@ page import="geldb.UnitType; geldb.Units; geldb.SolidSpecimen" %>
 
             <hr style="border:1; height:1px" />
 
@@ -13,10 +13,10 @@
                 </div>
             </div>
 
-            <div class="${hasErrors(bean: solidSpecimenInstance, field: 'participant', 'error')} required">
+            <div class="${hasErrors(bean: solidSpecimenInstance, field: 'participant', 'error')} required" >
                 <label for="participant" class="control-label"><g:message code="solidSpecimen.participant.label" default="Participant" /><span class="required-indicator">*</span></label>
                 <div id="selectParticipant">
-                    <g:select class=""  name="1" from="${''}" optionKey="" value="${''}" required=""/>
+                    <g:select class="" name="1" from="${''}" optionKey="" value="${''}" required=""/>
                 </div>
             </div>
 
@@ -32,21 +32,11 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'sampleType', 'error')} required">
-                        <label for="sampleType" class="control-label"><g:message code="solidSpecimen.sampleType.label" default="Sample Type" /><span class="required-indicator">*</span></label>
+                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'collectionMethod', 'error')} required">
+                        <label for="collectionMethod" class="control-label"><g:message code="solidSpecimen.collectionMethod.label" default="Collection Method" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="sampleType" name="sampleType.id" from="${geldb.CollectionMethod.list()}" optionKey="id" required="" value="${solidSpecimenInstance?.sampleType?.id}" />
-                            <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'sampleType', 'error')}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'tumourType', 'error')} required">
-                        <label for="tumourType" class="control-label"><g:message code="solidSpecimen.tumourType.label" default="Tumour Type" /><span class="required-indicator">*</span></label>
-                        <div>
-                            <g:select class="form-control" id="tumourType" name="tumourType.id" from="${geldb.TumourType.list()}" optionKey="id" required="" value="${solidSpecimenInstance?.tumourType?.id}"/>
-                            <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'tumourType', 'error')}</span>
+                            <g:select class="form-control" id="collectionMethod" name="collectionMethod.id" from="${geldb.CollectionMethod.list()}" optionKey="id" required="" value="${solidSpecimenInstance?.collectionMethod?.id}" />
+                            <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'collectionMethod', 'error')}</span>
                         </div>
                     </div>
                 </div>
@@ -117,7 +107,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'collectionLocation', 'error')} ">
                         <label for="collectionLocation" class="control-label"><g:message code="solidSpecimen.collectionLocation.label" default="Collection Location" /></label>
                         <div>
-                            <g:select class="form-control" id="collectionLocation" name="collectionLocation.id" from="${geldb.Location.list()}" optionKey="id" value="${solidSpecimenInstance?.collectionLocation?.id}" noSelection="['null': '']"/>
+                            <g:select class="form-control" id="collectionLocation" name="collectionLocation.id" from="${geldb.Location.list()}" optionKey="id" value="${solidSpecimenInstance?.collectionLocation?.id}" noSelection="['':'- Choose Location -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'collectionLocation', 'error')}</span>
                         </div>
                     </div>
@@ -127,7 +117,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'collectedBy', 'error')} ">
                         <label for="collectedBy" class="control-label"><g:message code="solidSpecimen.collectedBy.label" default="Collected By" /></label>
                         <div>
-                            <g:select class="form-control" id="collectedBy" name="collectedBy.id" from="${geldb.StaffMember.findAllByStaffRole(StaffRole.findByRole('Biobanker'))}" optionKey="id" value="${solidSpecimenInstance?.collectedBy?.id}" noSelection="['null': '']"/>
+                            <g:select class="form-control" id="collectedBy" name="collectedBy.id" from="${geldb.StaffMember.findAllByStaffRole('Biobanker')}" optionKey="id" value="${solidSpecimenInstance?.collectedBy?.id}" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'collectedBy', 'error')}</span>
                         </div>
                     </div>
@@ -137,7 +127,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'preparedBy', 'error')} ">
                         <label for="preparedBy" class="control-label"><g:message code="solidSpecimen.preparedBy.label" default="Prepared By" /></label>
                         <div>
-                            <g:select class="form-control" id="preparedBy" name="preparedBy.id" from="${geldb.StaffMember.list()}" optionKey="id" value="${solidSpecimenInstance?.preparedBy?.id}" noSelection="['null': '']"/>
+                            <g:select class="form-control" id="preparedBy" name="preparedBy.id" from="${geldb.StaffMember.list()}" optionKey="id" value="${solidSpecimenInstance?.preparedBy?.id}" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'preparedBy', 'error')}</span>
                         </div>
                     </div>
@@ -147,7 +137,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'surgeon', 'error')} ">
                         <label for="surgeon" class="control-label"><g:message code="solidSpecimen.surgeon.label" default="Surgeon" /></label>
                         <div>
-                            <g:select class="form-control" id="surgeon" name="surgeon.id" from="${geldb.StaffMember.findAllByStaffRole(StaffRole.findByRole('Surgeon'))}" optionKey="id" value="${solidSpecimenInstance?.surgeon?.id}"  noSelection="['null': '']"/>
+                            <g:select class="form-control" id="surgeon" name="surgeon.id" from="${geldb.StaffMember.findAllByStaffRole('Surgeon')}" optionKey="id" value="${solidSpecimenInstance?.surgeon?.id}"  noSelection="['':'- Choose Surgeon -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'surgeon', 'error')}</span>
                         </div>
                     </div>
@@ -157,8 +147,8 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'pathologist', 'error')} ">
                         <label for="pathologist" class="control-label"><g:message code="solidSpecimen.pathologist.label" default="Pathologist" /></label>
                         <div>
-                            <g:select class="form-control" id="pathologist" name="pathologist.id" from="${geldb.StaffMember.findAllByStaffRole(StaffRole.findByRole('Pathologist'))}"
-                                      optionKey="id" value="${solidSpecimenInstance?.pathologist?.id}"  noSelection="['null': '']"/>
+                            <g:select class="form-control" id="pathologist" name="pathologist.id" from="${geldb.StaffMember.findAllByStaffRole('Pathologist')}"
+                                      optionKey="id" value="${solidSpecimenInstance?.pathologist?.id}"  noSelection="['':'- Choose Pathologist -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'pathologist', 'error')}</span>
                         </div>
                     </div>
@@ -168,7 +158,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'methodOfTransportToPathologist', 'error')} ">
                         <label for="methodOfTransportToPathologist" class="control-label"><g:message code="solidSpecimen.methodOfTransportToPathologist.label" default="Method of Transport to Pathologist" /></label>
                         <div>
-                            <g:select class="form-control" id="methodOfTransportToPathologist" name="methodOfTransportToPathologist.id" from="${geldb.MethodOfTransport.list()}" optionKey="id" value="${solidSpecimenInstance?.methodOfTransportToPathologist?.id}"  noSelection="['null': '']"/>
+                            <g:select class="form-control" id="methodOfTransportToPathologist" name="methodOfTransportToPathologist.id" from="${geldb.MethodOfTransport.list()}" optionKey="id" value="${solidSpecimenInstance?.methodOfTransportToPathologist?.id}"  noSelection="['':'- Choose Method of Transport -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'methodOfTransportToPathologist', 'error')}</span>
                         </div>
                     </div>
@@ -178,8 +168,18 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'anatomicalSite', 'error')} ">
                         <label for="anatomicalSite" class="control-label"><g:message code="solidSpecimen.anatomicalSite.label" default="Anatomical Site" /></label>
                         <div>
-                            <g:select class="form-control" id="anatomicalSite" name="anatomicalSite.id" from="${geldb.AnatomicalSite.list()}" optionKey="id" value="${solidSpecimenInstance?.anatomicalSite?.id}" noSelection="['null': '']"/>
+                            <g:select class="form-control" id="anatomicalSite" name="anatomicalSite.id" from="${geldb.AnatomicalSite.list()}" optionKey="id" value="${solidSpecimenInstance?.anatomicalSite?.id}" noSelection="['':'- Choose Anatomical Site -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'anatomicalSite', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'barcode', 'error')} ">
+                        <label for="barcode" class="control-label"><g:message code="solidSpecimen.barcode.label" default="Barcode" /></label>
+                        <div>
+                            <g:textField class="form-control" name="barcode" value="${solidSpecimenInstance?.barcode}"/>
+                            <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'barcode', 'error')}</span>
                         </div>
                     </div>
                 </div>
@@ -233,11 +233,13 @@
                         action: 'findParticipantByGeLId',
                         params: '"search=" + $("#search").val()',
                         update: 'selectParticipant',
-                        onFailure:'error()'
+                        onFailure: 'error()'
                 )}
     }
 
     function error(){
+        var select = $("#selectParticipant");
+        select.empty().append("Not found");
         $('#notFound').modal()
     }
 </script>

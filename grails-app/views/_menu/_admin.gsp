@@ -86,6 +86,13 @@
             </li>
 
             <li class="">
+                <a href="${createLink(uri: '/Destination')}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    Add Destination
+                </a>
+            </li>
+
+            <li class="">
                 <a href="${createLink(uri: '/DNAExtractionStatus')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add DNA Extraction Status
@@ -121,9 +128,23 @@
             </li>
 
             <li class="">
+                <a href="${createLink(uri: '/period')}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    Add Period
+                </a>
+            </li>
+
+            <li class="">
                 <a href="${createLink(uri: '/SampleTrackingEventType')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Sample Tracking Event Type
+                </a>
+            </li>
+
+            <li class="">
+                <a href="${createLink(uri: '/SampleType')}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    Add Sample Type
                 </a>
             </li>
 
@@ -138,20 +159,6 @@
                 <a href="${createLink(uri: '/staffMember')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Staff Member
-                </a>
-            </li>
-
-            <li class="">
-                <a href="${createLink(uri: '/staffRole')}">
-                    <i class="glyphicon glyphicon-plus-sign"></i>
-                    Add Staff Role
-                </a>
-            </li>
-
-            <li class="">
-                <a href="${createLink(uri: '/StagingSystem')}">
-                    <i class="glyphicon glyphicon-plus-sign"></i>
-                    Add Staging System
                 </a>
             </li>
 

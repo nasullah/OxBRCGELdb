@@ -93,6 +93,34 @@
 				
 			</tr>
 
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.dNAAmount.label" default="DNA Amount" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAAmount")}</td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.delatQC.label" default="Delta QC" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "delatQC")}</td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.a260A280.label" default="A260A280" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "a260A280")}</td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.barcode.label" default="Barcode" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "barcode")}</td>
+
+            </tr>
+
             <g:if test="${DNA_ExtractInstance.position}">
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="DNA_Extract.position.label" default="Position" /></td>
@@ -131,6 +159,22 @@
 
                 </tr>
             </g:if>
+
+            <tr class="prop">
+                <td valign="top" class="name"> Dispatched</td>
+
+                <td valign="top" style="text-align: left;" class="value">
+                    <% def dispatchItem = DispatchItem?.listOrderById() %>
+                    <ul>
+                        <g:each in="${dispatchItem}" var="item">
+                            <g:if test="${item.identifiedSample.id == DNA_ExtractInstance.id}">
+                                <li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>
+                            </g:if>
+                        </g:each>
+                    </ul>
+                </td>
+
+            </tr>
 		
 		</tbody>
 	</table>
@@ -140,9 +184,9 @@
 
 <p class="text-primary">Available Action</p>
 
-<g:if test="${!DNA_ExtractInstance.position}">
-    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': DNA_ExtractInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
-</g:if>
+%{--<g:if test="${!DNA_ExtractInstance.position}">--}%
+    %{--<a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': DNA_ExtractInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>--}%
+%{--</g:if>--}%
 
 <hr style="border:1; height:1px" />
 

@@ -11,7 +11,7 @@ import groovy.json.JsonSlurper
  * ParticipantController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN'])
+@Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
 @Transactional(readOnly = true)
 class ParticipantController {
 
@@ -32,12 +32,14 @@ class ParticipantController {
         //internal error accessing Greenlight
         if(results.errors){
             flash.message = results.errorMessage;
-
+            redirect(uri: '/importparticipant')
+            return
         }
         //Greenlight can not find the patient
-        if(results.errors.errors){
-            flash.message = "Can not find the patient"
-
+        if(results.consent.errors){
+            flash.message = "Can not find patient with NHS number ${params.nhsOrHospitalNumberId} in Consent Management system"
+            redirect(uri: '/importparticipant')
+            return
         }
 
         def lastName = results.consent.lastName
@@ -51,29 +53,52 @@ class ParticipantController {
         def lastCompleted = new Date()
         def version =""
         def foundGEL = false
+
         results.consent.consents.each{ c->
-            if(c.namePrefix == "GEL"){
+            if(c.form.namePrefix =="GEL"){
                 foundGEL = true
                 consentFormId    = c.consentFormId
                 consentTakerName = c.consentTakerName
                 lastCompleted    = c.lastCompleted
+                version          = c.form.version
             }
         }
-
         //we find the patient and has the consent form
-        if(foundGEL){
+        def existingParticipant = Participant.findByHospitalNumber(hospitalNumber)
+        if(foundGEL && existingParticipant){
+            existingParticipant.centre = Centre.findByCentreName('Oxford')
+            existingParticipant.dateOfBirth = new Date().parse("yyyy-MM-dd", dateOfBirth)
+            existingParticipant.diagnosis = null
+            existingParticipant.gender = null
+            existingParticipant.familyName = lastName
+            existingParticipant.givenName = firstName
+            existingParticipant.nHSNumber = nhsNumber
 
-            def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
-                    dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null)
+            existingParticipant.save(failOnError: true)
+            redirect(action: "show", id: existingParticipant.id)
 
-            def studySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL Study'), studySubjectIdentifier: consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: lastCompleted,
-                    recruitedBy:consentTakerName, consentFormVersion: version)
-            participantInstance.addToStudySubject(studySubjectInstance).save(failOnError: true)
-            redirect(action: "show", id: participantInstance.id)
+        }else if (foundGEL && !existingParticipant){
+                def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
+                        dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
 
-        }//find the patient but it does not have GEL form
+                def studySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL Study'), studySubjectIdentifier: null, consentStatus: Boolean.TRUE, recruitmentDate: lastCompleted,
+                        recruitedBy:consentTakerName, consentFormVersion: version)
+                participantInstance.addToStudySubject(studySubjectInstance).save(failOnError: true)
+                redirect(action: "show", id: participantInstance.id)
+        }
+
+//            def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
+//                    dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
+//
+//            def studySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL Study'), studySubjectIdentifier: consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: lastCompleted,
+//                    recruitedBy:consentTakerName, consentFormVersion: version)
+//            participantInstance.addToStudySubject(studySubjectInstance).save(failOnError: true)
+//            redirect(action: "show", id: participantInstance.id)
+
+        //find the patient but it does not have GEL form
         else{
-            flash.message = "Patient ${nhsNumber} doesn't have any GEL consent form"
+            flash.message = "Patient with NHS number ${nhsNumber} doesn't have any GEL consent form"
+            redirect(uri: '/importparticipant')
         }
     }
 

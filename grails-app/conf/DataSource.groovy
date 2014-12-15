@@ -31,9 +31,9 @@ environments {
     production {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:postgresql://localhost:5432/geldb"
+            url = "jdbc:postgresql://localhost:5432/database"
             username = "postgres"
-            password = "adminadmin1"
+            password = "password"
             pooled = true
 
             driverClassName = "org.postgresql.Driver"

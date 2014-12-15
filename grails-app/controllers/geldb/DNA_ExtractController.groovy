@@ -17,12 +17,12 @@ class DNA_ExtractController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond DNA_Extract.list(params), model: [DNA_ExtractInstanceCount: DNA_Extract.count()]
+        respond DNA_Extract.findAllByExhausted(false, params.max ), model: [DNA_ExtractInstanceCount: DNA_Extract.count()]
     }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [DNA_ExtractInstanceList: DNA_Extract.list(params), DNA_ExtractInstanceTotal: DNA_Extract.count()]
+        [DNA_ExtractInstanceList: DNA_Extract.findAllByExhausted(false, params.max ), DNA_ExtractInstanceTotal: DNA_Extract.count()]
     }
     def filterPaneService
 
@@ -38,12 +38,9 @@ class DNA_ExtractController {
 
         def listAliquotsByGeLId = Aliquot.where{
             specimen.participant.studySubject.studySubjectIdentifier == gelId
-        }.findAll()
-        if (listAliquotsByGeLId){
+        }.findAllByExhausted(false)
+        if (!listAliquotsByGeLId.empty){
             render(template: "aliquotList",  model: [listAliquotsByGeLId: listAliquotsByGeLId])
-        }
-        else {
-            flash.message = "Aliquot with ${gelId} doesn't exist"
         }
     }
 

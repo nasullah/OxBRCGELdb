@@ -1,5 +1,6 @@
 package geldb
 
+import org.hibernate.SessionFactory
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -17,12 +18,12 @@ class AliquotController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Aliquot.list(params), model: [aliquotInstanceCount: Aliquot.count()]
+        respond Aliquot.findAllByExhausted(false, params.max ), model: [aliquotInstanceCount: Aliquot.count()]
     }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [aliquotInstanceList: Aliquot.list(params), aliquotInstanceTotal: Aliquot.count()]
+        [aliquotInstanceList: Aliquot.findAllByExhausted(false, params.max ), aliquotInstanceTotal: Aliquot.count()]
     }
     def filterPaneService
 
@@ -38,12 +39,9 @@ class AliquotController {
 
         def listSpecimenByGeLId = Specimen.where{
             participant.studySubject.studySubjectIdentifier == gelId
-        }.findAll()
-        if (listSpecimenByGeLId){
+        }.findAllByExhausted(false)
+        if (!listSpecimenByGeLId.empty){
             render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
-        }
-        else {
-            flash.message = "Specimen with ${gelId} doesn't exist"
         }
     }
 
@@ -57,6 +55,7 @@ class AliquotController {
 
     @Transactional
     def save(Aliquot aliquotInstance) {
+
         if (aliquotInstance == null) {
             notFound()
             return
@@ -67,15 +66,38 @@ class AliquotController {
             return
         }
 
-        aliquotInstance.save flush: true
-
+        aliquotInstance.save(flush: true)
         request.withFormat {
             form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'aliquotInstance.label', default: 'Aliquot'), aliquotInstance.id])
-                redirect aliquotInstance
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'Aliquot.label', default: 'Aliquot'), aliquotInstance.id])
+
             }
             '*' { respond aliquotInstance, [status: CREATED] }
         }
+        redirect aliquotInstance
+    }
+
+    @Transactional
+    def saveDuplicates() {
+        def aliquotInstance = new Aliquot(params)
+        if (aliquotInstance == null) {
+            notFound()
+            return
+        }
+
+        if (aliquotInstance.hasErrors()) {
+            respond aliquotInstance.errors, view: 'create'
+            return
+        }
+        aliquotInstance.save(flush: true)
+        request.withFormat {
+            form {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'Aliquot.label', default: 'Aliquot'), aliquotInstance.id])
+
+            }
+            '*' { respond aliquotInstance, [status: CREATED] }
+        }
+        redirect aliquotInstance
     }
 
     def edit(Aliquot aliquotInstance) {

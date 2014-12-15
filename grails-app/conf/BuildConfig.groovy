@@ -69,6 +69,7 @@ grails.project.dependency.resolution = {
         compile ":kickstart-with-bootstrap:1.1.0"
         compile ":filterpane:2.4.2"
         compile ":rest-client-builder:2.0.3"
+        compile ":class-domain-uml:0.1.5"
 //        runtime ":prototype:1.0"
 
 

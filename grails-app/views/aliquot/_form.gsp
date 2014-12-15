@@ -54,11 +54,11 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: aliquotInstance, field: 'biobankIdentifier', 'error')} ">
-                        <label for="biobankIdentifier" class="control-label"><g:message code="aliquot.biobankIdentifier.label" default="Biobank Identifier" /></label>
+                    <div class="${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')} ">
+                        <label for="sapphireIdentifier" class="control-label"><g:message code="aliquot.sapphireIdentifier.label" default="Sapphire Identifier" /></label>
                         <div>
-                            <g:textField class="form-control" name="biobankIdentifier" value="${aliquotInstance?.biobankIdentifier}"/>
-                            <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'biobankIdentifier', 'error')}</span>
+                            <g:textField class="form-control" name="sapphireIdentifier" value="${aliquotInstance?.sapphireIdentifier}"/>
+                            <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')}</span>
                         </div>
                     </div>
                 </div>
@@ -120,6 +120,16 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotPhotograph', 'error')} required">
+                        <label for="aliquotPhotograph" class="control-label"><g:message code="aliquotPhoto.aliquotPhotograph.label" default="Aliquot Photograph" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <input type="file" id="aliquotPhotograph" name="aliquotPhotograph" />
+                            <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'aliquotPhotograph', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
@@ -137,7 +147,7 @@
                     <div class="${hasErrors(bean: aliquotInstance, field: 'unit', 'error')}">
                         <label for="unit" class="control-label"><g:message code="aliquot.unit.label" default="Unit" /></label>
                         <div>
-                            <g:select class="form-control" id="unit" name="unit.id" from="${geldb.Units.list()}" optionKey="id" required="" value="${aliquotInstance?.unit?.id}" noSelection="['null': '']"/>
+                            <g:select class="form-control" id="unit" name="unit.id" from="${geldb.Units.list()}" optionKey="id" value="${aliquotInstance?.unit?.id}" noSelection="['':'- Choose unit -']"/>
                             <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'unit', 'error')}</span>
                         </div>
                     </div>
@@ -175,6 +185,8 @@
     }
 
     function error(){
+        var select = $("#selectSpecimen");
+        select.empty().append("Not found");
         $('#notFound').modal()
     }
 </script>

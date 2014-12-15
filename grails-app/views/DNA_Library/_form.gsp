@@ -124,8 +124,18 @@
                     <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'libraryPrepBy', 'error')} ">
                         <label for="libraryPrepBy" class="control-label"><g:message code="DNA_Library.libraryPrepBy.label" default="Library Prep By" /></label>
                         <div>
-                            <g:select class="form-control" id="libraryPrepBy" name="libraryPrepBy.id" from="${geldb.StaffMember.list()}" optionKey="id" value="${DNA_LibraryInstance?.libraryPrepBy?.id}"  noSelection="['null': '']"/>
+                            <g:select class="form-control" id="libraryPrepBy" name="libraryPrepBy.id" from="${geldb.StaffMember.list()}" optionKey="id" value="${DNA_LibraryInstance?.libraryPrepBy?.id}"  noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'libraryPrepBy', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'barcode', 'error')} ">
+                        <label for="barcode" class="control-label"><g:message code="DNA_Library.barcode.label" default="Barcode" /></label>
+                        <div>
+                            <g:textField class="form-control" name="barcode" value="${DNA_LibraryInstance?.barcode}"/>
+                            <span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'barcode', 'error')}</span>
                         </div>
                     </div>
                 </div>
@@ -161,6 +171,8 @@
     }
 
     function error(){
+        var select = $("#selectDNAExtract");
+        select.empty().append("Not found");
         $('#notFound').modal()
     }
 </script>

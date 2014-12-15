@@ -17,12 +17,12 @@ class FluidSpecimenController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond FluidSpecimen.list(params), model: [fluidSpecimenInstanceCount: FluidSpecimen.count()]
+        respond FluidSpecimen.findAllByExhausted(false, params.max ), model: [fluidSpecimenInstanceCount: FluidSpecimen.count()]
     }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [fluidSpecimenInstanceList: FluidSpecimen.list(params), fluidSpecimenInstanceTotal: FluidSpecimen.count()]
+        [fluidSpecimenInstanceList: FluidSpecimen.findAllByExhausted(false, params.max ), fluidSpecimenInstanceTotal: FluidSpecimen.count()]
     }
     def filterPaneService
 
@@ -41,11 +41,8 @@ class FluidSpecimenController {
                 eq('studySubjectIdentifier',gelId)
             }
         }
-        if (listParticipantByGeLId){
+        if (!listParticipantByGeLId.empty){
             render(template: "participantList",  model: [listParticipantByGeLId: listParticipantByGeLId])
-        }
-        else {
-            flash.message = "Patient with ${gelId} doesn't exist"
         }
     }
 

@@ -20,6 +20,8 @@
 				<g:sortableColumn property="staffName" title="${message(code: 'staffMember.staffName.label', default: 'Staff Name')}" />
 			
 				<th><g:message code="staffMember.staffRole.label" default="Staff Role" /></th>
+
+                <th><g:message code="staffMember.centre.label" default="Centre" /></th>
 			
 			</tr>
 		</thead>
@@ -30,6 +32,8 @@
 				<td><g:link action="show" id="${staffMemberInstance.id}">${fieldValue(bean: staffMemberInstance, field: "staffName")}</g:link></td>
 			
 				<td>${fieldValue(bean: staffMemberInstance, field: "staffRole")}</td>
+
+                <td>${fieldValue(bean: staffMemberInstance, field: "centre")}</td>
 			
 			</tr>
 		</g:each>

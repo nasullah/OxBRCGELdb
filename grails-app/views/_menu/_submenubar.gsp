@@ -46,6 +46,10 @@ This menu is used to show function that can be triggered on the content (an obje
                         || params.controller == 'aliquot'
                         || params.controller == 'DNA_Extract'
                         || params.controller == 'DNA_Library'
+                        || params.controller == 'Destination'
+                        || params.controller == 'dispatchRecord'
+                        || params.controller == 'position'
+                        || params.controller == 'SampleType'
                         }">
             <li class="${ params.action == "create" ? 'active' : '' }">
                 <g:link action="create"><i class="glyphicon glyphicon-plus"></i> <g:message code="default.new.label"  args="[entityName]"/></g:link>

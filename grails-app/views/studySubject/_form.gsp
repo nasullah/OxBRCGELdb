@@ -1,4 +1,4 @@
-<%@ page import="geldb.StaffRole; geldb.StudySubject" %>
+<%@ page import="geldb.StudySubject" %>
 
 
 
@@ -52,7 +52,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: studySubjectInstance, field: 'recruitmentDate', 'error')} required">
-                        <label for="recruitmentDate" class="control-label"><g:message code="studySubject.recruitmentDate.label" default="Recruitment Date" /><span class="required-indicator">*</span></label>
+                        <label for="recruitmentDate" class="control-label"><g:message code="studySubject.recruitmentDate.label" default="Recruitment Date" /></label>
                         <div>
                             <bs:datePicker name="recruitmentDate" precision="day"  value="${studySubjectInstance?.recruitmentDate}"  />
                             <span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'recruitmentDate', 'error')}</span>

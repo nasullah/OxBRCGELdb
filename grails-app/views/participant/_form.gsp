@@ -4,9 +4,9 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: participantInstance, field: 'familyName', 'error')} ">
-                        <label for="familyName" class="control-label"><g:message code="participant.familyName.label" default="Family Name" /><span class="required-indicator">*</span></label>
+                        <label for="familyName" class="control-label"><g:message code="participant.familyName.label" default="Family Name" /></label>
                         <div>
-                            <g:textField class="form-control" name="familyName" value="${participantInstance?.familyName}" required=""/>
+                            <g:textField class="form-control" name="familyName" value="${participantInstance?.familyName}" />
                             <span class="help-inline">${hasErrors(bean: participantInstance, field: 'familyName', 'error')}</span>
                         </div>
                     </div>
@@ -14,9 +14,9 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: participantInstance, field: 'givenName', 'error')} ">
-                        <label for="givenName" class="control-label"><g:message code="participant.givenName.label" default="Given Name" /><span class="required-indicator">*</span></label>
+                        <label for="givenName" class="control-label"><g:message code="participant.givenName.label" default="Given Name" /></label>
                         <div>
-                            <g:textField class="form-control" name="givenName" value="${participantInstance?.givenName}" required=""/>
+                            <g:textField class="form-control" name="givenName" value="${participantInstance?.givenName}" />
                             <span class="help-inline">${hasErrors(bean: participantInstance, field: 'givenName', 'error')}</span>
                         </div>
                     </div>
@@ -34,9 +34,9 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: participantInstance, field: 'gender', 'error')} ">
-                        <label for="gender" class="control-label"><g:message code="participant.gender.label" default="Gender" /><span class="required-indicator">*</span></label>
+                        <label for="gender" class="control-label"><g:message code="participant.gender.label" default="Gender" /></label>
                         <div>
-                            <g:select class="form-control" name="gender" from="${participantInstance.constraints.gender.inList}" value="${participantInstance?.gender}" valueMessagePrefix="participant.gender" required=""/>
+                            <g:select class="form-control" name="gender" from="${participantInstance.constraints.gender.inList}" value="${participantInstance?.gender}" valueMessagePrefix="participant.gender"  noSelection="['':'- Choose gender -']"/>
                             <span class="help-inline">${hasErrors(bean: participantInstance, field: 'gender', 'error')}</span>
                         </div>
                     </div>
@@ -44,9 +44,9 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: participantInstance, field: 'nHSNumber', 'error')} ">
-                        <label for="nHSNumber" class="control-label"><g:message code="participant.nHSNumber.label" default="NHS Number" /><span class="required-indicator">*</span></label>
+                        <label for="nHSNumber" class="control-label"><g:message code="participant.nHSNumber.label" default="NHS Number" /></label>
                         <div>
-                            <g:textField class="form-control" name="nHSNumber" value="${participantInstance?.nHSNumber}" required=""/>
+                            <g:textField class="form-control" name="nHSNumber" value="${participantInstance?.nHSNumber}" />
                             <span class="help-inline">${hasErrors(bean: participantInstance, field: 'nHSNumber', 'error')}</span>
                         </div>
                     </div>
@@ -64,9 +64,9 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: participantInstance, field: 'diagnosis', 'error')} required">
-                        <label for="diagnosis" class="control-label"><g:message code="participant.diagnosis.label" default="Diagnosis" /><span class="required-indicator">*</span></label>
+                        <label for="diagnosis" class="control-label"><g:message code="participant.diagnosis.label" default="Diagnosis" /></label>
                         <div>
-                            <g:select class="form-control" id="diagnosis" name="diagnosis.id" from="${geldb.ICD10.list()}" optionKey="id" required="" value="${participantInstance?.diagnosis?.id}" />
+                            <g:select class="form-control" id="diagnosis" name="diagnosis.id" from="${geldb.ICD10.list()}" optionKey="id"  value="${participantInstance?.diagnosis?.id}" noSelection="['':'- Choose diagnosis -']"/>
                             <span class="help-inline">${hasErrors(bean: participantInstance, field: 'diagnosis', 'error')}</span>
                         </div>
                     </div>

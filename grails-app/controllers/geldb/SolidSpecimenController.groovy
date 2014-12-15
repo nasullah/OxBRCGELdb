@@ -17,12 +17,12 @@ class SolidSpecimenController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond SolidSpecimen.list(params), model: [solidSpecimenInstanceCount: SolidSpecimen.count()]
+        respond SolidSpecimen.findAllByExhausted(false, params.max ), model: [solidSpecimenInstanceCount: SolidSpecimen.count()]
     }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [solidSpecimenInstanceList: SolidSpecimen.list(params), solidSpecimenInstanceTotal: SolidSpecimen.count()]
+        [solidSpecimenInstanceList: SolidSpecimen.findAllByExhausted(false, params.max ), solidSpecimenInstanceTotal: SolidSpecimen.count()]
     }
     def filterPaneService
 
@@ -35,17 +35,13 @@ class SolidSpecimenController {
 
     def findParticipantByGeLId() {
         def gelId= params.search
-
         List <Participant> listParticipantByGeLId = Participant.createCriteria().listDistinct{
             studySubject {
                 eq('studySubjectIdentifier',gelId)
             }
         }
-        if (listParticipantByGeLId){
+        if (!listParticipantByGeLId.empty){
             render(template: "participantList",  model: [listParticipantByGeLId: listParticipantByGeLId])
-        }
-        else {
-            flash.message = "Patient with ${gelId} doesn't exist"
         }
     }
 

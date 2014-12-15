@@ -32,6 +32,47 @@ class PositionController {
         respond new Position(params)
     }
 
+    def findSampleByGeLId() {
+        def gelId = params.search
+        def sampleType = params.selectType
+        if (sampleType == "Fluid Specimen"){
+            def listSampleByGeLId = FluidSpecimen.where{
+                participant.studySubject.studySubjectIdentifier == gelId
+            }.findAll()
+            if (!listSampleByGeLId.empty){
+                render(template: "samples",  model: [listSampleByGeLId: listSampleByGeLId])
+            }
+        } else if (sampleType == "Solid Specimen"){
+            def listSampleByGeLId = SolidSpecimen.where{
+                participant.studySubject.studySubjectIdentifier == gelId
+            }.findAll()
+            if (!listSampleByGeLId.empty){
+                render(template: "samples",  model: [listSampleByGeLId: listSampleByGeLId])
+            }
+        }else if (sampleType == "Aliquot"){
+            def listSampleByGeLId = Aliquot.where{
+                specimen.participant.studySubject.studySubjectIdentifier == gelId
+            }.findAll()
+            if (!listSampleByGeLId.empty){
+                render(template: "samples",  model: [listSampleByGeLId: listSampleByGeLId])
+            }
+        }else if (sampleType == "DNA Extract"){
+            def listSampleByGeLId = DNA_Extract.where{
+                aliquot.specimen.participant.studySubject.studySubjectIdentifier == gelId
+            }.findAll()
+            if (!listSampleByGeLId.empty){
+                render(template: "samples",  model: [listSampleByGeLId: listSampleByGeLId])
+            }
+        }else if (sampleType == "DNA Library"){
+            def listSampleByGeLId = DNA_Library.where{
+                na_extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier == gelId
+            }.findAll()
+            if (!listSampleByGeLId.empty){
+                render(template: "samples",  model: [listSampleByGeLId: listSampleByGeLId])
+            }
+        }
+    }
+
     @Transactional
     def save(Position positionInstance) {
         if (positionInstance == null) {
@@ -39,12 +80,20 @@ class PositionController {
             return
         }
 
+
         if (positionInstance.hasErrors()) {
             respond positionInstance.errors, view: 'create'
             return
         }
+        Integer paramValue = params.int('identifiedSample.id')
+        print(paramValue)
+        def sample =IdentifiedSample.findById(paramValue)
+        //positionInstance.save flush: true
 
-        positionInstance.save flush: true
+        positionInstance.addToContainedSamples(sample).save flush: true
+
+
+
 
         request.withFormat {
             form {

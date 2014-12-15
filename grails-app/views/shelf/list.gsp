@@ -19,7 +19,7 @@
 			
 				<th><g:message code="shelf.freezer.label" default="Freezer" /></th>
 			
-				<g:sortableColumn property="shelfName" title="${message(code: 'shelf.shelfName.label', default: 'Shelf Name')}" />
+				<g:sortableColumn property="shelfName" title="${message(code: 'shelf.shelfName.label', default: 'Shelf/Tower Name')}" />
 			
 			</tr>
 		</thead>

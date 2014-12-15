@@ -33,12 +33,9 @@ class LaneController {
 
         def listDNALibraryByGeLId = DNA_Library.where{
          na_extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier == gelId
-        }.findAll()
-        if (listDNALibraryByGeLId){
+        }.findAllByExhausted(false)
+        if (!listDNALibraryByGeLId.empty){
             render(template: "listDNALibraryList",  model: [listDNALibraryByGeLId: listDNALibraryByGeLId])
-        }
-        else {
-            flash.message = "DNA Library with ${gelId} doesn't exist"
         }
     }
 

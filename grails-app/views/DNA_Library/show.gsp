@@ -106,6 +106,13 @@
 				
 			</tr>
 
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Library.barcode.label" default="Barcode" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_LibraryInstance, field: "barcode")}</td>
+
+            </tr>
+
             <g:if test="${DNA_LibraryInstance.lane}">
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="DNA_Library.lane.label" default="Lane" /></td>
@@ -144,6 +151,22 @@
 
                 </tr>
             </g:if>
+
+            <tr class="prop">
+                <td valign="top" class="name"> Dispatched</td>
+
+                <td valign="top" style="text-align: left;" class="value">
+                    <% def dispatchItem = DispatchItem?.listOrderById() %>
+                    <ul>
+                        <g:each in="${dispatchItem}" var="item">
+                            <g:if test="${item.identifiedSample.id == DNA_LibraryInstance.id}">
+                                <li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>
+                            </g:if>
+                        </g:each>
+                    </ul>
+                </td>
+
+            </tr>
 		
 		</tbody>
 	</table>
@@ -153,9 +176,9 @@
 
 <p class="text-primary">Available Action</p>
 
-<g:if test="${!DNA_LibraryInstance.position}">
-    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': DNA_LibraryInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
-</g:if>
+%{--<g:if test="${!DNA_LibraryInstance.position}">--}%
+    %{--<a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': DNA_LibraryInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>--}%
+%{--</g:if>--}%
 
 <hr style="border:1; height:1px" />
 

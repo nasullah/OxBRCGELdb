@@ -17,14 +17,11 @@
 	<table class="table table-bordered margin-top-medium">
         <thead>
         <tr>
+            <g:sortableColumn property="hospitalNumber" title="${message(code: 'participant.hospitalNumber.label', default: 'Hospital Number')}" />
 
             <g:sortableColumn property="familyName" title="${message(code: 'participant.familyName.label', default: 'Family Name')}" />
 
             <g:sortableColumn property="givenName" title="${message(code: 'participant.givenName.label', default: 'Given Name')}" />
-
-            <g:sortableColumn property="dateOfBirth" title="${message(code: 'participant.dateOfBirth.label', default: 'Date of Birth')}" />
-
-            <g:sortableColumn property="nHSNumber" title="${message(code: 'participant.nHSNumber.label', default: 'NHS Number')}" />
 
             <g:sortableColumn property="centre" title="${message(code: 'participant.centre.label', default: 'Centre')}" />
 
@@ -36,13 +33,11 @@
         <g:each in="${participantInstanceList}" status="i" var="participantInstance">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-                <td><g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantInstance, field: "familyName")}</g:link></td>
+                <td><g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantInstance, field: "hospitalNumber")}</g:link></td>
+
+                <td>${fieldValue(bean: participantInstance, field: "familyName")}</td>
 
                 <td>${fieldValue(bean: participantInstance, field: "givenName")}</td>
-
-                <td><g:formatDate format="dd/MM/yyyy" date="${participantInstance.dateOfBirth}" /></td>
-
-                <td>${fieldValue(bean: participantInstance, field: "nHSNumber")}</td>
 
                 <td>${fieldValue(bean: participantInstance, field: "centre")}</td>
 

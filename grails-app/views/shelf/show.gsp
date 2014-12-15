@@ -24,7 +24,7 @@
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="shelf.shelfName.label" default="Shelf Name" /></td>
+				<td valign="top" class="name"><g:message code="shelf.shelfName.label" default="Shelf/Tower Name" /></td>
 				
 				<td valign="top" class="value">${fieldValue(bean: shelfInstance, field: "shelfName")}</td>
 				

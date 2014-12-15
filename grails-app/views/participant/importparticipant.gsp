@@ -13,7 +13,6 @@
 <hr style="border:1; height:1px" />
 
 <div class="row">
-
     <div class="col-lg-6">
         <g:form controller="participant" action="getJson">
         <div class="input-group">

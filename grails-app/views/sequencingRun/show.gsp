@@ -62,9 +62,7 @@
 
 <p class="text-primary">Available Actions</p>
 
-<g:if test="${sequencingRunInstance.loadedFlowCell.size() <= 1}">
-    <a class='btn btn-primary btn-small' <g:link controller="flowCell" action="create" params="['sequencingRun.id': sequencingRunInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'flowCell.label', default: 'Flow Cell')])}</g:link>
-</g:if>
+<a class='btn btn-primary btn-small' <g:link controller="flowCell" action="create" params="['sequencingRun.id': sequencingRunInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'flowCell.label', default: 'Flow Cell')])}</g:link>
 
 <g:if test="${sequencingRunInstance?.sequencingReports ==null}">
     <a class='btn btn-primary btn-small' <g:link controller="sequencingReports" action="create" params="['sequencingRun.id': sequencingRunInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'sequencingReports.label', default: 'Sequencing Reports')])}</g:link>

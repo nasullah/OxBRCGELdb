@@ -1,5 +1,5 @@
 
-<%@ page import="geldb.FluidSpecimen" %>
+<%@ page import="geldb.IdentifiedSample; geldb.DispatchItem; geldb.FluidSpecimen" %>
 <!DOCTYPE html>
 <html>
 
@@ -115,6 +115,13 @@
 				
 			</tr>
 
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="fluidSpecimen.barcode.label" default="Barcode" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "barcode")}</td>
+
+            </tr>
+
             <g:if test="${fluidSpecimenInstance.postmortem}">
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="fluidSpecimen.postmortem.label" default="Postmortem" /></td>
@@ -162,6 +169,22 @@
 
                 </tr>
             </g:if>
+
+            <tr class="prop">
+                <td valign="top" class="name"> Dispatched</td>
+
+                <td valign="top" style="text-align: left;" class="value">
+                    <% def dispatchItem = DispatchItem?.listOrderById() %>
+                    <ul>
+                        <g:each in="${dispatchItem}" var="item">
+                            <g:if test="${item.identifiedSample.id == fluidSpecimenInstance.id}">
+                                <li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>
+                            </g:if>
+                        </g:each>
+                    </ul>
+                </td>
+
+            </tr>
 		
 		</tbody>
 	</table>
@@ -175,9 +198,9 @@
     <a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['specimen.id': fluidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>
 </g:if>
 
-<g:if test="${!fluidSpecimenInstance.position && !fluidSpecimenInstance.exhausted }">
-    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': fluidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
-</g:if>
+%{--<g:if test="${!fluidSpecimenInstance.position && !fluidSpecimenInstance.exhausted }">--}%
+    %{--<a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['test': fluidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>--}%
+%{--</g:if>--}%
 
 <hr style="border:1; height:1px" />
 </body>

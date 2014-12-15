@@ -32,9 +32,14 @@
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="studySubject.studySubjectIdentifier.label" default="Study Subject Identifier" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "studySubjectIdentifier")}</td>
-				
+
+                <g:if test="${studySubjectInstance.studySubjectIdentifier}">
+                    <td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "studySubjectIdentifier")}</td>
+                </g:if>
+                <g:else>
+                    <td valign="top" class="value"><p class="text-danger">Please enter GeL ID by clicking the Edit Study Subject button</p></td>
+                </g:else>
+
 			</tr>
 
 

@@ -1,6 +1,5 @@
 
 <%@ page import="geldb.Derivation" %>
-<%@ page import="geldb.FixationReport" %>
 <%@ page import="geldb.Centrifugation" %>
 
 <!DOCTYPE html>
@@ -72,29 +71,7 @@
                         </g:each>
                     </ul>
                 </td>
-                %{--<td valign="top" style="text-align: left;" class="value">--}%
-                    %{--<% def fixationReport = FixationReport.listOrderById() %>--}%
-                    %{--<% def centrifugation = Centrifugation.listOrderById() %>--}%
 
-                    %{--<ul>--}%
-                        %{--<g:each in="${fixationReport}" var="item">--}%
-                            %{--<g:each in="${derivationInstance.report}" var="s">--}%
-                                %{--<g:if test="${item.id ==s.id}">--}%
-                                    %{--<li><g:link controller="fixationReport" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>--}%
-                                %{--</g:if>--}%
-                            %{--</g:each>--}%
-                        %{--</g:each>--}%
-                    %{--</ul>--}%
-                    %{--<ul>--}%
-                        %{--<g:each in="${centrifugation}" var="item">--}%
-                            %{--<g:each in="${derivationInstance.report}" var="s">--}%
-                                %{--<g:if test="${item.id ==s.id}">--}%
-                                    %{--<li><g:link controller="centrifugation" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>--}%
-                                %{--</g:if>--}%
-                            %{--</g:each>--}%
-                        %{--</g:each>--}%
-                    %{--</ul>--}%
-                %{--</td>--}%
 			</tr>
 		
 			<tr class="prop">
@@ -121,7 +98,6 @@
 <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['derivedFrom.id': derivationInstance?.id, 'specimen': derivationInstance.aliquot?.specimen?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot Made From Derivation')])}</g:link>
 
 <g:if test="${!derivationInstance.centrifugation}">
-    <a class='btn btn-primary btn-small' <g:link controller="fixationReport" action="create" params="['derivation.id': derivationInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Fixation Report')])}</g:link>
     <a class='btn btn-primary btn-small' <g:link controller="centrifugation" action="create" params="['derivation.id': derivationInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'centrifugation.label', default: 'Centrifugation Report')])}</g:link>
 </g:if>
 
