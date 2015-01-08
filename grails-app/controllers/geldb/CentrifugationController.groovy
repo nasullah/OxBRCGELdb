@@ -32,6 +32,10 @@ class CentrifugationController {
         respond new Centrifugation(params)
     }
 
+    def secondCentrifugation(){
+        render(template: "secondCentrifugation")
+    }
+
     @Transactional
     def save(Centrifugation centrifugationInstance) {
         if (centrifugationInstance == null) {

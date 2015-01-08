@@ -106,16 +106,6 @@
 		</tbody>
 	</table>
 </section>
-<g:if test="${secondCentrifugation ==null}">
-    <hr style="border:1; height:1px" />
-    <div class="one-to-many">
-
-
-        <div><a class='btn btn-primary btn-small' <g:link controller="centrifugation" action="edit" id="${centrifugationInstance?.id}">${message(code: 'default.add.label', args: [message(code: 'SampleAcquisition.label', default: 'Add Second Centrifugation')])}</g:link>
-        </a></div>
-    </div>
-    <hr style="border:1; height:1px" />
-</g:if>
 </body>
 
 </html>

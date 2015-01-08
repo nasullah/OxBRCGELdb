@@ -32,12 +32,9 @@
                 </div>
             </div>
 
-			<div class="${hasErrors(bean: laneInstance, field: 'loadedLibrary', 'error')} ">
-				<label for="loadedLibrary" class="control-label"><g:message code="lane.loadedLibrary.label" default="Loaded Library" /><span class="required-indicator">*</span></label>
-                <div id="selectDNALibrary">
-                    <g:select class=""  name="1" from="${''}" optionKey="" value="${''}" required=""/>
-                </div>
-			</div>
+            <p>
+
+            <div id="selectDNALibrary"></div>
 
             <div class="modal fade" id="notFound">
                 <div class="modal-dialog" style="position: absolute; left: 0%;">

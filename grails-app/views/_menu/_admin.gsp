@@ -3,7 +3,7 @@
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: white">
             <i class="glyphicon glyphicon-cog white"></i>
-            Administration
+            Administration <b class="caret"></b>
         </a>
 
         <ul class="dropdown-menu" style="height: auto; max-height: 350px; overflow-x: hidden;">
@@ -58,7 +58,7 @@
             </li>
 
             <li class="">
-                <a href="${createLink(uri: '/AnatomicalSite')}">
+                <a href="${createLink(uri: '/anatomicalSite')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Anatomical Site
                 </a>
@@ -79,14 +79,14 @@
             </li>
 
             <li class="">
-                <a href="${createLink(uri: '/CollectionMethod')}">
+                <a href="${createLink(uri: '/collectionMethod')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Collection Method
                 </a>
             </li>
 
             <li class="">
-                <a href="${createLink(uri: '/Destination')}">
+                <a href="${createLink(uri: '/destination')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Destination
                 </a>
@@ -96,13 +96,6 @@
                 <a href="${createLink(uri: '/DNAExtractionStatus')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add DNA Extraction Status
-                </a>
-            </li>
-
-            <li class="">
-                <a href="${createLink(uri: '/period')}">
-                    <i class="glyphicon glyphicon-plus-sign"></i>
-                    Add Fixation Period
                 </a>
             </li>
 
@@ -135,14 +128,14 @@
             </li>
 
             <li class="">
-                <a href="${createLink(uri: '/SampleTrackingEventType')}">
+                <a href="${createLink(uri: '/sampleTrackingEventType')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Sample Tracking Event Type
                 </a>
             </li>
 
             <li class="">
-                <a href="${createLink(uri: '/SampleType')}">
+                <a href="${createLink(uri: '/sampleType')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Sample Type
                 </a>
@@ -170,14 +163,14 @@
             </li>
 
             <li class="">
-                <a href="${createLink(uri: '/TumourLocation')}">
+                <a href="${createLink(uri: '/tumourLocation')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Tumour Location
                 </a>
             </li>
 
             <li class="">
-                <a href="${createLink(uri: '/TumourType')}">
+                <a href="${createLink(uri: '/tumourType')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Tumour Type
                 </a>

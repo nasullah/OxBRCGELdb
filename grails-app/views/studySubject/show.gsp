@@ -53,8 +53,12 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="studySubject.consentStatus.label" default="Consent Status" /></td>
 				
-				<td valign="top" class="value"><g:formatBoolean boolean="${studySubjectInstance?.consentStatus}" /></td>
-				
+                <g:if test="${studySubjectInstance.consentStatus == null}">
+                    <td valign="top" class="value"><p class="text-danger">Not completed</p></td>
+                </g:if>
+                <g:else >
+                    <td valign="top" class="value"><g:formatBoolean boolean="${studySubjectInstance?.consentStatus}" true="Yes" false="No"/></td>
+                </g:else>
 			</tr>
 		
 			<tr class="prop">

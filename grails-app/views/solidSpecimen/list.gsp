@@ -5,7 +5,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'solidSpecimen.label', default: 'Solid Specimen')}" />
+	<g:set var="entityName" value="${message(code: 'solidSpecimen.label', default: 'Main Specimen')}" />
 	<title><g:message code="default.list.label" args="[entityName]" /></title>
     <r:require module="filterpane" />
 </head>
@@ -20,9 +20,9 @@
 
             <g:sortableColumn property="sapphireIdentifier" title="${message(code: 'solidSpecimen.histologyNumber.label', default: 'Histology Number')}" />
 
-            <g:sortableColumn property="passFail" title="${message(code: 'solidSpecimen.passFail.label', default: 'Pass Fail')}" />
+            <g:sortableColumn property="anatomicalSite" title="${message(code: 'solidSpecimen.anatomicalSite.label', default: 'Anatomical Site')}" />
 
-            <g:sortableColumn property="passFailReason" title="${message(code: 'solidSpecimen.passFailReason.label', default: 'Pass Fail Reason')}" />
+            <g:sortableColumn property="pathologist" title="${message(code: 'solidSpecimen.pathologist.label', default: 'Reporting Pathologist')}" />
 
             <g:sortableColumn property="solidSpecimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'solidSpecimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
 
@@ -34,9 +34,9 @@
 
                 <td><g:link action="show" id="${solidSpecimenInstance.id}">${fieldValue(bean: solidSpecimenInstance, field: "histologyNumber")}</g:link></td>
 
-                <td><g:formatBoolean boolean="${solidSpecimenInstance.passFail}" /></td>
+                <td>${fieldValue(bean: solidSpecimenInstance, field: "anatomicalSite")}</td>
 
-                <td>${fieldValue(bean: solidSpecimenInstance, field: "passFailReason")}</td>
+                <td>${fieldValue(bean: solidSpecimenInstance, field: "pathologist")}</td>
 
                 <td>${fieldValue(bean: solidSpecimenInstance.participant.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
 

@@ -53,10 +53,17 @@ class ParticipantController {
         def lastCompleted = new Date()
         def version =""
         def foundGEL = false
+        def foundORB = false
 
         results.consent.consents.each{ c->
             if(c.form.namePrefix =="GEL"){
                 foundGEL = true
+                consentFormId    = c.consentFormId
+                consentTakerName = c.consentTakerName
+                lastCompleted    = c.lastCompleted
+                version          = c.form.version
+            } else if(c.form.namePrefix =="GEN"){
+                foundORB = true
                 consentFormId    = c.consentFormId
                 consentTakerName = c.consentTakerName
                 lastCompleted    = c.lastCompleted
@@ -85,7 +92,19 @@ class ParticipantController {
                         recruitedBy:consentTakerName, consentFormVersion: version)
                 participantInstance.addToStudySubject(studySubjectInstance).save(failOnError: true)
                 redirect(action: "show", id: participantInstance.id)
+        }else if (foundORB && !existingParticipant){
+            def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
+                    dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
+
+            def studySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('ORB Study'), studySubjectIdentifier: null, consentStatus: Boolean.TRUE, recruitmentDate: lastCompleted,
+                    recruitedBy:consentTakerName, consentFormVersion: version)
+            participantInstance.addToStudySubject(studySubjectInstance).save(failOnError: true)
+            redirect(action: "show", id: participantInstance.id)
+        } else{
+            flash.message = "Patient with NHS number ${nhsNumber} doesn't have any consent form"
+            redirect(uri: '/importparticipant')
         }
+    }
 
 //            def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
 //                    dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
@@ -95,12 +114,7 @@ class ParticipantController {
 //            participantInstance.addToStudySubject(studySubjectInstance).save(failOnError: true)
 //            redirect(action: "show", id: participantInstance.id)
 
-        //find the patient but it does not have GEL form
-        else{
-            flash.message = "Patient with NHS number ${nhsNumber} doesn't have any GEL consent form"
-            redirect(uri: '/importparticipant')
-        }
-    }
+    //find the patient but it does not have GEL form
 
     def listBloodFollowUp() {
 

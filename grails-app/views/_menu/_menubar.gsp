@@ -12,7 +12,7 @@
         </li>
 
         <li>
-            <g:link controller="SolidSpecimen" action="index">Solid Specimen</g:link>
+            <g:link controller="SolidSpecimen" action="index">Main Specimen</g:link>
         </li>
 
         <li>
@@ -31,16 +31,25 @@
             <g:link controller="SequencingRun" action="index">Sequencing Run</g:link>
         </li>
 
-        <li>
-            <g:link controller="SampleTrackingEvent" action="index">Sample Tracking</g:link>
-        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                More  <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
 
-        <li>
-            <g:link controller="position" action="index">Position</g:link>
-        </li>
+                <li>
+                    <g:link controller="dispatchRecord" action="index">Sample Dispatch</g:link>
+                </li>
 
-        <li>
-            <g:link controller="dispatchRecord" action="index">Dispatch</g:link>
+                <li>
+                    <g:link controller="position" action="index">Sample Position</g:link>
+                </li>
+
+                <li>
+                    <g:link controller="SampleTrackingEvent" action="index">Sample Tracking</g:link>
+                </li>
+
+            </ul>
         </li>
 
     </ul>

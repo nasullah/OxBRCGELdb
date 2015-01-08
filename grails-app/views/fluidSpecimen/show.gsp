@@ -38,26 +38,44 @@
 
             </tr>
 
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="fluidSpecimen.barcode.label" default="Barcode" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "barcode")}</td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="fluidSpecimen.timePoint.label" default="Time Point" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "timePoint")}</td>
+
+            </tr>
+
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.exhausted.label" default="Exhausted" /></td>
 				
-				<td valign="top" class="value"><g:formatBoolean boolean="${fluidSpecimenInstance?.exhausted}" /></td>
-				
+                <g:if test="${fluidSpecimenInstance.exhausted == null}">
+                    <td valign="top" class="value"><p class="text-danger">Not completed</p></td>
+                </g:if>
+                <g:else >
+                    <td valign="top" class="value"><g:formatBoolean boolean="${fluidSpecimenInstance?.exhausted}" true="Yes" false="No"/></td>
+                </g:else>
 			</tr>
 		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.passFail.label" default="Pass Fail" /></td>
-				
-				<td valign="top" class="value"><g:formatBoolean boolean="${fluidSpecimenInstance?.passFail}" /></td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.passFailReason.label" default="Pass Fail Reason" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "passFailReason")}</td>
-				
-			</tr>
+			%{--<tr class="prop">--}%
+				%{--<td valign="top" class="name"><g:message code="fluidSpecimen.passFail.label" default="Pass/Fail" /></td>--}%
+				%{----}%
+				%{--<td valign="top" class="value"><g:formatBoolean boolean="${fluidSpecimenInstance?.passFail}" true="Pass" false="Fail"/></td>--}%
+				%{----}%
+			%{--</tr>--}%
+		%{----}%
+			%{--<tr class="prop">--}%
+				%{--<td valign="top" class="name"><g:message code="fluidSpecimen.passFailReason.label" default="Pass Fail Reason" /></td>--}%
+				%{----}%
+				%{--<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "passFailReason")}</td>--}%
+				%{----}%
+			%{--</tr>--}%
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.notes.label" default="Notes" /></td>
@@ -94,12 +112,12 @@
 				
 			</tr>
 		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fluidSpecimen.preparedBy.label" default="Prepared By" /></td>
-				
-				<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${fluidSpecimenInstance?.preparedBy?.id}">${fluidSpecimenInstance?.preparedBy?.encodeAsHTML()}</g:link></td>
-				
-			</tr>
+			%{--<tr class="prop">--}%
+				%{--<td valign="top" class="name"><g:message code="fluidSpecimen.preparedBy.label" default="Prepared By" /></td>--}%
+				%{----}%
+				%{--<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${fluidSpecimenInstance?.preparedBy?.id}">${fluidSpecimenInstance?.preparedBy?.encodeAsHTML()}</g:link></td>--}%
+				%{----}%
+			%{--</tr>--}%
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.fluidSpecimenVolume.label" default="Fluid Specimen Volume" /></td>
@@ -114,13 +132,6 @@
 				<td valign="top" class="value"><g:link controller="units" action="show" id="${fluidSpecimenInstance?.volumeUnit?.id}">${fluidSpecimenInstance?.volumeUnit?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
-
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="fluidSpecimen.barcode.label" default="Barcode" /></td>
-
-                <td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "barcode")}</td>
-
-            </tr>
 
             <g:if test="${fluidSpecimenInstance.postmortem}">
                 <tr class="prop">

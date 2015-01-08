@@ -32,14 +32,14 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Library.exhausted.label" default="Exhausted" /></td>
 				
-				<td valign="top" class="value"><g:formatBoolean boolean="${DNA_LibraryInstance?.exhausted}" /></td>
+				<td valign="top" class="value"><g:formatBoolean boolean="${DNA_LibraryInstance?.exhausted}" true="Yes" false="No"/></td>
 				
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Library.passFail.label" default="Pass Fail" /></td>
+				<td valign="top" class="name"><g:message code="DNA_Library.passFail.label" default="Pass/Fail" /></td>
 				
-				<td valign="top" class="value"><g:formatBoolean boolean="${DNA_LibraryInstance?.passFail}" /></td>
+				<td valign="top" class="value"><g:formatBoolean boolean="${DNA_LibraryInstance?.passFail}" true="Pass" false="Fail"/></td>
 				
 			</tr>
 		
@@ -171,16 +171,6 @@
 		</tbody>
 	</table>
 </section>
-
-<hr style="border:1; height:1px" />
-
-<p class="text-primary">Available Action</p>
-
-%{--<g:if test="${!DNA_LibraryInstance.position}">--}%
-    %{--<a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': DNA_LibraryInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>--}%
-%{--</g:if>--}%
-
-<hr style="border:1; height:1px" />
 
 </body>
 

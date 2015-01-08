@@ -66,7 +66,7 @@
                     <div class="${hasErrors(bean: participantInstance, field: 'diagnosis', 'error')} required">
                         <label for="diagnosis" class="control-label"><g:message code="participant.diagnosis.label" default="Diagnosis" /></label>
                         <div>
-                            <g:select class="form-control" id="diagnosis" name="diagnosis.id" from="${geldb.ICD10.list()}" optionKey="id"  value="${participantInstance?.diagnosis?.id}" noSelection="['':'- Choose diagnosis -']"/>
+                            <g:select class="form-control" id="diagnosis" name="diagnosis.id" from="${geldb.ICD10.list().sort()}" optionKey="id"  value="${participantInstance?.diagnosis?.id}" noSelection="['':'- Choose diagnosis -']"/>
                             <span class="help-inline">${hasErrors(bean: participantInstance, field: 'diagnosis', 'error')}</span>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                     <div class="${hasErrors(bean: participantInstance, field: 'centre', 'error')} required">
                         <label for="centre" class="control-label"><g:message code="participant.centre.label" default="Centre" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="centre" name="centre.id" from="${geldb.Centre.list()}" optionKey="id" required="" value="${participantInstance?.centre?.id}" />
+                            <g:select class="form-control" id="centre" name="centre.id" from="${geldb.Centre.list().sort()}" optionKey="id" required="" value="${participantInstance?.centre?.id}" />
                             <span class="help-inline">${hasErrors(bean: participantInstance, field: 'centre', 'error')}</span>
                         </div>
                     </div>

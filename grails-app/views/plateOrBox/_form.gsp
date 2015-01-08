@@ -2,7 +2,7 @@
 
 
             <div class="${hasErrors(bean: plateOrBoxInstance, field: 'shelf', 'error')} required">
-                <label for="shelf" class="control-label"><g:message code="plateOrBox.shelf.label" default="Shelf" /><span class="required-indicator">*</span></label>
+                <label for="shelf" class="control-label"><g:message code="plateOrBox.shelf.label" default="Shelf/Tower" /><span class="required-indicator">*</span></label>
                 <div>
                     <g:select class="form-control" id="shelf" name="shelf.id" from="${geldb.Shelf.list()}" optionKey="id" required="" value="${plateOrBoxInstance?.shelf?.id}" class="many-to-one"/>
                     <span class="help-inline">${hasErrors(bean: plateOrBoxInstance, field: 'shelf', 'error')}</span>

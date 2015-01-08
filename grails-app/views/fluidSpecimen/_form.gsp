@@ -14,19 +14,16 @@
                 </div>
             </div>
 
-            <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'participant', 'error')} required">
-                <label for="participant" class="control-label"><g:message code="fluidSpecimen.participant.label" default="Participant" /><span class="required-indicator">*</span></label>
-                <div id="selectParticipant">
-                    <g:select class=""  name="1" from="${''}" optionKey="" value="${''}" required=""/>
-                </div>
-            </div>
+            <p>
+
+            <div id="selectParticipant"></div>
 
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'fluidSampleType', 'error')} required">
                         <label for="fluidSampleType" class="control-label"><g:message code="fluidSpecimen.fluidSampleType.label" default="Fluid Sample Type" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" name="fluidSampleType" from="${geldb.FluidSampleType?.values()}" keys="${geldb.FluidSampleType.values()*.name()}" required="" value="${fluidSpecimenInstance?.fluidSampleType?.name()}"/>
+                            <g:select class="form-control" name="fluidSampleType" from="${geldb.FluidSampleType?.values()?.sort()}" keys="${geldb.FluidSampleType.values()*.name()}" required="" value="${fluidSpecimenInstance?.fluidSampleType?.name()}" noSelection="['':'- Choose -']" />
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'fluidSampleType', 'error')}</span>
                         </div>
                     </div>
@@ -34,38 +31,44 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'primaryContainer', 'error')} ">
-                        <label for="primaryContainer" class="control-label"><g:message code="fluidSpecimen.primaryContainer.label" default="Primary Container" /></label>
+                        <label for="primaryContainer" class="control-label"><g:message code="fluidSpecimen.primaryContainer.label" default="Primary Container" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" name="primaryContainer" from="${geldb.PrimaryContainerType?.values()}" keys="${geldb.PrimaryContainerType.values()*.name()}" value="${fluidSpecimenInstance?.primaryContainer?.name()}" noSelection="['':'- Choose Primary Container -']"/>
+                            <g:select class="form-control" name="primaryContainer" from="${geldb.PrimaryContainerType?.values()?.sort()}" keys="${geldb.PrimaryContainerType.values()*.name()}" value="${fluidSpecimenInstance?.primaryContainer?.name()}" required="" noSelection="['':'- Choose -']" />
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'primaryContainer', 'error')}</span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-			<div class="${hasErrors(bean: fluidSpecimenInstance, field: 'exhausted', 'error')} ">
-				<label for="exhausted" class="control-label"><g:message code="fluidSpecimen.exhausted.label" default="Exhausted" /></label>
-				<div>
-					<bs:checkBox name="exhausted" value="${fluidSpecimenInstance?.exhausted}" />
-					<span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'exhausted', 'error')}</span>
-				</div>
-			</div>
-
-			<div class="${hasErrors(bean: fluidSpecimenInstance, field: 'passFail', 'error')} ">
-				<label for="passFail" class="control-label"><g:message code="fluidSpecimen.passFail.label" default="Pass Fail" /></label>
-				<div>
-					<bs:checkBox name="passFail" value="${fluidSpecimenInstance?.passFail}" />
-					<span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'passFail', 'error')}</span>
-				</div>
-			</div>
-
-            <div class="row">
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'passFailReason', 'error')} ">
-                        <label for="passFailReason" class="control-label"><g:message code="fluidSpecimen.passFailReason.label" default="Pass Fail Reason" /></label>
+                    <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'barcode', 'error')} ">
+                        <label for="barcode" class="control-label"><g:message code="fluidSpecimen.barcode.label" default="Barcode (where available)" /></label>
                         <div>
-                            <g:textArea class="form-control" name="passFailReason" cols="40" rows="5" value="${fluidSpecimenInstance?.passFailReason}"/>
-                            <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'passFailReason', 'error')}</span>
+                            <g:textField class="form-control" name="barcode" value="${fluidSpecimenInstance?.barcode}"/>
+                            <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'barcode', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'timePoint', 'error')} ">
+                        <label for="timePoint" class="control-label"><g:message code="fluidSpecimen.gender.label" default="Time Point" /></label>
+                        <div>
+                            <g:select class="form-control" name="timePoint" from="${fluidSpecimenInstance.constraints.timePoint.inList}" value="${fluidSpecimenInstance?.timePoint}" valueMessagePrefix="fluidSpecimen.timePoint"  noSelection="['':'- Choose -']"/>
+                            <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'timePoint', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'exhausted', 'error')} ">
+                        <label for="exhausted" class="control-label"><g:message code="fluidSpecimen.exhausted.label" default="Exhausted" /><span class="required-indicator">*</span></label>
+                        <div>
+                            %{--<bs:checkBox name="exhausted" value="${fluidSpecimenInstance?.exhausted}" offLabel="No" onLabel="Yes"/>--}%
+                            %{--<span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'exhausted', 'error')}</span>--}%
+
+                            <label class="radio-inline"><input type="radio" name="exhausted" value="True">Yes</label>
+                            <label class="radio-inline"><input type="radio" name="exhausted" value="False" checked="checked" >No</label>
+                            <label class="radio-inline"><input type="radio" name="exhausted" value="">Not completed</label>
                         </div>
                     </div>
                 </div>
@@ -80,6 +83,25 @@
                     </div>
                 </div>
             </div>
+
+			%{--<div class="${hasErrors(bean: fluidSpecimenInstance, field: 'passFail', 'error')} ">--}%
+				%{--<label for="passFail" class="control-label"><g:message code="fluidSpecimen.passFail.label" default="Pass/Fail" /></label>--}%
+				%{--<div>--}%
+					%{--<bs:checkBox name="passFail" value="${fluidSpecimenInstance?.passFail}" offLabel="Fail" onLabel="Pass" />--}%
+					%{--<span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'passFail', 'error')}</span>--}%
+				%{--</div>--}%
+			%{--</div>--}%
+
+                %{--<div class="col-lg-6">--}%
+                    %{--<div class="${hasErrors(bean: fluidSpecimenInstance, field: 'passFailReason', 'error')} ">--}%
+                        %{--<label for="passFailReason" class="control-label"><g:message code="fluidSpecimen.passFailReason.label" default="Pass Fail Reason" /></label>--}%
+                        %{--<div>--}%
+                            %{--<g:textArea class="form-control" name="passFailReason" cols="40" rows="5" value="${fluidSpecimenInstance?.passFailReason}"/>--}%
+                            %{--<span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'passFailReason', 'error')}</span>--}%
+                        %{--</div>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
+
 
             <div class="row">
                 <div class="col-lg-6">
@@ -104,9 +126,9 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'collectionLocation', 'error')} ">
-                        <label for="collectionLocation" class="control-label"><g:message code="fluidSpecimen.collectionLocation.label" default="Collection Location" /></label>
+                        <label for="collectionLocation" class="control-label"><g:message code="fluidSpecimen.collectionLocation.label" default="Collection Location" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="collectionLocation" name="collectionLocation.id" from="${geldb.Location.list()}" optionKey="id" value="${fluidSpecimenInstance?.collectionLocation?.id}"  noSelection="['':'- Choose Location -']"/>
+                            <g:select class="form-control" id="collectionLocation" name="collectionLocation.id" from="${geldb.Location.list().sort()}" optionKey="id" value="${fluidSpecimenInstance?.collectionLocation?.id}" required="" />
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'collectionLocation', 'error')}</span>
                         </div>
                     </div>
@@ -114,35 +136,25 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'collectedBy', 'error')} ">
-                        <label for="collectedBy" class="control-label"><g:message code="fluidSpecimen.collectedBy.label" default="Collected By" /></label>
+                        <label for="collectedBy" class="control-label"><g:message code="fluidSpecimen.collectedBy.label" default="Collected By" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="collectedBy" name="collectedBy.id" from="${geldb.StaffMember.findAllByStaffRoleOrStaffRole('Clinician','Biobanker')}"
-                                      optionKey="id" value="${fluidSpecimenInstance?.collectedBy?.id}" noSelection="['null': '']"/>
+                            <g:select class="form-control" id="collectedBy" name="collectedBy.id" from="${geldb.StaffMember.findAllByStaffRoleNotEqualAndStaffRoleNotEqual('Surgeon', 'Pathologist')}"
+                                      optionKey="id" value="${fluidSpecimenInstance?.collectedBy?.id}" required=""/>
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'collectedBy', 'error')}</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-6">
-                    <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'preparedBy', 'error')} ">
-                        <label for="preparedBy" class="control-label"><g:message code="fluidSpecimen.preparedBy.label" default="Prepared By" /></label>
-                        <div>
-                            <g:select class="form-control" id="preparedBy" name="preparedBy.id" from="${geldb.StaffMember.findAllByStaffRole('Scientist')}"
-                                      optionKey="id" value="${fluidSpecimenInstance?.preparedBy?.id}" noSelection="['null': '']"/>
-                            <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'preparedBy', 'error')}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'barcode', 'error')} ">
-                        <label for="barcode" class="control-label"><g:message code="fluidSpecimen.barcode.label" default="Barcode" /></label>
-                        <div>
-                            <g:textField class="form-control" name="barcode" value="${fluidSpecimenInstance?.barcode}"/>
-                            <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'barcode', 'error')}</span>
-                        </div>
-                    </div>
-                </div>
+                %{--<div class="col-lg-6">--}%
+                    %{--<div class="${hasErrors(bean: fluidSpecimenInstance, field: 'preparedBy', 'error')} ">--}%
+                        %{--<label for="preparedBy" class="control-label"><g:message code="fluidSpecimen.preparedBy.label" default="Prepared By" /></label>--}%
+                        %{--<div>--}%
+                            %{--<g:select class="form-control" id="preparedBy" name="preparedBy.id" from="${geldb.StaffMember.findAllByStaffRole('Scientist/Lab Technician').sort()}"--}%
+                                      %{--optionKey="id" value="${fluidSpecimenInstance?.preparedBy?.id}" noSelection="['null': '']"/>--}%
+                            %{--<span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'preparedBy', 'error')}</span>--}%
+                        %{--</div>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
             </div>
 
             <div class="row">
@@ -160,7 +172,7 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'volumeUnit', 'error')} required">
                         <label for="volumeUnit" class="control-label"><g:message code="fluidSpecimen.volumeUnit.label" default="Volume Unit" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="volumeUnit" name="volumeUnit.id" from="${geldb.Units.findAllByUnitType(UnitType.VolumeUnit)}" optionKey="id" required="" value="${fluidSpecimenInstance?.volumeUnit?.id}" />
+                            <g:select class="form-control" id="volumeUnit" name="volumeUnit.id" from="${geldb.Units.findAllByUnitType(UnitType.VolumeUnit).sort()}" optionKey="id" required="" value="${fluidSpecimenInstance?.volumeUnit?.id}" />
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'volumeUnit', 'error')}</span>
                         </div>
                     </div>

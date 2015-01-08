@@ -14,25 +14,22 @@
                 </div>
             </div>
 
-            <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'na_extract', 'error')} ">
-                <label for="na_extract" class="control-label"><g:message code="DNA_Library.na_extract.label" default="DNA Extract" /><span class="required-indicator">*</span></label>
-                <div id="selectDNAExtract">
-                    <g:select class=""  name="1" from="${''}" optionKey="" value="${''}" required=""/>
-                </div>
-            </div>
+            <p>
+
+            <div id="selectDNAExtract"></div>
 
 			<div class="${hasErrors(bean: DNA_LibraryInstance, field: 'exhausted', 'error')} ">
 				<label for="exhausted" class="control-label"><g:message code="DNA_Library.exhausted.label" default="Exhausted" /></label>
 				<div>
-					<bs:checkBox name="exhausted" value="${DNA_LibraryInstance?.exhausted}" />
+					<bs:checkBox name="exhausted" value="${DNA_LibraryInstance?.exhausted}" offLabel="No" onLabel="Yes"/>
 					<span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'exhausted', 'error')}</span>
 				</div>
 			</div>
 
 			<div class="${hasErrors(bean: DNA_LibraryInstance, field: 'passFail', 'error')} ">
-				<label for="passFail" class="control-label"><g:message code="DNA_Library.passFail.label" default="Pass Fail" /></label>
+				<label for="passFail" class="control-label"><g:message code="DNA_Library.passFail.label" default="Pass/Fail" /></label>
 				<div>
-					<bs:checkBox name="passFail" value="${DNA_LibraryInstance?.passFail}" />
+					<bs:checkBox name="passFail" value="${DNA_LibraryInstance?.passFail}" offLabel="Fail" onLabel="Pass" />
 					<span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'passFail', 'error')}</span>
 				</div>
 			</div>

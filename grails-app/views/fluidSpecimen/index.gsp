@@ -21,7 +21,7 @@
 
                 <g:sortableColumn property="collectionDate" title="${message(code: 'fluidSpecimen.collectionDate.label', default: 'Collection Date')}" />
 
-				<g:sortableColumn property="passFail" title="${message(code: 'fluidSpecimen.passFail.label', default: 'Pass Fail')}" />
+				<g:sortableColumn property="timePoint" title="${message(code: 'fluidSpecimen.timePoint.label', default: 'Time Point')}" />
 			
 				<g:sortableColumn property="fluidSpecimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'fluidSpecimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
 			
@@ -35,7 +35,7 @@
 
                 <td><g:formatDate format="yyyy-MM-dd" date="${fluidSpecimenInstance.collectionDate}" /></td>
 
-				<td><g:formatBoolean boolean="${fluidSpecimenInstance.passFail}" /></td>
+                <td>${fieldValue(bean: fluidSpecimenInstance, field: "timePoint")}</td>
 			
 				<td>${fieldValue(bean: fluidSpecimenInstance.participant.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
 			

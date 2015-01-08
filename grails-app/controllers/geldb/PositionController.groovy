@@ -38,35 +38,35 @@ class PositionController {
         if (sampleType == "Fluid Specimen"){
             def listSampleByGeLId = FluidSpecimen.where{
                 participant.studySubject.studySubjectIdentifier == gelId
-            }.findAll()
+            }.findAllByExhausted(false)
             if (!listSampleByGeLId.empty){
                 render(template: "samples",  model: [listSampleByGeLId: listSampleByGeLId])
             }
         } else if (sampleType == "Solid Specimen"){
             def listSampleByGeLId = SolidSpecimen.where{
                 participant.studySubject.studySubjectIdentifier == gelId
-            }.findAll()
+            }.findAllByExhausted(false)
             if (!listSampleByGeLId.empty){
                 render(template: "samples",  model: [listSampleByGeLId: listSampleByGeLId])
             }
         }else if (sampleType == "Aliquot"){
             def listSampleByGeLId = Aliquot.where{
                 specimen.participant.studySubject.studySubjectIdentifier == gelId
-            }.findAll()
+            }.findAllByExhausted(false)
             if (!listSampleByGeLId.empty){
                 render(template: "samples",  model: [listSampleByGeLId: listSampleByGeLId])
             }
         }else if (sampleType == "DNA Extract"){
             def listSampleByGeLId = DNA_Extract.where{
                 aliquot.specimen.participant.studySubject.studySubjectIdentifier == gelId
-            }.findAll()
+            }.findAllByExhausted(false)
             if (!listSampleByGeLId.empty){
                 render(template: "samples",  model: [listSampleByGeLId: listSampleByGeLId])
             }
         }else if (sampleType == "DNA Library"){
             def listSampleByGeLId = DNA_Library.where{
                 na_extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier == gelId
-            }.findAll()
+            }.findAllByExhausted(false)
             if (!listSampleByGeLId.empty){
                 render(template: "samples",  model: [listSampleByGeLId: listSampleByGeLId])
             }
@@ -85,15 +85,13 @@ class PositionController {
             respond positionInstance.errors, view: 'create'
             return
         }
-        Integer paramValue = params.int('identifiedSample.id')
-        print(paramValue)
-        def sample =IdentifiedSample.findById(paramValue)
         //positionInstance.save flush: true
 
-        positionInstance.addToContainedSamples(sample).save flush: true
-
-
-
+        Integer paramValue = params.int('identifiedSample.id')
+        def sample =IdentifiedSample.findById(paramValue)
+        if (sample){
+            positionInstance.addToContainedSamples(sample).save flush: true
+        }
 
         request.withFormat {
             form {
@@ -120,7 +118,10 @@ class PositionController {
             return
         }
 
-        positionInstance.save flush: true
+        //positionInstance.save flush: true
+        Integer paramValue = params.int('identifiedSample.id')
+        def sample =IdentifiedSample.findById(paramValue)
+        positionInstance.addToContainedSamples(sample).save flush: true
 
         request.withFormat {
             form {

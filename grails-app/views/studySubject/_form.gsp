@@ -39,15 +39,20 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-			<div class="${hasErrors(bean: studySubjectInstance, field: 'consentStatus', 'error')} ">
-				<label for="consentStatus" class="control-label"><g:message code="studySubject.consentStatus.label" default="Consent Status" /></label>
-				<div>
-					<bs:checkBox name="consentStatus" value="${studySubjectInstance?.consentStatus}" />
-					<span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'consentStatus', 'error')}</span>
-				</div>
-			</div>
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: studySubjectInstance, field: 'consentStatus', 'error')} ">
+                        <label for="consentStatus" class="control-label"><g:message code="studySubject.consentStatus.label" default="Consent Status" /><span class="required-indicator">*</span></label>
+                        <div>
+                            %{--<bs:checkBox name="consentStatus" value="${studySubjectInstance?.consentStatus}" offLabel="No" onLabel="Yes"/>--}%
+                            %{--<span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'consentStatus', 'error')}</span>--}%
+                            <label class="radio-inline"><input type="radio" name="consentStatus" value="True" checked="checked" >Yes</label>
+                            <label class="radio-inline"><input type="radio" name="consentStatus" value="False">No</label>
+                            <label class="radio-inline"><input type="radio" name="consentStatus" value="">Not completed</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-lg-6">

@@ -33,14 +33,14 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Extract.exhausted.label" default="Exhausted" /></td>
 				
-				<td valign="top" class="value"><g:formatBoolean boolean="${DNA_ExtractInstance?.exhausted}" /></td>
+				<td valign="top" class="value"><g:formatBoolean boolean="${DNA_ExtractInstance?.exhausted}" true="Yes" false="No"/></td>
 				
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Extract.passFail.label" default="Pass Fail" /></td>
+				<td valign="top" class="name"><g:message code="DNA_Extract.passFail.label" default="Pass/Fail" /></td>
 				
-				<td valign="top" class="value"><g:formatBoolean boolean="${DNA_ExtractInstance?.passFail}" /></td>
+				<td valign="top" class="value"><g:formatBoolean boolean="${DNA_ExtractInstance?.passFail}" true="Pass" false="Fail"/></td>
 				
 			</tr>
 		

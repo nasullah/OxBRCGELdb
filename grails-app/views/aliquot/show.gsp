@@ -36,67 +36,47 @@
             %{--</tr>--}%
         %{--</g:if>--}%
 
+        <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.specimen.label" default="Specimen" /></td>
+
+            <td valign="top" class="value">
+
+                <% def fluidSpecimen = FluidSpecimen.listOrderById() %>
+                <% def solidSpecimen = SolidSpecimen.listOrderById() %>
+
+                <g:each in="${solidSpecimen}" var="item">
+                    <g:if test="${item.id == aliquotInstance?.specimen?.id}">
+                        <g:link controller="solidSpecimen" action="show" id="${aliquotInstance?.specimen?.id}">${aliquotInstance?.specimen?.encodeAsHTML()}</g:link>
+                    </g:if>
+                </g:each>
+
+                <g:each in="${fluidSpecimen}" var="item">
+                    <g:if test="${item.id == aliquotInstance?.specimen?.id}">
+                        <g:link controller="fluidSpecimen" action="show" id="${aliquotInstance?.specimen?.id}">${aliquotInstance?.specimen?.encodeAsHTML()}</g:link></td>
+                    </g:if>
+                </g:each>
+
+            </tr>
+        </g:if>
+
+        <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.blockNumber.label" default="Block Number" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "blockNumber")}</td>
+
+            </tr>
+        </g:if>
+
         <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.specimen.label" default="Specimen" /></td>
-
-        <td valign="top" class="value">
-
-            <% def fluidSpecimen = FluidSpecimen.listOrderById() %>
-            <% def solidSpecimen = SolidSpecimen.listOrderById() %>
-
-            <g:each in="${solidSpecimen}" var="item">
-                <g:if test="${item.id == aliquotInstance?.specimen?.id}">
-                    <g:link controller="solidSpecimen" action="show" id="${aliquotInstance?.specimen?.id}">${aliquotInstance?.specimen?.encodeAsHTML()}</g:link>
-                </g:if>
-            </g:each>
-
-            <g:each in="${fluidSpecimen}" var="item">
-                <g:if test="${item.id == aliquotInstance?.specimen?.id}">
-                    <g:link controller="fluidSpecimen" action="show" id="${aliquotInstance?.specimen?.id}">${aliquotInstance?.specimen?.encodeAsHTML()}</g:link></td>
-                </g:if>
-            </g:each>
-
-        </tr>
-
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.blockNumber.label" default="Block Number" /></td>
-
-            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "blockNumber")}</td>
-
-        </tr>
-
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Sapphire Identifier" /></td>
-
+            <g:if test="${aliquotInstance?.derivedFrom?.id != null}">
+                <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Slide Id (Frozen only)" /></td>
+            </g:if>
+            <g:else>
+                <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Biobanking Identifier" /></td>
+            </g:else>
             <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
-
-        </tr>
-
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.exhausted.label" default="Exhausted" /></td>
-
-            <td valign="top" class="value"><g:formatBoolean boolean="${aliquotInstance?.exhausted}" /></td>
-
-        </tr>
-
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.passFail.label" default="Pass Fail" /></td>
-
-            <td valign="top" class="value"><g:formatBoolean boolean="${aliquotInstance?.passFail}" /></td>
-
-        </tr>
-
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.passFailReason.label" default="Pass Fail Reason" /></td>
-
-            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "passFailReason")}</td>
-
-        </tr>
-
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.notes.label" default="Notes" /></td>
-
-            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "notes")}</td>
 
         </tr>
 
@@ -115,34 +95,81 @@
         </tr>
 
         <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.aliquotVolumeMass.label" default="Aliquot Volume/Mass" /></td>
+            <td valign="top" class="name"><g:message code="aliquot.exhausted.label" default="Exhausted"/></td>
 
-            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "aliquotVolumeMass")}</td>
-
+            <g:if test="${aliquotInstance.exhausted == null}">
+                <td valign="top" class="value"><p class="text-danger">Not completed</p></td>
+            </g:if>
+            <g:else >
+                <td valign="top" class="value"><g:formatBoolean boolean="${aliquotInstance?.exhausted}" true="Yes" false="No"/></td>
+            </g:else>
         </tr>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.unit.label" default="Unit" /></td>
+        %{--<tr class="prop">--}%
+            %{--<td valign="top" class="name"><g:message code="aliquot.passFail.label" default="Pass/Fail" /></td>--}%
 
-            <td valign="top" class="value"><g:link controller="units" action="show" id="${aliquotInstance?.unit?.id}">${aliquotInstance?.unit?.encodeAsHTML()}</g:link></td>
+            %{--<td valign="top" class="value"><g:formatBoolean boolean="${aliquotInstance?.passFail}" true="Pass" false="Fail"/></td>--}%
 
-        </tr>
+        %{--</tr>--}%
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.aliquotPhotograph.label" default="Aliquot Photograph" /></td>
+        %{--<tr class="prop">--}%
+            %{--<td valign="top" class="name"><g:message code="aliquot.passFailReason.label" default="Pass Fail Reason" /></td>--}%
 
-            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "aliquotPhotograph")}</td>
+            %{--<td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "passFailReason")}</td>--}%
 
-        </tr>
+        %{--</tr>--}%
 
-        <g:if test="${aliquotInstance.position}">
+        <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="aliquot.position.label" default="Position" /></td>
+                <td valign="top" class="name"><g:message code="aliquot.notes.label" default="Notes" /></td>
 
-                <td valign="top" class="value"><g:link controller="position" action="show" id="${aliquotInstance?.position?.id}">${aliquotInstance?.position?.encodeAsHTML()}</g:link></td>
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "notes")}</td>
 
             </tr>
         </g:if>
+
+        <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.aliquotVolumeMass.label" default="Aliquot Volume/Mass" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "aliquotVolumeMass")}</td>
+
+            </tr>
+        </g:if>
+
+        <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.unit.label" default="Unit" /></td>
+
+                <td valign="top" class="value"><g:link controller="units" action="show" id="${aliquotInstance?.unit?.id}">${aliquotInstance?.unit?.encodeAsHTML()}</g:link></td>
+
+            </tr>
+        </g:if>
+
+        <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.aliquotPhotograph.label" default="Aliquot Photograph File Path" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "aliquotPhotograph")}</td>
+
+            </tr>
+        </g:if>
+
+        <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.aliquotRanking.label" default="Aliquot Ranking" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "aliquotRanking")}</td>
+
+            </tr>
+        </g:if>
+
+        <tr class="prop">
+            <td valign="top" class="name"><g:message code="aliquot.position.label" default="Position" /></td>
+
+            <td valign="top" class="value"><g:link controller="position" action="show" id="${aliquotInstance?.position?.id}">${aliquotInstance?.position?.encodeAsHTML()}</g:link></td>
+
+        </tr>
 
         <g:if test="${aliquotInstance.sampleTrackingEvent}">
             <tr class="prop">
@@ -158,15 +185,6 @@
 
             </tr>
         </g:if>
-
-        %{--<g:if test="${aliquotInstance.aliquotReport}">--}%
-            %{--<tr class="prop">--}%
-                %{--<td valign="top" class="name"><g:message code="aliquot.aliquotReport.label" default="Aliquot Report" /></td>--}%
-
-                %{--<td valign="top" class="value"><g:link controller="aliquotReport" action="show" id="${aliquotInstance?.aliquotReport?.id}">${aliquotInstance?.aliquotReport?.encodeAsHTML()}</g:link></td>--}%
-
-            %{--</tr>--}%
-        %{--</g:if>--}%
 
         <g:if test="${aliquotInstance.colocationWith || aliquotInstance.colocation}">
             <tr class="prop">
@@ -202,7 +220,7 @@
 
         <g:if test="${aliquotInstance.derivation}">
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="aliquot.derivation.label" default="Derivation" /></td>
+                <td valign="top" class="name"><g:message code="aliquot.derivation.label" default="Associated Derivatives" /></td>
 
                 <td valign="top" style="text-align: left;" class="value">
                     <ul>
@@ -231,6 +249,21 @@
 
         </tr>
 
+        <g:if test="${aliquotInstance.gelSuitabilityReport}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.gelSuitabilityReport.label" default="GeL Suitability Report" /></td>
+
+                <td valign="top" style="text-align: left;" class="value">
+                    <ul>
+                        <g:each in="${aliquotInstance.gelSuitabilityReport}" var="d">
+                            <li><g:link controller="gelSuitabilityReport" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                    </ul>
+                </td>
+
+            </tr>
+        </g:if>
+
         </tbody>
     </table>
 </section>
@@ -241,10 +274,21 @@
 
 <a class='btn btn-primary btn-small' <g:link controller="colocation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'colocation.label', default: 'Colocation')])}</g:link>
 
-<a class='btn btn-primary btn-small' <g:link controller="aliquot" action="saveDuplicates" params="['specimen.id': aliquotInstance?.specimen?.id,'exhausted': aliquotInstance?.exhausted,'passFail': aliquotInstance?.passFail,
+<g:if test="${aliquotInstance?.aliquotType?.aliquotTypeName == 'Fresh Frozen Tissue' || aliquotInstance?.aliquotType?.aliquotTypeName == 'Punch Biopsy Frozen'}">
+    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation')])}</g:link>
+</g:if>
+
+<g:if test="${!aliquotInstance.gelSuitabilityReport}">
+    <a class='btn btn-primary btn-small' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link>
+</g:if>
+
+<g:if test="${aliquotInstance?.derivedFrom?.id == null}">
+    <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="saveDuplicates" params="['specimen.id': aliquotInstance?.specimen?.id,'exhausted': aliquotInstance?.exhausted,'passFail': aliquotInstance?.passFail,
                                                                                            'passFailReason': aliquotInstance?.passFailReason,'notes': aliquotInstance?.notes,'barcode': aliquotInstance?.barcode,
                                                                                            'aliquotVolumeMass': aliquotInstance?.aliquotVolumeMass,'unit': aliquotInstance?.unit?.id,'blockNumber': aliquotInstance?.blockNumber,
                                                                                            'aliquotType': aliquotInstance?.aliquotType?.id,'sapphireIdentifier': aliquotInstance?.sapphireIdentifier]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate Aliquot')])}</g:link>
+
+</g:if>
 <hr style="border:1; height:1px" />
 
 </body>

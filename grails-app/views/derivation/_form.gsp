@@ -2,13 +2,35 @@
 
 
 
-			<div class="${hasErrors(bean: derivationInstance, field: 'aliquot', 'error')} required">
-				<label for="aliquot" class="control-label"><g:message code="derivation.aliquot.label" default="Aliquot" /><span class="required-indicator">*</span></label>
-				<div>
-					<g:select class="form-control" id="aliquot" name="aliquot.id" from="${geldb.Aliquot.list()}" optionKey="id" required="" value="${derivationInstance?.aliquot?.id}" class="many-to-one"/>
-					<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'aliquot', 'error')}</span>
-				</div>
-			</div>
+            <div class="${hasErrors(bean: derivationInstance, field: 'aliquot', 'error')} ">
+                <label for="aliquot" class="control-label"><g:message code="derivation.aliquot.label" default="Parent Aliquot" /><span class="required-indicator">*</span></label>
+                <div>
+                    <g:select class="form-control" id="aliquot" name="aliquot.id" from="${geldb.Aliquot.list()}" optionKey="id"  value="${derivationInstance?.aliquot?.id}" required="" class="many-to-one"/>
+                    <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'aliquot', 'error')}</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: derivationInstance, field: 'derivationProcess', 'error')} required">
+                        <label for="derivationProcess" class="control-label"><g:message code="derivation.derivationProcess.label" default="Derivation Process" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <g:select class="form-control" name="derivationProcess" from="${geldb.DerivationType?.values()}" keys="${geldb.DerivationType.values()*.name()}" required="" value="${derivationInstance?.derivationProcess?.name()}" onchange="getSlidId()" noSelection="['':'- Choose -']"/>
+                            <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationProcess', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')} required">
+                        <label for="aliquotType" class="control-label"><g:message code="aliquot.aliquotType.label" default="Derived Aliquot Type" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <g:select class="form-control" id="aliquotType" name="aliquotType.id" from="${geldb.AliquotType.list().sort()}" optionKey="id" required="" value="${aliquotInstance?.aliquotType?.id}" noSelection="['':'- Choose -']" />
+                            <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-lg-6">
@@ -30,60 +52,91 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-			<div class="${hasErrors(bean: derivationInstance, field: 'derivedBy', 'error')} required">
-				<label for="derivedBy" class="control-label"><g:message code="derivation.derivedBy.label" default="Derived By" /><span class="required-indicator">*</span></label>
-				<div>
-					<g:select class="form-control" id="derivedBy" name="derivedBy.id" from="${geldb.StaffMember.list()}" optionKey="id" required="" value="${derivationInstance?.derivedBy?.id}" class="many-to-one"/>
-					<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivedBy', 'error')}</span>
-				</div>
-			</div>
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: derivationInstance, field: 'derivedBy', 'error')} required">
+                        <label for="derivedBy" class="control-label"><g:message code="derivation.derivedBy.label" default="Derived By" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <g:select class="form-control" id="derivedBy" name="derivedBy.id" from="${geldb.StaffMember.list()}" optionKey="id" required="" value="${derivationInstance?.derivedBy?.id}" />
+                            <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivedBy', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')} ">
+                        <label for="barcode" class="control-label"><g:message code="aliquot.barcode.label" default="Barcode (where available)" /></label>
+                        <div>
+                            <g:textField class="form-control" name="barcode" value="${aliquotInstance?.barcode}"/>
+                            <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: derivationInstance, field: 'notes', 'error')} ">
-                        <label for="notes" class="control-label"><g:message code="derivation.notes.label" default="Notes" /></label>
+                    <div class="${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')} ">
+                        <label for="sapphireIdentifier" class="control-label"><g:message code="aliquot.sapphireIdentifier.label" default="Slide ID (Frozen only)" /></label>
                         <div>
-                            <g:textArea class="form-control" name="notes" cols="40" rows="5" value="${derivationInstance?.notes}"/>
-                            <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'notes', 'error')}</span>
+                            <g:textField class="form-control" name="sapphireIdentifier" id="sapphireIdentifier" value="${aliquotInstance?.sapphireIdentifier}"/>
+                            <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: derivationInstance, field: 'derivationProcess', 'error')} required">
-                        <label for="derivationProcess" class="control-label"><g:message code="derivation.derivationProcess.label" default="Derivation Process" /><span class="required-indicator">*</span></label>
+                    <div class="${hasErrors(bean: aliquotInstance, field: 'exhausted', 'error')} ">
+                        <label for="exhausted" class="control-label"><g:message code="aliquot.exhausted.label" default="Exhausted" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" name="derivationProcess" from="${geldb.DerivationType?.values()}" keys="${geldb.DerivationType.values()*.name()}" required="" value="${derivationInstance?.derivationProcess?.name()}"/>
-                            <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationProcess', 'error')}</span>
+                            %{--<bs:checkBox name="exhausted" value="${aliquotInstance?.exhausted}" offLabel="No" onLabel="Yes" />--}%
+                            %{--<span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'exhausted', 'error')}</span>--}%
+                            <label class="radio-inline"><input type="radio" name="exhausted" value="True">Yes</label>
+                            <label class="radio-inline"><input type="radio" name="exhausted" value="False" checked="checked" >No</label>
                         </div>
                     </div>
                 </div>
             </div>
 
-			%{--<div class="${hasErrors(bean: derivationInstance, field: 'report', 'error')} ">--}%
-				%{--<label for="report" class="control-label"><g:message code="derivation.report.label" default="Report" /></label>--}%
-				%{--<div>--}%
-					%{--<g:select class="form-control" id="report" name="report.id" from="${geldb.Report.list()}" optionKey="id" value="${derivationInstance?.report?.id}" class="many-to-one" noSelection="['null': '']"/>--}%
-					%{--<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'report', 'error')}</span>--}%
-				%{--</div>--}%
-			%{--</div>--}%
+<g:javascript plugin="jquery" library="jquery" />
+<script>
+    function getAliquots(){
+        ${remoteFunction (controller: 'derivation',
+                        action: 'findAliquotsByGeLId',
+                        params: '"search=" + $("#search").val()',
+                        update: 'selectAliquot',
+                        onFailure:'error()'
+                )}
+    }
 
-			%{--<div class="${hasErrors(bean: derivationInstance, field: 'derivedAliquots', 'error')} ">--}%
-				%{--<label for="derivedAliquots" class="control-label"><g:message code="derivation.derivedAliquots.label" default="Derived Aliquots" /></label>--}%
-				%{--<div>--}%
-					%{----}%
-%{--<ul class="one-to-many">--}%
-%{--<g:each in="${derivationInstance?.derivedAliquots?}" var="d">--}%
-    %{--<li><g:link controller="aliquot" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>--}%
-%{--</g:each>--}%
-%{--<li class="add">--}%
-%{--<g:link controller="aliquot" action="create" params="['derivation.id': derivationInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>--}%
-%{--</li>--}%
-%{--</ul>--}%
+    function error(){
+        var select = $("#selectAliquot");
+        select.empty().append("Not found");
+        $('#notFound').modal()
+    }
 
-					%{--<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivedAliquots', 'error')}</span>--}%
-				%{--</div>--}%
-			%{--</div>--}%
+    function getSlidId(){
+
+        var baseUrl = "${createLink(controller:'derivation', action:'getSlideID')}";
+        var selectAliquot = $('#aliquot').val();
+        var url = baseUrl + "?selectAliquot="+selectAliquot;
+        $.ajax({
+            url:url,
+            type: 'POST',
+            dataType: 'xml',
+            async:true,
+            success: function(res) {
+
+                if (res){
+                    var slidID = $(res).find("map").text();
+                        $('#sapphireIdentifier').val(slidID);
+                }
+            },
+            error: function(request, status, error) {
+                $('#sapphireIdentifier').val("");
+
+            }
+        });
+    }
+</script>
 

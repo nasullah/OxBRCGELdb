@@ -69,7 +69,7 @@ class AliquotController {
         aliquotInstance.save(flush: true)
         request.withFormat {
             form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Aliquot.label', default: 'Aliquot'), aliquotInstance.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'Aliquot.label', default: 'Aliquot'), aliquotInstance.id])
 
             }
             '*' { respond aliquotInstance, [status: CREATED] }
@@ -90,13 +90,7 @@ class AliquotController {
             return
         }
         aliquotInstance.save(flush: true)
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Aliquot.label', default: 'Aliquot'), aliquotInstance.id])
-
-            }
-            '*' { respond aliquotInstance, [status: CREATED] }
-        }
+        flash.message = "This is the newly created duplicate Aliquot with id ${aliquotInstance.id}"
         redirect aliquotInstance
     }
 

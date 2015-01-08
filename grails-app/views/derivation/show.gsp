@@ -19,7 +19,7 @@
 		<tbody>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="derivation.aliquot.label" default="Aliquot" /></td>
+				<td valign="top" class="name"><g:message code="derivation.aliquot.label" default="Parent Aliquot" /></td>
 				
 				<td valign="top" class="value"><g:link controller="aliquot" action="show" id="${derivationInstance?.aliquot?.id}">${derivationInstance?.aliquot?.encodeAsHTML()}</g:link></td>
 				
@@ -61,21 +61,7 @@
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="derivation.centrifugation.label" default="Report" /></td>
-				
-				<td valign="top" class="value"><g:link controller="centrifugation" action="show" id="${derivationInstance?.centrifugation?.id}">${derivationInstance?.centrifugation?.encodeAsHTML()}</g:link></td>
-                <td valign="top" style="text-align: left;" class="value">
-                    <ul>
-                        <g:each in="${derivationInstance.centrifugation}" var="d">
-                            <li><g:link controller="centrifugation" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
-                        </g:each>
-                    </ul>
-                </td>
-
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="derivation.derivedAliquots.label" default="Derived Aliquots" /></td>
+				<td valign="top" class="name"><g:message code="derivation.derivedAliquots.label" default="Derived Aliquot" /></td>
 				
 				<td valign="top" style="text-align: left;" class="value">
 					<ul>
@@ -90,18 +76,6 @@
 		</tbody>
 	</table>
 </section>
-
-<hr style="border:1; height:1px" />
-
-<p class="text-primary">Available Actions</p>
-
-<a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['derivedFrom.id': derivationInstance?.id, 'specimen': derivationInstance.aliquot?.specimen?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot Made From Derivation')])}</g:link>
-
-<g:if test="${!derivationInstance.centrifugation}">
-    <a class='btn btn-primary btn-small' <g:link controller="centrifugation" action="create" params="['derivation.id': derivationInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'centrifugation.label', default: 'Centrifugation Report')])}</g:link>
-</g:if>
-
-<hr style="border:1; height:1px" />
 </body>
 
 </html>

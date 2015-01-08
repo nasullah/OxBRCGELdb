@@ -1,5 +1,6 @@
 package geldb
 
+import grails.converters.XML
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -33,6 +34,20 @@ class DerivationController {
         respond new Derivation(params)
     }
 
+    def getSlideID() {
+        def aliquot = Aliquot.findById(params.selectAliquot)
+        if(aliquot){
+            if (aliquot.sapphireIdentifier){
+                def lastFourDigit = aliquot.sapphireIdentifier.toString()[-4..-1]
+                def gelId = aliquot.specimen.participant.studySubject.studySubjectIdentifier
+                gelId= gelId?.toString()?.replace('[', '')?.replace(']', '')
+
+                def slidID = gelId + ' ' + lastFourDigit
+                render([slidID: slidID] as XML)
+            }
+        }
+    }
+
     @Transactional
     def save(Derivation derivationInstance) {
         if (derivationInstance == null) {
@@ -44,8 +59,14 @@ class DerivationController {
             respond derivationInstance.errors, view: 'create'
             return
         }
+        def getSpecimen = Specimen.where {
+            aliquot.id == params.long('aliquot.id')
+        }
 
-        derivationInstance.save flush: true
+        def derivedAliquot = new Aliquot(specimen: getSpecimen.get().id, exhausted: params.exhausted, notes: params.notes, barcode: params.barcode, aliquotVolumeMass: params.aliquotVolumeMass, unit: params.unit, blockNumber: params.blockNumber,
+                aliquotType: params.aliquotType, sapphireIdentifier: params.sapphireIdentifier)
+
+        derivationInstance.addToDerivedAliquots(derivedAliquot).save(flush: true)
 
         request.withFormat {
             form {
@@ -72,7 +93,15 @@ class DerivationController {
             return
         }
 
-        derivationInstance.save flush: true
+        def getSpecimen = Specimen.where {
+            aliquot.id == params.long('aliquot')
+        }
+
+        //derivationInstance.save flush: true
+        def derivedAliquot = new Aliquot(specimen: getSpecimen, exhausted: params.exhausted, notes: params.notes, barcode: params.barcode, aliquotVolumeMass: params.aliquotVolumeMass, unit: params.unit, blockNumber: params.blockNumber,
+                aliquotType: params.aliquotType, sapphireIdentifier: params.sapphireIdentifier)
+
+        derivationInstance.addToDerivedAliquots(derivedAliquot).save(flush: true)
 
         request.withFormat {
             form {

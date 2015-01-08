@@ -19,7 +19,7 @@
                     <div class="${hasErrors(bean: staffMemberInstance, field: 'staffRole', 'error')} required">
                         <label for="staffRole" class="control-label"><g:message code="staffMember.staffRole.label" default="Staff Role" /></label>
                         <div>
-                            <g:textField class="form-control" name="staffRole" value="${staffMemberInstance?.staffRole}"/>
+                            <g:select class="form-control" name="staffRole" from="${staffMemberInstance.constraints.staffRole.inList}" value="${staffMemberInstance?.staffRole}" valueMessagePrefix="staffMemberInstance.staffRole"  noSelection="['':'- Choose role -']"/>
                             <span class="help-inline">${hasErrors(bean: staffMemberInstance, field: 'staffRole', 'error')}</span>
                         </div>
                     </div>

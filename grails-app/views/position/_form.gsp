@@ -35,9 +35,9 @@
 
                 <div class="col-lg-6">
                     <div class="">
-                        <label  class="control-label">Sample Type<span class="required-indicator">*</span></label>
+                        <label  class="control-label">Filter Samples By Type<span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="sampleType" name="sampleType.id" from="${['Fluid Specimen', 'Solid Specimen', 'Aliquot', 'DNA Extract', 'DNA Library']}" required="" noSelection="['':'- Choose Sample Type -']"/>
+                            <g:select class="form-control" id="sampleType" name="sampleType.id" from="${['Aliquot', 'DNA Extract', 'DNA Library']}" required="" noSelection="['':'- Choose Sample Type -']"/>
                         </div>
                     </div>
                 </div>
@@ -53,16 +53,9 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="${hasErrors(bean: dispatchItemInstance, field: 'identifiedSample', 'error')} required">
-                        <label for="identifiedSample" class="control-label"><g:message code="dispatchItem.identifiedSample.label" default="Sample" /><span class="required-indicator">*</span></label>
-                        <div id="selectFoundSamples">
-                            <g:select class=""  name="1" from="${''}" optionKey="" value="${''}" required=""/>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <p>
+
+            <div id="selectFoundSamples"></div>
 
             <div class="modal fade" id="notFound">
                 <div class="modal-dialog" style="position: absolute; left: 0%;">

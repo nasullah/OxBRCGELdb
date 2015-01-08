@@ -19,9 +19,9 @@
         <tr>
             <g:sortableColumn property="aliquotType" title="${message(code: 'aliquot.aliquotType.label', default: 'Aliquot Type')}" />
 
-            <g:sortableColumn property="blockNumber" title="${message(code: 'aliquot.blockNumber.label', default: 'Block Number')}" />
+            <g:sortableColumn property="blockNumber" title="${message(code: 'aliquot.blockNumber.label', default: 'Aliquot Identifier')}" />
 
-            <g:sortableColumn property="sapphireIdentifier" title="${message(code: 'aliquot.sapphireIdentifier.label', default: 'Sapphire Identifier')}" />
+            <g:sortableColumn property="position" title="${message(code: 'aliquot.position.label', default: 'Position')}" />
 
             <g:sortableColumn property="aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
 
@@ -33,9 +33,15 @@
 
                 <td><g:link action="show" id="${aliquotInstance.id}">${fieldValue(bean: aliquotInstance, field: "aliquotType")}</g:link></td>
 
-                <td>${fieldValue(bean: aliquotInstance, field: "blockNumber")}</td>
+                <g:if test="${fieldValue(bean: aliquotInstance, field: "blockNumber")}">
+                    <td>${fieldValue(bean: aliquotInstance, field: "blockNumber")}</td>
+                </g:if>
 
-                <td>${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
+                <g:else>
+                    <td>${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
+                </g:else>
+
+                <td>${fieldValue(bean: aliquotInstance, field: "position")}</td>
 
                 <td>${fieldValue(bean: aliquotInstance.specimen.participant.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
 
@@ -53,7 +59,6 @@
                                              specimen.participant.hospitalNumber, specimen.participant.nHSNumber,
                                              specimen.participant.studySubject.studySubjectIdentifier"/>
 <hr style="border:1; height:1px" />
-</section>
 
 </body>
 
