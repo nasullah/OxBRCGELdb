@@ -12,6 +12,14 @@
 
 <body>
 
+<p>
+<p>
+<filterpane:filterButton text="Filter This List" />
+<filterpane:filterPane domain="geldb.Participant"
+                       excludeProperties="dateOfBirth"
+                       associatedProperties="studySubject.studySubjectIdentifier"/>
+<hr style="border:1; height:1px" />
+
 <section id="list-participant" class="first">
 
 	<table class="table table-bordered margin-top-medium">
@@ -25,7 +33,7 @@
 
             <g:sortableColumn property="centre" title="${message(code: 'participant.centre.label', default: 'Centre')}" />
 
-            <g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'participant.studySubject.studySubjectIdentifier.label', default: 'GeL Id')}" />
+            <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id')}" />
 
         </tr>
         </thead>
@@ -41,21 +49,17 @@
 
                 <td>${fieldValue(bean: participantInstance, field: "centre")}</td>
 
-                <td>${fieldValue(bean: participantInstance.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
+                <td>${fieldValue(bean: participantInstance.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
 
             </tr>
         </g:each>
 		</tbody>
 	</table>
     <div>
-        <g:paginate total="${participantInstanceTotal == null ? Participant.count(): participantInstanceTotal}" params="${filterParams}" />
-        <filterpane:filterButton text="Filter This List" />
+        <bs:paginate total="${participantInstanceTotal}" />
     </div>
 </section>
-<filterpane:filterPane domain="geldb.Participant"
-                       excludeProperties="dateOfBirth"
-                       associatedProperties="studySubject.studySubjectIdentifier"/>
-<hr style="border:1; height:1px" />
+
 </body>
 
 </html>

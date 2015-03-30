@@ -17,7 +17,7 @@
 		<thead>
 			<tr>
 			
-				<th><g:message code="studySubject.study.label" default="Study" /></th>
+				<th><g:message code="studySubject.study.label" default="Consent Type" /></th>
 			
 				<th><g:message code="studySubject.Participant.label" default="Participant" /></th>
 			

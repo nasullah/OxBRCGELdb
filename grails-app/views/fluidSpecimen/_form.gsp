@@ -1,22 +1,34 @@
 <%@ page import="geldb.UnitType; geldb.FluidSpecimen" %>
 
-
-            <hr style="border:1; height:1px" />
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-success" value="Find" onClick= 'getParticipant()'><span class="glyphicon glyphicon-search"></span> Find Participant</button>
+            <g:if test="${fluidSpecimenInstance?.participant?.id == null}">
+                <hr style="border:1; height:1px" />
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-success" value="Find" onClick= 'getParticipant()'><span class="glyphicon glyphicon-search"></span> Find Participant</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <p>
+                <div id="selectParticipant"></div>
+            </g:if>
 
-            <p>
-
-            <div id="selectParticipant"></div>
+            <g:if test="${fluidSpecimenInstance?.participant?.id != null}">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'participant', 'error')} required">
+                            <label for="participant" class="control-label"><g:message code="fluidSpecimen.participant.label" default="Participant" /><span class="required-indicator">*</span></label>
+                            <div>
+                                <g:select class="form-control" id="participant" name="participant.id" from="${geldb.Participant.list()}" optionKey="id" required="" value="${fluidSpecimenInstance?.participant?.id}" />
+                                <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'participant', 'error')}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </g:if>
 
             <div class="row">
                 <div class="col-lg-6">
@@ -116,9 +128,9 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'collectionTime', 'error')} ">
-                        <label for="collectionTime" class="control-label"><g:message code="fluidSpecimen.collectionTime.label" default="Collection Time" /></label>
+                        <label for="collectionTime" class="control-label"><g:message code="fluidSpecimen.collectionTime.label" default="Collection Time (if known)" /></label>
                         <div>
-                            <g:textField class="form-control" name="collectionTime" value="${fluidSpecimenInstance?.collectionTime}"/>
+                            <g:field type="time" class="form-control" name="collectionTime" value="${fluidSpecimenInstance?.collectionTime}"/>
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'collectionTime', 'error')}</span>
                         </div>
                     </div>
@@ -128,7 +140,7 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'collectionLocation', 'error')} ">
                         <label for="collectionLocation" class="control-label"><g:message code="fluidSpecimen.collectionLocation.label" default="Collection Location" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="collectionLocation" name="collectionLocation.id" from="${geldb.Location.list().sort()}" optionKey="id" value="${fluidSpecimenInstance?.collectionLocation?.id}" required="" />
+                            <g:select class="form-control" id="collectionLocation" name="collectionLocation.id" from="${geldb.Location.list().sort()}" optionKey="id" value="${fluidSpecimenInstance?.collectionLocation?.id}" required="" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'collectionLocation', 'error')}</span>
                         </div>
                     </div>
@@ -138,8 +150,8 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'collectedBy', 'error')} ">
                         <label for="collectedBy" class="control-label"><g:message code="fluidSpecimen.collectedBy.label" default="Collected By" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="collectedBy" name="collectedBy.id" from="${geldb.StaffMember.findAllByStaffRoleNotEqualAndStaffRoleNotEqual('Surgeon', 'Pathologist')}"
-                                      optionKey="id" value="${fluidSpecimenInstance?.collectedBy?.id}" required=""/>
+                            <g:select class="form-control" id="collectedBy" name="collectedBy.id" from="${geldb.StaffMember.findAllByStaffRole('Other').sort {it.staffName}}"
+                                      optionKey="id" value="${fluidSpecimenInstance?.collectedBy?.id}" required="" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'collectedBy', 'error')}</span>
                         </div>
                     </div>
@@ -172,7 +184,7 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'volumeUnit', 'error')} required">
                         <label for="volumeUnit" class="control-label"><g:message code="fluidSpecimen.volumeUnit.label" default="Volume Unit" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="volumeUnit" name="volumeUnit.id" from="${geldb.Units.findAllByUnitType(UnitType.VolumeUnit).sort()}" optionKey="id" required="" value="${fluidSpecimenInstance?.volumeUnit?.id}" />
+                            <g:select class="form-control" id="volumeUnit" name="volumeUnit.id" from="${geldb.Units.findAllByUnitType(UnitType.VolumeUnit).sort()}" optionKey="id" required="" value="${fluidSpecimenInstance?.volumeUnit?.id}" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'volumeUnit', 'error')}</span>
                         </div>
                     </div>
@@ -190,6 +202,7 @@
                             <p>No participant found with the Gel Id you entered</p>
                         </div>
                         <div class="modal-footer">
+                            <a class='btn btn-success btn-small' href="/GELdb/importparticipant"><span class="glyphicon glyphicon-import"></span> Import Participant</a>
                             <a class='btn btn-primary btn-small' <g:link controller="participant" action="create" ><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'participant.label', default: 'Participant')])}</g:link>
                             <button type="button" class="btn" data-dismiss="modal">Close</button>
                         </div>

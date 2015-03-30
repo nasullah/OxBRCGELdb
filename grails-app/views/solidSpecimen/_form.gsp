@@ -1,21 +1,35 @@
 <%@ page import="geldb.UnitType; geldb.Units; geldb.SolidSpecimen" %>
 
-            <hr style="border:1; height:1px" />
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required=""></g:textField>
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-success" value="Find" onClick= 'getParticipant()'><span class="glyphicon glyphicon-search"></span> Find Participant</button>
+            <g:if test="${solidSpecimenInstance?.participant?.id == null}">
+                <hr style="border:1; height:1px" />
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required=""></g:textField>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-success" value="Find" onClick= 'getParticipant()'><span class="glyphicon glyphicon-search"></span> Find Participant</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <p>
+                <div id="selectParticipant"></div>
+            </g:if>
 
-            <p>
-
-            <div id="selectParticipant"></div>
+            <g:if test="${solidSpecimenInstance?.participant?.id != null}">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="${hasErrors(bean: solidSpecimenInstance, field: 'participant', 'error')} required" >
+                            <label for="participant" class="control-label"><g:message code="solidSpecimen.participant.label" default="Participant" /><span class="required-indicator">*</span></label>
+                            <div>
+                                <g:select class="form-control" id="participant" name="participant.id" from="${geldb.Participant.list()}" optionKey="id" required="" value="${solidSpecimenInstance?.participant?.id}" />
+                                <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'participant', 'error')}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </g:if>
 
             <div class="row">
                 <div class="col-lg-6">
@@ -115,9 +129,9 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'collectionTime', 'error')} ">
-                        <label for="collectionTime" class="control-label"><g:message code="solidSpecimen.collectionTime.label" default="Collection Time" /></label>
+                        <label for="collectionTime" class="control-label"><g:message code="solidSpecimen.collectionTime.label" default="Collection Time (if known)" /></label>
                         <div>
-                            <g:textField class="form-control" name="collectionTime" value="${solidSpecimenInstance?.collectionTime}"/>
+                            <g:field type="time" class="form-control" name="collectionTime" value="${solidSpecimenInstance?.collectionTime}"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'collectionTime', 'error')}</span>
                         </div>
                     </div>
@@ -149,7 +163,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'collectedBy', 'error')} ">
                         <label for="collectedBy" class="control-label"><g:message code="solidSpecimen.collectedBy.label" default="Collected By" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="collectedBy" name="collectedBy.id" from="${geldb.StaffMember.findAllByStaffRoleNotEqualAndStaffRoleNotEqual('Surgeon', 'Pathologist')}" optionKey="id" value="${solidSpecimenInstance?.collectedBy?.id}" required="" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="collectedBy" name="collectedBy.id" from="${geldb.StaffMember.findAllByStaffRoleNotEqualAndStaffRoleNotEqual('Surgeon', 'Pathologist').sort {it.staffName}}" optionKey="id" value="${solidSpecimenInstance?.collectedBy?.id}" required="" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'collectedBy', 'error')}</span>
                         </div>
                     </div>
@@ -169,7 +183,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'surgeon', 'error')} ">
                         <label for="surgeon" class="control-label"><g:message code="solidSpecimen.surgeon.label" default="Surgeon" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="surgeon" name="surgeon.id" from="${geldb.StaffMember.findAllByStaffRole('Surgeon').sort()}" optionKey="id" value="${solidSpecimenInstance?.surgeon?.id}"  required="" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="surgeon" name="surgeon.id" from="${geldb.StaffMember.findAllByStaffRole('Surgeon').sort {it.staffName}}" optionKey="id" value="${solidSpecimenInstance?.surgeon?.id}"  required="" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'surgeon', 'error')}</span>
                         </div>
                     </div>
@@ -179,7 +193,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'pathologist', 'error')} ">
                         <label for="pathologist" class="control-label"><g:message code="solidSpecimen.pathologist.label" default="Pathologist" /></label>
                         <div>
-                            <g:select class="form-control" id="pathologist" name="pathologist.id" from="${geldb.StaffMember.findAllByStaffRole('Pathologist').sort()}"
+                            <g:select class="form-control" id="pathologist" name="pathologist.id" from="${geldb.StaffMember.findAllByStaffRole('Pathologist').sort {it.staffName}}"
                                       optionKey="id" value="${solidSpecimenInstance?.pathologist?.id}"  noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'pathologist', 'error')}</span>
                         </div>
@@ -221,6 +235,7 @@
                             <p>No participant found with the Gel Id you entered</p>
                         </div>
                         <div class="modal-footer">
+                            <a class='btn btn-success btn-small' href="/GELdb/importparticipant"><span class="glyphicon glyphicon-import"></span> Import Participant</a>
                             <a class='btn btn-primary btn-small' <g:link controller="participant" action="create" ><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'participant.label', default: 'Participant')])}</g:link>
                             <button type="button" class="btn" data-dismiss="modal">Close</button>
                         </div>

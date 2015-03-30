@@ -4,8 +4,8 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="Add Position" />
-	<title><g:message code="default.create.label" args="[entityName]" /></title>
+	%{--<g:set var="entityName" value="Add Position" />--}%
+	<title>Add Position</title>
 </head>
 
 <body>

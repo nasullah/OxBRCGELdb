@@ -5,7 +5,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
+	<g:set var="entityName" value="${message(code: 'study.label', default: 'Consent Type')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
 </head>
 
@@ -17,7 +17,7 @@
 		<tbody>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="study.studyName.label" default="Study Name" /></td>
+				<td valign="top" class="name"><g:message code="study.studyName.label" default="Consent Type" /></td>
 				
 				<td valign="top" class="value">${fieldValue(bean: studyInstance, field: "studyName")}</td>
 				

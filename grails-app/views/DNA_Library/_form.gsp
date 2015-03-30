@@ -1,40 +1,58 @@
 <%@ page import="geldb.DNA_Library" %>
 
 
-            <hr style="border:1; height:1px" />
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-success" value="Find" onClick= 'getDNAExtract()'><span class="glyphicon glyphicon-search"></span> Find DNA Extract</button>
+            <g:if test="${DNA_LibraryInstance?.na_extract*.id == null}">
+                <hr style="border:1; height:1px" />
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-success" value="Find" onClick= 'getDNAExtract()'><span class="glyphicon glyphicon-search"></span> Find DNA Extract</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <p>
+                <div id="selectDNAExtract"></div>
+            </g:if>
 
-            <p>
-
-            <div id="selectDNAExtract"></div>
-
-			<div class="${hasErrors(bean: DNA_LibraryInstance, field: 'exhausted', 'error')} ">
-				<label for="exhausted" class="control-label"><g:message code="DNA_Library.exhausted.label" default="Exhausted" /></label>
-				<div>
-					<bs:checkBox name="exhausted" value="${DNA_LibraryInstance?.exhausted}" offLabel="No" onLabel="Yes"/>
-					<span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'exhausted', 'error')}</span>
-				</div>
-			</div>
-
-			<div class="${hasErrors(bean: DNA_LibraryInstance, field: 'passFail', 'error')} ">
-				<label for="passFail" class="control-label"><g:message code="DNA_Library.passFail.label" default="Pass/Fail" /></label>
-				<div>
-					<bs:checkBox name="passFail" value="${DNA_LibraryInstance?.passFail}" offLabel="Fail" onLabel="Pass" />
-					<span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'passFail', 'error')}</span>
-				</div>
-			</div>
+            <g:if test="${DNA_LibraryInstance?.na_extract*.id != null}">
+                <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'na_extract', 'error')} ">
+                    <label for="na_extract" class="control-label"><g:message code="DNA_Library.na_extract.label" default="DNA Extract" /><span class="required-indicator">*</span></label>
+                    <div>
+                        <g:select class="form-control" name="na_extract" from="${geldb.DNA_Extract.list()}"
+                                  multiple="multiple" optionKey="id" size="1" value="${DNA_LibraryInstance?.na_extract*.id}" required="" class="many-to-many"/>
+                        <span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'na_extract', 'error')}</span>
+                    </div>
+                </div>
+            </g:if>
 
             <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'exhausted', 'error')} ">
+                        <label for="exhausted" class="control-label"><g:message code="DNA_Library.exhausted.label" default="Exhausted" /></label>
+                        <div>
+                            %{--<bs:checkBox name="exhausted" value="${DNA_LibraryInstance?.exhausted}" offLabel="No" onLabel="Yes"/>--}%
+                            %{--<span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'exhausted', 'error')}</span>--}%
+                            <label class="radio-inline"><input type="radio" name="exhausted" value="True">Yes</label>
+                            <label class="radio-inline"><input type="radio" name="exhausted" value="False" checked="checked" >No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'passFail', 'error')} ">
+                        <label for="passFail" class="control-label"><g:message code="DNA_Library.passFail.label" default="Pass/Fail" /></label>
+                        <div>
+                            %{--<bs:checkBox name="passFail" value="${DNA_LibraryInstance?.passFail}" offLabel="Fail" onLabel="Pass" />--}%
+                            %{--<span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'passFail', 'error')}</span>--}%
+                            <label class="radio-inline"><input type="radio" name="passFail" value="True" checked="checked">Yes</label>
+                            <label class="radio-inline"><input type="radio" name="passFail" value="False" >No</label>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'passFailReason', 'error')} ">
                         <label for="passFailReason" class="control-label"><g:message code="DNA_Library.passFailReason.label" default="Pass Fail Reason" /></label>
@@ -121,8 +139,18 @@
                     <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'libraryPrepBy', 'error')} ">
                         <label for="libraryPrepBy" class="control-label"><g:message code="DNA_Library.libraryPrepBy.label" default="Library Prep By" /></label>
                         <div>
-                            <g:select class="form-control" id="libraryPrepBy" name="libraryPrepBy.id" from="${geldb.StaffMember.list()}" optionKey="id" value="${DNA_LibraryInstance?.libraryPrepBy?.id}"  noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="libraryPrepBy" name="libraryPrepBy.id" from="${geldb.StaffMember.list().sort {it.staffName}}" optionKey="id" value="${DNA_LibraryInstance?.libraryPrepBy?.id}"  noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'libraryPrepBy', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'sapphireIdentifier', 'error')} ">
+                        <label for="sapphireIdentifier" class="control-label"><g:message code="DNA_Library.sapphireIdentifier.label" default="Biobanking Identifier" /></label>
+                        <div>
+                            <g:textField class="form-control" id="sapphireIdentifier" name="sapphireIdentifier" value="${DNA_LibraryInstance?.sapphireIdentifier}"/>
+                            <span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'sapphireIdentifier', 'error')}</span>
                         </div>
                     </div>
                 </div>

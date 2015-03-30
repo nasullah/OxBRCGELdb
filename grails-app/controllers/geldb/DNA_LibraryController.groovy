@@ -9,7 +9,7 @@ import grails.plugins.springsecurity.*
  * DNA_LibraryController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
 @Transactional(readOnly = true)
 class DNA_LibraryController {
 
@@ -17,12 +17,12 @@ class DNA_LibraryController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond DNA_Library.findAllByExhausted(false, params.max ), model: [DNA_LibraryInstanceCount: DNA_Library.count()]
+        respond DNA_Library.findAllByExhausted(false, params), model: [DNA_LibraryInstanceCount: DNA_Library.count()]
     }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [DNA_LibraryInstanceList: DNA_Library.findAllByExhausted(false, params.max ), DNA_LibraryInstanceTotal: DNA_Library.count()]
+        [DNA_LibraryInstanceList: DNA_Library.findAllByExhausted(false, params), DNA_LibraryInstanceTotal: DNA_Library.count()]
     }
     def filterPaneService
 
@@ -35,12 +35,28 @@ class DNA_LibraryController {
 
     def findDNAExtractByGeLId() {
         def gelId= params.search
+        if (gelId) {
+            def participantByGeLId = Participant.createCriteria().get {
+                studySubject {
+                    eq('studySubjectIdentifier', gelId)
+                }
+            }
+            if(participantByGeLId){
 
-        def listDNAExtractByGeLId = DNA_Extract.where{
-         aliquot.specimen.participant.studySubject.studySubjectIdentifier == gelId
-        }.findAllByExhausted(false)
-        if (!listDNAExtractByGeLId.empty){
-            render(template: "dnaExtractList",  model: [listDNAExtractByGeLId: listDNAExtractByGeLId])
+                participantByGeLId = participantByGeLId.id
+                def listDNAExtractByGeLId = DNA_Extract.findAll{
+                    aliquot.specimen.participant.id == participantByGeLId
+                }
+                listDNAExtractByGeLId = listDNAExtractByGeLId.findAll { a ->
+                    !a.exhausted
+                }
+                listDNAExtractByGeLId = listDNAExtractByGeLId.findAll { a ->
+                    a.aliquot.specimen.participant.id.first() == participantByGeLId
+                }
+                if (!listDNAExtractByGeLId.empty) {
+                    render(template: "dnaExtractList", model: [listDNAExtractByGeLId: listDNAExtractByGeLId])
+                }
+            }
         }
     }
 
@@ -64,14 +80,18 @@ class DNA_LibraryController {
             return
         }
 
-        DNA_LibraryInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'DNA_LibraryInstance.label', default: 'DNA_Library'), DNA_LibraryInstance.id])
-                redirect DNA_LibraryInstance
+        if (params.na_extract){
+            DNA_LibraryInstance.save flush: true
+            request.withFormat {
+                form {
+                    flash.message = message(code: 'default.created.message', args: [message(code: 'DNA_LibraryInstance.label', default: 'DNA_Library'), DNA_LibraryInstance.id])
+                    redirect DNA_LibraryInstance
+                }
+                '*' { respond DNA_LibraryInstance, [status: CREATED] }
             }
-            '*' { respond DNA_LibraryInstance, [status: CREATED] }
+        }else {
+            flash.message = "Please enter participant GeL ID, click Find DNA Extract button then select DNA Extract/DNA Extracts from the list."
+            respond DNA_LibraryInstance, view: 'create'
         }
     }
 
@@ -91,14 +111,18 @@ class DNA_LibraryController {
             return
         }
 
-        DNA_LibraryInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'DNA_Library.label', default: 'DNA_Library'), DNA_LibraryInstance.id])
-                redirect DNA_LibraryInstance
+        if (params.na_extract) {
+            DNA_LibraryInstance.save flush: true
+            request.withFormat {
+                form {
+                    flash.message = message(code: 'default.updated.message', args: [message(code: 'DNA_Library.label', default: 'DNA_Library'), DNA_LibraryInstance.id])
+                    redirect DNA_LibraryInstance
+                }
+                '*' { respond DNA_LibraryInstance, [status: OK] }
             }
-            '*' { respond DNA_LibraryInstance, [status: OK] }
+        }else{
+            flash.message = "Please enter participant GeL ID, click Find DNA Extract button then select DNA Extract/DNA Extracts from the list."
+            respond DNA_LibraryInstance, view: 'create'
         }
     }
 

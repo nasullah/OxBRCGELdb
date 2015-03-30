@@ -10,7 +10,7 @@ import grails.plugins.springsecurity.*
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
 
-@Secured(['ROLE_USER', 'ROLE_ADMIN'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
 @Transactional(readOnly = true)
 class DerivationController {
 
@@ -38,10 +38,14 @@ class DerivationController {
         def aliquot = Aliquot.findById(params.selectAliquot)
         if(aliquot){
             if (aliquot.sapphireIdentifier){
-                def lastFourDigit = aliquot.sapphireIdentifier.toString()[-4..-1]
-                def gelId = aliquot.specimen.participant.studySubject.studySubjectIdentifier
-                gelId= gelId?.toString()?.replace('[', '')?.replace(']', '')
-
+                def lastFourDigit = aliquot.sapphireIdentifier.toString()[-6..-1]
+                def gelIdList = aliquot.specimen.participant.studySubject.studySubjectIdentifier
+                def gelId= ''
+                for (int i = 0; i < gelIdList.size(); i ++){
+                    if(gelIdList[i]){
+                        gelId = gelIdList[i]
+                    }
+                }
                 def slidID = gelId + ' ' + lastFourDigit
                 render([slidID: slidID] as XML)
             }
@@ -67,11 +71,11 @@ class DerivationController {
                 aliquotType: params.aliquotType, sapphireIdentifier: params.sapphireIdentifier)
 
         derivationInstance.addToDerivedAliquots(derivedAliquot).save(flush: true)
-
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'derivationInstance.label', default: 'Derivation'), derivationInstance.id])
-                redirect derivationInstance
+//                redirect derivationInstance
+                redirect(controller:'aliquot',action: 'show', params: [id: derivationInstance.derivedAliquots[0].id])
             }
             '*' { respond derivationInstance, [status: CREATED] }
         }
@@ -94,15 +98,23 @@ class DerivationController {
         }
 
         def getSpecimen = Specimen.where {
-            aliquot.id == params.long('aliquot')
+            aliquot.id == params.long('aliquot.id')
         }
+        def getAliquotType = AliquotType.get(params.long('aliquotType.id'))
+        derivationInstance.save flush: true
+        def derivedAliquotList= derivationInstance.getDerivedAliquots()
+        def derivedAliquot= derivedAliquotList[0]
 
-        //derivationInstance.save flush: true
-        def derivedAliquot = new Aliquot(specimen: getSpecimen, exhausted: params.exhausted, notes: params.notes, barcode: params.barcode, aliquotVolumeMass: params.aliquotVolumeMass, unit: params.unit, blockNumber: params.blockNumber,
-                aliquotType: params.aliquotType, sapphireIdentifier: params.sapphireIdentifier)
-
+        derivedAliquot.specimen.id       = getSpecimen.get().id
+        derivedAliquot.exhausted         = params.boolean('exhausted')
+        derivedAliquot.notes             = params.notes
+        derivedAliquot.barcode           = params.barcode
+        derivedAliquot.aliquotVolumeMass = params.aliquotVolumeMass
+        derivedAliquot.unit              = params.unit
+        derivedAliquot.blockNumber       = params.blockNumber
+        derivedAliquot.aliquotType       = getAliquotType
+        derivedAliquot.sapphireIdentifier= params.sapphireIdentifier
         derivationInstance.addToDerivedAliquots(derivedAliquot).save(flush: true)
-
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Derivation.label', default: 'Derivation'), derivationInstance.id])

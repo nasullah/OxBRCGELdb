@@ -42,6 +42,13 @@
                 </a>
             </li>
 
+            <li class="">
+                <a href="${createLink(uri: '/participant/listAuditLogData')}">
+                    <i class="glyphicon glyphicon-search"></i>
+                    Search User Activity Log
+                </a>
+            </li>
+
             <hr />
 
             <li class="">
@@ -82,6 +89,13 @@
                 <a href="${createLink(uri: '/collectionMethod')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Collection Method
+                </a>
+            </li>
+
+            <li class="">
+                <a href="${createLink(uri: '/study')}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    Add Consent Type
                 </a>
             </li>
 
@@ -152,13 +166,6 @@
                 <a href="${createLink(uri: '/staffMember')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Staff Member
-                </a>
-            </li>
-
-            <li class="">
-                <a href="${createLink(uri: '/study')}">
-                    <i class="glyphicon glyphicon-plus-sign"></i>
-                    Add Study
                 </a>
             </li>
 

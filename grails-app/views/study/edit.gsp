@@ -4,7 +4,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
+	<g:set var="entityName" value="${message(code: 'study.label', default: 'Consent Type')}" />
 	<title><g:message code="default.edit.label" args="[entityName]" /></title>
 </head>
 

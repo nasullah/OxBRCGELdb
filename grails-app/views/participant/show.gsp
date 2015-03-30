@@ -41,9 +41,10 @@
 				<td valign="top" class="name"><g:message code="participant.gender.label" default="Gender" /></td>
 
                 <g:if test="${participantInstance.gender}">
-                    <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "gender")}</td>                </g:if>
+                    <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "gender")}</td>
+                </g:if>
                 <g:else>
-                    <td valign="top" class="value"><p class="text-danger">Please enter gender by clicking the Edit Participant button</p></td>
+                    <td valign="top" class="value"><p class="text-danger">Please enter gender by clicking the Edit Participant link</p></td>
                 </g:else>
 				
 			</tr>
@@ -69,7 +70,7 @@
                     <td valign="top" class="value"><g:link controller="ICD10" action="show" id="${participantInstance?.diagnosis?.id}">${participantInstance?.diagnosis?.encodeAsHTML()}</g:link></td>
                 </g:if>
                 <g:else>
-                    <td valign="top" class="value"><p class="text-danger">Please enter diagnosis by clicking the Edit Participant button</p></td>
+                    <td valign="top" class="value"><p class="text-danger">Please enter diagnosis by clicking the Edit Participant link</p></td>
                 </g:else>
 
 			</tr>
@@ -83,15 +84,26 @@
 
             <g:if test="${participantInstance.studySubject}">
                 <tr class="prop">
-                    <td valign="top" class="name"><g:message code="participant.studySubject.label" default="Study Subject" /></td>
+                    <td valign="top" class="name"><g:message code="participant.studySubject.label" default="Consent Type" /></td>
 
                     <td valign="top" style="text-align: left;" class="value">
                         <ul>
-                            <g:each in="${participantInstance.studySubject}" var="s">
+                            <% def studySubjectList = participantInstance.studySubject.sort{it.studySubjectIdentifier} %>
+                            <% studySubjectList = studySubjectList.reverse() %>
+                            <g:each in="${studySubjectList}" var="s">
                                 <li><g:link controller="studySubject" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
                             </g:each>
                         </ul>
                     </td>
+
+                </tr>
+            </g:if>
+
+            <g:if test="${participantInstance.studySubject && participantInstance.studySubject.findResult("Null") {it.studySubjectIdentifier ? it : null} == "Null"}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="participant.label" default="GeL Study ID" /></td>
+
+                    <td valign="top" class="value"><p class="text-danger">Please enter GeL STUDY ID by clicking the Edit Participant link</p></td>
 
                 </tr>
             </g:if>
@@ -136,10 +148,10 @@
 <p class="text-primary">Available Action</p>
 
 <g:if test="${!participantInstance.studySubject}">
-    <a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with a Study </g:link>
+    <a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with a consent </g:link>
 </g:if>
 <g:else>
-    <a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with another Study </g:link>
+    <a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with another consent </g:link>
 </g:else>
 
 <hr style="border:1; height:1px" />

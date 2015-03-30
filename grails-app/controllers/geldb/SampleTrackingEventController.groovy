@@ -9,7 +9,7 @@ import grails.plugins.springsecurity.*
  * SampleTrackingEventController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
 @Transactional(readOnly = true)
 class SampleTrackingEventController {
 
@@ -53,25 +53,48 @@ class SampleTrackingEventController {
 
     def findSpecimenToDispatchByGeLId() {
         def gelId= params.search
-
-        def listSpecimenByGeLId = Specimen.where{
-            participant.studySubject.studySubjectIdentifier == gelId
-        }.list()
-
-        if(!listSpecimenByGeLId.sampleTrackingEvent.sampleTrackingEventType.toString().contains('Despatched to Oxford')){
-            render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
+        def participantId = null
+        if (gelId) {
+            def participantByGeLId = Participant.createCriteria().get {
+                studySubject {
+                    eq('studySubjectIdentifier', gelId)
+                }
+            }
+            if(participantByGeLId){
+                participantId = participantByGeLId.id
+            }
         }
+        if (gelId && participantId) {
+            def listSpecimenByGeLId = Specimen.where {
+                participant.id == participantId
+            }.findAllByExhausted(false)
+            if(!listSpecimenByGeLId.sampleTrackingEvent.sampleTrackingEventType.toString().contains('Despatched to Oxford')){
+                render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
+            }
+        }
+
     }
 
     def findReceivedSpecimenByGeLId() {
         def gelId= params.search
-
-        def listSpecimenByGeLId = Specimen.where{
-            participant.studySubject.studySubjectIdentifier == gelId
-        }.list()
-
-        if(!listSpecimenByGeLId.sampleTrackingEvent.sampleTrackingEventType.toString().contains('Received at Oxford')){
-            render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
+        def participantId = null
+        if (gelId) {
+            def participantByGeLId = Participant.createCriteria().get {
+                studySubject {
+                    eq('studySubjectIdentifier', gelId)
+                }
+            }
+            if(participantByGeLId){
+                participantId = participantByGeLId.id
+            }
+        }
+        if (gelId && participantId) {
+            def listSpecimenByGeLId = Specimen.where {
+                participant.id == participantId
+            }.findAllByExhausted(false)
+            if(!listSpecimenByGeLId.sampleTrackingEvent.sampleTrackingEventType.toString().contains('Received at Oxford')){
+                render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
+            }
         }
     }
 

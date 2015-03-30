@@ -7,9 +7,20 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'solidSpecimen.label', default: 'Main Specimen')}" />
 	<title><g:message code="default.index.label" args="[entityName]" /></title>
+    <r:require module="filterpane" />
 </head>
 
 <body>
+
+<p>
+<p>
+    <filterpane:filterButton text="Filter This List" />
+    <filterpane:filterPane domain="geldb.SolidSpecimen"
+                           excludeProperties="vasculerClampingTimeAtSurgery, collectionDate"
+                           associatedProperties="participant.familyName,participant.givenName,
+                                             participant.nHSNumber,participant.hospitalNumber,
+                                             participant.diagnosis, participant.studySubject.studySubjectIdentifier"/>
+<hr style="border:1; height:1px" />
 
 <section id="index-solidSpecimen" class="first">
 
@@ -23,7 +34,7 @@
 
             <g:sortableColumn property="pathologist" title="${message(code: 'solidSpecimen.pathologist.label', default: 'Reporting Pathologist')}" />
 
-            <g:sortableColumn property="solidSpecimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'solidSpecimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
+            <g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
 
         </tr>
         </thead>
@@ -37,8 +48,7 @@
 
                 <td>${fieldValue(bean: solidSpecimenInstance, field: "pathologist")}</td>
 
-                <td>${fieldValue(bean: solidSpecimenInstance.participant.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
-
+                <td>${fieldValue(bean: solidSpecimenInstance.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
             </tr>
         </g:each>
         </tbody>

@@ -15,7 +15,7 @@ This menu is used to show function that can be triggered on the content (an obje
 
 		<g:set var="entityName" value="${message(code: params.controller+'.label', default: params.controller.substring(0,1).toUpperCase() + params.controller.substring(1).toLowerCase())}" />
 
-        <g:if test="${ params.controller != 'solidSpecimen'}">
+        <g:if test="${ params.controller != 'solidSpecimen' && params.controller != 'FFPE_Tissue_Report' && params.controller != 'gelSuitabilityReport'}">
             <li class="${ params.action == "list" ? 'active' : '' }">
                 <g:link action="list"><i class="glyphicon glyphicon-th-list"></i> <g:message code="default.list.label" args="[entityName]"/></g:link>
             </li>
@@ -38,8 +38,8 @@ This menu is used to show function that can be triggered on the content (an obje
                         || params.controller == 'units'
                         || params.controller == 'centre'
                         || params.controller == 'aliquot'
-                        || params.controller == 'destination'
-                        || params.controller == 'position'}">
+                        || params.controller == 'destination'}">
+
         <li class="${ params.action == "create" ? 'active' : '' }">
             <g:link action="create"><i class="glyphicon glyphicon-plus"></i> <g:message code="default.new.label"  args="[entityName]"/></g:link>
         </li>
@@ -223,6 +223,38 @@ This menu is used to show function that can be triggered on the content (an obje
         <g:if test="${ params.controller == 'solidSpecimen' && params.action == 'show' || params.controller == 'solidSpecimen' && params.action == 'edit' }">
             <li class="${ params.action == "edit" ? 'active' : '' }">
                 <g:link action="edit" id="${params.id}"><i class="glyphicon glyphicon-pencil"></i> Edit Main specimen</g:link>
+            </li>
+            <li class="">
+                <g:render template="/_common/modals/deleteTextLink"/>
+            </li>
+        </g:if>
+    </ul>
+</g:if>
+
+<g:if test="${ params.controller == 'FFPE_Tissue_Report'}">
+    <ul id="Menu" class="nav nav-pills margin-top-small">
+        <li class="${ params.action == "list" ? 'active' : '' }">
+            <g:link action="list"><i class="glyphicon glyphicon-th-list"></i> List Main Specimen Report</g:link>
+        </li>
+        <g:if test="${ params.controller == 'FFPE_Tissue_Report' && params.action == 'show' || params.controller == 'FFPE_Tissue_Report' && params.action == 'edit' }">
+            <li class="${ params.action == "edit" ? 'active' : '' }">
+                <g:link action="edit" id="${params.id}"><i class="glyphicon glyphicon-pencil"></i> Edit Main specimen Report</g:link>
+            </li>
+            <li class="">
+                <g:render template="/_common/modals/deleteTextLink"/>
+            </li>
+        </g:if>
+    </ul>
+</g:if>
+
+<g:if test="${ params.controller == 'gelSuitabilityReport'}">
+    <ul id="Menu" class="nav nav-pills margin-top-small">
+        <li class="${ params.action == "list" ? 'active' : '' }">
+            <g:link action="list"><i class="glyphicon glyphicon-th-list"></i> List GeL Suitability Report</g:link>
+        </li>
+        <g:if test="${ params.controller == 'gelSuitabilityReport' && params.action == 'show' || params.controller == 'gelSuitabilityReport' && params.action == 'edit' }">
+            <li class="${ params.action == "edit" ? 'active' : '' }">
+                <g:link action="edit" id="${params.id}"><i class="glyphicon glyphicon-pencil"></i> Edit GeL Suitability Report</g:link>
             </li>
             <li class="">
                 <g:render template="/_common/modals/deleteTextLink"/>

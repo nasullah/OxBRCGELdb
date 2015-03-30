@@ -12,6 +12,17 @@
 
 <body>
 
+<p>
+<p>
+<filterpane:filterButton text="Filter This List" />
+<filterpane:filterPane domain="geldb.DNA_Library"
+                       excludeProperties="extractionDate"
+                       associatedProperties="na_extract.aliquot.specimen.sapphireIdentifier, na_extract.aliquot.sapphireIdentifier, na_extract.sapphireIdentifier,
+                                             na_extract.aliquot.specimen.participant.familyName, na_extract.aliquot.specimen.participant.givenName,na_extract.aliquot.specimen.participant.diagnosis,
+                                             na_extract.aliquot.specimen.participant.nHSNumber, na_extract.aliquot.specimen.participant.hospitalNumber,
+                                             na_extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier"/>
+<hr style="border:1; height:1px" />
+
 <section id="list-DNA_Library" class="first">
 
 	<table class="table table-bordered margin-top-medium">
@@ -38,24 +49,21 @@
 
                 <td>${fieldValue(bean: DNA_LibraryInstance, field: "passFailReason")}</td>
 
-                <td>${fieldValue(bean: DNA_LibraryInstance.na_extract.aliquot.specimen.participant.studySubject, field: "studySubjectIdentifier").toString().replace('[','').replace(']','')}</td>
+                <% def gelId = DNA_LibraryInstance.na_extract.aliquot.specimen.participant.studySubject %>
+                <g:each in="${1..2}" >
+                    <% gelId = gelId.first()%>
+                </g:each>
+                <% gelId =gelId.findResult {it.studySubjectIdentifier ? it : null}%>
 
+                <td>${fieldValue(bean: gelId, field: "studySubjectIdentifier")}</td>
             </tr>
         </g:each>
 		</tbody>
 	</table>
     <div>
-        <g:paginate total="${DNA_LibraryInstanceTotal == null ? DNA_Library.count(): DNA_LibraryInstanceTotal}" params="${filterParams}" />
-        <filterpane:filterButton text="Filter This List" />
+        <bs:paginate total="${DNA_LibraryInstanceTotal}" />
     </div>
 </section>
-<filterpane:filterPane domain="geldb.DNA_Library"
-                       excludeProperties="extractionDate"
-                       associatedProperties="na_extract.aliquot.specimen.sapphireIdentifier, na_extract.aliquot.sapphireIdentifier, na_extract.sapphireIdentifier,
-                                             na_extract.aliquot.specimen.participant.familyName, na_extract.aliquot.specimen.participant.givenName,na_extract.aliquot.specimen.participant.diagnosis,
-                                             na_extract.aliquot.specimen.participant.nHSNumber, na_extract.aliquot.specimen.participant.hospitalNumber,
-                                             na_extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier"/>
-<hr style="border:1; height:1px" />
 
 </body>
 

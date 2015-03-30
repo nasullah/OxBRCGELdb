@@ -24,24 +24,27 @@
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="studySubject.study.label" default="Study" /></td>
+				<td valign="top" class="name"><g:message code="studySubject.study.label" default="Consent Type" /></td>
 				
 				<td valign="top" class="value"><g:link controller="study" action="show" id="${studySubjectInstance?.study?.id}">${studySubjectInstance?.study?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="studySubject.studySubjectIdentifier.label" default="Study Subject Identifier" /></td>
 
-                <g:if test="${studySubjectInstance.studySubjectIdentifier}">
+            <g:if test="${studySubjectInstance.participant.studySubject.findResult("Null") {it.studySubjectIdentifier ? it : null} == "Null" || studySubjectInstance.studySubjectIdentifier != null}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="studySubject.studySubjectIdentifier.label" default="GeL STUDY ID (GELnnn)" /></td>
+
                     <td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "studySubjectIdentifier")}</td>
-                </g:if>
-                <g:else>
-                    <td valign="top" class="value"><p class="text-danger">Please enter GeL ID by clicking the Edit Study Subject button</p></td>
-                </g:else>
 
-			</tr>
+                </tr>
+            </g:if>
 
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="studySubject.consentFormNumber.label" default="Consent Form Number" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "consentFormNumber")}</td>
+
+            </tr>
 
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="studySubject.consentFormVersion.label" default="Consent Form Version" /></td>

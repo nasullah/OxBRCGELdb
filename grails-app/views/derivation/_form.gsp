@@ -25,7 +25,9 @@
                     <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')} required">
                         <label for="aliquotType" class="control-label"><g:message code="aliquot.aliquotType.label" default="Derived Aliquot Type" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="aliquotType" name="aliquotType.id" from="${geldb.AliquotType.list().sort()}" optionKey="id" required="" value="${aliquotInstance?.aliquotType?.id}" noSelection="['':'- Choose -']" />
+                            <% def aliquotType = derivationInstance?.derivedAliquots?.aliquotType %>
+                            <% aliquotType =aliquotType.findResult {it?.id ? it : null}%>
+                            <g:select class="form-control" id="aliquotType" name="aliquotType.id" from="${geldb.AliquotType.list().sort()}" optionKey="id" required="" value="${aliquotType?.id}" noSelection="['':'- Choose -']" />
                             <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')}</span>
                         </div>
                     </div>
@@ -43,21 +45,21 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6">
-                    <div class="${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')} ">
-                        <label for="derivationTime" class="control-label"><g:message code="derivation.derivationTime.label" default="Derivation Time" /></label>
-                        <div>
-                            <g:textField class="form-control" name="derivationTime" value="${derivationInstance?.derivationTime}"/>
-                            <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')}</span>
-                        </div>
-                    </div>
-                </div>
+                %{--<div class="col-lg-6">--}%
+                    %{--<div class="${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')} ">--}%
+                        %{--<label for="derivationTime" class="control-label"><g:message code="derivation.derivationTime.label" default="Derivation Time" /></label>--}%
+                        %{--<div>--}%
+                            %{--<g:field type="time" class="form-control" name="derivationTime" value="${derivationInstance?.derivationTime}"/>--}%
+                            %{--<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')}</span>--}%
+                        %{--</div>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: derivationInstance, field: 'derivedBy', 'error')} required">
                         <label for="derivedBy" class="control-label"><g:message code="derivation.derivedBy.label" default="Derived By" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="derivedBy" name="derivedBy.id" from="${geldb.StaffMember.list()}" optionKey="id" required="" value="${derivationInstance?.derivedBy?.id}" />
+                            <g:select class="form-control" id="derivedBy" name="derivedBy.id" from="${geldb.StaffMember.list().sort {it.staffName}}" optionKey="id" required="" value="${derivationInstance?.derivedBy?.id}" noSelection="['':'- Choose -']" />
                             <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivedBy', 'error')}</span>
                         </div>
                     </div>
@@ -67,7 +69,9 @@
                     <div class="${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')} ">
                         <label for="barcode" class="control-label"><g:message code="aliquot.barcode.label" default="Barcode (where available)" /></label>
                         <div>
-                            <g:textField class="form-control" name="barcode" value="${aliquotInstance?.barcode}"/>
+                            <% def barcode = derivationInstance?.derivedAliquots?.barcode %>
+                            <% barcode =barcode.findResult {it?.size() ? it : null}%>
+                            <g:textField class="form-control" name="barcode" value="${barcode}"/>
                             <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')}</span>
                         </div>
                     </div>
@@ -79,7 +83,9 @@
                     <div class="${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')} ">
                         <label for="sapphireIdentifier" class="control-label"><g:message code="aliquot.sapphireIdentifier.label" default="Slide ID (Frozen only)" /></label>
                         <div>
-                            <g:textField class="form-control" name="sapphireIdentifier" id="sapphireIdentifier" value="${aliquotInstance?.sapphireIdentifier}"/>
+                            <% def sapphireIdentifier = derivationInstance?.derivedAliquots?.sapphireIdentifier %>
+                            <% sapphireIdentifier =sapphireIdentifier.findResult {it?.size() ? it : null}%>
+                            <g:textField class="form-control" name="sapphireIdentifier" id="sapphireIdentifier" value="${sapphireIdentifier}"/>
                             <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')}</span>
                         </div>
                     </div>
@@ -89,10 +95,8 @@
                     <div class="${hasErrors(bean: aliquotInstance, field: 'exhausted', 'error')} ">
                         <label for="exhausted" class="control-label"><g:message code="aliquot.exhausted.label" default="Exhausted" /><span class="required-indicator">*</span></label>
                         <div>
-                            %{--<bs:checkBox name="exhausted" value="${aliquotInstance?.exhausted}" offLabel="No" onLabel="Yes" />--}%
-                            %{--<span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'exhausted', 'error')}</span>--}%
-                            <label class="radio-inline"><input type="radio" name="exhausted" value="True">Yes</label>
-                            <label class="radio-inline"><input type="radio" name="exhausted" value="False" checked="checked" >No</label>
+                            <label class="radio-inline"><input type="radio" name="exhausted" value= "True">Yes</label>
+                            <label class="radio-inline"><input type="radio" name="exhausted" value= "False" checked="checked" >No</label>
                         </div>
                     </div>
                 </div>

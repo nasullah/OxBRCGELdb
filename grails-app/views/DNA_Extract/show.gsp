@@ -23,7 +23,7 @@
                 <td valign="top" style="text-align: left;" class="value">
                     <ul>
                         <g:each in="${DNA_ExtractInstance.aliquot}" var="a">
-                            <li><g:link controller="aliquot" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
+                            <li><g:link controller="aliquot" action="show" id="${a.id.toString().replace('%5B','').replace('%5D','')}">${a?.encodeAsHTML()}</g:link></li>
                         </g:each>
                     </ul>
                 </td>
@@ -85,6 +85,13 @@
 				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "geLSampleIdentifier")}</td>
 				
 			</tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.sapphireIdentifier.label" default="Biobanking Identifier" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "sapphireIdentifier")}</td>
+
+            </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Extract.dNAExtractionKit.label" default="DNA Extraction Kit" /></td>
@@ -184,9 +191,9 @@
 
 <p class="text-primary">Available Action</p>
 
-%{--<g:if test="${!DNA_ExtractInstance.position}">--}%
-    %{--<a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['identifiedSample.id': DNA_ExtractInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>--}%
-%{--</g:if>--}%
+<g:if test="${DNA_ExtractInstance?.position?.id == null}">
+    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['containedSamples': DNA_ExtractInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
+</g:if>
 
 <hr style="border:1; height:1px" />
 

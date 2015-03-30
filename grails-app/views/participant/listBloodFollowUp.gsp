@@ -7,9 +7,9 @@
 <html>
 
 <head>
-	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'participant.label', default: 'Participant')}" />
-	<title>Follow up Blood Sample Required</title>
+    <meta name="layout" content="kickstart" />
+    <g:set var="entityName" value="${message(code: 'participant.label', default: 'Participant')}" />
+    <title>Follow up Blood Sample Required</title>
 
 </head>
 
@@ -17,39 +17,39 @@
 
 <section id="list-participant" class="first">
 
-	<table class="table table-bordered margin-top-medium">
-		<thead>
-			<tr>
-                <g:sortableColumn property="hospitalNumber" title="${message(code: 'participant.hospitalNumber.label', default: 'Hospital Number')}" />
-			
-				<g:sortableColumn property="familyName" title="${message(code: 'participant.familyName.label', default: 'Family Name')}" />
-			
-				<g:sortableColumn property="givenName" title="${message(code: 'participant.givenName.label', default: 'Given Name')}" />
+    <table class="table table-bordered margin-top-medium">
+        <thead>
+        <tr>
+            <g:sortableColumn property="hospitalNumber" title="${message(code: 'participant.hospitalNumber.label', default: 'Hospital Number')}" />
 
-                <g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'participant.studySubject.studySubjectIdentifier.label', default: 'GeL Id')}" />
+            <g:sortableColumn property="familyName" title="${message(code: 'participant.familyName.label', default: 'Family Name')}" />
 
-                <g:sortableColumn property="specimen" title="${message(code: 'participant.specimen.label', default: 'Follow up Blood')}" />
-			
-			</tr>
-		</thead>
-		<tbody>
-		<g:each in="${participantList}" status="i" var="participantInstance">
-			<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+            <g:sortableColumn property="givenName" title="${message(code: 'participant.givenName.label', default: 'Given Name')}" />
 
-                        <td><g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantInstance, field: "hospitalNumber")}</g:link></td>
+            <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id')}" />
 
-                        <td>${fieldValue(bean: participantInstance, field: "familyName")}</td>
+            <g:sortableColumn property="specimen" title="${message(code: 'participant.specimen.label', default: 'Follow up Blood')}" />
 
-                        <td>${fieldValue(bean: participantInstance, field: "givenName")}</td>
+        </tr>
+        </thead>
+        <tbody>
+        <g:each in="${participantList}" status="i" var="participantInstance">
+            <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-                        <td>${fieldValue(bean: participantInstance.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
+                <td><g:link action="show" id="${participantInstance.id}">${fieldValue(bean: participantInstance, field: "hospitalNumber")}</g:link></td>
 
-                        <td><g:link controller="fluidSpecimen" action="create" params="['participant.id': participantInstance?.id, 'fluidSampleType':'Blood_whole_BLD']"  >${message(code: 'default.add.label', args: [message(code: 'fluidSpecimen.label', default: 'Follow up Blood')])}</g:link></td>
+                <td>${fieldValue(bean: participantInstance, field: "familyName")}</td>
 
-			</tr>
-		</g:each>
-		</tbody>
-	</table>
+                <td>${fieldValue(bean: participantInstance, field: "givenName")}</td>
+
+                <td>${fieldValue(bean: participantInstance.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+
+                <td><a class='btn btn-primary btn-xs' <g:link controller="fluidSpecimen" action="create" params="['participant.id': participantInstance?.id, 'fluidSampleType':'Blood_whole_BLD']"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fluidSpecimen.label', default: 'Follow up Blood')])}</g:link></td>
+
+            </tr>
+        </g:each>
+        </tbody>
+    </table>
 
 </section>
 

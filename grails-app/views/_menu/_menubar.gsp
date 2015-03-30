@@ -1,4 +1,4 @@
-<sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_USER">
+<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_USER, ROLE_CAN_SEE_DEMOGRAPHICS">
     <ul class="nav nav-tabs">
 
         <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_CAN_SEE_DEMOGRAPHICS">
@@ -42,11 +42,19 @@
                 </li>
 
                 <li>
-                    <g:link controller="position" action="index">Sample Position</g:link>
+                    <g:link controller="plateOrBox" action="index">Plate/Box</g:link>
                 </li>
 
                 <li>
                     <g:link controller="SampleTrackingEvent" action="index">Sample Tracking</g:link>
+                </li>
+
+                <li>
+                    <g:link controller="participant" action="summaryReport">Summary Report</g:link>
+                </li>
+
+                <li>
+                    <g:link controller="position" action="index">Position</g:link>
                 </li>
 
             </ul>

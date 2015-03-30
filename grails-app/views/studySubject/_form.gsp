@@ -13,28 +13,41 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: studySubjectInstance, field: 'study', 'error')} required">
-                        <label for="study" class="control-label"><g:message code="studySubject.study.label" default="Study" /><span class="required-indicator">*</span></label>
+                        <label for="study" class="control-label"><g:message code="studySubject.study.label" default="Consent Type" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="study" name="study.id" from="${geldb.Study.list()}" optionKey="id" required="" value="${studySubjectInstance?.study?.id}" />
+                            <g:select class="form-control" id="study" name="study.id" from="${geldb.Study.list()}" optionKey="id" required="" value="${studySubjectInstance?.study?.id}" onchange="filterVersion()"  noSelection="['':'- Choose -']" />
                             <span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'study', 'error')}</span>
                         </div>
                     </div>
                 </div>
 
+                <g:if test="${studySubjectInstance.participant.studySubject.findResult("Null") {it.studySubjectIdentifier ? it : null} == "Null" || studySubjectInstance.studySubjectIdentifier != null}">
+                    <div class="col-lg-6">
+                        <div class="${hasErrors(bean: studySubjectInstance, field: 'studySubjectIdentifier', 'error')} required">
+                            <label for="studySubjectIdentifier" class="control-label"><g:message code="studySubject.studySubjectIdentifier.label" default="GeL STUDY ID (GELnnn)" /><span class="required-indicator">*</span></label>
+                            <div>
+                                <g:textField class="form-control" name="studySubjectIdentifier" maxlength="50" required="" value="${studySubjectInstance?.studySubjectIdentifier}"/>
+                                <span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'studySubjectIdentifier', 'error')}</span>
+                            </div>
+                        </div>
+                    </div>
+                </g:if>
+
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: studySubjectInstance, field: 'studySubjectIdentifier', 'error')} required">
-                        <label for="studySubjectIdentifier" class="control-label"><g:message code="studySubject.studySubjectIdentifier.label" default="Study Subject Identifier" /><span class="required-indicator">*</span></label>
+                    <div class="${hasErrors(bean: studySubjectInstance, field: 'consentFormNumber', 'error')} required">
+                        <label for="consentFormNumber" class="control-label"><g:message code="studySubject.consentFormNumber.label" default="Consent Form Number" /></label>
                         <div>
-                            <g:textField class="form-control" name="studySubjectIdentifier" maxlength="50" required="" value="${studySubjectInstance?.studySubjectIdentifier}"/>
-                            <span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'studySubjectIdentifier', 'error')}</span>
+                            <g:textField class="form-control" name="consentFormNumber" maxlength="50" value="${studySubjectInstance?.consentFormNumber}"/>
+                            <span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'consentFormNumber', 'error')}</span>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: studySubjectInstance, field: 'consentFormVersion', 'error')} required">
+                    <div id="filter" class="${hasErrors(bean: studySubjectInstance, field: 'consentFormVersion', 'error')} required">
                         <label for="consentFormVersion" class="control-label"><g:message code="studySubject.consentFormVersion.label" default="Consent Form Version" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" name="consentFormVersion" from="${studySubjectInstance.constraints.consentFormVersion.inList}" value="${studySubjectInstance?.consentFormVersion}" valueMessagePrefix="studySubjectInstance.consentFormVersion" />
+                            <g:select class="form-control" name="consentFormVersion" id="consentFormVersion" from="${studySubjectInstance.constraints.consentFormVersion.inList}" value="${studySubjectInstance?.consentFormVersion}" valueMessagePrefix="studySubjectInstance.consentFormVersion" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'consentFormVersion', 'error')}</span>
                         </div>
                     </div>
@@ -75,6 +88,22 @@
                     </div>
                 </div>
             </div>
+
+<g:javascript plugin="jquery" library="jquery" />
+<script>
+    function filterVersion(){
+        ${remoteFunction (controller: 'studySubject',
+                        action: 'filterConsentVersionForm',
+                        params: '"study=" + $("#study").val()',
+                        update: 'filter',
+                        onFailure: 'error()'
+                )}
+    }
+
+    function error(request, status, error){
+            $('#consentFormVersion').val("");
+    }
+</script>
 
 
 

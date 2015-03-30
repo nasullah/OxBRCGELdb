@@ -53,25 +53,43 @@
 				
 			</tr>
 		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="derivation.notes.label" default="Notes" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: derivationInstance, field: "notes")}</td>
-				
-			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="derivation.derivedAliquots.label" default="Derived Aliquot" /></td>
-				
-				<td valign="top" style="text-align: left;" class="value">
-					<ul>
-					<g:each in="${derivationInstance.derivedAliquots}" var="d">
-						<li><g:link controller="aliquot" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
-					</g:each>
-					</ul>
-				</td>
-				
-			</tr>
+			%{--<tr class="prop">--}%
+				%{--<td valign="top" class="name"><g:message code="derivation.notes.label" default="Notes" /></td>--}%
+				%{----}%
+				%{--<td valign="top" class="value">${fieldValue(bean: derivationInstance, field: "notes")}</td>--}%
+				%{----}%
+			%{--</tr>--}%
+
+            <g:each in="${derivationInstance.derivedAliquots}" var="d">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="aliquot.aliquotType.label" default="Aliquot Type" /></td>
+
+                    <td valign="top" class="value"><g:link controller="aliquotType" action="show" id="${d?.aliquotType?.id}">${d?.aliquotType?.encodeAsHTML()}</g:link></td>
+
+                </tr>
+
+                <tr class="prop">
+
+                    <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Slide Id (Frozen only)" /></td>
+
+                    <td valign="top" class="value">${fieldValue(bean: d, field: "sapphireIdentifier")}</td>
+
+                </tr>
+
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="aliquot.barcode.label" default="Barcode" /></td>
+
+                    <td valign="top" class="value">${fieldValue(bean: d, field: "barcode")}</td>
+
+                </tr>
+
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="aliquot.exhausted.label" default="Exhausted"/></td>
+
+                    <td valign="top" class="value"><g:formatBoolean boolean="${d.exhausted}" true="Yes" false="No"/></td>
+
+                </tr>
+            </g:each>
 		
 		</tbody>
 	</table>

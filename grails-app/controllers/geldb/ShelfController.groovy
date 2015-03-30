@@ -8,7 +8,7 @@ import grails.plugins.springsecurity.*
  * ShelfController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
 @Transactional(readOnly = true)
 class ShelfController {
 

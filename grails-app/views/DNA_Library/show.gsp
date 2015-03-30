@@ -107,6 +107,13 @@
 			</tr>
 
             <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Library.sapphireIdentifier.label" default="Biobanking Identifier" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_LibraryInstance, field: "sapphireIdentifier")}</td>
+
+            </tr>
+
+            <tr class="prop">
                 <td valign="top" class="name"><g:message code="DNA_Library.barcode.label" default="Barcode" /></td>
 
                 <td valign="top" class="value">${fieldValue(bean: DNA_LibraryInstance, field: "barcode")}</td>
@@ -171,6 +178,14 @@
 		</tbody>
 	</table>
 </section>
+
+<p class="text-primary">Available Action</p>
+
+<g:if test="${DNA_LibraryInstance?.position?.id == null}">
+    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['containedSamples': DNA_LibraryInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
+</g:if>
+
+<hr style="border:1; height:1px" />
 
 </body>
 

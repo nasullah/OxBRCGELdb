@@ -11,7 +11,9 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <div class="row">
             <div class="col-lg-6">
                 <div class="${hasErrors(bean: locationInstance, field: 'locationName', 'error')} ">
                     <label for="locationName" class="control-label"><g:message code="location.locationName.label" default="Location Name" /></label>

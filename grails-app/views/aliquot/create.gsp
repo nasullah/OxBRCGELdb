@@ -18,7 +18,7 @@
         </div>
     </g:hasErrors>
 
-    <g:form action="save" class="form-horizontal" role="form" >
+    <g:form action="save" method="post" class="form-horizontal" role="form">
         <g:render template="form"/>
 
         <div class="form-actions margin-top-medium">

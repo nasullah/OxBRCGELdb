@@ -7,9 +7,21 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'DNA_Library.label', default: 'DNA Library')}" />
 	<title><g:message code="default.index.label" args="[entityName]" /></title>
+    <r:require module="filterpane" />
 </head>
 
 <body>
+
+<p>
+<p>
+    <filterpane:filterButton text="Filter This List" />
+    <filterpane:filterPane domain="geldb.DNA_Library"
+                           excludeProperties="extractionDate"
+                           associatedProperties="na_extract.aliquot.specimen.sapphireIdentifier, na_extract.aliquot.sapphireIdentifier, na_extract.sapphireIdentifier,
+                                             na_extract.aliquot.specimen.participant.familyName, na_extract.aliquot.specimen.participant.givenName,na_extract.aliquot.specimen.participant.diagnosis,
+                                             na_extract.aliquot.specimen.participant.nHSNumber, na_extract.aliquot.specimen.participant.hospitalNumber,
+                                             na_extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier"/>
+<hr style="border:1; height:1px" />
 
 <section id="index-DNA_Library" class="first">
 
@@ -36,8 +48,14 @@
 				<td><g:formatBoolean boolean="${DNA_LibraryInstance.passFail}" /></td>
 			
 				<td>${fieldValue(bean: DNA_LibraryInstance, field: "passFailReason")}</td>
-			
-				<td>${fieldValue(bean: DNA_LibraryInstance.na_extract.aliquot.specimen.participant.studySubject, field: "studySubjectIdentifier").toString().replace('[','').replace(']','')}</td>
+
+                <% def gelId = DNA_LibraryInstance.na_extract.aliquot.specimen.participant.studySubject %>
+                <g:each in="${1..2}" >
+                    <% gelId = gelId.first()%>
+                </g:each>
+                <% gelId =gelId.findResult {it.studySubjectIdentifier ? it : null}%>
+
+                <td>${fieldValue(bean: gelId, field: "studySubjectIdentifier")}</td>
 
 			</tr>
 		</g:each>

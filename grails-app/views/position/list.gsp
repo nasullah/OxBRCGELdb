@@ -10,9 +10,19 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'position.label', default: 'Position')}" />
 	<title><g:message code="default.list.label" args="[entityName]" /></title>
+    <r:require module="filterpane" />
 </head>
 
 <body>
+
+<p>
+<p>
+    <filterpane:filterButton text="Filter This List" />
+    <filterpane:filterPane domain="geldb.Position"
+                           associatedProperties="plateOrBox.identifier, plateOrBox.shelf.shelfName,
+                                                 plateOrBox.shelf.shelfName, plateOrBox.shelf.freezer.freezerName"/>
+
+<hr style="border:1; height:1px" />
 
 <section id="list-position" class="first">
 
@@ -49,7 +59,7 @@
                 <g:each in="${solidSpecimen}" var="item">
                     <g:each in="${positionInstance.containedSamples}" var="pos">
                         <g:if test="${pos.id ==item.id}">
-                            <td><g:link controller="solidSpecimen" action="show" id="${positionInstance.containedSamples.id}">${fieldValue(bean: positionInstance, field: "containedSamples")}</g:link></td>
+                            <td><g:link controller="solidSpecimen" action="show" id="${item.id}">${item}</g:link></td>
                         </g:if>
                     </g:each>
                 </g:each>
@@ -57,23 +67,23 @@
                 <g:each in="${fluidSpecimen}" var="item">
                     <g:each in="${positionInstance.containedSamples}" var="pos">
                         <g:if test="${pos.id ==item.id}">
-                            <td><g:link controller="fluidSpecimen" action="show" id="${positionInstance.containedSamples.id}">${fieldValue(bean: positionInstance, field: "containedSamples")}</g:link></td>
+                            <td><g:link controller="fluidSpecimen" action="show" id="${item.id}">${item}</g:link></td>
                         </g:if>
                     </g:each>
                 </g:each>
 
                 <g:each in="${aliquots}" var="item">
                     <g:each in="${positionInstance.containedSamples}" var="pos">
-                        <g:if test="${pos.id ==item.id}">
-                            <td><g:link controller="aliquot" action="show" id="${positionInstance.containedSamples.id}">${fieldValue(bean: positionInstance, field: "containedSamples")}</g:link></td>
+                        <g:if test="${pos.id ==item.id && !item.exhausted}">
+                            <td><g:link controller="aliquot" action="show" id="${item.id}">${item}</g:link></td>
                         </g:if>
                     </g:each>
                 </g:each>
 
                 <g:each in="${DNAExtract}" var="item">
                     <g:each in="${positionInstance.containedSamples}" var="pos">
-                        <g:if test="${pos.id ==item.id}">
-                            <td><g:link controller="DNA_Extract" action="show" id="${positionInstance.containedSamples.id}">${fieldValue(bean: positionInstance, field: "containedSamples")}</g:link></td>
+                        <g:if test="${pos.id ==item.id && !item.exhausted}">
+                            <td><g:link controller="DNA_Extract" action="show" id="${item.id}">${item}</g:link></td>
                         </g:if>
                     </g:each>
                 </g:each>
@@ -81,17 +91,22 @@
                 <g:each in="${DNALibrary}" var="item">
                     <g:each in="${positionInstance.containedSamples}" var="pos">
                         <g:if test="${pos.id ==item.id}">
-                            <td><g:link controller="DNA_Library" action="show" id="${positionInstance.containedSamples.id}">${fieldValue(bean: positionInstance, field: "containedSamples")}</g:link></td>
+                            <td><g:link controller="DNA_Library" action="show" id="${item.id}">${item}</g:link></td>
                         </g:if>
                     </g:each>
                 </g:each>
+
+                <g:if test="${!positionInstance.containedSamples}">
+                    <td></td>
+                </g:if>
+
             </tr>
         </g:each>
 		</tbody>
 	</table>
-	<div>
-		<bs:paginate total="${positionInstanceCount}" />
-	</div>
+    <div>
+        <bs:paginate total="${positionInstanceTotal}" />
+    </div>
 </section>
 
 </body>

@@ -9,7 +9,7 @@ import grails.plugins.springsecurity.*
  * FluidSpecimenController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
 @Transactional(readOnly = true)
 class FluidSpecimenController {
 
@@ -17,12 +17,12 @@ class FluidSpecimenController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond FluidSpecimen.findAllByExhausted(false, params.max ), model: [fluidSpecimenInstanceCount: FluidSpecimen.count()]
+        respond FluidSpecimen.findAllByExhausted(false, params), model: [fluidSpecimenInstanceCount: FluidSpecimen.count()]
     }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [fluidSpecimenInstanceList: FluidSpecimen.findAllByExhausted(false, params.max ), fluidSpecimenInstanceTotal: FluidSpecimen.count()]
+        [fluidSpecimenInstanceList: FluidSpecimen.findAllByExhausted(false, params), fluidSpecimenInstanceTotal: FluidSpecimen.count()]
     }
     def filterPaneService
 
@@ -35,14 +35,15 @@ class FluidSpecimenController {
 
     def findParticipantByGeLId() {
         def gelId= params.search
-
-        List <Participant> listParticipantByGeLId = Participant.createCriteria().listDistinct{
-            studySubject {
-                eq('studySubjectIdentifier',gelId)
+        if (gelId) {
+            def participantByGeLId = Participant.createCriteria().get {
+                studySubject {
+                    eq('studySubjectIdentifier', gelId)
+                }
             }
-        }
-        if (!listParticipantByGeLId.empty){
-            render(template: "participantList",  model: [listParticipantByGeLId: listParticipantByGeLId])
+            if (participantByGeLId && gelId) {
+                render(template: "participantList", model: [listParticipantByGeLId: participantByGeLId])
+            }
         }
     }
 

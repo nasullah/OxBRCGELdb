@@ -5,7 +5,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'study.label', default: 'Study')}" />
+	<g:set var="entityName" value="${message(code: 'study.label', default: 'Consent Type')}" />
 	<title><g:message code="default.index.label" args="[entityName]" /></title>
 </head>
 
@@ -17,7 +17,7 @@
 		<thead>
 			<tr>
 			
-				<g:sortableColumn property="studyName" title="${message(code: 'study.studyName.label', default: 'Study Name')}" />
+				<g:sortableColumn property="studyName" title="${message(code: 'study.studyName.label', default: 'Consent Type')}" />
 			
 			</tr>
 		</thead>

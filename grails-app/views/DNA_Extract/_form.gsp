@@ -1,40 +1,58 @@
 <%@ page import="geldb.DNA_Extract" %>
 
 
-            <hr style="border:1; height:1px" />
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-success" value="Find" onClick= 'getAliquots()'><span class="glyphicon glyphicon-search"></span> Find Aliquot</button>
+            <g:if test="${DNA_ExtractInstance?.aliquot*.id == null}">
+                <hr style="border:1; height:1px" />
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-success" value="Find" onClick= 'getAliquots()'><span class="glyphicon glyphicon-search"></span> Find Aliquot</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <p>
+                <div id="selectAliquot"></div>
+            </g:if>
 
-            <p>
-
-            <div id="selectAliquot"></div>
-
-			<div class="${hasErrors(bean: DNA_ExtractInstance, field: 'exhausted', 'error')} ">
-				<label for="exhausted" class="control-label"><g:message code="DNA_Extract.exhausted.label" default="Exhausted" /></label>
-				<div>
-					<bs:checkBox name="exhausted" value="${DNA_ExtractInstance?.exhausted}" offLabel="No" onLabel="Yes"/>
-					<span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'exhausted', 'error')}</span>
-				</div>
-			</div>
-
-			<div class="${hasErrors(bean: DNA_ExtractInstance, field: 'passFail', 'error')} ">
-				<label for="passFail" class="control-label"><g:message code="DNA_Extract.passFail.label" default="Pass/Fail" /></label>
-				<div>
-					<bs:checkBox name="passFail" value="${DNA_ExtractInstance?.passFail}" offLabel="Fail" onLabel="Pass"/>
-					<span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'passFail', 'error')}</span>
-				</div>
-			</div>
+            <g:if test="${DNA_ExtractInstance?.aliquot*.id != null}">
+                <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'aliquot', 'error')} ">
+                    <label for="aliquot" class="control-label"><g:message code="DNA_Extract.aliquot.label" default="Aliquot" /><span class="required-indicator">*</span></label>
+                    <div>
+                        <g:select class="form-control" name="aliquot" id="aliquot" from="${geldb.Aliquot.list()}"
+                                  multiple="multiple" size="1" optionKey="id" value="${DNA_ExtractInstance?.aliquot*.id}" required="" class="many-to-many"/>
+                        <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'aliquot', 'error')}</span>
+                    </div>
+                </div>
+            </g:if>
 
             <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'exhausted', 'error')} ">
+                        <label for="exhausted" class="control-label"><g:message code="DNA_Extract.exhausted.label" default="Exhausted" /></label>
+                        <div>
+                            %{--<bs:checkBox name="exhausted" value="${DNA_ExtractInstance?.exhausted}" offLabel="No" onLabel="Yes"/>--}%
+                            %{--<span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'exhausted', 'error')}</span>--}%
+                            <label class="radio-inline"><input type="radio" name="exhausted" value="True">Yes</label>
+                            <label class="radio-inline"><input type="radio" name="exhausted" value="False" checked="checked" >No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'passFail', 'error')} ">
+                        <label for="passFail" class="control-label"><g:message code="DNA_Extract.passFail.label" default="Pass/Fail" /></label>
+                        <div>
+                            %{--<bs:checkBox name="passFail" value="${DNA_ExtractInstance?.passFail}" offLabel="Fail" onLabel="Pass"/>--}%
+                            %{--<span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'passFail', 'error')}</span>--}%
+                            <label class="radio-inline"><input type="radio" name="passFail" value="True" checked="checked">Yes</label>
+                            <label class="radio-inline"><input type="radio" name="passFail" value="False" >No</label>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'passFailReason', 'error')} ">
                         <label for="passFailReason" class="control-label"><g:message code="DNA_Extract.passFailReason.label" default="Pass Fail Reason" /></label>
@@ -93,7 +111,7 @@
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'extractedBy', 'error')} ">
                         <label for="extractedBy" class="control-label"><g:message code="DNA_Extract.extractedBy.label" default="Extracted By" /></label>
                         <div>
-                            <g:select class="form-control" id="extractedBy" name="extractedBy.id" from="${geldb.StaffMember.list()}" optionKey="id" value="${DNA_ExtractInstance?.extractedBy?.id}" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="extractedBy" name="extractedBy.id" from="${geldb.StaffMember.list().sort {it.staffName}}" optionKey="id" value="${DNA_ExtractInstance?.extractedBy?.id}" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'extractedBy', 'error')}</span>
                         </div>
                     </div>
@@ -107,6 +125,16 @@
                         <div>
                             <g:textField class="form-control" name="geLSampleIdentifier" maxlength="50" required="" value="${DNA_ExtractInstance?.geLSampleIdentifier}"/>
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'geLSampleIdentifier', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'sapphireIdentifier', 'error')} ">
+                        <label for="sapphireIdentifier" class="control-label"><g:message code="DNA_Extract.sapphireIdentifier.label" default="Biobanking Identifier" /></label>
+                        <div>
+                            <g:textField class="form-control" id="sapphireIdentifier" name="sapphireIdentifier" value="${DNA_ExtractInstance?.sapphireIdentifier}"/>
+                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'sapphireIdentifier', 'error')}</span>
                         </div>
                     </div>
                 </div>
@@ -147,6 +175,17 @@
                         <div>
                             <g:textField class="form-control" name="barcode" value="${DNA_ExtractInstance?.barcode}"/>
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'barcode', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="">
+                        <label for="exhaustAliquot" class="control-label"><g:message code="DNA_Extract.exhaustAliquot.label" default="Exhaust Aliquot ?" /></label>
+                        <div>
+                            %{--<bs:checkBox name="exhaustAliquot" id="exhaustAliquot" offLabel="No" onLabel="Yes"/>--}%
+                            <label class="radio-inline"><input type="radio" name="exhaustAliquot"  value="True">Yes</label>
+                            <label class="radio-inline"><input type="radio" name="exhaustAliquot"  value="False" >No</label>
                         </div>
                     </div>
                 </div>

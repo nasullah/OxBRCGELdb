@@ -7,9 +7,18 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'participant.label', default: 'Participant')}" />
 	<title><g:message code="default.index.label" args="[entityName]" /></title>
+    <r:require module="filterpane" />
 </head>
 
 <body>
+
+<p>
+<p>
+    <filterpane:filterButton text="Filter This List" />
+    <filterpane:filterPane domain="geldb.Participant"
+                           excludeProperties="dateOfBirth"
+                           associatedProperties="studySubject.studySubjectIdentifier"/>
+<hr style="border:1; height:1px" />
 
 <section id="index-participant" class="first">
 
@@ -24,7 +33,7 @@
 
 				<g:sortableColumn property="centre" title="${message(code: 'participant.centre.label', default: 'Centre')}" />
 
-                <g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'participant.studySubject.studySubjectIdentifier.label', default: 'GeL Id')}" />
+                <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id')}" />
 			
 			</tr>
 		</thead>
@@ -40,7 +49,7 @@
 			
 				<td>${fieldValue(bean: participantInstance, field: "centre")}</td>
 
-                <td>${fieldValue(bean: participantInstance.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
+                <td>${fieldValue(bean: participantInstance.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
 			
 			</tr>
 		</g:each>

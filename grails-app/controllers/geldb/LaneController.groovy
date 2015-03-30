@@ -8,7 +8,7 @@ import grails.plugins.springsecurity.*
  * LaneController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
 @Transactional(readOnly = true)
 class LaneController {
 
@@ -30,12 +30,27 @@ class LaneController {
 
     def findDNALibraryByGeLId() {
         def gelId= params.search
-
-        def listDNALibraryByGeLId = DNA_Library.where{
-         na_extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier == gelId
-        }.findAllByExhausted(false)
-        if (!listDNALibraryByGeLId.empty){
-            render(template: "listDNALibraryList",  model: [listDNALibraryByGeLId: listDNALibraryByGeLId])
+        if (gelId) {
+            def participantByGeLId = Participant.createCriteria().get {
+                studySubject {
+                    eq('studySubjectIdentifier', gelId)
+                }
+            }
+            if(participantByGeLId){
+                participantByGeLId = participantByGeLId.id
+                def listDNALibraryByGeLId = DNA_Library.findAll {
+                    na_extract.aliquot.specimen.participant.id == participantByGeLId
+                }
+                listDNALibraryByGeLId = listDNALibraryByGeLId.findAll{ l ->
+                    !l.exhausted
+                }
+                listDNALibraryByGeLId = listDNALibraryByGeLId.findAll{ l ->
+                    l.na_extract.aliquot.specimen.participant.id.first().first() == participantByGeLId
+                }
+                if (!listDNALibraryByGeLId.empty) {
+                    render(template: "listDNALibraryList", model: [listDNALibraryByGeLId: listDNALibraryByGeLId])
+                }
+            }
         }
     }
 
@@ -55,15 +70,20 @@ class LaneController {
             return
         }
 
-        laneInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'laneInstance.label', default: 'Lane'), laneInstance.id])
-                redirect laneInstance
+        if (params.loadedLibrary){
+            laneInstance.save flush: true
+            request.withFormat {
+                form {
+                    flash.message = message(code: 'default.created.message', args: [message(code: 'laneInstance.label', default: 'Lane'), laneInstance.id])
+                    redirect laneInstance
+                }
+                '*' { respond laneInstance, [status: CREATED] }
             }
-            '*' { respond laneInstance, [status: CREATED] }
+        } else {
+            flash.message = "Please enter participant GeL ID, click Find DNA Library button then select DNA Library/DNA Libraries from the list."
+            respond laneInstance, view: 'create'
         }
+
     }
 
     def edit(Lane laneInstance) {
@@ -82,15 +102,19 @@ class LaneController {
             return
         }
 
-        laneInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Lane.label', default: 'Lane'), laneInstance.id])
-                //redirect laneInstance
-                redirect(controller:'flowCell',action: 'show', params: [id:laneInstance.flowCell.id])
+        if (params.loadedLibrary) {
+            laneInstance.save flush: true
+            request.withFormat {
+                form {
+                    flash.message = message(code: 'default.updated.message', args: [message(code: 'Lane.label', default: 'Lane'), laneInstance.id])
+                    //redirect laneInstance
+                    redirect(controller: 'flowCell', action: 'show', params: [id: laneInstance.flowCell.id])
+                }
+                '*' { respond laneInstance, [status: OK] }
             }
-            '*' { respond laneInstance, [status: OK] }
+        }else{
+            flash.message = "Please enter participant GeL ID, click Find DNA Library button then select DNA Library/DNA Libraries from the list."
+            respond laneInstance, view: 'create'
         }
     }
 

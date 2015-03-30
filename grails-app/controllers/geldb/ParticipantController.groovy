@@ -1,5 +1,8 @@
 package geldb
 
+import GELBootsDB.User
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogListener
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -15,8 +18,11 @@ import groovy.json.JsonSlurper
 @Transactional(readOnly = true)
 class ParticipantController {
 
-
     def consentService
+    def filterPaneService
+    def exportService
+    def grailsApplication
+
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -30,7 +36,7 @@ class ParticipantController {
         //call Greenlight service here
         def results = consentService.getConsent( params.nhsOrHospitalNumberId)
         //internal error accessing Greenlight
-        if(results.errors){
+        if(results.erros){
             flash.message = results.errorMessage;
             redirect(uri: '/importparticipant')
             return
@@ -48,31 +54,29 @@ class ParticipantController {
         def nhsNumber = results.consent.nhsNumber
         def hospitalNumber =  results.consent.hospitalNumber
 
-        def consentFormId = ""
-        def consentTakerName = ""
-        def lastCompleted = new Date()
-        def version =""
-        def foundGEL = false
-        def foundORB = false
-
+        List<StudySubject> consentList = new ArrayList<StudySubject>();
+//        def consentTakerName = ""
+//        def lastCompleted = new Date()
+//        def version =""
+//        def foundGEL = false
+//        def foundORB = false
         results.consent.consents.each{ c->
             if(c.form.namePrefix =="GEL"){
-                foundGEL = true
-                consentFormId    = c.consentFormId
-                consentTakerName = c.consentTakerName
-                lastCompleted    = c.lastCompleted
-                version          = c.form.version
+                def gelStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: c.lastCompleted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
+                if (gelStudySubjectInstance){
+                    consentList.add(gelStudySubjectInstance)
+                }
             } else if(c.form.namePrefix =="GEN"){
-                foundORB = true
-                consentFormId    = c.consentFormId
-                consentTakerName = c.consentTakerName
-                lastCompleted    = c.lastCompleted
-                version          = c.form.version
+                def orbStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('ORB'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: c.lastCompleted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
+                if (orbStudySubjectInstance){
+                    consentList.add(orbStudySubjectInstance)
+                }
             }
         }
         //we find the patient and has the consent form
         def existingParticipant = Participant.findByHospitalNumber(hospitalNumber)
-        if(foundGEL && existingParticipant){
+        if(existingParticipant){
+
             existingParticipant.centre = Centre.findByCentreName('Oxford')
             existingParticipant.dateOfBirth = new Date().parse("yyyy-MM-dd", dateOfBirth)
             existingParticipant.diagnosis = null
@@ -84,28 +88,22 @@ class ParticipantController {
             existingParticipant.save(failOnError: true)
             redirect(action: "show", id: existingParticipant.id)
 
-        }else if (foundGEL && !existingParticipant){
-                def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
-                        dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
-
-                def studySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL Study'), studySubjectIdentifier: null, consentStatus: Boolean.TRUE, recruitmentDate: lastCompleted,
-                        recruitedBy:consentTakerName, consentFormVersion: version)
-                participantInstance.addToStudySubject(studySubjectInstance).save(failOnError: true)
-                redirect(action: "show", id: participantInstance.id)
-        }else if (foundORB && !existingParticipant){
+        }else if (!consentList.empty && !existingParticipant) {
             def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
                     dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
+            for (int i = 0; i < consentList.size(); i++) {
 
-            def studySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('ORB Study'), studySubjectIdentifier: null, consentStatus: Boolean.TRUE, recruitmentDate: lastCompleted,
-                    recruitedBy:consentTakerName, consentFormVersion: version)
-            participantInstance.addToStudySubject(studySubjectInstance).save(failOnError: true)
+                participantInstance.addToStudySubject(consentList.get(i))
+                participantInstance.save(failOnError: true)
+            }
+
             redirect(action: "show", id: participantInstance.id)
         } else{
             flash.message = "Patient with NHS number ${nhsNumber} doesn't have any consent form"
             redirect(uri: '/importparticipant')
         }
-    }
 
+    }
 //            def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
 //                    dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
 //
@@ -118,21 +116,20 @@ class ParticipantController {
 
     def listBloodFollowUp() {
 
-        List <Participant> results = Participant.createCriteria().listDistinct{
+        def results = Participant.createCriteria().listDistinct{
             specimen {
                 aliquot {
                     eq('aliquotType',AliquotType.findByAliquotTypeName('Plasma'))
                 }
             }
         }
-    [participantList: results]
+        [participantList: results.sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count()]
     }
-    def filterPaneService
 
     def filter = {
         if(!params.max) params.max = 10
@@ -141,9 +138,67 @@ class ParticipantController {
                                      filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
     }
 
+    @Secured(['ROLE_ADMIN'])
+    @Transactional
+    def listAuditLogData(){
+        def user = User?.get(params.long('user.id'))
+        def listAuditLogData = AuditLogEvent?.findAllByActor(user?.username)
+        listAuditLogData = listAuditLogData.sort {it.dateCreated}
+        listAuditLogData = listAuditLogData.reverse()
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= Exported User Activity Log.${params.extension}")
+
+            def auditLogExport = AuditLogEvent.list().sort {it.actor}
+            auditLogExport = auditLogExport.reverse()
+
+            List fields = ["actor", "eventName", "dateCreated", "className", "persistedObjectId", "oldValue", "newValue"]
+            Map labels = ["actor":"Username", "eventName":"Event Name", "dateCreated":"Date & Time",
+                          "className":"Table", "persistedObjectId":"Record ID", "oldValue":"Old Value",
+                          "newValue":"New Value"]
+            Map parameters = [title: "Exported User Activity Log", "column.widths": [0.2, 0.3, 0.5]]
+            Map formatters = [:]
+
+            exportService.export(params.format, response.outputStream, auditLogExport, fields, labels, formatters, parameters )
+
+            if (params.delete){
+                AuditLogEvent.executeUpdate('delete from AuditLogEvent')
+            }
+        }
+
+        [listAuditLogData: listAuditLogData]
+    }
 
     def show(Participant participantInstance) {
         respond participantInstance
+    }
+
+    def summaryReport() {
+        def gelID = params.gelStudyId
+        if (gelID) {
+            def participantByGeLId = Participant.createCriteria().get {
+                studySubject {
+                    eq('studySubjectIdentifier', gelID)
+                }
+            }
+            if (participantByGeLId && gelID) {
+                [participantSummary: participantByGeLId]
+            }
+        }
+    }
+
+    def findICD10() {
+        def searchDiagnosis= params.searchDiagnosis
+        def parts =searchDiagnosis.toString().split(' ')
+        def listICD10 = ICD10.createCriteria().listDistinct {
+            or {
+                and {parts.each {ilike("meaning", '%' + it + '%')}}
+                and {parts.each {ilike("code", '%' + it + '%')}}
+            }
+        }
+        if (!listICD10.empty){
+            render(template: "listICD10",  model: [listICD10: listICD10])
+        }
     }
 
     def create() {
@@ -191,12 +246,24 @@ class ParticipantController {
 
         participantInstance.save flush: true
 
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Participant.label', default: 'Participant'), participantInstance.id])
-                redirect participantInstance
+        def gelId = params.studySubjectIdentifier
+        if (gelId){
+            def gelSubject = participantInstance.studySubject.find {s ->s.study.studyName = 'GeL' }
+            if (gelSubject){
+                gelSubject.studySubjectIdentifier = gelId
+                gelSubject.save flush: true
+                flash.message = "Participant ${participantInstance.id} has been updated"
+                redirect(controller:'participant',action: 'show', params: [id:participantInstance.id])
+            }else {
+                def firstSubject =  participantInstance.studySubject.first()
+                firstSubject.studySubjectIdentifier = gelId
+                firstSubject.save flush: true
+                flash.message = "Participant ${participantInstance.id} has been updated"
+                redirect(controller:'participant',action: 'show', params: [id:participantInstance.id])
             }
-            '*' { respond participantInstance, [status: OK] }
+        } else{
+            flash.message = "Participant ${participantInstance.id}has been updated"
+            redirect participantInstance
         }
     }
 

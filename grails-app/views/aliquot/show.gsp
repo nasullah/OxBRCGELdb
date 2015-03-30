@@ -18,11 +18,48 @@
     <table class="table">
         <tbody>
 
+        %{--<g:if test="${aliquotInstance?.derivedFrom?.id !=null}">--}%
+            %{--<tr class="prop">--}%
+                %{--<td valign="top" class="name"><g:message code="aliquot.derivedFrom.label" default="Derived From" /></td>--}%
+
+                %{--<td valign="top" class="value"><g:link controller="derivation" action="show" id="${aliquotInstance?.derivedFrom?.id}">${aliquotInstance?.derivedFrom?.encodeAsHTML()}</g:link></td>--}%
+
+            %{--</tr>--}%
+        %{--</g:if>--}%
+
         <g:if test="${aliquotInstance?.derivedFrom?.id !=null}">
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="aliquot.derivedFrom.label" default="Derived From" /></td>
+                <td valign="top" class="name"><g:message code="aliquot.derivedFrom.aliquot.label" default="Parent Aliquot" /></td>
 
-                <td valign="top" class="value"><g:link controller="derivation" action="show" id="${aliquotInstance?.derivedFrom?.id}">${aliquotInstance?.derivedFrom?.encodeAsHTML()}</g:link></td>
+                <td valign="top" class="value"><g:link controller="aliquot" action="show" id="${aliquotInstance?.derivedFrom?.aliquot?.id}">${aliquotInstance?.derivedFrom?.aliquot?.encodeAsHTML()}</g:link></td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="derivation.derivationDate.label" default="Derivation Date" /></td>
+
+                <td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${aliquotInstance?.derivedFrom?.derivationDate}" /></td>
+
+            </tr>
+
+            %{--<tr class="prop">--}%
+                %{--<td valign="top" class="name"><g:message code="derivation.derivationTime.label" default="Derivation Time" /></td>--}%
+
+                %{--<td valign="top" class="value">${fieldValue(bean: aliquotInstance?.derivedFrom, field: "derivationTime")}</td>--}%
+
+            %{--</tr>--}%
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="derivation.derivedBy.label" default="Derived By" /></td>
+
+                <td valign="top" class="value"><g:link controller="staffMember" action="show" id="${aliquotInstance?.derivedFrom?.derivedBy?.id}">${aliquotInstance?.derivedFrom?.derivedBy?.encodeAsHTML()}</g:link></td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="derivation.derivationProcess.label" default="Derivation Process" /></td>
+
+                <td valign="top" class="value">${aliquotInstance?.derivedFrom?.derivationProcess?.encodeAsHTML()}</td>
 
             </tr>
         </g:if>
@@ -98,7 +135,7 @@
             <td valign="top" class="name"><g:message code="aliquot.exhausted.label" default="Exhausted"/></td>
 
             <g:if test="${aliquotInstance.exhausted == null}">
-                <td valign="top" class="value"><p class="text-danger">Not completed</p></td>
+                <td valign="top" class="value"></td>
             </g:if>
             <g:else >
                 <td valign="top" class="value"><g:formatBoolean boolean="${aliquotInstance?.exhausted}" true="Yes" false="No"/></td>
@@ -146,14 +183,14 @@
             </tr>
         </g:if>
 
-        <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="aliquot.aliquotPhotograph.label" default="Aliquot Photograph File Path" /></td>
+        %{--<g:if test="${aliquotInstance?.derivedFrom?.id == null}">--}%
+            %{--<tr class="prop">--}%
+                %{--<td valign="top" class="name"><g:message code="aliquot.aliquotPhotograph.label" default="Aliquot Photograph File Path" /></td>--}%
 
-                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "aliquotPhotograph")}</td>
+                %{--<td valign="top" class="value"><g:link action="download" id="${aliquotInstance.id}">${aliquotInstance.aliquotPhotograph}</g:link></td>--}%
 
-            </tr>
-        </g:if>
+            %{--</tr>--}%
+        %{--</g:if>--}%
 
         <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
             <tr class="prop">
@@ -164,12 +201,14 @@
             </tr>
         </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.position.label" default="Position" /></td>
+        <g:if test="${aliquotInstance?.position?.id != null}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.position.label" default="Position" /></td>
 
-            <td valign="top" class="value"><g:link controller="position" action="show" id="${aliquotInstance?.position?.id}">${aliquotInstance?.position?.encodeAsHTML()}</g:link></td>
+                <td valign="top" class="value"><g:link controller="position" action="show" id="${aliquotInstance?.position?.id}">${aliquotInstance?.position?.encodeAsHTML()}</g:link></td>
 
-        </tr>
+            </tr>
+        </g:if>
 
         <g:if test="${aliquotInstance.sampleTrackingEvent}">
             <tr class="prop">
@@ -225,7 +264,9 @@
                 <td valign="top" style="text-align: left;" class="value">
                     <ul>
                         <g:each in="${aliquotInstance.derivation}" var="d">
-                            <li><g:link controller="derivation" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
+                            <g:each in="${d.derivedAliquots}" var="a">
+                                <li><g:link controller="aliquot" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
+                            </g:each>
                         </g:each>
                     </ul>
                 </td>
@@ -272,21 +313,24 @@
 
 <p class="text-primary">Available Actions</p>
 
+<g:if test="${aliquotInstance?.position?.id == null && aliquotInstance?.exhausted != true}">
+    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['containedSamples': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
+</g:if>
 <a class='btn btn-primary btn-small' <g:link controller="colocation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'colocation.label', default: 'Colocation')])}</g:link>
 
-<g:if test="${aliquotInstance?.aliquotType?.aliquotTypeName == 'Fresh Frozen Tissue' || aliquotInstance?.aliquotType?.aliquotTypeName == 'Punch Biopsy Frozen'}">
+<g:if test="${(aliquotInstance?.aliquotType?.aliquotTypeName == 'Fresh Frozen Tissue' && aliquotInstance?.derivedFrom?.id == null) || (aliquotInstance?.aliquotType?.aliquotTypeName == 'Punch Biopsy Frozen' && aliquotInstance?.derivedFrom?.id == null)}">
     <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation')])}</g:link>
 </g:if>
 
-<g:if test="${!aliquotInstance.gelSuitabilityReport}">
+<g:if test="${!aliquotInstance.gelSuitabilityReport && aliquotInstance.aliquotType.aliquotTypeName != 'Buffy Coat' && aliquotInstance.aliquotType.aliquotTypeName != 'Plasma'}">
     <a class='btn btn-primary btn-small' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link>
 </g:if>
 
-<g:if test="${aliquotInstance?.derivedFrom?.id == null}">
+<g:if test="${aliquotInstance?.derivedFrom?.id == null && aliquotInstance?.exhausted != true}">
     <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="saveDuplicates" params="['specimen.id': aliquotInstance?.specimen?.id,'exhausted': aliquotInstance?.exhausted,'passFail': aliquotInstance?.passFail,
                                                                                            'passFailReason': aliquotInstance?.passFailReason,'notes': aliquotInstance?.notes,'barcode': aliquotInstance?.barcode,
                                                                                            'aliquotVolumeMass': aliquotInstance?.aliquotVolumeMass,'unit': aliquotInstance?.unit?.id,'blockNumber': aliquotInstance?.blockNumber,
-                                                                                           'aliquotType': aliquotInstance?.aliquotType?.id,'sapphireIdentifier': aliquotInstance?.sapphireIdentifier]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate Aliquot')])}</g:link>
+                                                                                           'aliquotType': aliquotInstance?.aliquotType?.id,'sapphireIdentifier': aliquotInstance?.sapphireIdentifier, 'aliquotRanking': aliquotInstance?.aliquotRanking]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate Aliquot')])}</g:link>
 
 </g:if>
 <hr style="border:1; height:1px" />

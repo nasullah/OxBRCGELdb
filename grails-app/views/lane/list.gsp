@@ -20,8 +20,10 @@
 				<th><g:message code="lane.flowCell.label" default="Flow Cell" /></th>
 			
 				<g:sortableColumn property="laneNumber" title="${message(code: 'lane.laneNumber.label', default: 'Lane Number')}" />
-			
-			</tr>
+
+                <g:sortableColumn property="loadedLibrary.na_extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'loadedLibrary.na_extract.aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
+
+            </tr>
 		</thead>
 		<tbody>
 		<g:each in="${laneInstanceList}" status="i" var="laneInstance">
@@ -30,8 +32,15 @@
 				<td><g:link action="show" id="${laneInstance.id}">${fieldValue(bean: laneInstance, field: "flowCell")}</g:link></td>
 			
 				<td>${fieldValue(bean: laneInstance, field: "laneNumber")}</td>
-			
-			</tr>
+
+                <% def gelId = laneInstance.loadedLibrary.na_extract.aliquot.specimen.participant.studySubject %>
+                <g:each in="${1..3}" >
+                    <% gelId = gelId.first()%>
+                </g:each>
+                <% gelId =gelId.findResult {it.studySubjectIdentifier ? it : null}%>
+
+                <td>${fieldValue(bean: gelId, field: "studySubjectIdentifier")}</td>
+            </tr>
 		</g:each>
 		</tbody>
 	</table>

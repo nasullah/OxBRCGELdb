@@ -9,7 +9,7 @@ import grails.plugins.springsecurity.*
  * DNA_ExtractController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
 @Transactional(readOnly = true)
 class DNA_ExtractController {
 
@@ -17,12 +17,12 @@ class DNA_ExtractController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond DNA_Extract.findAllByExhausted(false, params.max ), model: [DNA_ExtractInstanceCount: DNA_Extract.count()]
+        respond DNA_Extract.findAllByExhausted(false, params), model: [DNA_ExtractInstanceCount: DNA_Extract.count()]
     }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [DNA_ExtractInstanceList: DNA_Extract.findAllByExhausted(false, params.max ), DNA_ExtractInstanceTotal: DNA_Extract.count()]
+        [DNA_ExtractInstanceList: DNA_Extract.findAllByExhausted(false, params), DNA_ExtractInstanceTotal: DNA_Extract.count()]
     }
     def filterPaneService
 
@@ -35,12 +35,27 @@ class DNA_ExtractController {
 
     def findAliquotsByGeLId() {
         def gelId= params.search
-
-        def listAliquotsByGeLId = Aliquot.where{
-            specimen.participant.studySubject.studySubjectIdentifier == gelId
-        }.findAllByExhausted(false)
-        if (!listAliquotsByGeLId.empty){
-            render(template: "aliquotList",  model: [listAliquotsByGeLId: listAliquotsByGeLId])
+        if (gelId) {
+            def participantByGeLId = Participant.createCriteria().get {
+                studySubject {
+                    eq('studySubjectIdentifier', gelId)
+                }
+            }
+            if(participantByGeLId){
+                participantByGeLId = participantByGeLId.id
+                def listAliquotsByGeLId = Aliquot.findAll {
+                    specimen.participant.id == participantByGeLId
+                }
+                listAliquotsByGeLId = listAliquotsByGeLId.findAll { a ->
+                    !a.exhausted
+                }
+                listAliquotsByGeLId = listAliquotsByGeLId.findAll { a ->
+                    a.specimen.participant.id == participantByGeLId
+                }
+                if (!listAliquotsByGeLId.empty) {
+                    render(template: "aliquotList", model: [listAliquotsByGeLId: listAliquotsByGeLId])
+                }
+            }
         }
     }
 
@@ -64,7 +79,21 @@ class DNA_ExtractController {
             return
         }
 
-        DNA_ExtractInstance.save flush: true
+        if (params.aliquot){
+            DNA_ExtractInstance.save flush: true
+            def exhaustAliquot = params.exhaustAliquot
+            if (exhaustAliquot == 'True'){
+                DNA_ExtractInstance.aliquot.each{ a->
+                    a.exhausted = true
+                    a.save flush: true
+                }
+            }
+        }else{
+            flash.message = "Please enter participant GeL ID, click Find Aliquot button then select aliquot/aliquots from the list."
+            respond DNA_ExtractInstance, view: 'create'
+            return
+        }
+
 
         request.withFormat {
             form {
@@ -90,15 +119,26 @@ class DNA_ExtractController {
             respond DNA_ExtractInstance.errors, view: 'edit'
             return
         }
-
-        DNA_ExtractInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'DNA_Extract.label', default: 'DNA_Extract'), DNA_ExtractInstance.id])
-                redirect DNA_ExtractInstance
+        if (params.aliquot){
+            DNA_ExtractInstance.save flush: true
+            def exhaustAliquot = params.exhaustAliquot
+            if (exhaustAliquot == 'True'){
+                DNA_ExtractInstance.aliquot.each{ a->
+                    a.exhausted = true
+                    a.save flush: true
+                }
             }
-            '*' { respond DNA_ExtractInstance, [status: OK] }
+
+            request.withFormat {
+                form {
+                    flash.message = message(code: 'default.updated.message', args: [message(code: 'DNA_Extract.label', default: 'DNA_Extract'), DNA_ExtractInstance.id])
+                    redirect DNA_ExtractInstance
+                }
+                '*' { respond DNA_ExtractInstance, [status: OK] }
+            }
+        }else{
+            flash.message = "Please enter participant GeL ID, click Find Aliquot button then select aliquot/aliquots from the list."
+            respond DNA_ExtractInstance, view: 'create'
         }
     }
 
