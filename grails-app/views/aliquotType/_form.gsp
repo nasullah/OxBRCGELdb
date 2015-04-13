@@ -4,9 +4,9 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="${hasErrors(bean: aliquotTypeInstance, field: 'aliquotTypeName', 'error')} ">
-                    <label for="aliquotTypeName" class="control-label"><g:message code="aliquotType.aliquotTypeName.label" default="Aliquot Type Name" /></label>
+                    <label for="aliquotTypeName" class="control-label"><g:message code="aliquotType.aliquotTypeName.label" default="Aliquot Type Name" /><span class="required-indicator">*</span></label>
                     <div>
-                        <g:textField class="form-control" name="aliquotTypeName" value="${aliquotTypeInstance?.aliquotTypeName}"/>
+                        <g:textField class="form-control" name="aliquotTypeName" required="" value="${aliquotTypeInstance?.aliquotTypeName}"/>
                         <span class="help-inline">${hasErrors(bean: aliquotTypeInstance, field: 'aliquotTypeName', 'error')}</span>
                     </div>
                 </div>

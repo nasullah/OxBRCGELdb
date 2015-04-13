@@ -5,9 +5,9 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: sampleTypeInstance, field: 'sampleTypeName', 'error')} ">
-                        <label for="sampleTypeName" class="control-label"><g:message code="sampleType.sampleTypeName.label" default="Sample Type Name" /></label>
+                        <label for="sampleTypeName" class="control-label"><g:message code="sampleType.sampleTypeName.label" default="Sample Type Name" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:textField class="form-control" name="sampleTypeName" value="${sampleTypeInstance?.sampleTypeName}"/>
+                            <g:textField class="form-control" name="sampleTypeName" required="" value="${sampleTypeInstance?.sampleTypeName}"/>
                             <span class="help-inline">${hasErrors(bean: sampleTypeInstance, field: 'sampleTypeName', 'error')}</span>
                         </div>
                     </div>

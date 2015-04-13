@@ -68,7 +68,8 @@ class SampleTrackingEventController {
             def listSpecimenByGeLId = Specimen.where {
                 participant.id == participantId
             }.findAllByExhausted(false)
-            if(!listSpecimenByGeLId.sampleTrackingEvent.sampleTrackingEventType.toString().contains('Despatched to Oxford')){
+            listSpecimenByGeLId = listSpecimenByGeLId.findAll {s -> s.sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName != 'Despatched to Oxford' }
+            if(listSpecimenByGeLId){
                 render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
             }
         }
@@ -92,7 +93,8 @@ class SampleTrackingEventController {
             def listSpecimenByGeLId = Specimen.where {
                 participant.id == participantId
             }.findAllByExhausted(false)
-            if(!listSpecimenByGeLId.sampleTrackingEvent.sampleTrackingEventType.toString().contains('Received at Oxford')){
+            listSpecimenByGeLId = listSpecimenByGeLId.findAll {s -> s.sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName != 'Received at Oxford' }
+            if(listSpecimenByGeLId){
                 render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
             }
         }

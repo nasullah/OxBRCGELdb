@@ -73,14 +73,20 @@ class ColocationController {
             return
         }
 
-        colocationInstance.save flush: true
+        def pairNewAliquot = Aliquot.get(params.long('pairedAliquot.id'))
+        def oldPairedAliquot = Aliquot.findByColocation(colocationInstance)
 
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Colocation.label', default: 'Colocation'), colocationInstance.id])
-                redirect colocationInstance
-            }
-            '*' { respond colocationInstance, [status: OK] }
+        if (oldPairedAliquot){
+            oldPairedAliquot.colocation = null
+            oldPairedAliquot.save flush: true
+            colocationInstance.pairedAliquot = pairNewAliquot
+            colocationInstance.save flush: true
+            flash.message = "Colocation instance ${colocationInstance.id} has been updated."
+            redirect(controller:'colocation',action: 'show', params: [id: colocationInstance.id])
+        } else {
+            colocationInstance.save flush: true
+            flash.message = "Colocation instance ${colocationInstance.id} has been updated."
+            redirect(controller:'colocation',action: 'show', params: [id: colocationInstance.id])
         }
     }
 

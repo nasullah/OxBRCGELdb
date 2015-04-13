@@ -17,7 +17,7 @@ class PositionController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Position.list(params), model: [positionInstanceCount: Position.count()]
+        respond Position.list(params).sort{it.letter+it.number}, model: [positionInstanceCount: Position.count()]
     }
 
 //    def list(Integer max) {
@@ -27,7 +27,7 @@ class PositionController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [positionInstanceList: Position.list(params), positionInstanceTotal: Position.count()]
+        [positionInstanceList: Position.list(params).sort{it.letter+it.number}, positionInstanceTotal: Position.count()]
     }
     def filterPaneService
 
@@ -134,14 +134,18 @@ class PositionController {
             return
         }
 
-        positionInstance.delete flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Position.label', default: 'Position'), positionInstance.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NO_CONTENT }
+        if (!positionInstance.containedSamples){
+            positionInstance.delete flush: true
+            flash.message = "Position has been deleted"
+            redirect action: "index", method: "GET"
+        } else if (positionInstance.containedSamples.size() == 1){
+            positionInstance.removeFromContainedSamples(positionInstance.containedSamples[0])
+            positionInstance.delete flush: true
+            flash.message = "Position has been deleted"
+            redirect action: "index", method: "GET"
+        } else {
+            flash.message = "Position cannot be deleted, deleting the position would remove all previous history."
+            redirect positionInstance
         }
     }
 

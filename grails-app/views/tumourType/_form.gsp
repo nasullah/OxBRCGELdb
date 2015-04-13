@@ -12,9 +12,9 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: tumourTypeInstance, field: 'tumourType', 'error')} ">
-                        <label for="tumourType" class="control-label"><g:message code="tumourType.tumourType.label" default="Tumour Type" /></label>
+                        <label for="tumourType" class="control-label"><g:message code="tumourType.tumourType.label" default="Tumour Type" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:textField class="form-control" name="tumourType" value="${tumourTypeInstance?.tumourType}"/>
+                            <g:textField class="form-control" name="tumourType" required="" value="${tumourTypeInstance?.tumourType}"/>
                             <span class="help-inline">${hasErrors(bean: tumourTypeInstance, field: 'tumourType', 'error')}</span>
                         </div>
                     </div>

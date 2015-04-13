@@ -61,13 +61,16 @@ class ParticipantController {
 //        def foundGEL = false
 //        def foundORB = false
         results.consent.consents.each{ c->
+            def consentCreatedDateFormatted = new Date().parse("dd-MM-yyyy HH:mm:ss", c.lastCompleted)
+
             if(c.form.namePrefix =="GEL"){
-                def gelStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: c.lastCompleted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
+
+                def gelStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: consentCreatedDateFormatted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
                 if (gelStudySubjectInstance){
                     consentList.add(gelStudySubjectInstance)
                 }
             } else if(c.form.namePrefix =="GEN"){
-                def orbStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('ORB'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: c.lastCompleted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
+                def orbStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('ORB'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: consentCreatedDateFormatted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
                 if (orbStudySubjectInstance){
                     consentList.add(orbStudySubjectInstance)
                 }
@@ -78,7 +81,7 @@ class ParticipantController {
         if(existingParticipant){
 
             existingParticipant.centre = Centre.findByCentreName('Oxford')
-            existingParticipant.dateOfBirth = new Date().parse("yyyy-MM-dd", dateOfBirth)
+            existingParticipant.dateOfBirth = new Date().parse("dd-MM-yyyy HH:mm:ss", dateOfBirth)
             existingParticipant.diagnosis = null
             existingParticipant.gender = null
             existingParticipant.familyName = lastName
@@ -89,20 +92,19 @@ class ParticipantController {
             redirect(action: "show", id: existingParticipant.id)
 
         }else if (!consentList.empty && !existingParticipant) {
-            def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
-                    dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
-            for (int i = 0; i < consentList.size(); i++) {
+            def dateOfBirthFormatted = new Date().parse("dd-MM-yyyy HH:mm:ss", dateOfBirth)
 
+            def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
+                    dateOfBirth: dateOfBirthFormatted, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
+            for (int i = 0; i < consentList.size(); i++) {
                 participantInstance.addToStudySubject(consentList.get(i))
                 participantInstance.save(failOnError: true)
             }
-
             redirect(action: "show", id: participantInstance.id)
         } else{
             flash.message = "Patient with NHS number ${nhsNumber} doesn't have any consent form"
             redirect(uri: '/importparticipant')
         }
-
     }
 //            def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
 //                    dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
@@ -173,6 +175,7 @@ class ParticipantController {
         respond participantInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def summaryReport() {
         def gelID = params.gelStudyId
         if (gelID) {
@@ -248,7 +251,7 @@ class ParticipantController {
 
         def gelId = params.studySubjectIdentifier
         if (gelId){
-            def gelSubject = participantInstance.studySubject.find {s ->s.study.studyName = 'GeL' }
+            def gelSubject = participantInstance.studySubject.find {s ->s.study.studyName == 'GeL' }
             if (gelSubject){
                 gelSubject.studySubjectIdentifier = gelId
                 gelSubject.save flush: true

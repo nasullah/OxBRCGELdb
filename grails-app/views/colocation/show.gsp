@@ -26,7 +26,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="colocation.adjacent.label" default="Adjacent" /></td>
 				
-				<td valign="top" class="value"><g:formatBoolean boolean="${colocationInstance?.adjacent}" /></td>
+				<td valign="top" class="value"><g:formatBoolean boolean="${colocationInstance?.adjacent}" false="No" true="Yes" /></td>
 				
 			</tr>
 		
@@ -53,7 +53,7 @@
 <p class="text-primary">Available Action</p>
 
 <g:if test="${colocationInstance?.pairedAliquot?.id == null}">
-    <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['colocation.id': colocationInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Aliquot')])}</g:link>
+    <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['colocation.id': colocationInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Paired Aliquot')])}</g:link>
 </g:if>
 
 <hr style="border:1; height:1px" />

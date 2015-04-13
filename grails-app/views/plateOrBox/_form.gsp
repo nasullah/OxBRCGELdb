@@ -12,9 +12,9 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: plateOrBoxInstance, field: 'identifier', 'error')} ">
-                        <label for="identifier" class="control-label"><g:message code="plateOrBox.identifier.label" default="Identifier" /></label>
+                        <label for="identifier" class="control-label"><g:message code="plateOrBox.identifier.label" default="Identifier" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:textField class="form-control" name="identifier" value="${plateOrBoxInstance?.identifier}"/>
+                            <g:textField class="form-control" name="identifier" required="" value="${plateOrBoxInstance?.identifier}"/>
                             <span class="help-inline">${hasErrors(bean: plateOrBoxInstance, field: 'identifier', 'error')}</span>
                         </div>
                     </div>
@@ -39,9 +39,9 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: plateOrBoxInstance, field: 'plateType', 'error')} ">
-                        <label for="plateType" class="control-label"><g:message code="plateOrBox.plateType.label" default="Plate Type" /></label>
+                        <label for="plateType" class="control-label"><g:message code="plateOrBox.plateType.label" default="Plate Type" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:textField class="form-control" name="plateType" value="${plateOrBoxInstance?.plateType}"/>
+                            <g:textField class="form-control" name="plateType" required="" value="${plateOrBoxInstance?.plateType}"/>
                             <span class="help-inline">${hasErrors(bean: plateOrBoxInstance, field: 'plateType', 'error')}</span>
                         </div>
                     </div>

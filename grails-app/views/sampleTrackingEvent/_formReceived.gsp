@@ -63,7 +63,7 @@
                     <div class="${hasErrors(bean: sampleTrackingEventInstance, field: 'time', 'error')} ">
                         <label for="time" class="control-label"><g:message code="sampleTrackingEvent.time.label" default="Time" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:textField class="form-control" name="time" value="${sampleTrackingEventInstance?.time}"/>
+                            <g:field type="time" class="form-control" name="time" value="${sampleTrackingEventInstance?.time}"/>
                             <span class="help-inline">${hasErrors(bean: sampleTrackingEventInstance, field: 'time', 'error')}</span>
                         </div>
                     </div>

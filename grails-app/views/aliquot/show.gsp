@@ -322,7 +322,7 @@
     <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation')])}</g:link>
 </g:if>
 
-<g:if test="${!aliquotInstance.gelSuitabilityReport && aliquotInstance.aliquotType.aliquotTypeName != 'Buffy Coat' && aliquotInstance.aliquotType.aliquotTypeName != 'Plasma'}">
+<g:if test="${(!aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Buffy Coat' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma' && !aliquotInstance?.gelSuitabilityReport)}">
     <a class='btn btn-primary btn-small' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link>
 </g:if>
 
@@ -330,7 +330,7 @@
     <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="saveDuplicates" params="['specimen.id': aliquotInstance?.specimen?.id,'exhausted': aliquotInstance?.exhausted,'passFail': aliquotInstance?.passFail,
                                                                                            'passFailReason': aliquotInstance?.passFailReason,'notes': aliquotInstance?.notes,'barcode': aliquotInstance?.barcode,
                                                                                            'aliquotVolumeMass': aliquotInstance?.aliquotVolumeMass,'unit': aliquotInstance?.unit?.id,'blockNumber': aliquotInstance?.blockNumber,
-                                                                                           'aliquotType': aliquotInstance?.aliquotType?.id,'sapphireIdentifier': aliquotInstance?.sapphireIdentifier, 'aliquotRanking': aliquotInstance?.aliquotRanking]">${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate Aliquot')])}</g:link>
+                                                                                           'aliquotType': aliquotInstance?.aliquotType?.id, 'aliquotRanking': aliquotInstance?.aliquotRanking]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate Aliquot')])}</g:link>
 
 </g:if>
 <hr style="border:1; height:1px" />

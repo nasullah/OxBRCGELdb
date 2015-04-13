@@ -75,7 +75,7 @@ class DerivationController {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'derivationInstance.label', default: 'Derivation'), derivationInstance.id])
 //                redirect derivationInstance
-                redirect(controller:'aliquot',action: 'show', params: [id: derivationInstance.derivedAliquots[0].id])
+                redirect(controller:'aliquot',action: 'show', params: [id: derivedAliquot.id])
             }
             '*' { respond derivationInstance, [status: CREATED] }
         }

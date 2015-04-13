@@ -16,11 +16,11 @@
 	<table class="table table-bordered margin-top-medium">
         <thead>
         <tr>
+            <g:sortableColumn property="identifier" title="${message(code: 'plateOrBox.identifier.label', default: 'Identifier')}" />
+
             <g:sortableColumn property="shelf.freezer" title="${message(code: 'shelf.freezer.label', default: 'Freezer')}" />
 
             <g:sortableColumn property="shelf.shelfName" title="${message(code: 'shelf.shelfName.label', default: 'Shelf')}" />
-
-            <g:sortableColumn property="identifier" title="${message(code: 'plateOrBox.identifier.label', default: 'Identifier')}" />
 
             <g:sortableColumn property="storageLocation" title="${message(code: 'plateOrBox.storageLocation.label', default: 'Storage Location')}" />
 
@@ -32,11 +32,11 @@
         <g:each in="${plateOrBoxInstanceList}" status="i" var="plateOrBoxInstance">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-                <td><g:link action="show" controller="freezer" id="${plateOrBoxInstance?.shelf?.freezer?.id}">${fieldValue(bean: plateOrBoxInstance?.shelf, field: "freezer")}</g:link></td>
+                <td><g:link action="show" controller="plateOrBox" id="${plateOrBoxInstance?.id}">${fieldValue(bean: plateOrBoxInstance, field: "identifier")}</g:link></td>
+
+                <td>${fieldValue(bean: plateOrBoxInstance?.shelf, field: "freezer")}</td>
 
                 <td>${fieldValue(bean: plateOrBoxInstance?.shelf, field: "shelfName")}</td>
-
-                <td>${fieldValue(bean: plateOrBoxInstance, field: "identifier")}</td>
 
                 <td>${fieldValue(bean: plateOrBoxInstance, field: "storageLocation")}</td>
 

@@ -43,15 +43,15 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
-            <div class="${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')} ">
-                <label for="derivationTime" class="control-label"><g:message code="derivation.derivationTime.label" default="Derivation Time" /></label>
-                <div>
-                    <g:textField class="form-control" name="derivationTime" value="${aliquotInstance?.derivedFrom?.derivationTime}"/>
-                    <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')}</span>
-                </div>
-            </div>
-        </div>
+        %{--<div class="col-lg-6">--}%
+            %{--<div class="${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')} ">--}%
+                %{--<label for="derivationTime" class="control-label"><g:message code="derivation.derivationTime.label" default="Derivation Time" /></label>--}%
+                %{--<div>--}%
+                    %{--<g:textField class="form-control" name="derivationTime" value="${aliquotInstance?.derivedFrom?.derivationTime}"/>--}%
+                    %{--<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')}</span>--}%
+                %{--</div>--}%
+            %{--</div>--}%
+        %{--</div>--}%
 
         <div class="col-lg-6">
             <div class="${hasErrors(bean: derivationInstance, field: 'derivedBy', 'error')} required">
@@ -85,17 +85,35 @@
     </div>
 </g:if>
 
-<g:if test="${aliquotInstance?.colocation?.id !=null}">
-    <div class="${hasErrors(bean: aliquotInstance, field: 'colocation', 'error')} ">
-        <label for="colocation" class="control-label"><g:message code="aliquot.colocation.label" default="Colocation" /></label>
-        <div>
-            <g:select class="form-control" id="colocation" name="colocation.id" from="${geldb.Colocation.list()}" optionKey="id" value="${aliquotInstance?.colocation?.id}" class="many-to-one" noSelection="['null': '']"/>
-            <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'colocation', 'error')}</span>
+<g:if test="${aliquotInstance?.colocation?.id !=null && aliquotInstance?.derivedFrom?.id == null}">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="${hasErrors(bean: aliquotInstance, field: 'colocation', 'error')} ">
+                <label for="colocation" class="control-label"><g:message code="aliquot.colocation.label" default="Colocation" /></label>
+                <div>
+                    <g:select class="form-control" id="colocation" name="colocation.id" from="${geldb.Colocation.list()}" optionKey="id" value="${aliquotInstance?.colocation?.id}" class="many-to-one" noSelection="['null': '']"/>
+                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'colocation', 'error')}</span>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="${hasErrors(bean: aliquotInstance, field: 'specimen', 'error')} required">
+                <label for="specimen" class="control-label"><g:message code="aliquot.specimen.label" default="Specimen" /><span class="required-indicator">*</span></label>
+                <div>
+                    <g:select class="form-control" id="specimen" name="specimen.id" size="4" from="${geldb.Specimen.findAllByParticipant(aliquotInstance?.colocation?.aliquot?.specimen?.participant)}" optionKey="id" required="" value="${aliquotInstance?.specimen?.id}" class="many-to-one"/>
+                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'specimen', 'error')}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p>
+    <p>
 </g:if>
 
-<g:if test="${aliquotInstance?.derivedFrom?.id == null && aliquotInstance?.specimen?.id == null}">
+<g:if test="${aliquotInstance?.derivedFrom?.id == null && aliquotInstance?.specimen?.id == null && aliquotInstance?.colocation?.id == null}">
     <div class="row">
         <div class="col-lg-6">
             <div class="input-group">
@@ -110,7 +128,7 @@
     <div id="selectSpecimen"></div>
 </g:if>
 
-<g:if test="${aliquotInstance?.derivedFrom?.id == null && aliquotInstance?.specimen?.id != null}">
+<g:if test="${aliquotInstance?.colocation?.id == null && aliquotInstance?.derivedFrom?.id == null && aliquotInstance?.specimen?.id != null}">
     <div class="row">
         <div class="col-lg-6">
             <div class="${hasErrors(bean: aliquotInstance, field: 'specimen', 'error')} required">

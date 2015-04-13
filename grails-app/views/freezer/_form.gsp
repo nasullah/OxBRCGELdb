@@ -16,9 +16,9 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="${hasErrors(bean: freezerInstance, field: 'freezerName', 'error')} ">
-                    <label for="freezerName" class="control-label"><g:message code="freezer.freezerName.label" default="Freezer Name" /></label>
+                    <label for="freezerName" class="control-label"><g:message code="freezer.freezerName.label" default="Freezer Name" /><span class="required-indicator">*</span></label>
                     <div>
-                        <g:textField class="form-control" name="freezerName" value="${freezerInstance?.freezerName}"/>
+                        <g:textField class="form-control" name="freezerName" required="" value="${freezerInstance?.freezerName}"/>
                         <span class="help-inline">${hasErrors(bean: freezerInstance, field: 'freezerName', 'error')}</span>
                     </div>
                 </div>
@@ -26,9 +26,9 @@
 
             <div class="col-lg-6">
                 <div class="${hasErrors(bean: freezerInstance, field: 'freezerTemperature', 'error')} ">
-                    <label for="freezerTemperature" class="control-label"><g:message code="freezer.freezerTemperature.label" default="Freezer Temperature" /></label>
+                    <label for="freezerTemperature" class="control-label"><g:message code="freezer.freezerTemperature.label" default="Freezer Temperature" /><span class="required-indicator">*</span></label>
                     <div>
-                        <g:textField class="form-control" name="freezerTemperature" value="${freezerInstance?.freezerTemperature}"/>
+                        <g:textField class="form-control" name="freezerTemperature" required="" value="${freezerInstance?.freezerTemperature}"/>
                         <span class="help-inline">${hasErrors(bean: freezerInstance, field: 'freezerTemperature', 'error')}</span>
                     </div>
                 </div>
@@ -36,9 +36,9 @@
 
             <div class="col-lg-6">
                 <div class="${hasErrors(bean: freezerInstance, field: 'room', 'error')} ">
-                    <label for="room" class="control-label"><g:message code="freezer.room.label" default="Room" /></label>
+                    <label for="room" class="control-label"><g:message code="freezer.room.label" default="Room" /><span class="required-indicator">*</span></label>
                     <div>
-                        <g:textField class="form-control" name="room" value="${freezerInstance?.room}"/>
+                        <g:textField class="form-control" name="room" required="" value="${freezerInstance?.room}"/>
                         <span class="help-inline">${hasErrors(bean: freezerInstance, field: 'room', 'error')}</span>
                     </div>
                 </div>

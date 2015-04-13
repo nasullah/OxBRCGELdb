@@ -13,9 +13,9 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: shelfInstance, field: 'shelfName', 'error')} ">
-                        <label for="shelfName" class="control-label"><g:message code="shelf.shelfName.label" default="Shelf/Tower Name" /></label>
+                        <label for="shelfName" class="control-label"><g:message code="shelf.shelfName.label" default="Shelf/Tower Name" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:textField class="form-control" name="shelfName" value="${shelfInstance?.shelfName}"/>
+                            <g:textField class="form-control" name="shelfName" required="" value="${shelfInstance?.shelfName}"/>
                             <span class="help-inline">${hasErrors(bean: shelfInstance, field: 'shelfName', 'error')}</span>
                         </div>
                     </div>
