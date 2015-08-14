@@ -12,14 +12,44 @@
 
 <body>
 
+<sec:ifAnyGranted roles="ROLE_ADMIN">
+    <div style="background: rgba(139, 240, 37, 0.14);">
+        <div class="container">
+            <p>
+            <h5 class="text-center">Export Data</h5>
+            <p>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="control-label"><small>Export Fluid Specimens</small></label>
+                    <a class='btn btn-success btn-sm' onclick="getExcel()"  <g:link controller="fluidSpecimen" action="exportFluidSpecimens" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                        <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
+                    </div>
+                </div>
+            </div>
+            <p>
+            <p>
+        </div>
+    </div>
+</sec:ifAnyGranted>
 <p>
 <p>
-<filterpane:filterButton text="Filter This List" />
-<filterpane:filterPane domain="geldb.FluidSpecimen"
-                       excludeProperties="collectionDate"
-                       associatedProperties="participant.familyName, participant.givenName,
+<div style="background: rgba(80, 110, 56, 0.04);">
+    <div class="container">
+        <p>
+        <h5 class="text-center">Search Options</h5>
+        <p>
+            <filterpane:filterButton text="Filter This List" />
+            <filterpane:filterPane domain="geldb.FluidSpecimen"
+                                   excludeProperties="collectionDate, sapphireIdentifier"
+                                   associatedProperties="participant.familyName, participant.givenName,
                                              participant.nHSNumber,participant.hospitalNumber,
                                              participant.studySubject.studySubjectIdentifier"/>
+        <p>
+        <p>
+    </div>
+</div>
+
 <hr style="border:1; height:1px" />
 
 <section id="list-fluidSpecimen" class="first">
@@ -58,6 +88,24 @@
         <bs:paginate total="${fluidSpecimenInstanceTotal}" />
     </div>
 </section>
+
+<g:javascript plugin="jquery" library="jquery" />
+<script>
+    function showSpinner() {
+        $('#spinner').show();
+    }
+    function hideSpinner() {
+        $('#spinner').hide();
+    }
+    function getExcel(){
+        showSpinner();
+        ${remoteFunction (controller: 'fluidSpecimen',
+                        action: 'exportFluidSpecimens',
+                        params:[format:'excel',extension:'xls'],
+                        onSuccess:'hideSpinner()'
+                )}
+    }
+</script>
 
 </body>
 

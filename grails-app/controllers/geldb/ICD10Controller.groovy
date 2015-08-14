@@ -8,7 +8,7 @@ import grails.plugins.springsecurity.*
  * ICD10Controller
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_ADMIN'])
 @Transactional(readOnly = true)
 class ICD10Controller {
 

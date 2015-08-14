@@ -1,11 +1,12 @@
 
 <%@ page import="geldb.DNA_Extract" %>
+<%@ page import="geldb.DispatchItem" %>
 <!DOCTYPE html>
 <html>
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'DNA_Extract.label', default: 'DNA Extract')}" />
+	<g:set var="entityName" value="${message(code: 'DNA_Extract.label', default: 'DNA/RNA Extract')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
 </head>
 
@@ -27,6 +28,13 @@
                         </g:each>
                     </ul>
                 </td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.extractionType.label" default="Extraction Type" /></td>
+
+                <td valign="top" class="value"><g:link controller="extractionType" action="show" id="${DNA_ExtractInstance?.extractionType?.id}">${DNA_ExtractInstance?.extractionType?.encodeAsHTML()}</g:link></td>
 
             </tr>
 		
@@ -57,13 +65,20 @@
 				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "notes")}</td>
 				
 			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Extract.dNAConcentration.label" default="DNA Concentration" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAConcentration")}</td>
-				
-			</tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.dNAConcentrationNanodrop.label" default="DNA/RNA Concentration (Nanodrop- ng/ul)" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAConcentrationNanodrop")}</td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.dNAConcentrationQubit.label" default="DNA/RNA Concentration (Qubit- ng/ul)" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAConcentrationQubit")}</td>
+
+            </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Extract.extractionDate.label" default="Extraction Date" /></td>
@@ -79,45 +94,70 @@
 				
 			</tr>
 		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Extract.geLSampleIdentifier.label" default="GeL Sample Identifier" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "geLSampleIdentifier")}</td>
-				
-			</tr>
+			%{--<tr class="prop">--}%
+				%{--<td valign="top" class="name"><g:message code="DNA_Extract.geLSampleIdentifier.label" default="GeL Sample Identifier/DNA Elution" /></td>--}%
+				%{----}%
+				%{--<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "geLSampleIdentifier")}</td>--}%
+				%{----}%
+			%{--</tr>--}%
 
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="DNA_Extract.sapphireIdentifier.label" default="Biobanking Identifier" /></td>
+                <td valign="top" class="name"><g:message code="DNA_Extract.sapphireIdentifier.label" default="DNA/RNA Elution" /></td>
 
                 <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "sapphireIdentifier")}</td>
 
             </tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="DNA_Extract.dNAExtractionKit.label" default="DNA Extraction Kit" /></td>
-				
-				<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAExtractionKit")}</td>
+				<td valign="top" class="name"><g:message code="DNA_Extract.extractionKit.label" default="DNA/RNA Extraction Kit" /></td>
+
+                <td valign="top" class="value"><g:link controller="DNAExtractionKit" action="show" id="${DNA_ExtractInstance?.extractionKit?.id}">${DNA_ExtractInstance?.extractionKit?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
 
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="DNA_Extract.dNAAmount.label" default="DNA Amount" /></td>
+                <td valign="top" class="name"><g:message code="DNA_Extract.experimentName.label" default="Experiment Name" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "experimentName")}</td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.dNAAmount.label" default="DNA/RNA Volume (ul)" /></td>
 
                 <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAAmount")}</td>
 
             </tr>
 
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="DNA_Extract.delatQC.label" default="Delta QC" /></td>
+            <g:if test="${DNA_ExtractInstance?.extractionType?.extractionTypeName == 'DNA Extraction'}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="DNA_Extract.delatQC.label" default="Delta QC" /></td>
 
-                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "delatQC")}</td>
+                    <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "delatQC")}</td>
 
-            </tr>
+                </tr>
+            </g:if>
+
+            <g:if test="${DNA_ExtractInstance?.extractionType?.extractionTypeName == 'RNA Extraction'}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="DNA_Extract.rin.label" default="RIN" /></td>
+
+                    <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "rin")}</td>
+
+                </tr>
+            </g:if>
 
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="DNA_Extract.a260A280.label" default="A260A280" /></td>
 
                 <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "a260A280")}</td>
+
+            </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="DNA_Extract.a260A230.label" default="A260A230" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "a260A230")}</td>
 
             </tr>
 
@@ -172,13 +212,11 @@
 
                 <td valign="top" style="text-align: left;" class="value">
                     <% def dispatchItem = DispatchItem?.listOrderById() %>
-                    <ul>
-                        <g:each in="${dispatchItem}" var="item">
-                            <g:if test="${item.identifiedSample.id == DNA_ExtractInstance.id}">
-                                <li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>
-                            </g:if>
-                        </g:each>
-                    </ul>
+                    <g:each in="${dispatchItem}" var="item">
+                        <g:if test="${item.identifiedSample.id == DNA_ExtractInstance.id}">
+                            <g:link controller="dispatchRecord" action="show" id="${item.dispatchedBox.dispatchRecord.id}">${item.dispatchedBox.dispatchRecord}</g:link>
+                        </g:if>
+                    </g:each>
                 </td>
 
             </tr>
@@ -194,6 +232,18 @@
 <g:if test="${DNA_ExtractInstance?.position?.id == null}">
     <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['containedSamples': DNA_ExtractInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
 </g:if>
+<% def elution = DNA_ExtractInstance?.sapphireIdentifier?.toString()?.split('_')
+def duplicatedElution = null
+if(elution.length > 1){
+    duplicatedElution = elution[0] + '_' + elution[1] +'_'
+}
+%>
+
+<a class='btn btn-primary btn-small' <g:link controller="DNA_Extract" action="create" params="['aliquot': DNA_ExtractInstance?.aliquot?.id,'exhausted': DNA_ExtractInstance?.exhausted,'passFail': DNA_ExtractInstance?.passFail,
+                                                                                                       'passFailReason': DNA_ExtractInstance?.passFailReason,'notes': DNA_ExtractInstance?.notes,'extractionType':DNA_ExtractInstance?.extractionType?.id,
+                                                                                                       'extractionDate': DNA_ExtractInstance?.extractionDate, 'extractedBy': DNA_ExtractInstance?.extractedBy?.id, 'geLSampleIdentifier': DNA_ExtractInstance?.geLSampleIdentifier, 'extractionKit':DNA_ExtractInstance?.extractionKit?.id,
+                                                                                                       'experimentName': DNA_ExtractInstance?.experimentName,'delatQC':DNA_ExtractInstance?.delatQC,'sapphireIdentifier':duplicatedElution
+                                                                                                       ]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate DNA/RNA Extract')])}</g:link>
 
 <hr style="border:1; height:1px" />
 

@@ -7,9 +7,26 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'plateOrBox.label', default: 'Plate or Box')}" />
 	<title><g:message code="default.index.label" args="[entityName]" /></title>
+    <r:require module="filterpane" />
 </head>
 
 <body>
+
+<p>
+<p>
+<div style="background: rgba(80, 110, 56, 0.04);">
+    <div class="container">
+        <p>
+        <h5 class="text-center">Search Options</h5>
+        <p>
+            <filterpane:filterButton text="Filter This List" />
+            <filterpane:filterPane domain="geldb.PlateOrBox"/>
+        <p>
+        <p>
+    </div>
+</div>
+
+<hr style="border:1; height:1px" />
 
 <section id="index-plateOrBox" class="first">
 

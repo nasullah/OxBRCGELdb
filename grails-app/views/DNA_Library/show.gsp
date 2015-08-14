@@ -107,7 +107,7 @@
 			</tr>
 
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="DNA_Library.sapphireIdentifier.label" default="Biobanking Identifier" /></td>
+                <td valign="top" class="name"><g:message code="DNA_Library.sapphireIdentifier.label" default="DNA Library Identifier" /></td>
 
                 <td valign="top" class="value">${fieldValue(bean: DNA_LibraryInstance, field: "sapphireIdentifier")}</td>
 

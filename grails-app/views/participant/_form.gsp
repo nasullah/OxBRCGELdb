@@ -72,19 +72,29 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-6">
-            <label for="searchDiagnosis" class="control-label"><g:message code="participant.diagnosis.label" default="Enter diagnosis keywords or ICD10 code" /></label>
+    <div class="col-lg-6" id="showSearch">
+        <label for="searchDiagnosis" class="control-label"><g:message code="participant.diagnosis.label" default="Enter diagnosis keywords or ICD10 code" /></label>
+        <div class="input-group">
+            <g:textField type="text" id="searchDiagnosis" name="searchDiagnosis" class="form-control"  placeholder="Enter diagnosis keywords separated by spaces" ></g:textField>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn" value="Find" onClick= 'getICD10()'><span class="glyphicon glyphicon-search"></span> Find Diagnosis</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6" id="selectICD10">
+        <div class="${hasErrors(bean: participantInstance, field: 'diagnosis', 'error')} required">
+            <label for="diagnosis" class="control-label"><g:message code="participant.diagnosis.label" default="Diagnosis" /></label>
+
             <div class="input-group">
-                <g:textField type="text" id="searchDiagnosis" name="searchDiagnosis" class="form-control"  placeholder="Enter diagnosis keywords separated by spaces" ></g:textField>
+                <g:select class="form-control" id="diagnosis" name="diagnosis.id" size="1" from="${geldb.ICD10.list()}" optionKey="id"  value="${participantInstance?.diagnosis?.id}" noSelection="['':'']"/>
+                <span class="help-inline">${hasErrors(bean: participantInstance, field: 'diagnosis', 'error')}</span>
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-success" value="Find" onClick= 'getICD10()'><span class="glyphicon glyphicon-search"></span> Find Diagnosis</button>
+                    <button type="button" class="btn btn" value="Edit" onClick= 'showSearch()'><span class="glyphicon glyphicon-pencil"></span> Edit</button>
                 </div>
             </div>
         </div>
     </div>
-    <p>
-    <div id="selectICD10"></div>
 </div>
 
 <g:if test="${participantInstance.studySubject && participantInstance.studySubject.findResult("Null") {it.studySubjectIdentifier ? it : null} == "Null"}">
@@ -120,6 +130,29 @@
 
 <g:javascript plugin="jquery" library="jquery" />
 <script>
+
+    var diagnosis = $("#diagnosis").val();
+    hideICD10();
+
+    if (diagnosis != ""){
+        $("#showSearch").hide();
+        $("#selectICD10").show();
+
+    }
+
+    function showSearch(){
+        $("#showSearch").show();
+        hideICD10();
+    }
+
+    function hideICD10(){
+        $("#selectICD10").hide();
+    }
+
+    function showICD10(){
+        $("#selectICD10").show();
+    }
+
     function getICD10(){
         ${remoteFunction (controller: 'participant',
                         action: 'findICD10',
@@ -127,6 +160,7 @@
                         update: 'selectICD10',
                         onFailure:'error()'
                 )}
+        showICD10()
     }
 
     function error(){

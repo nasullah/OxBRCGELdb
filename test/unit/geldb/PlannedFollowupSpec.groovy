@@ -6,7 +6,7 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(PlannedFollowup)
+//@TestFor(PlannedFollowup)
 class PlannedFollowupSpec extends Specification {
 
     def setup() {

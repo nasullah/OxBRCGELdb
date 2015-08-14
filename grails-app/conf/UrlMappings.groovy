@@ -14,6 +14,7 @@ class UrlMappings {
 		"/imprint"		(view:"/siteinfo/imprint")
 		"/nextSteps"	(view:"/home/nextSteps")
         "/importparticipant"	(view:"/participant/importparticipant")
+		"/scanbarcode"	(view:"/participant/scanbarcode")
 
 		/*
 		 * Pages with controller

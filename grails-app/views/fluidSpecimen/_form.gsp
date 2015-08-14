@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="input-group">
-                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
+                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="GEL000" required="" ></g:textField>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-success" value="Find" onClick= 'getParticipant()'><span class="glyphicon glyphicon-search"></span> Find Participant</button>
                             </div>
@@ -35,7 +35,7 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'fluidSampleType', 'error')} required">
                         <label for="fluidSampleType" class="control-label"><g:message code="fluidSpecimen.fluidSampleType.label" default="Fluid Sample Type" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" name="fluidSampleType" from="${geldb.FluidSampleType?.values()?.sort()}" keys="${geldb.FluidSampleType.values()*.name()}" required="" value="${fluidSpecimenInstance?.fluidSampleType?.name()}" noSelection="['':'- Choose -']" />
+                            <g:select class="form-control" name="fluidSampleType" from="${geldb.FluidSampleType?.values()?.sort()}" keys="${geldb.FluidSampleType.values()*.name()}" required="" value="${fluidSpecimenInstance?.fluidSampleType?.name()}"/>
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'fluidSampleType', 'error')}</span>
                         </div>
                     </div>
@@ -75,12 +75,12 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'exhausted', 'error')} ">
                         <label for="exhausted" class="control-label"><g:message code="fluidSpecimen.exhausted.label" default="Exhausted" /><span class="required-indicator">*</span></label>
                         <div>
-                            %{--<bs:checkBox name="exhausted" value="${fluidSpecimenInstance?.exhausted}" offLabel="No" onLabel="Yes"/>--}%
-                            %{--<span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'exhausted', 'error')}</span>--}%
-
-                            <label class="radio-inline"><input type="radio" name="exhausted" value="True">Yes</label>
-                            <label class="radio-inline"><input type="radio" name="exhausted" value="False" checked="checked" >No</label>
-                            <label class="radio-inline"><input type="radio" name="exhausted" value="">Not completed</label>
+                            <g:radioGroup name="exhausted"
+                                          values="[true, false, '']"
+                                          labels="['Yes', 'No', 'Not completed']"
+                                          value="${fluidSpecimenInstance?.exhausted}">
+                                ${it.label}  ${it.radio}
+                            </g:radioGroup>
                         </div>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'volumeUnit', 'error')} required">
                         <label for="volumeUnit" class="control-label"><g:message code="fluidSpecimen.volumeUnit.label" default="Volume Unit" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="volumeUnit" name="volumeUnit.id" from="${geldb.Units.findAllByUnitType(UnitType.VolumeUnit).sort()}" optionKey="id" required="" value="${fluidSpecimenInstance?.volumeUnit?.id}" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="volumeUnit" name="volumeUnit.id" from="${geldb.Units.findAllByUnitType(UnitType.VolumeUnit).sort()}" optionKey="id" required="" value="${fluidSpecimenInstance?.volumeUnit?.id}" />
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'volumeUnit', 'error')}</span>
                         </div>
                     </div>

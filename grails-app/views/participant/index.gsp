@@ -1,5 +1,5 @@
 
-<%@ page import="geldb.Participant" %>
+<%@ page import="geldb.StudySubject; geldb.Participant" %>
 <!DOCTYPE html>
 <html>
 
@@ -12,12 +12,42 @@
 
 <body>
 
+<sec:ifAnyGranted roles="ROLE_ADMIN">
+    <div style="background: rgba(139, 240, 37, 0.14);">
+        <div class="container">
+            <p>
+            <h5 class="text-center">Export Data</h5>
+            <p>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="control-label"><small>Export Participants</small></label>
+                    <a class='btn btn-success btn-sm' onclick="getExcel()"  <g:link controller="participant" action="exportParticipants" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                        <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
+                    </div>
+                </div>
+            </div>
+            <p>
+            <p>
+        </div>
+    </div>
+</sec:ifAnyGranted>
 <p>
 <p>
-    <filterpane:filterButton text="Filter This List" />
-    <filterpane:filterPane domain="geldb.Participant"
-                           excludeProperties="dateOfBirth"
-                           associatedProperties="studySubject.studySubjectIdentifier"/>
+<div style="background: rgba(80, 110, 56, 0.04);">
+    <div class="container">
+        <p>
+        <h5 class="text-center">Search Options</h5>
+        <p>
+        <filterpane:filterButton text="Filter This List" />
+        <filterpane:filterPane domain="geldb.Participant"
+                               excludeProperties="dateOfBirth"
+                               associatedProperties="studySubject.studySubjectIdentifier"/>
+        <p>
+        <p>
+    </div>
+</div>
+
 <hr style="border:1; height:1px" />
 
 <section id="index-participant" class="first">
@@ -33,7 +63,7 @@
 
 				<g:sortableColumn property="centre" title="${message(code: 'participant.centre.label', default: 'Centre')}" />
 
-                <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id')}" />
+                <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id')}"/>
 			
 			</tr>
 		</thead>
@@ -50,15 +80,33 @@
 				<td>${fieldValue(bean: participantInstance, field: "centre")}</td>
 
                 <td>${fieldValue(bean: participantInstance.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
-			
+
 			</tr>
 		</g:each>
 		</tbody>
 	</table>
 	<div>
-		<bs:paginate total="${participantInstanceCount}" />
+		<bs:paginate total="${participantInstanceCount}"/>
 	</div>
 </section>
+
+<g:javascript plugin="jquery" library="jquery" />
+<script>
+    function showSpinner() {
+        $('#spinner').show();
+    }
+    function hideSpinner() {
+        $('#spinner').hide();
+    }
+    function getExcel(){
+        showSpinner();
+        ${remoteFunction (controller: 'participant',
+                        action: 'exportParticipants',
+                        params:[format:'excel',extension:'xls'],
+                        onSuccess:'hideSpinner()'
+                )}
+    }
+</script>
 
 </body>
 

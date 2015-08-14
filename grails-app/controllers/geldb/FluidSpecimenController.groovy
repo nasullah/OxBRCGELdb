@@ -13,6 +13,8 @@ import grails.plugins.springsecurity.*
 @Transactional(readOnly = true)
 class FluidSpecimenController {
 
+    def exportService
+
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -38,12 +40,35 @@ class FluidSpecimenController {
         if (gelId) {
             def participantByGeLId = Participant.createCriteria().get {
                 studySubject {
-                    eq('studySubjectIdentifier', gelId)
+                    eq('studySubjectIdentifier', gelId, [ignoreCase: true])
                 }
             }
             if (participantByGeLId && gelId) {
                 render(template: "participantList", model: [listParticipantByGeLId: participantByGeLId])
             }
+        }
+    }
+
+    @Secured(['ROLE_ADMIN'])
+    def exportFluidSpecimens(){
+
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= Exported All FluidSpecimens.${params.extension}")
+
+            def exportFluidSpecimensData = FluidSpecimen.list().sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+
+            def cleanGelID = { domain, value ->
+                return value.toString().replace('[','').replace(']','').replace('null','').replace(',','').trim()
+            }
+
+            List fields = ["participant.studySubject.studySubjectIdentifier", "fluidSampleType", "primaryContainer", "barcode", "timePoint", "exhausted", "notes","collectionDate","collectionTime","collectionLocation","collectedBy","fluidSpecimenVolume", "volumeUnit"]
+            Map labels = ["fluidSampleType":"FluidSample Type", "primaryContainer":"Primary Container", "barcode":"Barcode", "timePoint":"Time Point", "exhausted":"Exhausted", "notes":"Notes", "collectionDate":"Collection Date", "collectionTime":"Collection Time",
+                          "collectionLocation":"Collection Location", "collectedBy":"Collected By", "fluidSpecimenVolume":"Fluid Specimen Volume", "volumeUnit":"Volume Unit", "participant.studySubject.studySubjectIdentifier":"GEL Study ID"]
+            Map parameters = [title: "FluidSpecimens", "column.widths": [0.2, 0.3, 0.5]]
+            Map formatters = ["participant.studySubject.studySubjectIdentifier":cleanGelID]
+
+            exportService.export(params.format, response.outputStream, exportFluidSpecimensData, fields, labels, formatters, parameters )
         }
     }
 
@@ -54,6 +79,23 @@ class FluidSpecimenController {
     def create() {
         respond new FluidSpecimen(params)
     }
+
+//    @Transactional
+//    def saveDuplicates() {
+//        def fluidSpecimenInstance = new FluidSpecimen(params)
+//        if (fluidSpecimenInstance == null) {
+//            notFound()
+//            return
+//        }
+//
+//        if (fluidSpecimenInstance.hasErrors()) {
+//            respond fluidSpecimenInstance.errors, view: 'create'
+//            return
+//        }
+//        fluidSpecimenInstance.save(flush: true)
+//        flash.message = "This is the newly created duplicate fluid specimen with id ${fluidSpecimenInstance.id}"
+//        redirect fluidSpecimenInstance
+//    }
 
     @Transactional
     def save(FluidSpecimen fluidSpecimenInstance) {

@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="input-group">
-                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
+                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="GEL000" required="" ></g:textField>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-success" value="Find" onClick= 'getDNAExtract()'><span class="glyphicon glyphicon-search"></span> Find DNA Extract</button>
                             </div>
@@ -117,7 +117,7 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'framentedDNAConcentration', 'error')} required">
-                        <label for="framentedDNAConcentration" class="control-label"><g:message code="DNA_Library.framentedDNAConcentration.label" default="Framented DNA Concentration" /><span class="required-indicator">*</span></label>
+                        <label for="framentedDNAConcentration" class="control-label"><g:message code="DNA_Library.framentedDNAConcentration.label" default="Fragmented DNA Concentration" /><span class="required-indicator">*</span></label>
                         <div>
                             <g:field class="form-control" name="framentedDNAConcentration" value="${fieldValue(bean: DNA_LibraryInstance, field: 'framentedDNAConcentration')}" required=""/>
                             <span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'framentedDNAConcentration', 'error')}</span>
@@ -147,7 +147,7 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_LibraryInstance, field: 'sapphireIdentifier', 'error')} ">
-                        <label for="sapphireIdentifier" class="control-label"><g:message code="DNA_Library.sapphireIdentifier.label" default="Biobanking Identifier" /></label>
+                        <label for="sapphireIdentifier" class="control-label"><g:message code="DNA_Library.sapphireIdentifier.label" default="DNA Library Identifier" /></label>
                         <div>
                             <g:textField class="form-control" id="sapphireIdentifier" name="sapphireIdentifier" value="${DNA_LibraryInstance?.sapphireIdentifier}"/>
                             <span class="help-inline">${hasErrors(bean: DNA_LibraryInstance, field: 'sapphireIdentifier', 'error')}</span>

@@ -47,8 +47,11 @@ class StudySubjectController {
                                               "2-RBF0072-0611", "2-0308", "3-RTH0031-0503", "3-308", "3-0611", "4-0308", "Cell Path Form"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             } else if (consentType.studyName == 'ProMPT') {
-            def listConsentVersionForm = ["6/ 04/09/2012"]
-            render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
+                def listConsentVersionForm = ["6/ 04/09/2012"]
+                render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
+            } else if (consentType.studyName == 'GoTarget') {
+                def listConsentVersionForm = ["Version 2.0 April 2010"]
+                render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             }
         }
     }

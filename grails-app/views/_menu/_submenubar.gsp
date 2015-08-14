@@ -116,7 +116,7 @@ This menu is used to show function that can be triggered on the content (an obje
         </g:if>
         <g:if test="${ params.controller == 'DNA_Extract'}">
             <li class="${ params.action == "create" ? 'active' : '' }">
-                <g:link action="create"><i class="glyphicon glyphicon-plus"></i> New DNA Extract</g:link>
+                <g:link action="create"><i class="glyphicon glyphicon-plus"></i> New DNA/RNA Extract</g:link>
             </li>
         </g:if>
         <g:if test="${ params.controller == 'DNA_Library'}">
@@ -134,8 +134,20 @@ This menu is used to show function that can be triggered on the content (an obje
                 <g:link action="create"><i class="glyphicon glyphicon-plus"></i> New Sample Type</g:link>
             </li>
         </g:if>
-		
-	</ul>
+
+        <g:if test="${ params.controller == 'DNAExtractionKit'}">
+            <li class="${ params.action == "create" ? 'active' : '' }">
+                <g:link action="create"><i class="glyphicon glyphicon-plus"></i> New DNA Extraction Kit</g:link>
+            </li>
+        </g:if>
+
+        <g:if test="${ params.controller == 'ExtractionType'}">
+            <li class="${ params.action == "create" ? 'active' : '' }">
+                <g:link action="create"><i class="glyphicon glyphicon-plus"></i> New Extraction Type</g:link>
+            </li>
+        </g:if>
+
+    </ul>
 </g:if>
 
 <!--
@@ -163,6 +175,10 @@ This menu is used to show function that can be triggered on the content (an obje
 
         <li class="">
             <li><a href="/GELdb/importparticipant"><span style="color:#46d010"><i class="glyphicon glyphicon-import"></i></span> Import Participant</a></li>
+        </li>
+
+        <li class="">
+        <li><a href="/GELdb/scanbarcode"><span style="color:#060e02"><i class="glyphicon glyphicon-barcode"></i></span> Scan Barcode</a></li>
         </li>
 
         <li class=${ params.action == "listBloodFollowUp" ? 'active' : '' }>

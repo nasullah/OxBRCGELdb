@@ -1,5 +1,6 @@
 package geldb
 
+import grails.converters.*
 import org.hibernate.SessionFactory
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
@@ -16,6 +17,8 @@ import grails.plugins.springsecurity.*
 @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
 @Transactional(readOnly = true)
 class AliquotController {
+
+    def exportService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -42,7 +45,7 @@ class AliquotController {
         if (gelId) {
             def participantByGeLId = Participant.createCriteria().get {
                 studySubject {
-                    eq('studySubjectIdentifier', gelId)
+                    eq('studySubjectIdentifier', gelId, [ignoreCase: true])
                 }
             }
             if(participantByGeLId){
@@ -67,6 +70,115 @@ class AliquotController {
         }
     }
 
+    def preFillCreatedOn() {
+        def createdOn = FluidSpecimen.get(params.long('specimenId'))?.collectionDate
+        if (createdOn){
+            render createdOn as XML
+        }
+    }
+
+    @Secured(['ROLE_ADMIN'])
+    def exportAliquots(){
+
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= Exported All Aliquots.${params.extension}")
+
+            def exportAliquotsData = Aliquot.list().sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+
+            def cleanGelID = { domain, value ->
+                return value.toString().replace('[','').replace(']','').replace('null','').replace(',','').trim()
+            }
+
+            def clean = { domain, value ->
+                return value.toString().replace('[','').replace(']','').trim()
+            }
+
+            List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "specimen", "derivedFrom.aliquot", "derivedFrom.derivationDate", "derivedFrom.derivedBy", "derivedFrom.derivationProcess", "sapphireIdentifier",
+                           "blockNumber", "aliquotType", "barcode", "exhausted", "notes","aliquotRanking","createdOn","frozenBy","aliquotVolumeMass","unit", "position",
+                           "gelSuitabilityReport.reportDate", "gelSuitabilityReport.reportStaff", "gelSuitabilityReport.comments", "gelSuitabilityReport.handE_pathreview",
+                           "gelSuitabilityReport.slideMarkedBy", "gelSuitabilityReport.sideMarkedDate", "gelSuitabilityReport.percentageTumourContent",
+                           "gelSuitabilityReport.tumourContentVerifiedBy", "gelSuitabilityReport.tumourContentVerificationOther", "gelSuitabilityReport.microdissection",
+                           "gelSuitabilityReport.microdissectionDetails", "gelSuitabilityReport.cellularity", "gelSuitabilityReport.percentageNecrosis",
+                           "gelSuitabilityReport.dysplasticNonInvasiveElements", "gelSuitabilityReport.dysplasticNonInvasiveNotes", "gelSuitabilityReport.pathologistComments",
+                           "gelSuitabilityReport.suitableForGel", "gelSuitabilityReport.failureReason", "gelSuitabilityReport.slideScannedOn", "gelSuitabilityReport.slideScannedBy",
+                           "gelSuitabilityReport.handEcarriedOutOn", "gelSuitabilityReport.handEcarriedOutBy"]
+
+            Map labels = ["specimen":"Specimen", "derivedFrom.aliquot":"Parent Aliquot", "derivedFrom.derivationDate":"Derivation Date", "derivedFrom.derivedBy":"Derived By", "derivedFrom.derivationProcess":"Derivation Process", "sapphireIdentifier":"Biobanking Identifier",
+                          "blockNumber":"Block Number", "barcode":"Barcode", "aliquotType":"Aliquot Type", "exhausted":"Exhausted", "notes":"Notes", "aliquotRanking":"Aliquot Ranking", "createdOn":"Created on",
+                          "frozenBy":"Frozen By", "aliquotVolumeMass":"Aliquot Volume Mass", "unit":"Unit", "position":"Position","gelSuitabilityReport.reportDate":"Report Date",
+                          "gelSuitabilityReport.reportStaff":"Report Staff", "gelSuitabilityReport.comments":"Comments", "gelSuitabilityReport.handE_pathreview":"H & E path review",
+                          "gelSuitabilityReport.slideMarkedBy":"Slide Marked By", "gelSuitabilityReport.sideMarkedDate":"Slide Marked Date", "gelSuitabilityReport.percentageTumourContent":"Percentage Tumour Content",
+                          "gelSuitabilityReport.tumourContentVerifiedBy":"Tumour Content Verified By", "gelSuitabilityReport.tumourContentVerificationOther":"Tumour Content Verification Other",
+                          "gelSuitabilityReport.microdissection":"Micro dissection", "gelSuitabilityReport.microdissectionDetails":"Micro dissection Details", "gelSuitabilityReport.cellularity":"Cellularity",
+                          "gelSuitabilityReport.percentageNecrosis":"Percentage Necrosis", "gelSuitabilityReport.dysplasticNonInvasiveElements":"Dysplastic Non Invasive Elements",
+                          "gelSuitabilityReport.dysplasticNonInvasiveNotes":"Dysplastic Non Invasive Notes", "gelSuitabilityReport.pathologistComments":"Pathologist Comments",
+                          "gelSuitabilityReport.suitableForGel":"Suitable For Gel", "gelSuitabilityReport.failureReason":"Failure Reason", "gelSuitabilityReport.slideScannedOn":"Slide Scanned On",
+                          "gelSuitabilityReport.slideScannedBy":"Slide Scanned By", "gelSuitabilityReport.handEcarriedOutOn":"H & E Carried Out On", "gelSuitabilityReport.handEcarriedOutBy":"H & E carried Out By",
+                          "specimen.participant.studySubject.studySubjectIdentifier":"GeL Study ID"]
+
+            Map parameters = [title: "Aliquots", "column.widths": [0.2, 0.3, 0.5]]
+
+            Map formatters = ["gelSuitabilityReport.reportDate":clean, "gelSuitabilityReport.reportStaff":clean, "gelSuitabilityReport.comments":clean, "gelSuitabilityReport.handE_pathreview":clean,
+                              "gelSuitabilityReport.slideMarkedBy":clean, "gelSuitabilityReport.sideMarkedDate":clean, "gelSuitabilityReport.percentageTumourContent":clean,
+                              "gelSuitabilityReport.tumourContentVerifiedBy":clean, "gelSuitabilityReport.tumourContentVerificationOther":clean,
+                              "gelSuitabilityReport.microdissection":clean, "gelSuitabilityReport.microdissectionDetails":clean, "gelSuitabilityReport.cellularity":clean,
+                              "gelSuitabilityReport.percentageNecrosis":clean, "gelSuitabilityReport.dysplasticNonInvasiveElements":clean,
+                              "gelSuitabilityReport.dysplasticNonInvasiveNotes":clean, "gelSuitabilityReport.pathologistComments":clean,
+                              "gelSuitabilityReport.suitableForGel":clean, "gelSuitabilityReport.failureReason":clean, "gelSuitabilityReport.slideScannedOn":clean,
+                              "gelSuitabilityReport.slideScannedBy":clean, "gelSuitabilityReport.handEcarriedOutOn":clean, "gelSuitabilityReport.handEcarriedOutBy":clean,
+                              "specimen.participant.studySubject.studySubjectIdentifier":cleanGelID]
+
+            exportService.export(params.format, response.outputStream, exportAliquotsData, fields, labels, formatters, parameters )
+        }
+    }
+
+
+    @Secured(['ROLE_ADMIN'])
+    def exportListOfMaterialSupplied(){
+        def listOfGelIDs = params.gelIdList
+        if (listOfGelIDs) {
+            if (params?.format && params.format != "html") {
+                response.contentType = grailsApplication.config.grails.mime.types[params.format]
+                response.setHeader("Content-disposition", "attachment; filename= Exported Material Supplied.${params.extension}")
+                listOfGelIDs = listOfGelIDs.replaceAll("\\s+", "")
+                List list = listOfGelIDs.toString().split(',')
+                def exportListOfMaterialSuppliedData = Aliquot.list().sort {
+                    it.specimen.participant.studySubject.studySubjectIdentifier.findResult { it?.size() ? it : null }
+                }
+                exportListOfMaterialSuppliedData = exportListOfMaterialSuppliedData.findAll { a ->
+                    a.specimen.participant.studySubject.studySubjectIdentifier.findResult {
+                        it?.size() ? it : null
+                    } in list
+                }
+
+                def gelId = { domain, value ->
+                    return value.toString().replace('[', '').replace(']', '').replace('null', '').replace(',', '')
+                }
+
+                def anatomicalSite = { domain, value ->
+                    if (value.toString().startsWith('Fluid Specimen-')) {
+                        return ''
+                    } else return value
+                }
+
+                List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "specimen.anatomicalSite", "aliquotType", "blockNumber",
+                               "aliquotRanking", "aliquotVolumeMass", "unit"]
+                Map labels = ["specimen.participant.studySubject.studySubjectIdentifier": "GEL Study ID", "specimen.anatomicalSite": "Anatomical Site",
+                              "aliquotType"                                             : "Aliquot Type", "blockNumber": "Block Number", "aliquotRanking": "Aliquot Ranking", "aliquotVolumeMass": "Mass",
+                              "unit"                                                    : "Unit"]
+                Map parameters = [title: "Exported Material Supplied", "column.widths": [0.2, 0.3, 0.5]]
+                Map formatters = ["specimen.participant.studySubject.studySubjectIdentifier": gelId, "specimen.anatomicalSite": anatomicalSite]
+
+                exportService.export(params.format, response.outputStream, exportListOfMaterialSuppliedData, fields, labels, formatters, parameters)
+            }
+        }else {
+            flash.message = "Enter one or more GeL IDs separated by comma."
+            redirect(uri: "/participant/summaryReport")
+        }
+
+    }
+
     def show(Aliquot aliquotInstance) {
         respond aliquotInstance
     }
@@ -74,31 +186,6 @@ class AliquotController {
     def create() {
         respond new Aliquot(params)
     }
-
-//    def download(long id) {
-//        Aliquot aliquotInstance = Aliquot.get(id)
-//        if ( aliquotInstance == null) {
-//            flash.message = "Aliquot not found."
-//            redirect (action:'index')
-//        } else {
-//            response.setContentType("APPLICATION/OCTET-STREAM")
-//            response.setHeader("Content-Disposition", "Attachment;Filename=\"${aliquotInstance.aliquotPhotograph}\"")
-//
-//            def file = new File(aliquotInstance.aliquotPhotograph)
-//            def fileInputStream = new FileInputStream(file)
-//            def outputStream = response.getOutputStream()
-//
-//            byte[] buffer = new byte[4096];
-//            int len;
-//            while ((len = fileInputStream.read(buffer)) > 0) {
-//                outputStream.write(buffer, 0, len);
-//            }
-//
-//            outputStream.flush()
-//            outputStream.close()
-//            fileInputStream.close()
-//        }
-//    }
 
     @Transactional
     def save(Aliquot aliquotInstance) {
@@ -115,20 +202,6 @@ class AliquotController {
 
         aliquotInstance.save flush: true
 
-//        def file = request.getFile('photographFile')
-//        if (file.originalFilename){
-//            if (file?.empty) {
-//                flash.message = "File cannot be empty"
-//                respond aliquotInstance, view: 'create'
-//                return
-//            }
-//            aliquotInstance.aliquotPhotograph = grailsApplication.config.uploadFolder +
-//                    aliquotInstance.specimen.participant.studySubject.studySubjectIdentifier.findResult {it.size() ? it : null}.toString() +
-//                    '.Aliquot ID.' + aliquotInstance.id.toString()
-//            file.transferTo(new File(aliquotInstance.aliquotPhotograph))
-//            aliquotInstance.save flush: true
-//        }
-
         def exhaustBlood = params.exhaustBlood
         if (exhaustBlood == 'True'){
             aliquotInstance.specimen.exhausted = true
@@ -144,22 +217,22 @@ class AliquotController {
         redirect aliquotInstance
     }
 
-    @Transactional
-    def saveDuplicates() {
-        def aliquotInstance = new Aliquot(params)
-        if (aliquotInstance == null) {
-            notFound()
-            return
-        }
-
-        if (aliquotInstance.hasErrors()) {
-            respond aliquotInstance.errors, view: 'create'
-            return
-        }
-        aliquotInstance.save(flush: true)
-        flash.message = "This is the newly created duplicate Aliquot with id ${aliquotInstance.id}"
-        redirect aliquotInstance
-    }
+//    @Transactional
+//    def saveDuplicates() {
+//        def aliquotInstance = new Aliquot(params)
+//        if (aliquotInstance == null) {
+//            notFound()
+//            return
+//        }
+//
+//        if (aliquotInstance.hasErrors()) {
+//            respond aliquotInstance.errors, view: 'create'
+//            return
+//        }
+//        aliquotInstance.save(flush: true)
+//        flash.message = "This is the newly created duplicate Aliquot with id ${aliquotInstance.id}"
+//        redirect aliquotInstance
+//    }
 
     def edit(Aliquot aliquotInstance) {
         respond aliquotInstance

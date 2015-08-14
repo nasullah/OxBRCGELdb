@@ -4,13 +4,6 @@
 <hr style="border:1; height:1px" />
 
 <g:if test="${aliquotInstance?.derivedFrom?.id !=null}">
-%{--<div class="${hasErrors(bean: aliquotInstance, field: 'derivedFrom', 'error')} ">--}%
-%{--<label for="derivedFrom" class="control-label"><g:message code="aliquot.derivedFrom.label" default="Derived From" /></label>--}%
-%{--<div>--}%
-%{--<g:select class="form-control" id="derivedFrom" name="derivedFrom.id" from="${geldb.Derivation.list()}" optionKey="id" value="${aliquotInstance?.derivedFrom?.id}" class="many-to-one" noSelection="['null': '']"/>--}%
-%{--<span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'derivedFrom', 'error')}</span>--}%
-%{--</div>--}%
-%{--</div>--}%
 
     <div class="${hasErrors(bean: derivationInstance, field: 'aliquot', 'error')} ">
         <label for="aliquot" class="control-label"><g:message code="derivation.aliquot.label" default="Parent Aliquot" /><span class="required-indicator">*</span></label>
@@ -43,16 +36,6 @@
             </div>
         </div>
 
-        %{--<div class="col-lg-6">--}%
-            %{--<div class="${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')} ">--}%
-                %{--<label for="derivationTime" class="control-label"><g:message code="derivation.derivationTime.label" default="Derivation Time" /></label>--}%
-                %{--<div>--}%
-                    %{--<g:textField class="form-control" name="derivationTime" value="${aliquotInstance?.derivedFrom?.derivationTime}"/>--}%
-                    %{--<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'derivationTime', 'error')}</span>--}%
-                %{--</div>--}%
-            %{--</div>--}%
-        %{--</div>--}%
-
         <div class="col-lg-6">
             <div class="${hasErrors(bean: derivationInstance, field: 'derivedBy', 'error')} required">
                 <label for="derivedBy" class="control-label"><g:message code="derivation.derivedBy.label" default="Derived By" /><span class="required-indicator">*</span></label>
@@ -79,6 +62,12 @@
                 <div>
                     <label class="radio-inline"><input type="radio" name="exhausted" value= "True">Yes</label>
                     <label class="radio-inline"><input type="radio" name="exhausted" value= "False" checked="checked" >No</label>
+                    <g:radioGroup name="exhausted"
+                                  values="[true, false]"
+                                  labels="['Yes', 'No']"
+                                  value="${aliquotInstance?.exhausted}">
+                        ${it.label}  ${it.radio}
+                    </g:radioGroup>
                 </div>
             </div>
         </div>
@@ -117,7 +106,7 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="input-group">
-                <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
+                <g:textField type="text" id="search" name="search" class="form-control"  placeholder="GEL000" required="" ></g:textField>
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-success" value="Find" onClick= 'getSpecimen()'><span class="glyphicon glyphicon-search"></span> Find Specimen</button>
                 </div>
@@ -142,11 +131,25 @@
     </div>
 </g:if>
 
+<g:if test="${aliquotInstance?.derivedFrom?.id ==null}">
+    <div class="row">
+        <div class="col-lg-6" id="showCreatedOn">
+            <div class="${hasErrors(bean: aliquotInstance, field: 'createdOn', 'error')} required">
+                <label for="createdOn" class="control-label"><g:message code="FFPE_Tissue_Report.createdOn.label" default="Created on" /></label>
+                <div>
+                    <bs:datePicker id="createdOn" name="createdOn" precision="day"  value="${aliquotInstance?.createdOn}" default="none" noSelection="['': '']"/>
+                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'createdOn', 'error')}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</g:if>
+
 <div class="row">
     <g:if test="${aliquotInstance?.derivedFrom?.id ==null}">
         <div class="col-lg-6">
             <div class="${hasErrors(bean: aliquotInstance, field: 'blockNumber', 'error')} ">
-                <label for="blockNumber" class="control-label"><g:message code="aliquot.blockNumber.label" default="Block Number (include block size (small/XL))" /></label>
+                <label for="blockNumber" class="control-label"><g:message code="aliquot.blockNumber.label" default="Block number (in this format: path number, block number, size (small/XL))" /></label>
                 <div>
                     <g:textField class="form-control" id="blockNumber" name="blockNumber" value="${aliquotInstance?.blockNumber}" />
                     <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'blockNumber', 'error')}</span>
@@ -181,26 +184,12 @@
         <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')} required">
             <label for="aliquotType" class="control-label"><g:message code="aliquot.aliquotType.label" default="Aliquot Type" /><span class="required-indicator">*</span></label>
             <div>
-                <g:select class="form-control" id="aliquotType" name="aliquotType.id" from="${geldb.AliquotType.list().sort()}" optionKey="id" required="" value="${aliquotInstance?.aliquotType?.id}" noSelection="['':'- Choose -']" onclick="alertUser()" />
+                <g:select class="form-control" id="aliquotType" name="aliquotType.id" from="${geldb.AliquotType.list().sort()}" optionKey="id" required="" value="${aliquotInstance?.aliquotType?.id}" noSelection="['':'- Choose -']"/>
                 <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')}</span>
             </div>
         </div>
     </div>
 </div>
-
-%{--<div class="col-lg-6">--}%
-%{--<div class="${hasErrors(bean: aliquotInstance, field: 'exhausted', 'error')} ">--}%
-%{--<label for="exhausted" class="control-label"><g:message code="aliquot.exhausted.label" default="Exhausted" /><span class="required-indicator">*</span></label>--}%
-%{--<div>--}%
-%{--<bs:checkBox name="exhausted" value="${aliquotInstance?.exhausted}" offLabel="No" onLabel="Yes" />--}%
-%{--<span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'exhausted', 'error')}</span>--}%
-%{--<label class="radio-inline"><input type="radio" name="exhausted" value="True">Yes</label>--}%
-%{--<label class="radio-inline"><input type="radio" name="exhausted" value="False" checked="checked" >No</label>--}%
-%{--</div>--}%
-%{--</div>--}%
-%{--</div>--}%
-
-
 
 <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
     <div class="row">
@@ -208,21 +197,11 @@
             <div class="${hasErrors(bean: aliquotInstance, field: 'notes', 'error')} ">
                 <label for="notes" class="control-label"><g:message code="aliquot.notes.label" default="Notes" /></label>
                 <div>
-                    <g:textArea class="form-control" name="notes" cols="40" rows="5" value="${aliquotInstance?.notes}"/>
+                    <g:textArea class="form-control" name="notes" cols="40" rows="4" value="${aliquotInstance?.notes}"/>
                     <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'notes', 'error')}</span>
                 </div>
             </div>
         </div>
-
-        %{--<div class="col-lg-6">--}%
-        %{--<div class="${hasErrors(bean: aliquotInstance, field: 'aliquotPhotograph', 'error')} required">--}%
-        %{--<label for="aliquotPhotograph" class="control-label"><g:message code="aliquot.aliquotPhotograph.label" default="Aliquot Photograph" /></label>--}%
-        %{--<div>--}%
-        %{--<input type="file" id="photographFile" name="photographFile" />--}%
-        %{--<span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'aliquotPhotograph', 'error')}</span>--}%
-        %{--</div>--}%
-        %{--</div>--}%
-        %{--</div>--}%
 
         <div class="col-lg-6">
             <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotRanking', 'error')} ">
@@ -230,6 +209,16 @@
                 <div>
                     <g:select class="form-control" name="aliquotRanking" from="${aliquotInstance.constraints.aliquotRanking.inList}" value="${aliquotInstance?.aliquotRanking}" valueMessagePrefix="aliquot.aliquotRanking"  noSelection="['':'- Choose -']"/>
                     <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'aliquotRanking', 'error')}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="${hasErrors(bean: aliquotInstance, field: 'frozenBy', 'error')} required" id="frozenByWithLabel">
+                <label for="frozenBy" class="control-label"><g:message code="aliquot.frozenBy.label" default="Frozen By (frozen sample only)" /></label>
+                <div>
+                    <g:select class="form-control" id="frozenBy" name="frozenBy" from="${geldb.FrozenBy?.values()}" keys="${geldb.FrozenBy.values()*.name()}" value="${aliquotInstance?.frozenBy?.name()}" noSelection="['':'- Choose -']"/>
+                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'frozenBy', 'error')}</span>
                 </div>
             </div>
         </div>
@@ -258,6 +247,10 @@
     </div>
 
     <div id="exhaustSpecimen"></div>
+
+    <g:if test="${!aliquotInstance?.createdTime}">
+        <g:hiddenField id="createdTime" name="createdTime" value="${new Date().format('yyyy-MM-dd HH:MM')}"/>
+    </g:if>
 
 </g:if>
 
@@ -314,11 +307,23 @@
         $('#notFound').modal()
     }
 
-    function alertUser(){
-        if ($.trim($('#blockNumber').val()) == '' && $.trim($('#sapphireIdentifier').val()) == ''){
-            $('#isEmpty').modal()
-        }
-    }
+//    function alertUser(){
+//        if ($.trim($('#blockNumber').val()) == '' && $.trim($('#sapphireIdentifier').val()) == ''){
+//            $('#isEmpty').modal()
+//        }
+//    }
+//
+//    if ($.trim($('#blockNumber').val()) == ''){
+//        $('#showCreatedOn').hide()
+//    }
+//
+//    function showCreatedOn(){
+//        if ($.trim($('#blockNumber').val()) != ''){
+//            $('#showCreatedOn').show()
+//        } else {
+//            $('#showCreatedOn').hide()
+//        }
+//    }
 
     function exhaustFluidSpecimen(){
         ${remoteFunction (controller: 'aliquot',
@@ -329,9 +334,27 @@
                         onFailure:'$("#exhaustSpecimen").hide()'
                 )}
     }
-    function exhaustFluidSpecimenError(){
-        var exhaustSpecimen = $("#exhaustSpecimen");
-        exhaustSpecimen.hide()
+
+    function preFillCreatedOn(){
+        var baseUrl = "${createLink(controller:'aliquot', action:'preFillCreatedOn')}";
+        var specimenId = $('#specimen').val();
+        var url = baseUrl + "?specimenId="+specimenId;
+        $.ajax({
+            url:url,
+            type: 'POST',
+            dataType: 'xml',
+            async:true,
+            success: function(res) {
+                if (res){
+                    var createdOn = $(res).find('timestamp').text();
+                    createdOn = createdOn.toString().substr(0,10);
+                    $('#createdOn').val(createdOn);
+                }
+            },
+            error: function(request, status, error) {
+                $('#createdOn').val("");
+            }
+        });
     }
 </script>
 

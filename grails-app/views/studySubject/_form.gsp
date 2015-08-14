@@ -47,7 +47,7 @@
                     <div id="filter" class="${hasErrors(bean: studySubjectInstance, field: 'consentFormVersion', 'error')} required">
                         <label for="consentFormVersion" class="control-label"><g:message code="studySubject.consentFormVersion.label" default="Consent Form Version" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" name="consentFormVersion" id="consentFormVersion" from="${studySubjectInstance.constraints.consentFormVersion.inList}" value="${studySubjectInstance?.consentFormVersion}" valueMessagePrefix="studySubjectInstance.consentFormVersion" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" name="consentFormVersion" id="consentFormVersion" from="${studySubjectInstance.constraints.consentFormVersion.inList}" value="${studySubjectInstance?.consentFormVersion}" valueMessagePrefix="studySubjectInstance.consentFormVersion" noSelection="['':'- Choose -']" onclick="alertUser()"/>
                             <span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'consentFormVersion', 'error')}</span>
                         </div>
                     </div>
@@ -57,11 +57,12 @@
                     <div class="${hasErrors(bean: studySubjectInstance, field: 'consentStatus', 'error')} ">
                         <label for="consentStatus" class="control-label"><g:message code="studySubject.consentStatus.label" default="Consent Status" /><span class="required-indicator">*</span></label>
                         <div>
-                            %{--<bs:checkBox name="consentStatus" value="${studySubjectInstance?.consentStatus}" offLabel="No" onLabel="Yes"/>--}%
-                            %{--<span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'consentStatus', 'error')}</span>--}%
-                            <label class="radio-inline"><input type="radio" name="consentStatus" value="True" checked="checked" >Yes</label>
-                            <label class="radio-inline"><input type="radio" name="consentStatus" value="False">No</label>
-                            <label class="radio-inline"><input type="radio" name="consentStatus" value="">Not completed</label>
+                            <g:radioGroup name="consentStatus"
+                                          values="[true, false, '']"
+                                          labels="['Yes', 'No', 'Not completed']"
+                                          value="${studySubjectInstance?.consentStatus}">
+                                ${it.label}  ${it.radio}
+                            </g:radioGroup>
                         </div>
                     </div>
                 </div>
@@ -89,6 +90,23 @@
                 </div>
             </div>
 
+            <div class="modal fade" id="isEmpty">
+                <div class="modal-dialog" style="position: absolute; left: 0%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Required!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>You need to choose a consent type before choosing consent form version </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 <g:javascript plugin="jquery" library="jquery" />
 <script>
     function filterVersion(){
@@ -98,10 +116,26 @@
                         update: 'filter',
                         onFailure: 'error()'
                 )}
+        disable()
     }
 
     function error(request, status, error){
             $('#consentFormVersion').val("");
+    }
+
+    function disable(){
+        if ($.trim($("#study").val()) == ''){
+            $('#consentFormVersion').prop('disabled', 'disabled');
+        } else{
+            $('#consentFormVersion').prop('disabled', false);
+        }
+    }
+
+    function alertUser(){
+        if ($.trim($("#study").val()) == ''){
+            $('#consentFormVersion').prop('disabled', 'disabled');
+            $('#isEmpty').modal()
+        }
     }
 </script>
 

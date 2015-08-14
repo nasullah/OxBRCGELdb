@@ -1,5 +1,5 @@
 
-<%@ page import="geldb.Aliquot" %>
+<%@ page import="groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
 <%@ page import="geldb.SolidSpecimen" %>
 <%@ page import="geldb.FluidSpecimen" %>
 <!DOCTYPE html>
@@ -104,6 +104,31 @@
                 <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "blockNumber")}</td>
 
             </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.createdOn.label" default="Created on" /></td>
+
+                <td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${aliquotInstance?.createdOn}" /></td>
+
+            </tr>
+
+            <%  TimeDuration duration = null;
+                def formatCollectionTime = aliquotInstance?.specimen?.collectionTime?.toString()?.replace('.',':')
+                if (formatCollectionTime && aliquotInstance?.createdOn && aliquotInstance?.createdTime){
+                    def collectionTime =  new Date().parse("yyy-MM-dd HH:mm", aliquotInstance?.createdOn?.format('yyy-MM-dd')?.toString() + " " + formatCollectionTime)
+                    def createdTime = new Date().parse("yyy-MM-dd HH:mm", aliquotInstance?.createdTime?.toString())
+                    duration = TimeCategory.minus(createdTime, collectionTime)
+                    }
+                def specimenType = FluidSpecimen.findById(aliquotInstance?.specimen?.id)
+            %>
+            <g:if test="${duration && specimenType}">
+                <tr class="prop">
+                    <td valign="top" class="name">Processing Time</td>
+
+                    <td valign="top" class="value">${duration}</td>
+
+                </tr>
+            </g:if>
         </g:if>
 
         <tr class="prop">
@@ -199,6 +224,12 @@
                 <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "aliquotRanking")}</td>
 
             </tr>
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.frozenBy.label" default="Frozen By (frozen sample only)" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "frozenBy")}</td>
+            </tr>
         </g:if>
 
         <g:if test="${aliquotInstance?.position?.id != null}">
@@ -274,21 +305,21 @@
             </tr>
         </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"> Dispatched</td>
+        %{--<tr class="prop">--}%
+            %{--<td valign="top" class="name"> Dispatched</td>--}%
 
-            <td valign="top" style="text-align: left;" class="value">
-                <% def dispatchItem = DispatchItem?.listOrderById() %>
-                <ul>
-                    <g:each in="${dispatchItem}" var="item">
-                        <g:if test="${item.identifiedSample.id == aliquotInstance.id}">
-                            <li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>
-                        </g:if>
-                    </g:each>
-                </ul>
-            </td>
+            %{--<td valign="top" style="text-align: left;" class="value">--}%
+                %{--<% def dispatchItem = DispatchItem?.listOrderById() %>--}%
+                %{--<ul>--}%
+                    %{--<g:each in="${dispatchItem}" var="item">--}%
+                        %{--<g:if test="${item.identifiedSample.id == aliquotInstance.id}">--}%
+                            %{--<li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>--}%
+                        %{--</g:if>--}%
+                    %{--</g:each>--}%
+                %{--</ul>--}%
+            %{--</td>--}%
 
-        </tr>
+        %{--</tr>--}%
 
         <g:if test="${aliquotInstance.gelSuitabilityReport}">
             <tr class="prop">
@@ -322,13 +353,15 @@
     <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation')])}</g:link>
 </g:if>
 
-<g:if test="${(!aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Buffy Coat' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma' && !aliquotInstance?.gelSuitabilityReport)}">
+<g:if test="${(!aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Buffy Coat' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma' && !aliquotInstance?.gelSuitabilityReport
+        && aliquotInstance?.aliquotType?.aliquotTypeName != 'Blood Germline'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma EDTA cfDNA'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma Strek cfDNA'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma PST'
+        && aliquotInstance?.aliquotType?.aliquotTypeName != 'Blood PAXgene'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Serum SST' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Full Blood')}">
     <a class='btn btn-primary btn-small' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link>
 </g:if>
 
 <g:if test="${aliquotInstance?.derivedFrom?.id == null && aliquotInstance?.exhausted != true}">
-    <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="saveDuplicates" params="['specimen.id': aliquotInstance?.specimen?.id,'exhausted': aliquotInstance?.exhausted,'passFail': aliquotInstance?.passFail,
-                                                                                           'passFailReason': aliquotInstance?.passFailReason,'notes': aliquotInstance?.notes,'barcode': aliquotInstance?.barcode,
+    <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['specimen.id': aliquotInstance?.specimen?.id,'exhausted': aliquotInstance?.exhausted,'passFail': aliquotInstance?.passFail,
+                                                                                           'passFailReason': aliquotInstance?.passFailReason,'notes': aliquotInstance?.notes,'createdOn':aliquotInstance?.createdOn,
                                                                                            'aliquotVolumeMass': aliquotInstance?.aliquotVolumeMass,'unit': aliquotInstance?.unit?.id,'blockNumber': aliquotInstance?.blockNumber,
                                                                                            'aliquotType': aliquotInstance?.aliquotType?.id, 'aliquotRanking': aliquotInstance?.aliquotRanking]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate Aliquot')])}</g:link>
 

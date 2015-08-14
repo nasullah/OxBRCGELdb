@@ -17,12 +17,22 @@
 
 <p>
 <p>
-    <filterpane:filterButton text="Filter This List" />
-    <filterpane:filterPane domain="geldb.Position"
-                           associatedProperties="plateOrBox.identifier, plateOrBox.shelf.shelfName,
+<div style="background: rgba(80, 110, 56, 0.04);">
+    <div class="container">
+        <p>
+        <h5 class="text-center">Search Options</h5>
+        <p>
+            <filterpane:filterButton text="Filter This List" />
+            <filterpane:filterPane domain="geldb.Position"
+                                   associatedProperties="plateOrBox.identifier, plateOrBox.shelf.shelfName,
                                                  plateOrBox.shelf.shelfName, plateOrBox.shelf.freezer.freezerName"/>
+        <p>
+        <p>
+    </div>
+</div>
 
 <hr style="border:1; height:1px" />
+
 <section id="index-position" class="first">
 
 	<table class="table table-bordered margin-top-medium">

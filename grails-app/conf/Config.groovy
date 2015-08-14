@@ -155,3 +155,39 @@ grails {
 greenlight.apiUsername = "username"
 greenlight.apiPassword = "username"
 greenlight.urlAddress  = "http://localhost:8080"
+
+grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
+                      xml: ['text/xml', 'application/xml'],
+                      text: 'text-plain',
+                      js: 'text/javascript',
+                      rss: 'application/rss+xml',
+                      atom: 'application/atom+xml',
+                      css: 'text/css',
+                      csv: 'text/csv',
+                      pdf: 'application/pdf',
+                      rtf: 'application/rtf',
+                      excel: 'application/vnd.ms-excel',
+                      ods: 'application/vnd.oasis.opendocument.spreadsheet',
+                      all: '*/*',
+                      json: ['application/json','text/json'],
+                      form: 'application/x-www-form-urlencoded',
+                      multipartForm: 'multipart/form-data'
+]
+
+environments {
+    development {
+        uploadFolder = "C:/Users/nasullah.alham/Desktop/upload_folder/"
+    }
+    test {
+        uploadFolder = "C:/Users/nasullah.alham/Desktop/upload_folder/"
+    }
+    production {
+        uploadFolder = "/media/1TBdisk/Gelimages/"
+    }
+}
+
+auditLog {
+    actorClosure = { request, session ->
+        request.applicationContext.springSecurityService.principal?.username
+    }
+}

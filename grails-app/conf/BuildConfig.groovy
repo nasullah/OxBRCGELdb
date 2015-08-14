@@ -40,6 +40,7 @@ grails.project.dependency.resolution = {
         mavenLocal()
         grailsCentral()
         mavenCentral()
+        mavenRepo "http://repo.grails.org/grails/core"
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
@@ -51,6 +52,12 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.27'
         // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
 //        runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
+        runtime 'org.springframework:spring-test:3.2.8.RELEASE'
+        runtime ( 'org.xhtmlrenderer:core-renderer:R8', 'com.lowagie:itext:2.1.0')
+        compile 'commons-beanutils:commons-beanutils:1.8.3'
+        compile 'com.google.zxing:core:3.2.0'
+        compile 'com.google.zxing:javase:2.0'
+
     }
 
     plugins {
@@ -70,16 +77,16 @@ grails.project.dependency.resolution = {
         compile ":filterpane:2.4.2"
         compile ":rest-client-builder:2.0.3"
         compile ":class-domain-uml:0.1.5"
-//        runtime ":prototype:1.0"
-
-
-
         compile ':spring-security-core:1.2.7.3'
         compile ":spring-security-ui:0.2"
         compile ":jquery:1.11.0"
         compile ":jquery-ui:1.10.3"
         compile ":famfamfam:1.0.1"
         compile ":mail:1.0"
+        compile ":export:1.6"
+        compile ":audit-logging:1.0.3"
+        compile ":excel-import:1.0.0"
+        compile ":rendering:1.0.0"
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0.1"
         //runtime ":cached-resources:1.1"

@@ -114,6 +114,20 @@
             </li>
 
             <li class="">
+                <a href="${createLink(uri: '/DNAExtractionKit')}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    Add DNA Extraction Kit
+                </a>
+            </li>
+
+            <li class="">
+                <a href="${createLink(uri: '/ExtractionType')}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    Add Extraction Type
+                </a>
+            </li>
+
+            <li class="">
                 <a href="${createLink(uri: '/freezer')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Freezer

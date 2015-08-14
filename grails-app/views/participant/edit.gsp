@@ -4,8 +4,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'participant.label', default: 'Participant')}" />
-	<title><g:message code="default.edit.label" args="[entityName]" /></title>
+	<title>Show Participant ${participantInstance.studySubject.studySubjectIdentifier.findResult{it?.size() ? it : null}}</title>
 </head>
 
 <body>

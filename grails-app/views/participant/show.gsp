@@ -5,8 +5,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'participant.label', default: 'Participant')}" />
-	<title><g:message code="default.show.label" args="[entityName]" /></title>
+    <title>Show Participant ${participantInstance.studySubject.studySubjectIdentifier.findResult{it?.size() ? it : null}}</title>
 </head>
 
 <body>
@@ -108,6 +107,14 @@
                 </tr>
             </g:if>
 
+            <g:if test="${participantInstance.studySubject && participantInstance.studySubject.findResult("Null") {it.studySubjectIdentifier ? it : null} != "Null"}">
+                    <tr class="prop">
+                        <td valign="top" class="name"><g:message code="participant.label" default="GeL Study ID" /></td>
+
+                        <td valign="top" class="value">${fieldValue(bean: participantInstance.studySubject.findResult{it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+                    </tr>
+            </g:if>
+
             %{--<g:if test="${participantInstance.specimen}">--}%
                 %{--<tr class="prop">--}%
                     %{--<td valign="top" class="name"><g:message code="participant.specimen.label" default="Specimen" /></td>--}%
@@ -153,6 +160,8 @@
 <g:else>
     <a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with another consent </g:link>
 </g:else>
+
+<a class='btn btn-primary btn-small' <g:link  action="renderFormPDF" id="${participantInstance?.id}"><i class="glyphicon glyphicon-plus"></i> Print Tissue Worksheet</g:link>
 
 <hr style="border:1; height:1px" />
 

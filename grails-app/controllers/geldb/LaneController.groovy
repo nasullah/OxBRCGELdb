@@ -33,7 +33,7 @@ class LaneController {
         if (gelId) {
             def participantByGeLId = Participant.createCriteria().get {
                 studySubject {
-                    eq('studySubjectIdentifier', gelId)
+                    eq('studySubjectIdentifier', gelId, [ignoreCase: true])
                 }
             }
             if(participantByGeLId){

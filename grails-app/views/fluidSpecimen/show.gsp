@@ -122,7 +122,12 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.fluidSpecimenVolume.label" default="Fluid Specimen Volume" /></td>
 				
-				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "fluidSpecimenVolume")}</td>
+                <g:if test="${fluidSpecimenInstance.fluidSpecimenVolume == 0}">
+                    <td valign="top" class="value"><p class="text-danger">Not completed</p></td>
+                </g:if>
+                <g:else >
+                    <td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "fluidSpecimenVolume")}</td>
+                </g:else>
 				
 			</tr>
 		
@@ -181,21 +186,21 @@
                 </tr>
             </g:if>
 
-            <tr class="prop">
-                <td valign="top" class="name"> Dispatched</td>
+            %{--<tr class="prop">--}%
+                %{--<td valign="top" class="name"> Dispatched</td>--}%
 
-                <td valign="top" style="text-align: left;" class="value">
-                    <% def dispatchItem = DispatchItem?.listOrderById() %>
-                    <ul>
-                        <g:each in="${dispatchItem}" var="item">
-                            <g:if test="${item.identifiedSample.id == fluidSpecimenInstance.id}">
-                                <li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>
-                            </g:if>
-                        </g:each>
-                    </ul>
-                </td>
+                %{--<td valign="top" style="text-align: left;" class="value">--}%
+                    %{--<% def dispatchItem = DispatchItem?.listOrderById() %>--}%
+                    %{--<ul>--}%
+                        %{--<g:each in="${dispatchItem}" var="item">--}%
+                            %{--<g:if test="${item.identifiedSample.id == fluidSpecimenInstance.id}">--}%
+                                %{--<li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>--}%
+                            %{--</g:if>--}%
+                        %{--</g:each>--}%
+                    %{--</ul>--}%
+                %{--</td>--}%
 
-            </tr>
+            %{--</tr>--}%
 		
 		</tbody>
 	</table>
@@ -205,13 +210,14 @@
 
 <p class="text-primary">Available Actions</p>
 
+<a class='btn btn-primary btn-small' <g:link controller="fluidSpecimen" action="create" params="['participant': fluidSpecimenInstance?.participant?.id,'exhausted': fluidSpecimenInstance?.exhausted,'fluidSampleType': fluidSpecimenInstance?.fluidSampleType?.getKey(),
+                                                                                                         'primaryContainer': fluidSpecimenInstance?.primaryContainer?.getKey(),'notes': fluidSpecimenInstance?.notes,'collectionLocation': fluidSpecimenInstance?.collectionLocation?.id, 'fluidSpecimenVolume':'0',
+                                                                                                         'collectionDate': fluidSpecimenInstance?.collectionDate,'collectionTime': fluidSpecimenInstance?.collectionTime,'collectedBy': fluidSpecimenInstance?.collectedBy?.id, 'timePoint':fluidSpecimenInstance?.timePoint,
+                                                                                                         'volumeUnit': fluidSpecimenInstance?.volumeUnit?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fluidSpecimen.label', default: 'Duplicate Fluid Specimen')])}</g:link>
+
 <g:if test="${!fluidSpecimenInstance.postmortem}">
     <a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['specimen.id': fluidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>
 </g:if>
-
-%{--<g:if test="${!fluidSpecimenInstance.position && !fluidSpecimenInstance.exhausted }">--}%
-    %{--<a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['test': fluidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>--}%
-%{--</g:if>--}%
 
 <hr style="border:1; height:1px" />
 </body>

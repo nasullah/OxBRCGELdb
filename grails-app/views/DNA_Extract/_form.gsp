@@ -1,4 +1,5 @@
 <%@ page import="geldb.DNA_Extract" %>
+<%@ page import="geldb.ExtractionType" %>
 
 
             <g:if test="${DNA_ExtractInstance?.aliquot*.id == null}">
@@ -6,7 +7,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="input-group">
-                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
+                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="GEL000" required="" ></g:textField>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-success" value="Find" onClick= 'getAliquots()'><span class="glyphicon glyphicon-search"></span> Find Aliquot</button>
                             </div>
@@ -30,13 +31,27 @@
 
             <div class="row">
                 <div class="col-lg-6">
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'extractionType', 'error')} ">
+                        <label for="extractionType" class="control-label"><g:message code="DNA_Extract.extractionType.label" default="Extraction Type" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <g:select class="form-control" id="extractionType" name="extractionType.id" from="${geldb.ExtractionType.list().sort {it.extractionTypeName}}" optionKey="id" required="" value="${DNA_ExtractInstance?.extractionType?.id}" noSelection="['':'- Choose -']" onchange="hiderRinOrDeltaCQ()"/>
+                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'extractionType', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'exhausted', 'error')} ">
                         <label for="exhausted" class="control-label"><g:message code="DNA_Extract.exhausted.label" default="Exhausted" /></label>
                         <div>
-                            %{--<bs:checkBox name="exhausted" value="${DNA_ExtractInstance?.exhausted}" offLabel="No" onLabel="Yes"/>--}%
-                            %{--<span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'exhausted', 'error')}</span>--}%
-                            <label class="radio-inline"><input type="radio" name="exhausted" value="True">Yes</label>
-                            <label class="radio-inline"><input type="radio" name="exhausted" value="False" checked="checked" >No</label>
+                            <g:radioGroup name="exhausted"
+                                          values="[true, false]"
+                                          labels="['Yes', 'No']"
+                                          value="${DNA_ExtractInstance?.exhausted}">
+                                ${it.label}  ${it.radio}
+                            </g:radioGroup>
                         </div>
                     </div>
                 </div>
@@ -45,10 +60,12 @@
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'passFail', 'error')} ">
                         <label for="passFail" class="control-label"><g:message code="DNA_Extract.passFail.label" default="Pass/Fail" /></label>
                         <div>
-                            %{--<bs:checkBox name="passFail" value="${DNA_ExtractInstance?.passFail}" offLabel="Fail" onLabel="Pass"/>--}%
-                            %{--<span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'passFail', 'error')}</span>--}%
-                            <label class="radio-inline"><input type="radio" name="passFail" value="True" checked="checked">Yes</label>
-                            <label class="radio-inline"><input type="radio" name="passFail" value="False" >No</label>
+                            <g:radioGroup name="passFail"
+                                          values="[true, false]"
+                                          labels="['Yes', 'No']"
+                                          value="${DNA_ExtractInstance?.passFail}">
+                                ${it.label}  ${it.radio}
+                            </g:radioGroup>
                         </div>
                     </div>
                 </div>
@@ -76,27 +93,35 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'dNAConcentration', 'error')} required">
-                        <label for="dNAConcentration" class="control-label"><g:message code="DNA_Extract.dNAConcentration.label" default="DNA Concentration" /><span class="required-indicator">*</span></label>
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'dNAConcentrationNanodrop', 'error')} required">
+                        <label for="dNAConcentrationNanodrop" class="control-label"><g:message code="DNA_Extract.dNAConcentrationNanodrop.label" default="DNA/RNA Concentration (Nanodrop- ng/ul)" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:field class="form-control" name="dNAConcentration" value="${fieldValue(bean: DNA_ExtractInstance, field: 'dNAConcentration')}" required=""/>
-                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'dNAConcentration', 'error')}</span>
+                            <g:field class="form-control" name="dNAConcentrationNanodrop" value="${fieldValue(bean: DNA_ExtractInstance, field: 'dNAConcentrationNanodrop')}" required=""/>
+                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'dNAConcentrationNanodrop', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'dNAConcentrationQubit', 'error')} required">
+                        <label for="dNAConcentrationQubit" class="control-label"><g:message code="DNA_Extract.dNAConcentrationQubit.label" default="DNA/RNA Concentration (Qubit- ng/ul)" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <g:field class="form-control" name="dNAConcentrationQubit" value="${fieldValue(bean: DNA_ExtractInstance, field: 'dNAConcentrationQubit')}" required=""/>
+                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'dNAConcentrationQubit', 'error')}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'dNAAmount', 'error')} required">
-                        <label for="dNAAmount" class="control-label"><g:message code="DNA_Extract.dNAAmount.label" default="DNA Amount" /><span class="required-indicator">*</span></label>
+                        <label for="dNAAmount" class="control-label"><g:message code="DNA_Extract.dNAAmount.label" default="DNA/RNA Volume (ul)" /><span class="required-indicator">*</span></label>
                         <div>
                             <g:field class="form-control" name="dNAAmount" value="${fieldValue(bean: DNA_ExtractInstance, field: 'dNAAmount')}" required=""/>
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'dNAAmount', 'error')}</span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'extractionDate', 'error')} required">
                         <label for="extractionDate" class="control-label"><g:message code="DNA_Extract.extractionDate.label" default="Extraction Date" /><span class="required-indicator">*</span></label>
@@ -106,32 +131,32 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-6">
-                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'extractedBy', 'error')} ">
-                        <label for="extractedBy" class="control-label"><g:message code="DNA_Extract.extractedBy.label" default="Extracted By" /></label>
-                        <div>
-                            <g:select class="form-control" id="extractedBy" name="extractedBy.id" from="${geldb.StaffMember.list().sort {it.staffName}}" optionKey="id" value="${DNA_ExtractInstance?.extractedBy?.id}" noSelection="['':'- Choose -']"/>
-                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'extractedBy', 'error')}</span>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'geLSampleIdentifier', 'error')} required">
-                        <label for="geLSampleIdentifier" class="control-label"><g:message code="DNA_Extract.geLSampleIdentifier.label" default="GeL Sample Identifier" /><span class="required-indicator">*</span></label>
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'extractedBy', 'error')} ">
+                        <label for="extractedBy" class="control-label"><g:message code="DNA_Extract.extractedBy.label" default="Extracted By" /></label>
                         <div>
-                            <g:textField class="form-control" name="geLSampleIdentifier" maxlength="50" required="" value="${DNA_ExtractInstance?.geLSampleIdentifier}"/>
-                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'geLSampleIdentifier', 'error')}</span>
+                            <g:select class="form-control" id="extractedBy" name="extractedBy.id" from="${geldb.StaffMember.findAllByStaffRole('Scientist/Lab Technician').sort {it.staffName}}" optionKey="id" value="${DNA_ExtractInstance?.extractedBy?.id}" noSelection="['':'- Choose -']"/>
+                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'extractedBy', 'error')}</span>
                         </div>
                     </div>
                 </div>
 
+                %{--<div class="col-lg-6">--}%
+                    %{--<div class="${hasErrors(bean: DNA_ExtractInstance, field: 'geLSampleIdentifier', 'error')} required">--}%
+                        %{--<label for="geLSampleIdentifier" class="control-label"><g:message code="DNA_Extract.geLSampleIdentifier.label" default="GeL Sample Identifier/DNA Elution" /><span class="required-indicator">*</span></label>--}%
+                        %{--<div>--}%
+                            %{--<g:textField class="form-control" name="geLSampleIdentifier" maxlength="50" required="" value="${DNA_ExtractInstance?.geLSampleIdentifier}"/>--}%
+                            %{--<span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'geLSampleIdentifier', 'error')}</span>--}%
+                        %{--</div>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
+
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'sapphireIdentifier', 'error')} ">
-                        <label for="sapphireIdentifier" class="control-label"><g:message code="DNA_Extract.sapphireIdentifier.label" default="Biobanking Identifier" /></label>
+                        <label for="sapphireIdentifier" class="control-label"><g:message code="DNA_Extract.sapphireIdentifier.label" default="DNA/RNA Elution" /></label>
                         <div>
                             <g:textField class="form-control" id="sapphireIdentifier" name="sapphireIdentifier" value="${DNA_ExtractInstance?.sapphireIdentifier}"/>
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'sapphireIdentifier', 'error')}</span>
@@ -140,21 +165,41 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'dNAExtractionKit', 'error')} required">
-                        <label for="dNAExtractionKit" class="control-label"><g:message code="DNA_Extract.dNAExtractionKit.label" default="DNA Extraction Kit" /><span class="required-indicator">*</span></label>
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'extractionKit', 'error')} required">
+                        <label for="extractionKit" class="control-label"><g:message code="DNA_Extract.extractionKit.label" default="DNA/RNA Extraction Kit" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:textField class="form-control" name="dNAExtractionKit" maxlength="50" required="" value="${DNA_ExtractInstance?.dNAExtractionKit}"/>
-                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'dNAExtractionKit', 'error')}</span>
+                            <g:select class="form-control" id="extractionKit" name="extractionKit.id" from="${geldb.DNAExtractionKit.list().sort {it.extractionKitName}}" required="" optionKey="id" value="${DNA_ExtractInstance?.extractionKit?.id}" noSelection="['':'- Choose -']"/>
+                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'extractionKit', 'error')}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'delatQC', 'error')} required">
-                        <label for="delatQC" class="control-label"><g:message code="DNA_Extract.delatQC.label" default="Delta QC" /><span class="required-indicator">*</span></label>
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'experimentName', 'error')} required">
+                        <label for="experimentName" class="control-label"><g:message code="DNA_Extract.experimentName.label" default="Experiment Name" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:field class="form-control" name="delatQC" value="${fieldValue(bean: DNA_ExtractInstance, field: 'delatQC')}" required=""/>
+                            <g:textField class="form-control" name="experimentName" required="" value="${DNA_ExtractInstance?.experimentName}"/>
+                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'experimentName', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" id="delatQC">
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'delatQC', 'error')} required">
+                        <label for="delatQC" class="control-label"><g:message code="DNA_Extract.delatQC.label" default="Delta QC" /></label>
+                        <div>
+                            <g:field class="form-control" name="delatQC" value="${fieldValue(bean: DNA_ExtractInstance, field: 'delatQC')}" />
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'delatQC', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6"  id="rin">
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'rin', 'error')} required">
+                        <label for="rin" class="control-label"><g:message code="DNA_Extract.rin.label" default="RIN" /></label>
+                        <div>
+                            <g:field class="form-control" name="rin" value="${fieldValue(bean: DNA_ExtractInstance, field: 'rin')}" />
+                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'rin', 'error')}</span>
                         </div>
                     </div>
                 </div>
@@ -165,6 +210,16 @@
                         <div>
                             <g:field class="form-control" name="a260A280" value="${fieldValue(bean: DNA_ExtractInstance, field: 'a260A280')}" required=""/>
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'a260A280', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'a260A230', 'error')} required">
+                        <label for="a260A280" class="control-label"><g:message code="DNA_Extract.a260A230.label" default="A260A230" /><span class="required-indicator">*</span></label>
+                        <div>
+                            <g:field class="form-control" name="a260A230" value="${fieldValue(bean: DNA_ExtractInstance, field: 'a260A230')}" required=""/>
+                            <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'a260A230', 'error')}</span>
                         </div>
                     </div>
                 </div>
@@ -224,6 +279,48 @@
         var select = $("#selectAliquot");
         select.empty().append("Not found");
         $('#notFound').modal()
+    }
+
+    function hiderRinOrDeltaCQ(){
+        var select = $("#extractionType").val();
+        var rnaExtraction = "${ExtractionType.findByExtractionTypeName('RNA Extraction')?.id}";
+        var dnaExtraction = "${ExtractionType.findByExtractionTypeName('DNA Extraction')?.id}";
+        if (select == rnaExtraction){
+            $('#delatQC').hide();
+            $('#rin').show();
+        }
+        if (select == dnaExtraction){
+            $('#rin').hide();
+            $('#delatQC').show();
+        }
+        if (select == ""){
+            $('#rin').hide();
+            $('#delatQC').hide();
+        }
+    }
+
+    function getElution(){
+
+        var baseUrl = "${createLink(controller:'DNA_Extract', action:'getElution')}";
+        var selectAliquot = $('#aliquot').val();
+        var url = baseUrl + "?selectAliquot="+selectAliquot;
+        $.ajax({
+            url:url,
+            type: 'POST',
+            dataType: 'xml',
+            async:true,
+            success: function(res) {
+
+                if (res){
+                    var elution = $(res).find("map").text();
+                    $('#sapphireIdentifier').val(elution);
+                }
+            },
+            error: function(request, status, error) {
+                $('#sapphireIdentifier').val("");
+
+            }
+        });
     }
 </script>
 

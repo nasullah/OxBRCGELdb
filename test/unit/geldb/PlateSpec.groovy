@@ -6,7 +6,7 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(Plate)
+//@TestFor(Plate)
 class PlateSpec extends Specification {
 
     def setup() {

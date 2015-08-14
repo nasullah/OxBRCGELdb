@@ -6,7 +6,7 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(Library_QC_Report)
+//@TestFor(Library_QC_Report)
 class Library_QC_ReportSpec extends Specification {
 
     def setup() {

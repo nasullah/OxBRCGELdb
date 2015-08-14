@@ -28,7 +28,9 @@
 
             <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id')}" />
 
-            <g:sortableColumn property="specimen" title="${message(code: 'participant.specimen.label', default: 'Follow up Blood')}" />
+            <th><g:message code="specimen.label" default="Received Blood" /></th>
+
+            <th><g:message code="specimen.label" default="Action" /></th>
 
         </tr>
         </thead>
@@ -43,6 +45,8 @@
                 <td>${fieldValue(bean: participantInstance, field: "givenName")}</td>
 
                 <td>${fieldValue(bean: participantInstance.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+
+                <td> ${geldb.FluidSpecimen.findAllByParticipant(participantInstance).timePoint.sort()?.toString()?.replace('[','')?.replace(']','')?.replace('Follow-up 1','FU1')?.replace('Follow-up 2','FU2')?.replace('Follow-up 3','FU3')?.replace('Follow-up 4','FU4')}</td>
 
                 <td><a class='btn btn-primary btn-xs' <g:link controller="fluidSpecimen" action="create" params="['participant.id': participantInstance?.id, 'fluidSampleType':'Blood_whole_BLD']"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fluidSpecimen.label', default: 'Follow up Blood')])}</g:link></td>
 

@@ -20,7 +20,7 @@
         </li>
 
         <li>
-            <g:link controller="DNA_Extract" action="index">DNA Extract</g:link>
+            <g:link controller="DNA_Extract" action="index">DNA/RNA Extract</g:link>
         </li>
 
         <li>
@@ -56,6 +56,11 @@
                 <li>
                     <g:link controller="position" action="index">Position</g:link>
                 </li>
+
+                <li>
+                    <g:link controller="DNA_Extract" action="workLists">Work Lists</g:link>
+                </li>
+
 
             </ul>
         </li>

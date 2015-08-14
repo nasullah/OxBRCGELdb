@@ -1,8 +1,16 @@
 package geldb
 
 import GELBootsDB.User
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.common.BitMatrix
+import com.google.zxing.datamatrix.DataMatrixWriter
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogListener
+
+import javax.imageio.ImageIO
+import java.awt.image.BufferedImage
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -22,12 +30,25 @@ class ParticipantController {
     def filterPaneService
     def exportService
     def grailsApplication
+    def pdfRenderingService
+    def barcodeService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Participant.list(params), model: [participantInstanceCount: Participant.count()]
+        def  participantWithGeLIDList = Participant.list().findAll{it.studySubject.findResult {it.studySubjectIdentifier ? it : null}}
+        def  participantInstanceCount = participantWithGeLIDList.size()
+        if (params.sort == "studySubject.studySubjectIdentifier" && params.order == "asc" ) {
+            if (params.offset && params.offset?.toInteger() != 0 && participantInstanceCount - params.offset?.toInteger() < 10){
+                respond Participant.list(offset: params.offset , max:participantInstanceCount % params.offset?.toInteger(), sort: "studySubject.studySubjectIdentifier" ), model: [participantInstanceCount: participantInstanceCount]
+            }
+            else{
+                respond Participant.list(params), model: [participantInstanceCount: participantInstanceCount]
+            }
+        } else{
+            respond Participant.list(params), model: [participantInstanceCount: Participant.count()]
+        }
     }
 
     def getJson () {
@@ -55,11 +76,7 @@ class ParticipantController {
         def hospitalNumber =  results.consent.hospitalNumber
 
         List<StudySubject> consentList = new ArrayList<StudySubject>();
-//        def consentTakerName = ""
-//        def lastCompleted = new Date()
-//        def version =""
-//        def foundGEL = false
-//        def foundORB = false
+
         results.consent.consents.each{ c->
             def consentCreatedDateFormatted = new Date().parse("dd-MM-yyyy HH:mm:ss", c.lastCompleted)
 
@@ -80,15 +97,7 @@ class ParticipantController {
         def existingParticipant = Participant.findByHospitalNumber(hospitalNumber)
         if(existingParticipant){
 
-            existingParticipant.centre = Centre.findByCentreName('Oxford')
-            existingParticipant.dateOfBirth = new Date().parse("dd-MM-yyyy HH:mm:ss", dateOfBirth)
-            existingParticipant.diagnosis = null
-            existingParticipant.gender = null
-            existingParticipant.familyName = lastName
-            existingParticipant.givenName = firstName
-            existingParticipant.nHSNumber = nhsNumber
-
-            existingParticipant.save(failOnError: true)
+            flash.message = "Could not be imported as the participant already exists in NGS-LIMS, see below."
             redirect(action: "show", id: existingParticipant.id)
 
         }else if (!consentList.empty && !existingParticipant) {
@@ -102,26 +111,20 @@ class ParticipantController {
             }
             redirect(action: "show", id: participantInstance.id)
         } else{
-            flash.message = "Patient with NHS number ${nhsNumber} doesn't have any consent form"
+            flash.message = "Participant with NHS number ${nhsNumber} doesn't have any consent form"
             redirect(uri: '/importparticipant')
         }
     }
-//            def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
-//                    dateOfBirth: dateOfBirth, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
-//
-//            def studySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL Study'), studySubjectIdentifier: consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: lastCompleted,
-//                    recruitedBy:consentTakerName, consentFormVersion: version)
-//            participantInstance.addToStudySubject(studySubjectInstance).save(failOnError: true)
-//            redirect(action: "show", id: participantInstance.id)
-
-    //find the patient but it does not have GEL form
 
     def listBloodFollowUp() {
 
         def results = Participant.createCriteria().listDistinct{
             specimen {
-                aliquot {
-                    eq('aliquotType',AliquotType.findByAliquotTypeName('Plasma'))
+                and {
+                    ge("fluidSpecimenVolume", Float.parseFloat("10"))
+                    aliquot {
+                        eq('aliquotType',AliquotType.findByAliquotTypeName('Plasma'))
+                    }
                 }
             }
         }
@@ -130,7 +133,18 @@ class ParticipantController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count()]
+        def  participantWithGeLIDList = Participant.list().findAll{it.studySubject.findResult {it.studySubjectIdentifier ? it : null}}
+        def  participantInstanceCount = participantWithGeLIDList.size()
+        if (params.sort == "studySubject.studySubjectIdentifier" && params.order == "asc" ) {
+            if (params.offset && params.offset?.toInteger() != 0 && participantInstanceCount - params.offset?.toInteger() < 10){
+                [participantInstanceList: Participant.list(offset: params.offset, max:participantInstanceCount % params.offset?.toInteger(), sort: "studySubject.studySubjectIdentifier" ), participantInstanceTotal: participantInstanceCount]
+            }
+            else{
+                [participantInstanceList: Participant.list(params), participantInstanceTotal: participantInstanceCount]
+            }
+        } else{
+            [participantInstanceList: Participant.list(params), participantInstanceTotal: Participant.count()]
+        }
     }
 
     def filter = {
@@ -171,9 +185,114 @@ class ParticipantController {
         [listAuditLogData: listAuditLogData]
     }
 
+    @Secured(['ROLE_ADMIN'])
+    def exportSummaryReport(){
+
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= Exported Summary Report.${params.extension}")
+
+            def exportSummaryReportData = Participant.list().sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+
+            def gelId = { domain, value ->
+                return value.toString().replace('[','').replace(']','').replace('null','').replace(',','').trim()
+            }
+            def consentType = { domain, value ->
+                return value.toString().replace('[','').replace(']','').replace('null','')
+            }
+
+            List fields = ["studySubject.studySubjectIdentifier","studySubject.study"]
+            Map labels = ["studySubject.studySubjectIdentifier":"GEL Study ID", "studySubject.study":"Consent Type"]
+            Map parameters = [title: "Exported Summary Report", "column.widths": [0.2, 0.3, 0.5]]
+            Map formatters = ["studySubject.studySubjectIdentifier":gelId, "studySubject.study":consentType]
+
+            exportService.export(params.format, response.outputStream, exportSummaryReportData, fields, labels, formatters, parameters )
+        }
+    }
+
+    @Secured(['ROLE_ADMIN'])
+    def exportParticipants(){
+
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= Exported All Participants.${params.extension}")
+
+            def exportParticipantsData = Participant.list().sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+
+            def cleanGelID = { domain, value ->
+                return value.toString().replace('[','').replace(']','').replace('null','').replace(',','').trim()
+            }
+            def cleanConsentType = { domain, value ->
+                return value.toString().replace('[','').replace(']','').replace('null','').trim()
+            }
+
+            List fields = ["studySubject.studySubjectIdentifier", "studySubject.study", "familyName", "givenName","dateOfBirth","gender","nHSNumber","hospitalNumber","diagnosis","centre"]
+            Map labels = ["familyName":"Family Name", "givenName":"Given Name", "dateOfBirth":"Date of Birth", "gender":"Gender", "nHSNumber":"NHS Number", "hospitalNumber":"Hospital Number", "diagnosis":"Diagnosis", "centre":"Centre", "studySubject.studySubjectIdentifier":"GEL Study ID", "studySubject.study":"Consent Type"]
+            Map parameters = [title: "Participants", "column.widths": [0.2, 0.3, 0.5]]
+            Map formatters = ["studySubject.studySubjectIdentifier":cleanGelID, "studySubject.study":cleanConsentType]
+
+            exportService.export(params.format, response.outputStream, exportParticipantsData, fields, labels, formatters, parameters )
+        }
+    }
+
     def show(Participant participantInstance) {
         respond participantInstance
     }
+
+    def scanBarcode(){
+
+        def barcode = params.barcode
+        if (!barcode.toString().contains('~')){
+            def participantInstance = Participant.findByNHSNumber(barcode)
+            if (participantInstance){
+                redirect(action: "show", id: participantInstance.id)
+            }else {
+                flash.message = "No patient found"
+                redirect(uri: '/scanbarcode')
+            }
+        }else{
+            def barcodeVersionDate = barcode?.toString()?.split('~')?.last()
+            if (barcode && barcodeVersionDate =='01/07/2015'){
+                def barcodeParts = barcode.toString().split('~')
+                def nHSNumber = barcodeParts[0].substring(11,21)
+                def hospitalNumber = barcodeParts[1]
+                def familyName = barcodeParts[3]
+                def givenName = barcodeParts[2]
+                def dateOfBirth = new Date().parse('d/M/yyyy',barcodeParts[4].substring(0,10))?.format('yyyy-MM-dd')
+                def participantInstance = Participant.findByNHSNumber(nHSNumber)
+                if (participantInstance){
+                    redirect(action: "show", id: participantInstance.id)
+                }else {
+                    redirect(action: "create", params: [nHSNumber: nHSNumber, familyName: familyName, givenName: givenName, hospitalNumber: hospitalNumber, dateOfBirth: dateOfBirth ])
+                }
+            }else{
+                flash.message = "Please scan the barcode version 1.0.0, 01/07/2015"
+                redirect(uri: '/scanbarcode')
+            }
+        }
+    }
+
+    def renderFormPDF(){
+        def tempFile = File.createTempFile("temp",".png")
+//        def gelID = Participant.get(params.id)?.studySubject?.studySubjectIdentifier?.findResult{it?.size() ? it : null}
+//        def hospitalNumber = Participant.get(params.id)?.getHospitalNumber()
+        def nhSNumber = Participant.get(params.id)?.getnHSNumber()
+//        def givenName = Participant.get(params.id)?.getGivenName()
+//        def familyName = Participant.get(params.id)?.getFamilyName()
+        def input= "${nhSNumber}"
+        Map<EncodeHintType,Object> hintType =new HashMap<EncodeHintType,Object>();
+        hintType.put(EncodeHintType.DATA_MATRIX_SHAPE, com.google.zxing.datamatrix.encoder.SymbolShapeHint.FORCE_SQUARE);
+        barcodeService.generateDataMatrix(input,hintType,tempFile.path);
+        def barcode = new File(tempFile.path)
+        def ochre = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/ochre.png"))
+        def orb = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/orb.png"))
+        def formInstance = Participant.get(params.id)
+        def args = [template:"pdf", model:[form:formInstance, barcode: barcode.bytes, ochre:ochre.bytes, orb:orb.bytes]]
+        pdfRenderingService.render(args+[controller:this],response)
+        File file = tempFile
+        file.delete()
+    }
+
 
     @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def summaryReport() {
@@ -181,7 +300,7 @@ class ParticipantController {
         if (gelID) {
             def participantByGeLId = Participant.createCriteria().get {
                 studySubject {
-                    eq('studySubjectIdentifier', gelID)
+                    eq('studySubjectIdentifier', gelID, [ignoreCase: true])
                 }
             }
             if (participantByGeLId && gelID) {

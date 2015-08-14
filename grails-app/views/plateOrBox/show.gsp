@@ -89,6 +89,21 @@
 	</table>
 </section>
 
+<hr style="border:1; height:1px" />
+
+<p class="text-primary">Available Action</p>
+
+<g:form action="uploadScannerFile" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="box" value=${fieldValue(bean: plateOrBoxInstance, field: "id")} />
+	<label for="file">Upload Scanner File:</label>
+	<input type="file" name="file" id="file" />
+	<p>
+	<p>
+	<input class="save" type="submit" value="Upload" />
+</g:form>
+
+<hr style="border:1; height:1px" />
+
 </body>
 
 </html>

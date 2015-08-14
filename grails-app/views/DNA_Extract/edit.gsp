@@ -4,7 +4,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'DNA_Extract.label', default: 'DNA Extract')}" />
+	<g:set var="entityName" value="${message(code: 'DNA_Extract.label', default: 'DNA/RNA Extract')}" />
 	<title><g:message code="default.edit.label" args="[entityName]" /></title>
 </head>
 

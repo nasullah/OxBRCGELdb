@@ -27,7 +27,7 @@
                     <div class="col-lg-6">
                         <label for="laneNumber" class="control-label"><g:message code="lane.laneNumber.label" default="Enter participant's GeL Id" /></label>
                         <div class="input-group">
-                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="Enter participant's GeL Id" required="" ></g:textField>
+                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="GEL000" required="" ></g:textField>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-success" value="Find" onClick= 'getDNALibrary()'><span class="glyphicon glyphicon-search"></span> Find DNA Library</button>
                             </div>
