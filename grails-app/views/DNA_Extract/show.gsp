@@ -67,14 +67,14 @@
 			</tr>
 
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="DNA_Extract.dNAConcentrationNanodrop.label" default="DNA/RNA Concentration (Nanodrop- ng/ul)" /></td>
+                <td valign="top" class="name"><g:message code="DNA_Extract.dNAConcentrationNanodrop.label" default="DNA/RNA Concentration (Nanodrop- ng/µl)" /></td>
 
                 <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAConcentrationNanodrop")}</td>
 
             </tr>
 
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="DNA_Extract.dNAConcentrationQubit.label" default="DNA/RNA Concentration (Qubit- ng/ul)" /></td>
+                <td valign="top" class="name"><g:message code="DNA_Extract.dNAConcentrationQubit.label" default="DNA/RNA Concentration (Qubit- ng/µl)" /></td>
 
                 <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAConcentrationQubit")}</td>
 
@@ -123,7 +123,7 @@
             </tr>
 
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="DNA_Extract.dNAAmount.label" default="DNA/RNA Volume (ul)" /></td>
+                <td valign="top" class="name"><g:message code="DNA_Extract.dNAAmount.label" default="DNA/RNA Volume (µl)" /></td>
 
                 <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "dNAAmount")}</td>
 

@@ -22,7 +22,7 @@ environments {
             //url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
             url = "jdbc:postgresql://localhost:5432/geldbprod"
             username = "postgres"
-            password = "password"
+            password = "adminadmin1"
             pooled = true
 
             driverClassName = "org.postgresql.Driver"
@@ -39,7 +39,7 @@ environments {
             dbCreate = "update"
             url = "jdbc:postgresql://localhost:5432/geldbprod"
             username = "postgres"
-            password = "password"
+            password = "IamanewDadanditisexhausting."
             pooled = true
 
             driverClassName = "org.postgresql.Driver"

@@ -32,6 +32,9 @@ class ParticipantController {
     def grailsApplication
     def pdfRenderingService
     def barcodeService
+    def exportParticipantService
+    def exportSummaryReportService
+    def listAuditLogDataService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -53,7 +56,6 @@ class ParticipantController {
 
     def getJson () {
         params.nhsOrHospitalNumberId
-
         //call Greenlight service here
         def results = consentService.getConsent( params.nhsOrHospitalNumberId)
         //internal error accessing Greenlight
@@ -68,20 +70,15 @@ class ParticipantController {
             redirect(uri: '/importparticipant')
             return
         }
-
         def lastName = results.consent.lastName
         def firstName = results.consent.firstName
         def dateOfBirth =results.consent.dateOfBirth
         def nhsNumber = results.consent.nhsNumber
         def hospitalNumber =  results.consent.hospitalNumber
-
         List<StudySubject> consentList = new ArrayList<StudySubject>();
-
         results.consent.consents.each{ c->
             def consentCreatedDateFormatted = new Date().parse("dd-MM-yyyy HH:mm:ss", c.lastCompleted)
-
             if(c.form.namePrefix =="GEL"){
-
                 def gelStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: consentCreatedDateFormatted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
                 if (gelStudySubjectInstance){
                     consentList.add(gelStudySubjectInstance)
@@ -96,13 +93,10 @@ class ParticipantController {
         //we find the patient and has the consent form
         def existingParticipant = Participant.findByHospitalNumber(hospitalNumber)
         if(existingParticipant){
-
             flash.message = "Could not be imported as the participant already exists in NGS-LIMS, see below."
             redirect(action: "show", id: existingParticipant.id)
-
         }else if (!consentList.empty && !existingParticipant) {
             def dateOfBirthFormatted = new Date().parse("dd-MM-yyyy HH:mm:ss", dateOfBirth)
-
             def participantInstance = new Participant(familyName: lastName, givenName: firstName, diagnosis: null,
                     dateOfBirth: dateOfBirthFormatted, nHSNumber: nhsNumber, hospitalNumber: hospitalNumber, gender: null, centre: Centre.findByCentreName('Oxford'))
             for (int i = 0; i < consentList.size(); i++) {
@@ -117,7 +111,6 @@ class ParticipantController {
     }
 
     def listBloodFollowUp() {
-
         def results = Participant.createCriteria().listDistinct{
             specimen {
                 and {
@@ -164,74 +157,33 @@ class ParticipantController {
         if(params?.format && params.format != "html"){
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
             response.setHeader("Content-disposition", "attachment; filename= Exported User Activity Log.${params.extension}")
-
             def auditLogExport = AuditLogEvent.list().sort {it.actor}
             auditLogExport = auditLogExport.reverse()
-
-            List fields = ["actor", "eventName", "dateCreated", "className", "persistedObjectId", "oldValue", "newValue"]
-            Map labels = ["actor":"Username", "eventName":"Event Name", "dateCreated":"Date & Time",
-                          "className":"Table", "persistedObjectId":"Record ID", "oldValue":"Old Value",
-                          "newValue":"New Value"]
-            Map parameters = [title: "Exported User Activity Log", "column.widths": [0.2, 0.3, 0.5]]
-            Map formatters = [:]
-
-            exportService.export(params.format, response.outputStream, auditLogExport, fields, labels, formatters, parameters )
-
+            exportService.export(params.format, response.outputStream, auditLogExport, listAuditLogDataService.fields, listAuditLogDataService.labels, [:], listAuditLogDataService.parameters )
             if (params.delete){
                 AuditLogEvent.executeUpdate('delete from AuditLogEvent')
             }
         }
-
         [listAuditLogData: listAuditLogData]
     }
 
     @Secured(['ROLE_ADMIN'])
     def exportSummaryReport(){
-
         if(params?.format && params.format != "html"){
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
             response.setHeader("Content-disposition", "attachment; filename= Exported Summary Report.${params.extension}")
-
             def exportSummaryReportData = Participant.list().sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
-
-            def gelId = { domain, value ->
-                return value.toString().replace('[','').replace(']','').replace('null','').replace(',','').trim()
-            }
-            def consentType = { domain, value ->
-                return value.toString().replace('[','').replace(']','').replace('null','')
-            }
-
-            List fields = ["studySubject.studySubjectIdentifier","studySubject.study"]
-            Map labels = ["studySubject.studySubjectIdentifier":"GEL Study ID", "studySubject.study":"Consent Type"]
-            Map parameters = [title: "Exported Summary Report", "column.widths": [0.2, 0.3, 0.5]]
-            Map formatters = ["studySubject.studySubjectIdentifier":gelId, "studySubject.study":consentType]
-
-            exportService.export(params.format, response.outputStream, exportSummaryReportData, fields, labels, formatters, parameters )
+            exportService.export(params.format, response.outputStream, exportSummaryReportData, exportSummaryReportService.fields, exportSummaryReportService.labels, exportSummaryReportService.formatters, exportSummaryReportService.parameters )
         }
     }
 
     @Secured(['ROLE_ADMIN'])
     def exportParticipants(){
-
         if(params?.format && params.format != "html"){
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
             response.setHeader("Content-disposition", "attachment; filename= Exported All Participants.${params.extension}")
-
             def exportParticipantsData = Participant.list().sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
-
-            def cleanGelID = { domain, value ->
-                return value.toString().replace('[','').replace(']','').replace('null','').replace(',','').trim()
-            }
-            def cleanConsentType = { domain, value ->
-                return value.toString().replace('[','').replace(']','').replace('null','').trim()
-            }
-
-            List fields = ["studySubject.studySubjectIdentifier", "studySubject.study", "familyName", "givenName","dateOfBirth","gender","nHSNumber","hospitalNumber","diagnosis","centre"]
-            Map labels = ["familyName":"Family Name", "givenName":"Given Name", "dateOfBirth":"Date of Birth", "gender":"Gender", "nHSNumber":"NHS Number", "hospitalNumber":"Hospital Number", "diagnosis":"Diagnosis", "centre":"Centre", "studySubject.studySubjectIdentifier":"GEL Study ID", "studySubject.study":"Consent Type"]
-            Map parameters = [title: "Participants", "column.widths": [0.2, 0.3, 0.5]]
-            Map formatters = ["studySubject.studySubjectIdentifier":cleanGelID, "studySubject.study":cleanConsentType]
-
-            exportService.export(params.format, response.outputStream, exportParticipantsData, fields, labels, formatters, parameters )
+            exportService.export(params.format, response.outputStream, exportParticipantsData, exportParticipantService.fields, exportParticipantService.labels, exportParticipantService.formatters, exportParticipantService.parameters )
         }
     }
 
@@ -240,7 +192,6 @@ class ParticipantController {
     }
 
     def scanBarcode(){
-
         def barcode = params.barcode
         if (!barcode.toString().contains('~')){
             def participantInstance = Participant.findByNHSNumber(barcode)
@@ -274,11 +225,7 @@ class ParticipantController {
 
     def renderFormPDF(){
         def tempFile = File.createTempFile("temp",".png")
-//        def gelID = Participant.get(params.id)?.studySubject?.studySubjectIdentifier?.findResult{it?.size() ? it : null}
-//        def hospitalNumber = Participant.get(params.id)?.getHospitalNumber()
         def nhSNumber = Participant.get(params.id)?.getnHSNumber()
-//        def givenName = Participant.get(params.id)?.getGivenName()
-//        def familyName = Participant.get(params.id)?.getFamilyName()
         def input= "${nhSNumber}"
         Map<EncodeHintType,Object> hintType =new HashMap<EncodeHintType,Object>();
         hintType.put(EncodeHintType.DATA_MATRIX_SHAPE, com.google.zxing.datamatrix.encoder.SymbolShapeHint.FORCE_SQUARE);
@@ -391,7 +338,6 @@ class ParticipantController {
 
     @Transactional
     def delete(Participant participantInstance) {
-
         if (participantInstance == null) {
             notFound()
             return

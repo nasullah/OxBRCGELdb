@@ -94,7 +94,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'dNAConcentrationNanodrop', 'error')} required">
-                        <label for="dNAConcentrationNanodrop" class="control-label"><g:message code="DNA_Extract.dNAConcentrationNanodrop.label" default="DNA/RNA Concentration (Nanodrop- ng/ul)" /><span class="required-indicator">*</span></label>
+                        <label for="dNAConcentrationNanodrop" class="control-label"><g:message code="DNA_Extract.dNAConcentrationNanodrop.label" default="DNA/RNA Concentration (Nanodrop- ng/µl)" /><span class="required-indicator">*</span></label>
                         <div>
                             <g:field class="form-control" name="dNAConcentrationNanodrop" value="${fieldValue(bean: DNA_ExtractInstance, field: 'dNAConcentrationNanodrop')}" required=""/>
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'dNAConcentrationNanodrop', 'error')}</span>
@@ -104,7 +104,7 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'dNAConcentrationQubit', 'error')} required">
-                        <label for="dNAConcentrationQubit" class="control-label"><g:message code="DNA_Extract.dNAConcentrationQubit.label" default="DNA/RNA Concentration (Qubit- ng/ul)" /><span class="required-indicator">*</span></label>
+                        <label for="dNAConcentrationQubit" class="control-label"><g:message code="DNA_Extract.dNAConcentrationQubit.label" default="DNA/RNA Concentration (Qubit- ng/µl)" /><span class="required-indicator">*</span></label>
                         <div>
                             <g:field class="form-control" name="dNAConcentrationQubit" value="${fieldValue(bean: DNA_ExtractInstance, field: 'dNAConcentrationQubit')}" required=""/>
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'dNAConcentrationQubit', 'error')}</span>
@@ -114,7 +114,7 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'dNAAmount', 'error')} required">
-                        <label for="dNAAmount" class="control-label"><g:message code="DNA_Extract.dNAAmount.label" default="DNA/RNA Volume (ul)" /><span class="required-indicator">*</span></label>
+                        <label for="dNAAmount" class="control-label"><g:message code="DNA_Extract.dNAAmount.label" default="DNA/RNA Volume (µl)" /><span class="required-indicator">*</span></label>
                         <div>
                             <g:field class="form-control" name="dNAAmount" value="${fieldValue(bean: DNA_ExtractInstance, field: 'dNAAmount')}" required=""/>
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'dNAAmount', 'error')}</span>

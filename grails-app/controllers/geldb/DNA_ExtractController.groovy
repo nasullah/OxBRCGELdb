@@ -22,6 +22,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 class DNA_ExtractController {
 
     def exportService
+    def exportKPIReportService
+    def filterPaneService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -38,7 +40,6 @@ class DNA_ExtractController {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [DNA_ExtractInstanceList: DNA_Extract.findAllByExhausted(false, params), DNA_ExtractInstanceTotal: DNA_Extract.count()]
     }
-    def filterPaneService
 
     def filter = {
         if(!params.max) params.max = 10
@@ -83,7 +84,7 @@ class DNA_ExtractController {
 
     def workLists() {
         def sampleType = params.sampleType
-        if (sampleType == 'Samples awaiting FF extraction') {
+        if (sampleType == 'Samples awaiting FF DNA extraction') {
             def aliquotInstanceList = Aliquot.createCriteria().list{
                 and {
                     isEmpty('dNA_Extract')
@@ -91,15 +92,18 @@ class DNA_ExtractController {
                 }
             }
             [aliquotInstanceList: aliquotInstanceList.sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}, title: sampleType]
-        }else if (sampleType == 'Samples awaiting FFPE extraction') {
+        }else if (sampleType == 'Samples awaiting FFPE DNA extraction') {
             def aliquotInstanceList = Aliquot.createCriteria().list{
                 and {
                     isEmpty('dNA_Extract')
-                    eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'))
+                    or {
+                        eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'))
+                        eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'))
+                    }
                 }
             }
             [aliquotInstanceList: aliquotInstanceList.sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}, title: sampleType]
-        }else if (sampleType == 'Samples awaiting germline extraction') {
+        }else if (sampleType == 'Samples awaiting Germline DNA extraction') {
             def aliquotInstanceList = Aliquot.createCriteria().list{
                 and {
                     isEmpty('dNA_Extract')
@@ -122,8 +126,6 @@ class DNA_ExtractController {
 
                 ]
         ]
-
-
         MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request;
         CommonsMultipartFile file = (CommonsMultipartFile) mpr.getFile("file");
 
@@ -137,66 +139,12 @@ class DNA_ExtractController {
     }
 
     @Secured(['ROLE_ADMIN'])
-    def exportSampleManifestBioRepository(){
-
-        if(params?.format && params.format != "html"){
-            response.contentType = grailsApplication.config.grails.mime.types[params.format]
-            response.setHeader("Content-disposition", "attachment; filename= Exported Sample Manifest Biorepository.${params.extension}")
-
-            def exportSampleManifestBioRepositoryData = DNA_Extract.list().sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
-
-            def gelId = { domain, value ->
-                return value.toString().replace('[','').replace(']','').replace('null','').replace(',','')
-            }
-
-            def anatomicalSite = { domain, value ->
-                if (value.toString().startsWith('Fluid Specimen-')) {
-                    return ''
-                } else return value
-            }
-
-            List fields = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier","aliquot.specimen.anatomicalSite", "aliquot.aliquotType", "aliquot.blockNumber",
-                           "aliquot.aliquotRanking", "aliquot.aliquotVolumeMass", "aliquot.unit", "test1", "test2", "test3", "test4", "test5","test6","test7", "test8"]
-            Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":"GEL Study ID", "aliquot.specimen.anatomicalSite":"Group",
-                          "aliquot.aliquotType":"Investigation", "aliquot.blockNumber":"Profile", "aliquot.aliquotRanking":"Sample from", "aliquot.aliquotVolumeMass":"Sample type",
-                          "aliquot.unit":"Container type", "test1":"External PID", "test8":"Barcode ", "test2":"Centre", "test3":"Volume", "test4":"Gender",
-                          "test5":"DNA concentration", "test6":"Tumour type", "test7":" DNA A260/A280 ratio"]
-            Map parameters = [title: "Sample Manifest", "column.widths": [0.2, 0.3, 0.5]]
-            Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":gelId, "aliquot.specimen.anatomicalSite":anatomicalSite]
-
-            exportService.export(params.format, response.outputStream, exportSampleManifestBioRepositoryData, fields, labels, formatters, parameters )
-        }
-    }
-
-    @Secured(['ROLE_ADMIN'])
     def exportKPIReport (){
-
         if(params?.format && params.format != "html"){
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
             response.setHeader("Content-disposition", "attachment; filename= Exported KPI Report.${params.extension}")
-
             def exportKPIReportData = DNA_Extract.list().sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
-
-            def gelId = { domain, value ->
-                return value.toString().replace('[','').replace(']','').replace('null','').replace(',','')
-            }
-
-            def anatomicalSite = { domain, value ->
-                if (value.toString().startsWith('Fluid Specimen-')) {
-                    return ''
-                } else return value
-            }
-
-            List fields = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier","aliquot.specimen.anatomicalSite", "aliquot.aliquotType", "aliquot.blockNumber",
-                           "aliquot.aliquotRanking", "aliquot.aliquotVolumeMass", "aliquot.unit", "test2", "test3", "test4", "test5","test6","test7", "test8"]
-            Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":"GEL Study ID", "aliquot.specimen.anatomicalSite":"Patients approached",
-                          "aliquot.aliquotType":"Patients consented", "aliquot.blockNumber":"FF QC fails diagnosis ineligible for GeL", "aliquot.aliquotRanking":"FF QC fails insufficient tissue", "aliquot.aliquotVolumeMass":"FF QC fails insufficient DNA",
-                          "aliquot.unit":"FFPE QC fails diagnosis ineligible for GeL", "test2":"FFPE QC fails insufficient tissue", "test3":"FFPE QC fails insufficient DNA", "test4":"Blood sample fails insufficient DNA",
-                          "test5":"Number of blood samples collected awaiting for matched tumou", "test6":"Number of tumour collected awaiting for blood sample", "test7":"Pairs awaiting for dispatch", "test8":" Pairs sent"]
-            Map parameters = [title: "KPI Report", "column.widths": [0.2, 0.3, 0.5]]
-            Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":gelId, "aliquot.specimen.anatomicalSite":anatomicalSite]
-
-            exportService.export(params.format, response.outputStream, exportKPIReportData, fields, labels, formatters, parameters )
+            exportService.export(params.format, response.outputStream, exportKPIReportData, exportKPIReportService.fields, exportKPIReportService.labels, exportKPIReportService.formatters, exportKPIReportService.parameters )
         }
     }
 
@@ -254,24 +202,6 @@ class DNA_ExtractController {
             }
         }
     }
-
-//    @Transactional
-//    def saveDuplicates() {
-//        def DNA_ExtractInstance = new DNA_Extract(params)
-//        if (DNA_ExtractInstance == null) {
-//            notFound()
-//            return
-//        }
-//
-//        if (DNA_ExtractInstance.hasErrors()) {
-//            respond DNA_ExtractInstance.errors, view: 'create'
-//            return
-//        }
-//
-//        DNA_ExtractInstance.save flush: true
-//        flash.message = "This is the newly created duplicate DNA extract with id ${DNA_ExtractInstance.id}"
-//        redirect DNA_ExtractInstance
-//    }
 
     def edit(DNA_Extract DNA_ExtractInstance) {
         respond DNA_ExtractInstance
