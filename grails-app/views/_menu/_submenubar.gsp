@@ -19,6 +19,27 @@ This menu is used to show function that can be triggered on the content (an obje
             <li class="${ params.action == "list" ? 'active' : '' }">
                 <g:link action="list"><i class="glyphicon glyphicon-th-list"></i> <g:message code="default.list.label" args="[entityName]"/></g:link>
             </li>
+            <g:if test="${ params.controller == 'aliquot'}">
+                <li class=${ params.action == "awaitingFFaliquots" ? 'active' : '' }>
+                    <g:link action="awaitingFFaliquots"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting FF Aliquots</g:link>
+                </li>
+                <li class=${ params.action == "awaitingFFPEaliquots" ? 'active' : '' }>
+                    <g:link action="awaitingFFPEaliquots"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting FFPE Aliquots</g:link>
+                </li>
+            </g:if>
+            <g:if test="${ params.controller == 'fluidSpecimen'}">
+                <li class=${ params.action == "awaitingBlood" ? 'active' : '' }>
+                    <g:link action="awaitingBlood"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Blood</g:link>
+                </li>
+                <li class=${ params.action == "listBloodFollowUp" ? 'active' : '' }>
+                    <g:link action="listBloodFollowUp"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Follow up Blood</g:link>
+                </li>
+            </g:if>
+            <g:if test="${ params.controller == 'DNA_Extract'}">
+                <li class=${ params.action == "workLists" ? 'active' : '' }>
+                    <g:link action="workLists"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Worklists</g:link>
+                </li>
+            </g:if>
             <g:if test="${ params.action == 'show' || params.action == 'edit'}">
                 <li class="${ params.action == "edit" ? 'active' : '' }">
                     <g:link action="edit" id="${params.id}"><i class="glyphicon glyphicon-pencil"></i> <g:message code="default.edit.label"  args="[entityName]"/></g:link>
@@ -181,10 +202,6 @@ This menu is used to show function that can be triggered on the content (an obje
         <li><a href="/GELdb/scanbarcode"><span style="color:#060e02"><i class="glyphicon glyphicon-barcode"></i></span> Scan Barcode</a></li>
         </li>
 
-        <li class=${ params.action == "listBloodFollowUp" ? 'active' : '' }>
-            <g:link action="listBloodFollowUp"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Follow up Blood</g:link>
-        </li>
-
         <g:if test="${ params.action == 'show' || params.action == 'edit' }">
             <!-- the item is an object (not a list) -->
             <li class="${ params.action == "edit" ? 'active' : '' }">
@@ -234,7 +251,7 @@ This menu is used to show function that can be triggered on the content (an obje
             <g:link action="list"><i class="glyphicon glyphicon-th-list"></i> List Main Specimen</g:link>
         </li>
         <li class=${ params.action == "awaitingMainSpecimen" ? 'active' : '' }>
-            <g:link action="awaitingMainSpecimen"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Main specimen</g:link>
+            <g:link action="awaitingMainSpecimen"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Main Specimen</g:link>
         </li>
         <li class="${ params.action == "create" ? 'active' : '' }">
             <g:link action="create"><i class="glyphicon glyphicon-plus"></i> New Main Specimen</g:link>

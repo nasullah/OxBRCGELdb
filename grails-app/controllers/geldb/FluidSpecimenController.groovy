@@ -50,6 +50,26 @@ class FluidSpecimenController {
         }
     }
 
+    def listBloodFollowUp() {
+        def results = Participant.createCriteria().listDistinct{
+            specimen {
+                and {
+                    ge("fluidSpecimenVolume", Float.parseFloat("10"))
+                    aliquot {
+                        eq('aliquotType',AliquotType.findByAliquotTypeName('Plasma'))
+                    }
+                }
+            }
+        }
+        [participantList: results.sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
+    }
+
+    def awaitingBlood(){
+        def results = Participant.list()
+        results = results.findAll {participantInstance -> !FluidSpecimen.findByParticipant(participantInstance)}
+        [participantList: results.sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
+    }
+
     @Secured(['ROLE_ADMIN'])
     def exportFluidSpecimens(){
         if(params?.format && params.format != "html"){

@@ -3,7 +3,7 @@
 
 <hr style="border:1; height:1px" />
 
-<g:if test="${aliquotInstance?.derivedFrom?.id !=null}">
+<g:if test="${aliquotInstance?.derivedFrom?.id != null}">
 
     <div class="${hasErrors(bean: derivationInstance, field: 'aliquot', 'error')} ">
         <label for="aliquot" class="control-label"><g:message code="derivation.aliquot.label" default="Parent Aliquot" /><span class="required-indicator">*</span></label>
@@ -133,6 +133,16 @@
 
 <g:if test="${aliquotInstance?.derivedFrom?.id ==null}">
     <div class="row">
+        <div class="col-lg-6">
+            <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')} required">
+                <label for="aliquotType" class="control-label"><g:message code="aliquot.aliquotType.label" default="Aliquot Type" /><span class="required-indicator">*</span></label>
+                <div>
+                    <g:select class="form-control" id="aliquotType" name="aliquotType.id" from="${geldb.AliquotType.list().sort{it.aliquotTypeName}}" optionKey="id" required="" value="${aliquotInstance?.aliquotType?.id}" noSelection="['':'- Choose -']" onchange="preFillCreatedOnFFAliquot()"/>
+                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')}</span>
+                </div>
+            </div>
+        </div>
+
         <div class="col-lg-6" id="showCreatedOn">
             <div class="${hasErrors(bean: aliquotInstance, field: 'createdOn', 'error')} required">
                 <label for="createdOn" class="control-label"><g:message code="FFPE_Tissue_Report.createdOn.label" default="Created on" /></label>
@@ -176,16 +186,6 @@
             <div>
                 <g:textField class="form-control" name="barcode" value="${aliquotInstance?.barcode}"/>
                 <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')}</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6">
-        <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')} required">
-            <label for="aliquotType" class="control-label"><g:message code="aliquot.aliquotType.label" default="Aliquot Type" /><span class="required-indicator">*</span></label>
-            <div>
-                <g:select class="form-control" id="aliquotType" name="aliquotType.id" from="${geldb.AliquotType.list().sort()}" optionKey="id" required="" value="${aliquotInstance?.aliquotType?.id}" noSelection="['':'- Choose -']"/>
-                <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')}</span>
             </div>
         </div>
     </div>
@@ -273,23 +273,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="isEmpty">
-    <div class="modal-dialog" style="position: absolute; left: 0%;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Required!</h4>
-            </div>
-            <div class="modal-body">
-                <p>You need to fill in either Block Number or Biobanking Identifier.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <g:javascript plugin="jquery" library="jquery" />
 <script>
     function getSpecimen(){
@@ -307,24 +290,6 @@
         $('#notFound').modal()
     }
 
-//    function alertUser(){
-//        if ($.trim($('#blockNumber').val()) == '' && $.trim($('#sapphireIdentifier').val()) == ''){
-//            $('#isEmpty').modal()
-//        }
-//    }
-//
-//    if ($.trim($('#blockNumber').val()) == ''){
-//        $('#showCreatedOn').hide()
-//    }
-//
-//    function showCreatedOn(){
-//        if ($.trim($('#blockNumber').val()) != ''){
-//            $('#showCreatedOn').show()
-//        } else {
-//            $('#showCreatedOn').hide()
-//        }
-//    }
-
     function exhaustFluidSpecimen(){
         ${remoteFunction (controller: 'aliquot',
                         action: 'exhaustSpecimen',
@@ -338,7 +303,7 @@
     function preFillCreatedOn(){
         var baseUrl = "${createLink(controller:'aliquot', action:'preFillCreatedOn')}";
         var specimenId = $('#specimen').val();
-        var url = baseUrl + "?specimenId="+specimenId;
+        var url = baseUrl + "?specimenId=" + specimenId;
         $.ajax({
             url:url,
             type: 'POST',
@@ -353,6 +318,28 @@
             },
             error: function(request, status, error) {
                 $('#createdOn').val("");
+            }
+        });
+    }
+
+    function preFillCreatedOnFFAliquot(){
+        var baseUrl = "${createLink(controller:'aliquot', action:'preFillCreatedOnFFAliquot')}";
+        var specimenId = $('#specimen').val();
+        var aliquotType = $('#aliquotType').val();
+        var url = baseUrl + "?specimenId=" + specimenId + "&aliquotType=" + aliquotType;
+        $.ajax({
+            url:url,
+            type: 'POST',
+            dataType: 'xml',
+            async:true,
+            success: function(res) {
+                if (res){
+                    var createdOn = $(res).find('timestamp').text();
+                    createdOn = createdOn.toString().substr(0,10);
+                    $('#createdOn').val(createdOn);
+                }
+            },
+            error: function(request, status, error) {
             }
         });
     }

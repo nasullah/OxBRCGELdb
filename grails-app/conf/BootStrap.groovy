@@ -1,6 +1,7 @@
 import GELBootsDB.Role
 import GELBootsDB.User
 import GELBootsDB.UserRole
+import geldb.Centre
 import org.springframework.jca.cci.CciOperationNotSupportedException
 import org.springframework.web.context.support.WebApplicationContextUtils
 
@@ -35,7 +36,6 @@ class BootStrap {
                 createRoles()
                 createAdminUser("admin", "password", "support@example.com")
             }
-
             production {
                 createRoles()
                 createAdminUser("admin", "password", "support@example.com")

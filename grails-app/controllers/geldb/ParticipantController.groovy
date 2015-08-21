@@ -110,20 +110,6 @@ class ParticipantController {
         }
     }
 
-    def listBloodFollowUp() {
-        def results = Participant.createCriteria().listDistinct{
-            specimen {
-                and {
-                    ge("fluidSpecimenVolume", Float.parseFloat("10"))
-                    aliquot {
-                        eq('aliquotType',AliquotType.findByAliquotTypeName('Plasma'))
-                    }
-                }
-            }
-        }
-        [participantList: results.sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
-    }
-
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def  participantWithGeLIDList = Participant.list().findAll{it.studySubject.findResult {it.studySubjectIdentifier ? it : null}}

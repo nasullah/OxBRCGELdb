@@ -114,6 +114,39 @@ class DNA_ExtractController {
         }
     }
 
+    def test(){
+        def ffDNAExtract = DNA_Extract.createCriteria().list{
+            and {
+                aliquot {
+                    eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+                }
+                ge("dNAConcentrationNanodrop", 1.5)
+                ge("dNAConcentrationQubit", 15)
+                ge("dNAAmount", 100)
+            }
+        }
+
+        def glDNAExtract = DNA_Extract.createCriteria().list{
+            and {
+                aliquot {
+                    eq('aliquotType', AliquotType.findByAliquotTypeName('Buffy Coat'))
+                }
+                ge("dNAConcentrationNanodrop", 3)
+                ge("dNAConcentrationQubit", 30)
+                ge("dNAAmount", 100)
+            }
+        }
+
+        def ffpeDNAExtract = DNA_Extract.createCriteria().list{
+            and {
+                aliquot {
+                    eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'))
+                }
+                lt("delatQC", 2.8)
+            }
+        }
+    }
+
     def upload = {
 
         Map CONFIG_BOOK_COLUMN_MAP = [

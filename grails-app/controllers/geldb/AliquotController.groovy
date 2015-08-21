@@ -79,6 +79,16 @@ class AliquotController {
         }
     }
 
+    def preFillCreatedOnFFAliquot() {
+        def aliquotType = AliquotType.get(params.long('aliquotType'))
+        if (aliquotType?.aliquotTypeName == "Punch Biopsy Frozen"){
+            def createdOn = SolidSpecimen.get(params.long('specimenId'))?.collectionDate
+            if (createdOn){
+                render createdOn as XML
+            }
+        }
+    }
+
     @Secured(['ROLE_ADMIN'])
     def exportAliquots(){
         if(params?.format && params.format != "html"){
@@ -91,27 +101,47 @@ class AliquotController {
 
     @Secured(['ROLE_ADMIN'])
     def exportListOfMaterialSupplied(){
-        def listOfGelIDs = params.gelIdList
-        if (listOfGelIDs) {
+        def paramsStartDate = params.startDate
+        def paramsEndDate = params.endDate
+        def aliquotType = params.long('aliquotType')
+        def startDate = new Date()
+        def endDate =new Date()
+        if (paramsStartDate){
+            startDate = startDate.parse("yyyy-MM-dd", paramsStartDate.toString())
+        }
+        if (paramsEndDate){
+            endDate = endDate.parse("yyyy-MM-dd", paramsEndDate.toString())
+        }
+        if (paramsEndDate && paramsStartDate && aliquotType) {
             if (params?.format && params.format != "html") {
                 response.contentType = grailsApplication.config.grails.mime.types[params.format]
                 response.setHeader("Content-disposition", "attachment; filename= Exported Material Supplied.${params.extension}")
-                listOfGelIDs = listOfGelIDs.replaceAll("\\s+", "")
-                List list = listOfGelIDs.toString().split(',')
-                def exportListOfMaterialSuppliedData = Aliquot.list().sort {
-                    it.specimen.participant.studySubject.studySubjectIdentifier.findResult { it?.size() ? it : null }
-                }
-                exportListOfMaterialSuppliedData = exportListOfMaterialSuppliedData.findAll { a ->
-                    a.specimen.participant.studySubject.studySubjectIdentifier.findResult {
-                        it?.size() ? it : null
-                    } in list
-                }
+                def exportListOfMaterialSuppliedData = Aliquot.createCriteria().list {
+                    and {
+                        le("createdOn", endDate)
+                        ge("createdOn", startDate)
+                        eq("aliquotType", AliquotType.findById(aliquotType))
+                    }
+                }?.sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
                 exportService.export(params.format, response.outputStream, exportListOfMaterialSuppliedData, exportListOfMaterialSuppliedService.fields, exportListOfMaterialSuppliedService.labels, exportListOfMaterialSuppliedService.formatters, exportListOfMaterialSuppliedService.parameters)
             }
         }else {
-            flash.message = "Enter one or more GeL IDs separated by comma."
+            flash.message = "Enter start date, end date and aliquotType"
             redirect(uri: "/participant/summaryReport")
         }
+    }
+
+    def awaitingFFaliquots(){
+        def results = SolidSpecimen.list()
+        results = results.findAll{specimen -> !Aliquot.findByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Fresh Frozen Tissue"), specimen)}
+        [solidSpecimenInstanceList: results.sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
+    }
+
+    def awaitingFFPEaliquots(){
+        def results = SolidSpecimen.list()
+        results = results.findAll{specimen -> !Aliquot.findByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Punch Biopsy FFPE, NBF"), specimen)}
+        results = results.findAll{specimen -> !Aliquot.findByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Punch Biopsy FFPE"), specimen)}
+        [solidSpecimenInstanceList: results.sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
     def show(Aliquot aliquotInstance) {

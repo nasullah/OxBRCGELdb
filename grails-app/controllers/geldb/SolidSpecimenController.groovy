@@ -62,7 +62,7 @@ class SolidSpecimenController {
 
     def awaitingMainSpecimen() {
         def fluidSpecimen = FluidSpecimen.list()
-        fluidSpecimen = fluidSpecimen.findAll {p -> !SolidSpecimen.findById(p.participant.id)}
+        fluidSpecimen = fluidSpecimen.findAll {specimen -> !SolidSpecimen.findByParticipant(specimen.participant)}
         def results = fluidSpecimen.participant.unique()
         [participantList: results.sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }

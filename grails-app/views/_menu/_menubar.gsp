@@ -57,11 +57,6 @@
                     <g:link controller="position" action="index">Position</g:link>
                 </li>
 
-                <li>
-                    <g:link controller="DNA_Extract" action="workLists">Work Lists</g:link>
-                </li>
-
-
             </ul>
         </li>
 

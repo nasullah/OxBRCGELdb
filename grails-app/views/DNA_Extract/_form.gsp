@@ -44,7 +44,8 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'exhausted', 'error')} ">
-                        <label for="exhausted" class="control-label"><g:message code="DNA_Extract.exhausted.label" default="Exhausted" /></label>
+                        <label for="exhausted" class="control-label"><g:message code="DNA_Extract.exhausted.label" default="Exhausted DNA Extract
+                        " /></label>
                         <div>
                             <g:radioGroup name="exhausted"
                                           values="[true, false]"
@@ -236,7 +237,7 @@
 
                 <div class="col-lg-6">
                     <div class="">
-                        <label for="exhaustAliquot" class="control-label"><g:message code="DNA_Extract.exhaustAliquot.label" default="Exhaust Aliquot ?" /></label>
+                        <label for="exhaustAliquot" class="control-label"><g:message code="DNA_Extract.exhaustAliquot.label" default="Exhaust Original Aliquot ?" /></label>
                         <div>
                             %{--<bs:checkBox name="exhaustAliquot" id="exhaustAliquot" offLabel="No" onLabel="Yes"/>--}%
                             <label class="radio-inline"><input type="radio" name="exhaustAliquot"  value="True">Yes</label>
