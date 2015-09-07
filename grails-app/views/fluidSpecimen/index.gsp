@@ -64,7 +64,7 @@
 
 				<g:sortableColumn property="timePoint" title="${message(code: 'fluidSpecimen.timePoint.label', default: 'Time Point')}" />
 			
-				<g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'fluidSpecimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
+				<g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'fluidSpecimen.participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
 			
 			</tr>
 		</thead>

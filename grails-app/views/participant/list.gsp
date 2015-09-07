@@ -63,7 +63,7 @@
 
             <g:sortableColumn property="centre" title="${message(code: 'participant.centre.label', default: 'Centre')}" />
 
-            <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id')}" />
+            <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id/Participant Id')}" />
 
         </tr>
         </thead>

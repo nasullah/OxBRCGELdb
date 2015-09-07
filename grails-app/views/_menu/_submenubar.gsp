@@ -26,6 +26,9 @@ This menu is used to show function that can be triggered on the content (an obje
                 <li class=${ params.action == "awaitingFFPEaliquots" ? 'active' : '' }>
                     <g:link action="awaitingFFPEaliquots"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting FFPE Aliquots</g:link>
                 </li>
+                <li class=${ params.action == "createMultiple" ? 'active' : '' }>
+                    <g:link action="createMultiple"><span style="color:#28fff8"><i class="glyphicon glyphicon-th-large"></i></span> Create Multiple Aliquots</g:link>
+                </li>
             </g:if>
             <g:if test="${ params.controller == 'fluidSpecimen'}">
                 <li class=${ params.action == "awaitingBlood" ? 'active' : '' }>
@@ -33,6 +36,9 @@ This menu is used to show function that can be triggered on the content (an obje
                 </li>
                 <li class=${ params.action == "listBloodFollowUp" ? 'active' : '' }>
                     <g:link action="listBloodFollowUp"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Follow up Blood</g:link>
+                </li>
+                <li class=${ params.action == "createMultiple" ? 'active' : '' }>
+                    <g:link action="createMultiple"><span style="color:#28fff8"><i class="glyphicon glyphicon-th-large"></i></span> Create Multiple Fluid Specimen</g:link>
                 </li>
             </g:if>
             <g:if test="${ params.controller == 'DNA_Extract'}">

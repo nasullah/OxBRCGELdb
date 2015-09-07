@@ -22,7 +22,7 @@
 
             <g:sortableColumn property="pathologist" title="${message(code: 'solidSpecimen.pathologist.label', default: 'Reporting Pathologist')}" />
 
-            <g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'participant.studySubject.studySubjectIdentifier.label', default: "Participant's GeL Id")}" />
+            <g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
 
             <th><g:message code="specimen.label" default="Action" /></th>
 

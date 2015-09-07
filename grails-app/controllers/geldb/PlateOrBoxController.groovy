@@ -58,41 +58,32 @@ class PlateOrBoxController {
 
     @Transactional
     def uploadScannerFile(){
-
-        Map CONFIG_BOOK_COLUMN_MAP = [
-                sheet:'Sheet1',
-                startRow: 0,
-                columnMap:  [
-                        //Col, Map-Key
-                        'A':'position',
-                        'B':'barcode',
-                ]
-        ]
-
         def boxInstance = PlateOrBox.findById(params.long('box'))
-
-        MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request;
-        CommonsMultipartFile file = (CommonsMultipartFile) mpr.getFile("file");
-        def fileExt = file.originalFilename.substring(file.originalFilename.lastIndexOf('.', file.originalFilename.length()))
-        if (fileExt.toString() == '.xls'){
-            Workbook workbook = WorkbookFactory.create(file.inputStream)
-            //Iterate through bookList and create/persists your domain instances
-            def bookList = excelImportService.columns(workbook, CONFIG_BOOK_COLUMN_MAP)
-            bookList.each { Map bookParams ->
-                def barcode = bookParams.get('barcode')?.toString()?.replace('.', '')?.replace('E9', '')
-                def scannedPosition = bookParams.get('position')
-                def letter = scannedPosition?.toString()?.substring(0,1)
-                def number = scannedPosition?.toString()?.substring(1, scannedPosition?.toString()?.length())
-                def identifiedSampleInstance = IdentifiedSample?.findByBarcode(barcode)
-                def position = new Position(letter: letter, number: number, plateOrBox: boxInstance)
-                if (position && identifiedSampleInstance){
-                    position.addToContainedSamples(identifiedSampleInstance).save flush: true
-                }
-            }
-        }else{
-            flash.message = "load a xls file"
+        if (!request.getFile('file').originalFilename) {
+            flash.message = "Please choose a file"
+            redirect boxInstance
+        } else{
+            request.getFile('file').inputStream.splitEachLine(',')
+                    { fields ->
+                        def identifiedSample = IdentifiedSample.findByBarcodeAndExhausted(fields[1].trim(), false)
+                        if (identifiedSample) {
+                            def scannedPosition = fields[0].trim()
+                            def letter = scannedPosition?.toString()?.substring(0,1)
+                            def number = scannedPosition?.toString()?.substring(1, scannedPosition?.toString()?.length())
+                            if (letter && number && !Position.findByLetterAndNumberAndPlateOrBox(letter, number, boxInstance)){
+                                def position = new Position(letter: letter, number: number, plateOrBox: boxInstance)
+                                position.addToContainedSamples(identifiedSample).save flush: true
+                            }else if (letter && number && Position.findByLetterAndNumberAndPlateOrBox(letter, number, boxInstance)){
+                                def position = Position.findByLetterAndNumberAndPlateOrBox(letter, number, boxInstance)
+                                def nonExhaustedSample = position.containedSamples.findAll {s -> !s.exhausted}
+                                if (!nonExhaustedSample){
+                                    position.addToContainedSamples(identifiedSample).save flush: true
+                                }
+                            }
+                        }
+                    }
+            redirect boxInstance
         }
-        redirect boxInstance
     }
 
     @Transactional

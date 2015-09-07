@@ -52,6 +52,9 @@ class StudySubjectController {
             } else if (consentType.studyName == 'GoTarget') {
                 def listConsentVersionForm = ["Version 2.0 April 2010"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
+            }else if (consentType.studyName == '100K Genomes Main Project') {
+                def listConsentVersionForm = ["Version 2.0 20/01/2015"]
+                render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             }
         }
     }

@@ -192,20 +192,53 @@ class ParticipantController {
             if (barcode && barcodeVersionDate =='01/07/2015'){
                 def barcodeParts = barcode.toString().split('~')
                 def nHSNumber = barcodeParts[0].substring(11,21)
+                def participantId = barcodeParts[0].substring(25,35)
                 def hospitalNumber = barcodeParts[1]
                 def familyName = barcodeParts[3]
                 def givenName = barcodeParts[2]
-                def dateOfBirth = new Date().parse('d/M/yyyy',barcodeParts[4].substring(0,10))?.format('yyyy-MM-dd')
-                def participantInstance = Participant.findByNHSNumber(nHSNumber)
-                if (participantInstance){
-                    redirect(action: "show", id: participantInstance.id)
+                def consentFormVersion = 'Version 2.0 20/01/2015'
+                def dateOfBirth = new Date().parse('d/M/yyyy',barcodeParts[4].substring(0,10))
+                def existingParticipant = Participant.findByNHSNumber(nHSNumber)
+                def study = Study.findByStudyName('100K Genomes Main Project')
+                if (existingParticipant){
+                    redirect(action: "show", id: existingParticipant.id)
                 }else {
-                    redirect(action: "create", params: [nHSNumber: nHSNumber, familyName: familyName, givenName: givenName, hospitalNumber: hospitalNumber, dateOfBirth: dateOfBirth ])
+                    def bindingMap = [nHSNumber: nHSNumber, familyName: familyName, givenName: givenName, hospitalNumber: hospitalNumber, dateOfBirth: dateOfBirth]
+                    def participantInstance = new Participant(bindingMap)
+                    render(view : "createFromBarcode", model:[participantInstance:participantInstance, studySubjectIdentifier: participantId, consentFormVersion:consentFormVersion, study: study]);
                 }
             }else{
                 flash.message = "Please scan the barcode version 1.0.0, 01/07/2015"
                 redirect(uri: '/scanbarcode')
             }
+        }
+    }
+
+    def createFromBarcode() {
+        respond new Participant(params)
+    }
+
+    @Transactional
+    def saveFromBarcode(Participant participantInstance) {
+        if (participantInstance){
+            def study = params.study.id
+            def studySubjectIdentifier = params.studySubjectIdentifier
+            def consentFormNumber = params.consentFormNumber
+            def consentStatus = params.consentStatus
+            def recruitmentDate = params.recruitmentDate
+            def recruitedBy = params.recruitedBy
+            def consentFormVersion = params.consentFormVersion
+            def studySubjectInstance = new StudySubject(study: study, studySubjectIdentifier: studySubjectIdentifier, consentFormNumber:consentFormNumber, consentStatus:consentStatus,
+                                                        recruitmentDate:recruitmentDate, recruitedBy:recruitedBy, consentFormVersion:consentFormVersion)
+            participantInstance.addToStudySubject(studySubjectInstance).save flush: true
+        }
+
+        request.withFormat {
+            form {
+                flash.message = message(code: 'default.created.message', args: [message(code: 'participantInstance.label', default: 'Participant'), participantInstance.id])
+                redirect participantInstance
+            }
+            '*' { respond participantInstance, [status: CREATED] }
         }
     }
 

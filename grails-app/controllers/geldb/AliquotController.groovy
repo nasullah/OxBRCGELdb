@@ -133,7 +133,7 @@ class AliquotController {
 
     def awaitingFFaliquots(){
         def results = SolidSpecimen.list()
-        results = results.findAll{specimen -> !Aliquot.findByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Fresh Frozen Tissue"), specimen)}
+        results = results.findAll{specimen -> !Aliquot.findByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Punch Biopsy Frozen"), specimen)}
         [solidSpecimenInstanceList: results.sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
@@ -150,6 +150,51 @@ class AliquotController {
 
     def create() {
         respond new Aliquot(params)
+    }
+
+    def createMultiple() {
+        respond new Aliquot(params)
+    }
+
+    def aliquotNumber(){
+        def aliquotBarcodeVolumeList = []
+        if(params.aliquotNumber){
+            for(int i = 1; i < params.int('aliquotNumber') +1; i++){
+                aliquotBarcodeVolumeList.add(i)
+            }
+            if (aliquotBarcodeVolumeList){
+                render(template: "aliquotBarcodeAndVolumeList", model: [aliquotBarcodeVolumeList: aliquotBarcodeVolumeList])
+            }
+        }
+    }
+
+    @Transactional
+    def saveMultiple() {
+        def counter = 0
+        if(params.aliquotNumber && params.specimen.id && params.aliquotType.id){
+            for(int i = 0; i < params.int('aliquotNumber'); i++){
+                def sapphireIdentifier = params.find{it.key.equals('sapphireIdentifier_'+ i)}?.value
+                def barcode = params.find{it.key.equals('barcode_'+ i)}?.value
+                def aliquotVolumeMass = params.find{it.key.equals('aliquotVolumeMass_'+ i)}?.value
+                new Aliquot(specimen:params.specimen.id, notes:params.notes, createdOn:params.createdOn, aliquotVolumeMass:aliquotVolumeMass,
+                        unit:params.unit, blockNumber:params.blockNumber, aliquotType:params.aliquotType.id, aliquotRanking:params.aliquotRanking,
+                        barcode:barcode, sapphireIdentifier:sapphireIdentifier, frozenBy:params.frozenBy, createdTime:params.createdTime).save flush: true
+                counter ++
+            }
+            def exhaustBlood = params.exhaustBlood
+            if (exhaustBlood == 'True'){
+                def fluidSpecimen = FluidSpecimen.findById(params.long('specimen.id'))
+                if (fluidSpecimen){
+                    fluidSpecimen.exhausted = true
+                    fluidSpecimen.save flush: true
+                }
+            }
+            flash.message = "${counter} Aliquots are created"
+            redirect action: "index", method: "GET"
+        }else {
+            flash.message = "Aliquots could not be created"
+            redirect action: "index", method: "GET"
+        }
     }
 
     @Transactional

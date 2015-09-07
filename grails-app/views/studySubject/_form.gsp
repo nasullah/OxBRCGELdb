@@ -24,7 +24,7 @@
                 <g:if test="${studySubjectInstance.participant.studySubject.findResult("Null") {it.studySubjectIdentifier ? it : null} == "Null" || studySubjectInstance.studySubjectIdentifier != null}">
                     <div class="col-lg-6">
                         <div class="${hasErrors(bean: studySubjectInstance, field: 'studySubjectIdentifier', 'error')} required">
-                            <label for="studySubjectIdentifier" class="control-label"><g:message code="studySubject.studySubjectIdentifier.label" default="GeL STUDY ID (GELnnn)" /><span class="required-indicator">*</span></label>
+                            <label for="studySubjectIdentifier" class="control-label"><g:message code="studySubject.studySubjectIdentifier.label" default="GeL STUDY ID (GELnnn)/Participant ID" /><span class="required-indicator">*</span></label>
                             <div>
                                 <g:textField class="form-control" name="studySubjectIdentifier" maxlength="50" required="" value="${studySubjectInstance?.studySubjectIdentifier}"/>
                                 <span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'studySubjectIdentifier', 'error')}</span>

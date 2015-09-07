@@ -26,7 +26,7 @@
 
             <g:sortableColumn property="givenName" title="${message(code: 'participant.givenName.label', default: 'Given Name')}" />
 
-            <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id')}" />
+            <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id/Participant Id')}" />
 
             <th><g:message code="specimen.label" default="Received Blood" /></th>
 

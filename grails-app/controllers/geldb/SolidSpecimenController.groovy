@@ -50,6 +50,16 @@ class SolidSpecimenController {
         }
     }
 
+    def findParticipantByBarcode() {
+        def barcode= params.barcode
+        if (barcode) {
+            def participantByByBarcode = Participant.findByNHSNumber(barcode)
+            if (participantByByBarcode && barcode) {
+                render(template: "participantList", model: [listParticipantByGeLId: participantByByBarcode])
+            }
+        }
+    }
+
     @Secured(['ROLE_ADMIN'])
     def exportSolidSpecimens(){
         if(params?.format && params.format != "html"){

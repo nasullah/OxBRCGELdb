@@ -100,7 +100,7 @@
 
             <g:if test="${participantInstance.studySubject && participantInstance.studySubject.findResult("Null") {it.studySubjectIdentifier ? it : null} == "Null"}">
                 <tr class="prop">
-                    <td valign="top" class="name"><g:message code="participant.label" default="GeL Study ID" /></td>
+                    <td valign="top" class="name"><g:message code="participant.label" default="GeL Study ID/Participant ID" /></td>
 
                     <td valign="top" class="value"><p class="text-danger">Please enter GeL STUDY ID by clicking the Edit Participant link</p></td>
 
@@ -109,7 +109,7 @@
 
             <g:if test="${participantInstance.studySubject && participantInstance.studySubject.findResult("Null") {it.studySubjectIdentifier ? it : null} != "Null"}">
                     <tr class="prop">
-                        <td valign="top" class="name"><g:message code="participant.label" default="GeL Study ID" /></td>
+                        <td valign="top" class="name"><g:message code="participant.label" default="GeL Study ID/Participant ID" /></td>
 
                         <td valign="top" class="value">${fieldValue(bean: participantInstance.studySubject.findResult{it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
                     </tr>

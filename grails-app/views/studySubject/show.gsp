@@ -32,7 +32,7 @@
 
             <g:if test="${studySubjectInstance.participant.studySubject.findResult("Null") {it.studySubjectIdentifier ? it : null} == "Null" || studySubjectInstance.studySubjectIdentifier != null}">
                 <tr class="prop">
-                    <td valign="top" class="name"><g:message code="studySubject.studySubjectIdentifier.label" default="GeL STUDY ID (GELnnn)" /></td>
+                    <td valign="top" class="name"><g:message code="studySubject.studySubjectIdentifier.label" default="GeL STUDY ID (GELnnn)/Participant ID" /></td>
 
                     <td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "studySubjectIdentifier")}</td>
 

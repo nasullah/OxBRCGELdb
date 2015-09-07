@@ -70,6 +70,36 @@ class FluidSpecimenController {
         [participantList: results.sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
+    def createMultiple(){
+        respond new FluidSpecimen(params)
+    }
+
+    @Transactional
+    def saveMultiple() {
+        def counter = 0
+        for (int i=0; i < PrimaryContainerType?.values()?.size(); i++){
+            if (params.find{it.key.equals('primaryContainer_'+ i)}?.value && params.find{it.key.equals('fluidSpecimenVolume_'+ i)}?.value
+                    && params.participant && params.collectionDate && params.collectedBy && params.collectionLocation && params.volumeUnit
+                    && params.fluidSampleType){
+                def fluidSpecimenVolume = params.find{it.key.equals('fluidSpecimenVolume_'+ i)}?.value
+                def primaryContainer = params.find{it.key.equals('primaryContainer_'+ i)}?.value?.toString()
+                def barcode = params.find{it.key.equals('barcode_'+ i)}?.value
+                new FluidSpecimen(participant: params.participant, collectionDate: params.collectionDate, collectionTime: params.collectionTime,
+                        collectionLocation: params.collectionLocation, collectedBy: params.collectedBy, primaryContainer: primaryContainer,
+                        fluidSampleType: params.fluidSampleType, fluidSpecimenVolume: fluidSpecimenVolume , volumeUnit: params.volumeUnit,
+                        barcode: barcode, timePoint: params.timePoint).save flush: true
+                counter ++
+            }
+        }
+        if (counter != 0){
+            flash.message = "${counter} fluid specimen are created"
+            redirect action: "index", method: "GET"
+        } else {
+            flash.message = "Fluid specimen could not be created"
+            redirect action: "index", method: "GET"
+        }
+    }
+
     @Secured(['ROLE_ADMIN'])
     def exportFluidSpecimens(){
         if(params?.format && params.format != "html"){
