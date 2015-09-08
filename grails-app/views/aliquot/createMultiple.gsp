@@ -21,7 +21,7 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <label class="control-label">Number of Aliquot<span class="required-indicator">*</span></label>
+                <label class="control-label">Number of Aliquots<span class="required-indicator">*</span></label>
                 <g:select class="form-control" id="aliquotNumber" name="aliquotNumber" from="${['1','2','3','4','5','6','7','8','9','10']}" required="" onchange="getAliquotNumber()" noSelection="['':'- Choose -']"/>
             </div>
         </div>
