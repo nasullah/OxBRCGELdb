@@ -22,6 +22,8 @@
 
             <g:sortableColumn property="pathologist" title="${message(code: 'solidSpecimen.pathologist.label', default: 'Reporting Pathologist')}" />
 
+            <g:sortableColumn property="noFFSampleExpected" title="${message(code: 'solidSpecimen.noFFSampleExpected.label', default: 'No associated FF sample expected')}" />
+
             <g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
 
             <th><g:message code="specimen.label" default="Action" /></th>
@@ -37,6 +39,13 @@
                 <td>${fieldValue(bean: solidSpecimenInstance, field: "anatomicalSite")}</td>
 
                 <td>${fieldValue(bean: solidSpecimenInstance, field: "pathologist")}</td>
+
+                <td>
+                    <g:form controller="aliquot" action="awaitingFFaliquots">
+                        <g:checkBox name="noFFSampleExpected" value="${solidSpecimenInstance?.noFFSampleExpected}" onclick="submit();"/>
+                        <g:hiddenField id="solidSpecimen" name="solidSpecimen" value="${solidSpecimenInstance.id}"/>
+                    </g:form>
+                </td>
 
                 <td>${fieldValue(bean: solidSpecimenInstance.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
 

@@ -131,9 +131,16 @@ class AliquotController {
         }
     }
 
+    @Transactional
     def awaitingFFaliquots(){
+        def solidSpecimen = SolidSpecimen.findById(params.long('solidSpecimen'))
+        if (solidSpecimen){
+            solidSpecimen.noFFSampleExpected = true
+            solidSpecimen.save flush: true
+        }
         def results = SolidSpecimen.list()
         results = results.findAll{specimen -> !Aliquot.findByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Punch Biopsy Frozen"), specimen)}
+        results = results.findAll {specimen -> !specimen.noFFSampleExpected}
         [solidSpecimenInstanceList: results.sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 

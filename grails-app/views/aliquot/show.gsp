@@ -1,5 +1,5 @@
 
-<%@ page import="groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
+<%@ page import="geldb.AliquotType; groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
 <%@ page import="geldb.SolidSpecimen" %>
 <%@ page import="geldb.FluidSpecimen" %>
 <!DOCTYPE html>
@@ -131,16 +131,31 @@
             </g:if>
         </g:if>
 
-        <tr class="prop">
-            <g:if test="${aliquotInstance?.derivedFrom?.id != null}">
-                <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Slide Id (Frozen only)" /></td>
-            </g:if>
-            <g:else>
-                <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Biobanking Identifier" /></td>
-            </g:else>
-            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
+        <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
+            <tr class="prop">
 
-        </tr>
+                <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Biobanking Identifier" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
+
+            </tr>
+        </g:if>
+
+        <g:if test="${aliquotInstance?.derivedFrom?.id != null && aliquotInstance?.aliquotType?.aliquotTypeName == 'Section'}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Slide Id (Frozen only)" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
+            </tr>
+        </g:if>
+
+        <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption_centrifugation_with_buffer'}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Identifier" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
+            </tr>
+        </g:if>
 
         <tr class="prop">
             <td valign="top" class="name"><g:message code="aliquot.aliquotType.label" default="Aliquot Type" /></td>
@@ -167,20 +182,6 @@
             </g:else>
         </tr>
 
-        %{--<tr class="prop">--}%
-            %{--<td valign="top" class="name"><g:message code="aliquot.passFail.label" default="Pass/Fail" /></td>--}%
-
-            %{--<td valign="top" class="value"><g:formatBoolean boolean="${aliquotInstance?.passFail}" true="Pass" false="Fail"/></td>--}%
-
-        %{--</tr>--}%
-
-        %{--<tr class="prop">--}%
-            %{--<td valign="top" class="name"><g:message code="aliquot.passFailReason.label" default="Pass Fail Reason" /></td>--}%
-
-            %{--<td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "passFailReason")}</td>--}%
-
-        %{--</tr>--}%
-
         <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.notes.label" default="Notes" /></td>
@@ -200,6 +201,22 @@
         </g:if>
 
         <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.unit.label" default="Unit" /></td>
+
+                <td valign="top" class="value"><g:link controller="units" action="show" id="${aliquotInstance?.unit?.id}">${aliquotInstance?.unit?.encodeAsHTML()}</g:link></td>
+
+            </tr>
+        </g:if>
+
+        <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption_centrifugation_with_buffer'}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.aliquotVolumeMass.label" default="Volume/Mass" /></td>
+
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "aliquotVolumeMass")}</td>
+
+            </tr>
+
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.unit.label" default="Unit" /></td>
 
@@ -350,7 +367,9 @@
 <a class='btn btn-primary btn-small' <g:link controller="colocation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'colocation.label', default: 'Colocation')])}</g:link>
 
 <g:if test="${(aliquotInstance?.aliquotType?.aliquotTypeName == 'Fresh Frozen Tissue' && aliquotInstance?.derivedFrom?.id == null) || (aliquotInstance?.aliquotType?.aliquotTypeName == 'Punch Biopsy Frozen' && aliquotInstance?.derivedFrom?.id == null)}">
-    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation')])}</g:link>
+    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('Section')?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (Section)')])}</g:link>
+    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'derivationProcess':'Tissue_disruption_centrifugation_with_buffer', 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('RNA Fresh Frozen Lysate')?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (RNA FF Lysate)')])}</g:link>
+
 </g:if>
 
 <g:if test="${(!aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Buffy Coat' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma' && !aliquotInstance?.gelSuitabilityReport

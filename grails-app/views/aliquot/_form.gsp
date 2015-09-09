@@ -23,6 +23,16 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-6">
+            <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')} required">
+                <label for="aliquotType" class="control-label"><g:message code="aliquot.aliquotType.label" default="Aliquot Type" /><span class="required-indicator">*</span></label>
+                <div>
+                    <g:select class="form-control" id="aliquotType" name="aliquotType.id" from="${geldb.AliquotType.list().sort{it.aliquotTypeName}}" optionKey="id" required="" value="${aliquotInstance?.aliquotType?.id}" noSelection="['':'- Choose -']" onchange="preFillCreatedOnFFAliquot()"/>
+                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'aliquotType', 'error')}</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row">
@@ -60,8 +70,6 @@
             <div class="${hasErrors(bean: aliquotInstance, field: 'exhausted', 'error')} ">
                 <label for="exhausted" class="control-label"><g:message code="aliquot.exhausted.label" default="Exhausted" /><span class="required-indicator">*</span></label>
                 <div>
-                    <label class="radio-inline"><input type="radio" name="exhausted" value= "True">Yes</label>
-                    <label class="radio-inline"><input type="radio" name="exhausted" value= "False" checked="checked" >No</label>
                     <g:radioGroup name="exhausted"
                                   values="[true, false]"
                                   labels="['Yes', 'No']"
@@ -72,6 +80,30 @@
             </div>
         </div>
     </div>
+
+    <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption_centrifugation_with_buffer'}">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotVolumeMass', 'error')} ">
+                    <label for="aliquotVolumeMass" class="control-label"><g:message code="aliquot.aliquotVolumeMass.label" default="Volume/Mass" /></label>
+                    <div>
+                        <g:textField class="form-control" name="aliquotVolumeMass" value="${fieldValue(bean: aliquotInstance, field: 'aliquotVolumeMass')}" />
+                        <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'aliquotVolumeMass', 'error')}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="${hasErrors(bean: aliquotInstance, field: 'unit', 'error')}">
+                    <label for="unit" class="control-label"><g:message code="aliquot.unit.label" default="Unit" /><span class="required-indicator">*</span></label>
+                    <div>
+                        <g:select class="form-control" id="unit" name="unit.id" from="${geldb.Units.list().sort()}" optionKey="id" value="${aliquotInstance?.unit?.id}" required="" noSelection="['':'- Choose -']"/>
+                        <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'unit', 'error')}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </g:if>
 </g:if>
 
 <g:if test="${aliquotInstance?.colocation?.id !=null && aliquotInstance?.derivedFrom?.id == null}">

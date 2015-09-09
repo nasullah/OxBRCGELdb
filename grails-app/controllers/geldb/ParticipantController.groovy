@@ -88,6 +88,11 @@ class ParticipantController {
                 if (orbStudySubjectInstance){
                     consentList.add(orbStudySubjectInstance)
                 }
+            }else if(c.form.namePrefix =="GLM"){
+                def gelMainStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('100K Genomes Main Project'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: consentCreatedDateFormatted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
+                if (gelMainStudySubjectInstance){
+                    consentList.add(gelMainStudySubjectInstance)
+                }
             }
         }
         //we find the patient and has the consent form

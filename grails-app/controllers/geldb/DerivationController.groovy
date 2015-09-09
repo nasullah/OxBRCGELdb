@@ -31,14 +31,14 @@ class DerivationController {
     }
 
     def create() {
-        respond new Derivation(params)
+		respond new Derivation(params), model: [aliquotType: params.aliquotType]
     }
 
     def getSlideID() {
         def aliquot = Aliquot.findById(params.selectAliquot)
         if(aliquot){
             if (aliquot.sapphireIdentifier){
-                def lastFourDigit = aliquot.sapphireIdentifier.toString()[-6..-1]
+                def lastSixDigit = aliquot.sapphireIdentifier.toString()[-6..-1]
                 def gelIdList = aliquot.specimen.participant.studySubject.studySubjectIdentifier
                 def gelId= ''
                 for (int i = 0; i < gelIdList.size(); i ++){
@@ -46,8 +46,21 @@ class DerivationController {
                         gelId = gelIdList[i]
                     }
                 }
-                def slidID = gelId + ' ' + lastFourDigit
+                def slidID = gelId + ' ' + lastSixDigit
                 render([slidID: slidID] as XML)
+            }else{
+                def barcode = aliquot?.barcode?.toString()
+                def gelIdList = aliquot.specimen.participant.studySubject.studySubjectIdentifier
+                def gelId= ''
+                for (int i = 0; i < gelIdList.size(); i ++){
+                    if(gelIdList[i]){
+                        gelId = gelIdList[i]
+                    }
+                }
+                if (barcode && gelId?.length() > 4){
+                    def slidID = gelId[-4..-1] + ' ' + barcode
+                    render([slidID: slidID] as XML)
+                }
             }
         }
     }
