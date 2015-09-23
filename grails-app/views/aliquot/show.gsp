@@ -290,21 +290,6 @@
             </tr>
         </g:if>
 
-        <g:if test="${aliquotInstance.dNA_Extract}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="aliquot.dNA_Extract.label" default="DNA Extract" /></td>
-
-                <td valign="top" style="text-align: left;" class="value">
-                    <ul>
-                        <g:each in="${aliquotInstance.dNA_Extract}" var="d">
-                            <li><g:link controller="DNA_Extract" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
-                        </g:each>
-                    </ul>
-                </td>
-
-            </tr>
-        </g:if>
-
         <g:if test="${aliquotInstance.derivation}">
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.derivation.label" default="Associated Derivatives" /></td>
@@ -346,6 +331,21 @@
                     <ul>
                         <g:each in="${aliquotInstance.gelSuitabilityReport}" var="d">
                             <li><g:link controller="gelSuitabilityReport" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                    </ul>
+                </td>
+
+            </tr>
+        </g:if>
+
+        <g:if test="${aliquotInstance.dNA_Extract}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.dNA_Extract.label" default="DNA Extract" /></td>
+
+                <td valign="top" style="text-align: left;" class="value">
+                    <ul>
+                        <g:each in="${aliquotInstance.dNA_Extract}" var="d">
+                            <li><g:link controller="DNA_Extract" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
                         </g:each>
                     </ul>
                 </td>

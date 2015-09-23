@@ -152,7 +152,7 @@
 
 <hr style="border:1; height:1px" />
 
-<p class="text-primary">Available Action</p>
+<p class="text-primary">Available Actions</p>
 
 <g:if test="${!participantInstance.studySubject}">
     <a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with a consent </g:link>
@@ -161,7 +161,9 @@
     <a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with another consent </g:link>
 </g:else>
 
-<a class='btn btn-primary btn-small' <g:link  action="renderFormPDF" id="${participantInstance?.id}"><i class="glyphicon glyphicon-plus"></i> Print Tissue Worksheet</g:link>
+<a class='btn btn-default btn-small' <g:link  action="renderTissueWorksheet" id="${participantInstance?.id}"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet</g:link>
+
+<a class='btn btn-default btn-small' <g:link  action="renderTissueWorksheetProstate" id="${participantInstance?.id}"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet (Prostate only)</g:link>
 
 <hr style="border:1; height:1px" />
 

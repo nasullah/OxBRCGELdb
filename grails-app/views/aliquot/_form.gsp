@@ -210,6 +210,20 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-6">
+            <div class="${hasErrors(bean: aliquotInstance, field: 'exhausted', 'error')} ">
+                <label for="exhausted" class="control-label"><g:message code="aliquot.exhausted.label" default="Exhausted" /><span class="required-indicator">*</span></label>
+                <div>
+                    <g:radioGroup name="exhausted"
+                                  values="[true, false]"
+                                  labels="['Yes', 'No']"
+                                  value="${aliquotInstance?.exhausted}">
+                        ${it.label}  ${it.radio}
+                    </g:radioGroup>
+                </div>
+            </div>
+        </div>
     </g:if>
 
     <div class="col-lg-6">

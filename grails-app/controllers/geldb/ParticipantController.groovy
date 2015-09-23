@@ -197,7 +197,7 @@ class ParticipantController {
             if (barcode && barcodeVersionDate =='01/07/2015'){
                 def barcodeParts = barcode.toString().split('~')
                 def nHSNumber = barcodeParts[0].substring(11,21)
-                def participantId = barcodeParts[0].substring(25,35)
+                def participantId = barcodeParts[0].substring(23,33)
                 def hospitalNumber = barcodeParts[1]
                 def familyName = barcodeParts[3]
                 def givenName = barcodeParts[2]
@@ -247,7 +247,7 @@ class ParticipantController {
         }
     }
 
-    def renderFormPDF(){
+    def renderTissueWorksheet(){
         def tempFile = File.createTempFile("temp",".png")
         def nhSNumber = Participant.get(params.id)?.getnHSNumber()
         def input= "${nhSNumber}"
@@ -258,12 +258,28 @@ class ParticipantController {
         def ochre = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/ochre.png"))
         def orb = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/orb.png"))
         def formInstance = Participant.get(params.id)
-        def args = [template:"pdf", model:[form:formInstance, barcode: barcode.bytes, ochre:ochre.bytes, orb:orb.bytes]]
+        def args = [template:"tissueWorksheet", model:[form:formInstance, barcode: barcode.bytes, ochre:ochre.bytes, orb:orb.bytes]]
         pdfRenderingService.render(args+[controller:this],response)
         File file = tempFile
         file.delete()
     }
 
+    def renderTissueWorksheetProstate(){
+        def tempFile = File.createTempFile("temp",".png")
+        def nhSNumber = Participant.get(params.id)?.getnHSNumber()
+        def input= "${nhSNumber}"
+        Map<EncodeHintType,Object> hintType =new HashMap<EncodeHintType,Object>();
+        hintType.put(EncodeHintType.DATA_MATRIX_SHAPE, com.google.zxing.datamatrix.encoder.SymbolShapeHint.FORCE_SQUARE);
+        barcodeService.generateDataMatrix(input,hintType,tempFile.path);
+        def barcode = new File(tempFile.path)
+        def ochre = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/ochre.png"))
+        def orb = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/orb.png"))
+        def formInstance = Participant.get(params.id)
+        def args = [template:"tissueWorksheetProstate", model:[form:formInstance, barcode: barcode.bytes, ochre:ochre.bytes, orb:orb.bytes]]
+        pdfRenderingService.render(args+[controller:this],response)
+        File file = tempFile
+        file.delete()
+    }
 
     @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def summaryReport() {

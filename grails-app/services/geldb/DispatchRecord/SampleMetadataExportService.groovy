@@ -1,5 +1,6 @@
 package geldb.DispatchRecord
 
+import geldb.Aliquot
 import geldb.FluidSpecimen
 import geldb.StaffMember
 import org.springframework.transaction.annotation.Transactional
@@ -150,7 +151,14 @@ class SampleMetadataExportService {
         }
 
         def sectionCutBy = { domain, value ->
-            value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            if(domain?.identifiedSample?.aliquot?.derivation?.derivedAliquots?.aliquotType?.aliquotTypeName?.toString()?.contains('Section')) {
+                def parentAliquot = Aliquot.findByIdInList(domain?.identifiedSample?.aliquot?.id)
+                def aliquots = Aliquot.findAll {derivedFrom.aliquot == parentAliquot}
+                aliquots = aliquots.findAll {c -> c.aliquotType.aliquotTypeName == 'Section'}
+                return aliquots.derivedFrom.derivedBy.staffName?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+            }else {
+                return ""
+            }
         }
 
         def macrodissectionDetails = { domain, value ->
@@ -167,10 +175,17 @@ class SampleMetadataExportService {
         }
 
         def sectionCutOn = { domain, value ->
-            def date = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-            if(date){
-                return date?.substring(0,10)
-            }else{
+            if(domain?.identifiedSample?.aliquot?.derivation?.derivedAliquots?.aliquotType?.aliquotTypeName?.toString()?.contains('Section')) {
+                def parentAliquot = Aliquot.findByIdInList(domain?.identifiedSample?.aliquot?.id)
+                def aliquots = Aliquot.findAll {derivedFrom.aliquot == parentAliquot}
+                aliquots = aliquots.findAll {c -> c.aliquotType.aliquotTypeName == 'Section'}
+                def date = aliquots.derivedFrom.derivationDate?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+                if (date) {
+                    return date?.substring(0, 10)
+                } else {
+                    return ""
+                }
+            }else {
                 return ""
             }
         }

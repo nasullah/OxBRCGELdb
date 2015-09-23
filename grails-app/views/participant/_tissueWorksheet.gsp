@@ -159,16 +159,12 @@
 <div class='header'></div>
 
 <div class='footer'>
-    <table>
+    <table width="100%">
         <tr>
-
-            <td>
-                <span style="font-size: 7pt">GEL Post sampling Worksheet (all tissues except Prostate)&#160; &#160; &#160; &#160; &#160; &#160;&#160; &#160; &#160; &#160; &#160; &#160;&#160; &#160; &#160; &#160; &#160; &#160;</span>
-                <span style="font-size: 7pt">Page 1 of 4&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</span>
-            </td>
-            <td></td>
+            <td width="40%"><span style="font-size: 7pt">GEL Post sampling Worksheet (all tissues except Prostate)</span></td>
+            <td width="30%"><span style="font-size: 7pt">Page 1 of 4</span></td>
+            <td width="30%"></td>
         </tr>
-
     </table>
 </div>
 <div class='content'></div>
@@ -226,9 +222,9 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">A B C D E F</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;F<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -244,9 +240,9 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">A B C D E F</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;F<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -261,9 +257,9 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">A B C D E F</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;F<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -278,9 +274,9 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">A B C D E F</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;F<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -317,17 +313,13 @@
 <div class='header'></div>
 
 <div class='footer'>
-    <table>
+    <table width="100%">
         <tr>
-
-            <td>
-                <span style="font-size: 7pt">GEL Post sampling Worksheet (all tissues except Prostate)&#160; &#160; &#160; &#160; &#160; &#160;&#160; &#160; &#160; &#160; &#160; &#160;&#160; &#160; &#160; &#160; &#160; &#160;</span>
-                <span style="font-size: 7pt">Page 2 of 4&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</span>
-            </td>
-            <td><span style="font-size: 7pt">GEL ID: &#160; &#160; ${form?.studySubject?.studySubjectIdentifier?.findResult{it?.size() ? it : null}} &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</span></td>
-            <td><rendering:inlineJpeg bytes="${barcode}" height="50px"/></td>
+            <td width="40%"><span style="font-size: 7pt">GEL Post sampling Worksheet (all tissues except Prostate)</span></td>
+            <td width="20%"><span style="font-size: 7pt">Page 2 of 4</span></td>
+            <td width="20%"><span style="font-size: 7pt">GEL ID:  ${form?.studySubject?.studySubjectIdentifier?.findResult{it?.size() ? it : null}} </span></td>
+            <td width="20%"><rendering:inlineJpeg bytes="${barcode}" height="50px"/></td>
         </tr>
-
     </table>
 </div>
 <div class='content'></div>
@@ -457,9 +449,9 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">A B C D E F</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;F<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
     </tr>
 
@@ -471,9 +463,9 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">A B C D E F</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;F<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
     </tr>
 
@@ -484,9 +476,9 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">A B C D E F</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;F<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
     </tr>
 
@@ -497,9 +489,9 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">A B C D E F</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;F<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
     </tr>
 </table>
@@ -532,34 +524,26 @@
 <p><span style="font-size: 10pt">..................................................................................................................................................................................... </span></p>
 
 <div class='footer'>
-    <table>
+    <table width="100%">
         <tr>
-
-            <td>
-                <span style="font-size: 7pt">GEL Post sampling Worksheet (all tissues except Prostate)&#160; &#160; &#160; &#160; &#160; &#160;&#160; &#160; &#160; &#160; &#160; &#160;&#160; &#160; &#160; &#160; &#160; &#160;</span>
-                <span style="font-size: 7pt">Page 3 of 4&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</span>
-            </td>
-            <td><span style="font-size: 7pt">GEL ID: &#160; &#160; ${form?.studySubject?.studySubjectIdentifier?.findResult{it?.size() ? it : null}} &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</span></td>
-            <td><rendering:inlineJpeg bytes="${barcode}" height="50px"/></td>
+            <td width="40%"><span style="font-size: 7pt">GEL Post sampling Worksheet (all tissues except Prostate)</span></td>
+            <td width="20%"><span style="font-size: 7pt">Page 3 of 4</span></td>
+            <td width="20%"><span style="font-size: 7pt">GEL ID:  ${form?.studySubject?.studySubjectIdentifier?.findResult{it?.size() ? it : null}} </span></td>
+            <td width="20%"><rendering:inlineJpeg bytes="${barcode}" height="50px"/></td>
         </tr>
-
     </table>
 </div>
 
 <div class='header'></div>
 
 <div class='footer'>
-    <table>
+    <table width="100%">
         <tr>
-
-            <td>
-                <span style="font-size: 7pt">GEL Post sampling Worksheet (all tissues except Prostate)&#160; &#160; &#160; &#160; &#160; &#160;&#160; &#160; &#160; &#160; &#160; &#160;&#160; &#160; &#160; &#160; &#160; &#160;</span>
-                <span style="font-size: 7pt">Page 4 of 4&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</span>
-            </td>
-            <td><span style="font-size: 7pt">GEL ID: &#160; &#160; ${form?.studySubject?.studySubjectIdentifier?.findResult{it?.size() ? it : null}} &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</span></td>
-            <td><rendering:inlineJpeg bytes="${barcode}" height="50px"/></td>
+            <td width="40%"><span style="font-size: 7pt">GEL Post sampling Worksheet (all tissues except Prostate)</span></td>
+            <td width="20%"><span style="font-size: 7pt">Page 4 of 4</span></td>
+            <td width="20%"><span style="font-size: 7pt">GEL ID:  ${form?.studySubject?.studySubjectIdentifier?.findResult{it?.size() ? it : null}} </span></td>
+            <td width="20%"><rendering:inlineJpeg bytes="${barcode}" height="50px"/></td>
         </tr>
-
     </table>
 </div>
 
