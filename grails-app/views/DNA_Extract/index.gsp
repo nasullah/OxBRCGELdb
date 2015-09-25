@@ -77,11 +77,19 @@
 	</div>
 </section>
 
-%{--<g:form action="upload" method="post" enctype="multipart/form-data">--}%
-    %{--<label for="file">File:</label>--}%
-    %{--<input type="file" name="file" id="file" />--}%
-    %{--<input class="save" type="submit" value="Upload" />--}%
-%{--</g:form>--}%
+<hr style="border:1; height:1px" />
+
+<g:form action="uploadFile" method="post" enctype="multipart/form-data">
+    <p>
+    </p>
+    <p class="text-success">Upload file to generate DNA extract records</p>
+    <input type="file" name="file" id="file" />
+    <p>
+    </p>
+    <button type="submit" class="btn btn-success btn-xs" value="Upload"><span class="glyphicon glyphicon-upload"></span> Upload</button>
+</g:form>
+
+<hr style="border:1; height:1px" />
 
 </body>
 

@@ -27,12 +27,12 @@ class AliquotController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Aliquot.findAllByExhausted(false, params), model: [aliquotInstanceCount: Aliquot.count()]
+        respond Aliquot.findAllByExhausted(false, params), model: [aliquotInstanceCount: Aliquot.findAllByExhausted(false).size()]
     }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [aliquotInstanceList: Aliquot.findAllByExhausted(false, params), aliquotInstanceTotal: Aliquot.count()]
+        [aliquotInstanceList: Aliquot.findAllByExhausted(false, params), aliquotInstanceTotal: Aliquot.findAllByExhausted(false).size()]
     }
 
     def filter = {

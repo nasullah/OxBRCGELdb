@@ -59,27 +59,24 @@ class PositionController {
 
     @Transactional
     def save(Position positionInstance) {
-        Integer containedSample = params.int('identifiedSample.id')
-        Integer box = params.int('plateOrBox.id')
+        def containedSampleId = params.long('identifiedSample.id')
+        def boxId = params.long('plateOrBox.id')
+        def letter = params.letter
+            letter = letter?.toString()
+        def number = params.number
+            number = number?.toString()
         if (positionInstance == null) {
             notFound()
             return
         }
-
-//        if (positionInstance.hasErrors()) {
-//            respond positionInstance.errors, view: 'create'
-//            return
-//        }
-
-        def sample =IdentifiedSample.findById(containedSample)
-        def existedPosition = Position.findByPlateOrBoxAndLetterAndNumber(PlateOrBox.get(box),params.letter,params.number)
+        def sample =IdentifiedSample.findById(containedSampleId)
+        def existedPosition = Position.findByPlateOrBoxAndLetterAndNumber(PlateOrBox.findById(boxId),letter,number)
         if (existedPosition){
             def nonExhaustedSample = existedPosition.containedSamples.findAll {s -> !s.exhausted}
-            if (nonExhaustedSample){
-                flash.message = "Position with letter/number pair ${params.letter} ${params.number} has been already created in this Box/Plate and it contains a non exhausted sample. Please enter another pair of letter and number."
-                redirect(action: "create", params: ['containedSamples': containedSample, 'number':params.number, 'letter':params.letter, 'plateOrBox.id': box])
-                return
-            } else if (!nonExhaustedSample && sample){
+            if (!nonExhaustedSample.empty){
+                flash.message = "Position with letter/number pair ${letter} ${number} has been already created in this Box/Plate and it contains a non exhausted sample. Please enter another pair of letter and number."
+                redirect(action: "create", params: ['containedSamples': containedSampleId, 'number':number, 'letter':letter, 'plateOrBox.id': boxId])
+            } else if (nonExhaustedSample.empty && sample){
                 existedPosition.addToContainedSamples(sample).save flush: true
                 flash.message = message(code: 'default.created.message', args: [message(code: 'positionInstance.label', default: 'Position'), existedPosition.id])
                 redirect existedPosition
