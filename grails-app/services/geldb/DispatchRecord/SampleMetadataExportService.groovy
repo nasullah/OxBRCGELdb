@@ -36,7 +36,7 @@ class SampleMetadataExportService {
         def clinicSampleType  = { domain, value ->
             if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy Frozen')) {
                 return "DNA " + "FF Tumour"
-            }else  if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')){
+            }else  if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
                 return "DNA " + "FFPE Tumour"
             }else{
                 return "DNA "+ value?.toString()?.replace('[','')?.replace(']','')
@@ -162,7 +162,7 @@ class SampleMetadataExportService {
         }
 
         def macrodissectionDetails = { domain, value ->
-            if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+            if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
                 def details = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                 if (details) {
                     return details
@@ -204,7 +204,7 @@ class SampleMetadataExportService {
         }
 
         def macrodissection = { domain, value ->
-            if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+            if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
                 def macro = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                 if (macro) {
                     if (macro == 'true') {
@@ -229,7 +229,7 @@ class SampleMetadataExportService {
         }
 
         def slideMarkedBy = { domain, value ->
-            if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+            if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
                 def markedBy = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                 if (markedBy){
                     if (markedBy?.isNumber()){
@@ -248,14 +248,16 @@ class SampleMetadataExportService {
             if (value?.toString()?.startsWith('[Fluid Specimen-')) {
                 return ''
             } else {
-                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
                     def fixationStartTime = domain?.identifiedSample?.aliquot?.specimen?.fFPE_Tissue_Report?.fixationStartTime
                     fixationStartTime = fixationStartTime?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                     def startDate = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
-                    if (startDate) {
-                        return startDate?.substring(0, 10) + "T" + fixationStartTime
+                    if (startDate && fixationStartTime) {
+                        return startDate?.substring(0, 10) + "T" + fixationStartTime + ":00"
+                    } else if (startDate && !fixationStartTime){
+                        return startDate?.substring(0, 10) + "T00:00:00"
                     } else {
-                        return ''
+                        return ""
                     }
                 }else{
                     return ""
@@ -267,14 +269,16 @@ class SampleMetadataExportService {
             if (value?.toString()?.startsWith('[Fluid Specimen-')) {
                 return ''
             } else {
-                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
                     def fixationEndTime = domain?.identifiedSample?.aliquot?.specimen?.fFPE_Tissue_Report?.fixationEndTime
                     fixationEndTime = fixationEndTime?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                     def endDate = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
-                    if (endDate) {
-                        return endDate?.substring(0, 10) + "T" + fixationEndTime
-                    } else {
-                        return ''
+                    if (endDate && fixationEndTime) {
+                        return endDate?.substring(0, 10) + "T" + fixationEndTime+ ":00"
+                    } else if (endDate && !fixationEndTime) {
+                        return endDate?.substring(0, 10) + "T00:00:00"
+                    }else {
+                        return ""
                     }
                 }else{
                     return ""
@@ -283,7 +287,7 @@ class SampleMetadataExportService {
         }
 
         def sideMarkedDate = { domain, value ->
-            if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+            if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
                 def markedDate = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                 if (markedDate) {
                     return markedDate?.substring(0, 10)
@@ -299,7 +303,7 @@ class SampleMetadataExportService {
             if (value?.toString()?.startsWith('[Fluid Specimen-')) {
                 return ''
             } else {
-                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
                     def type = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                     if (type) {
                         return type
@@ -316,7 +320,7 @@ class SampleMetadataExportService {
             if (value?.toString()?.startsWith('[Fluid Specimen-')) {
                 return ''
             } else {
-                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
                     def comments = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                     if (comments) {
                         return comments
@@ -340,7 +344,7 @@ class SampleMetadataExportService {
             if (value.toString()?.startsWith('[Fluid Specimen-')) {
                 return ''
             } else {
-                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')){
+                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
                     def schedule = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
                     if (schedule){
                         return schedule?.toLowerCase()?.replace(' ','_')

@@ -113,15 +113,15 @@
             </tr>
 
             <%  TimeDuration duration = null;
-                def formatCollectionTime = aliquotInstance?.specimen?.collectionTime?.toString()?.replace('.',':')
-                if (formatCollectionTime && aliquotInstance?.createdOn && aliquotInstance?.createdTime){
+                def isFluidSpecimen = aliquotInstance?.specimen?.instanceOf(FluidSpecimen)
+                def formatCollectionTime = aliquotInstance?.specimen?.collectionTime?.toString()?.replace('.',':')?.replace(';',':')
+                if (formatCollectionTime && aliquotInstance?.createdOn && aliquotInstance?.createdTime && isFluidSpecimen){
                     def collectionTime =  new Date().parse("yyy-MM-dd HH:mm", aliquotInstance?.createdOn?.format('yyy-MM-dd')?.toString() + " " + formatCollectionTime)
                     def createdTime = new Date().parse("yyy-MM-dd HH:mm", aliquotInstance?.createdTime?.toString())
                     duration = TimeCategory.minus(createdTime, collectionTime)
                     }
-                def specimenType = FluidSpecimen.findById(aliquotInstance?.specimen?.id)
             %>
-            <g:if test="${duration && specimenType}">
+            <g:if test="${duration}">
                 <tr class="prop">
                     <td valign="top" class="name">Processing Time</td>
 
@@ -149,7 +149,7 @@
             </tr>
         </g:if>
 
-        <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption_centrifugation_with_buffer'}">
+        <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption'}">
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Identifier" /></td>
 
@@ -209,7 +209,7 @@
             </tr>
         </g:if>
 
-        <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption_centrifugation_with_buffer'}">
+        <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption'}">
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.aliquotVolumeMass.label" default="Volume/Mass" /></td>
 
@@ -368,7 +368,7 @@
 
 <g:if test="${(aliquotInstance?.aliquotType?.aliquotTypeName == 'Fresh Frozen Tissue' && aliquotInstance?.derivedFrom?.id == null) || (aliquotInstance?.aliquotType?.aliquotTypeName == 'Punch Biopsy Frozen' && aliquotInstance?.derivedFrom?.id == null)}">
     <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('Section')?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (Section)')])}</g:link>
-    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'derivationProcess':'Tissue_disruption_centrifugation_with_buffer', 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('RNA Fresh Frozen Lysate')?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (RNA FF Lysate)')])}</g:link>
+    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'derivationProcess':'Tissue_disruption', 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('All Prep Lysate')?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (All Prep lysate)')])}</g:link>
 
 </g:if>
 

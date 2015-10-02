@@ -16,6 +16,8 @@ class SolidSpecimenController {
     def exportService
     def exportSolidSpecimenService
     def filterPaneService
+    def pdfRenderingService
+    def barcodeService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -67,6 +69,34 @@ class SolidSpecimenController {
             response.setHeader("Content-disposition", "attachment; filename= Exported All Main Specimens and Reports.${params.extension}")
             def exportSolidSpecimensData = SolidSpecimen.list().sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
             exportService.export(params.format, response.outputStream, exportSolidSpecimensData, exportSolidSpecimenService.fields, exportSolidSpecimenService.labels, exportSolidSpecimenService.formatters, exportSolidSpecimenService.parameters )
+        }
+    }
+
+    def renderBarcode(){
+        if (!request.getFile('csvFile')?.originalFilename) {
+            flash.message = "Please choose a file"
+            redirect(uri: "/participant/summaryReport")
+        }else{
+            List <File> fileList = new ArrayList()
+            List <String> barcodeList = new ArrayList()
+            List <File> positionList = new ArrayList()
+            def counter = 0
+            request.getFile('csvFile').inputStream.splitEachLine(',')
+                    { fields ->
+                        def tempFile = File.createTempFile("temp"+counter,".png")
+                        def barcode = fields[1].trim()
+                        def input= barcode
+                        barcodeService.generateCode128(input,tempFile.path);
+                        barcodeList.add(fields[1].trim())
+                        positionList.add(fields[0].trim())
+                        fileList.add(tempFile)
+                        counter ++
+                    }
+            def args = [template:"printbarcode", model:[fileList: fileList,barcodeList: barcodeList, positionList:positionList]]
+            pdfRenderingService.render(args+[controller:this],response)
+            for (int i = 0; i < fileList.size(); i ++){
+                fileList.get(i).delete()
+            }
         }
     }
 

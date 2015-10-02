@@ -20,21 +20,38 @@
             <h5 class="text-center">Export Options</h5>
             <p>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="control-label"><small>Export GEL IDs/Participant IDs</small></label>
                     <a class='btn btn-success btn-sm' onclick="getExcelGeLID()"  <g:link controller="participant" action="exportSummaryReport" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
-                %{--<div class="col-md-3">--}%
-                    %{--<label class="control-label"><small>Export KPI Report</small></label>--}%
-                    %{--<a class='btn btn-success btn-sm' onclick="getKPIReport()" <g:link controller="DNA_Extract" action="exportKPIReport" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>--}%
-                    %{--<div id="spinnerKPI" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>--}%
-                        %{--<img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />--}%
-                    %{--</div>--}%
-                %{--</div>--}%
+
+                <div class="col-md-6">
+                    <label class="control-label"><small>Export FFPE Tissue Handling File</small></label>
+                    <a class='btn btn-success btn-sm'  <g:link controller="aliquot" action="exportFFPETissueHandling" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-11">
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="control-label"><small>Export barcode file</small></label>
+                    <g:uploadForm class="form-inline" controller="solidSpecimen" action="renderBarcode" role="form">
+                        <div class="form-group">
+                            <input type="file" id="csvFile" name="csvFile" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" name="upload" class="btn btn-success  btn-sm"><i class="glyphicon glyphicon-upload"></i> Upload</button>
+                        </div>
+                    </g:uploadForm>
+                </div>
             </div>
+
             <div class="row">
                 <div class="col-md-11">
                 <hr>

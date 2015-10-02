@@ -40,7 +40,7 @@ class StudySubjectController {
                 def listConsentVersionForm = ["Version 1.0 dated  25.08.2014", "Version 2 dated 14.10.14", "Version 2 dated 14.10.2014"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             } else if (consentType.studyName == 'ORB') {
-                def listConsentVersionForm = ["v1 October 2013"]
+                def listConsentVersionForm = ["Version/date: 02/04/2014"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             } else if (consentType.studyName == 'NHS') {
                 def listConsentVersionForm = ["1-RTH0029-0503", "1-RBF0071-0708", "1-0308", "1-0611", "1-0413", "2-RTH0030-0503",

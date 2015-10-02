@@ -81,7 +81,7 @@
         </div>
     </div>
 
-    <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption_centrifugation_with_buffer'}">
+    <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption'}">
         <div class="row">
             <div class="col-lg-6">
                 <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotVolumeMass', 'error')} ">

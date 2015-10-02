@@ -50,37 +50,37 @@ class QcTestExportService {
     }
 
     def testResultTypeDeltaCq = { domain, value ->
-        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
             return "delta Cq"
         }
     }
 
     def gelIdDeltaCq = { domain, value ->
-        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
             return cleanString(value?.toString())
         }
     }
 
     def laboratoryIDDeltaCq  = { domain, value ->
-        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
             return "698D0"
         }
     }
 
     def sampleIDDeltaCq  = { domain, value ->
-        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
             return value
         }
     }
 
     def extractionDateDeltaCq  = { domain, value ->
-        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
             return value?.toString()?.replace(' ', 'T')
         }
     }
 
     def deltaQC  = { domain, value ->
-        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE, NBF')) {
+        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
             return value
         }
     }
