@@ -79,7 +79,7 @@ class SolidSpecimenController {
         }else{
             List <File> fileList = new ArrayList()
             List <String> barcodeList = new ArrayList()
-            List <File> positionList = new ArrayList()
+            List <Integer> positionList = new ArrayList()
             def counter = 0
             request.getFile('csvFile').inputStream.splitEachLine(',')
                     { fields ->
