@@ -116,35 +116,81 @@ class DNA_ExtractController {
 
     def test(){
         def ffDNAExtract = DNA_Extract.createCriteria().list{
-            and {
-                aliquot {
-                    eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+            or {
+                and {
+                    aliquot {
+                        eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+                    }
+                    ge("dNAConcentrationNanodrop", '1.8'.toFloat())
+                    ge("dNAConcentrationQubit", '18'.toFloat())
                 }
-                ge("dNAConcentrationNanodrop", 1.5)
-                ge("dNAConcentrationQubit", 15)
-                ge("dNAAmount", 100)
+                and {
+                    aliquot {
+                        eq('aliquotType', AliquotType.findByAliquotTypeName('Buffy Coat'))
+                    }
+                    ge("dNAConcentrationNanodrop", '3'.toFloat())
+                    ge("dNAConcentrationQubit", '30'.toFloat())
+                    ge("dNAAmount", '100'.toDouble())
+                }
+                and {
+                    aliquot {
+                        eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'))
+                    }
+                    lt("delatQC", '2.9'.toDouble())
+                    ge("dNAConcentrationNanodrop", '1.8'.toFloat())
+                    ge("dNAConcentrationQubit", '18'.toFloat())
+                }
             }
-        }
 
-        def glDNAExtract = DNA_Extract.createCriteria().list{
-            and {
+        }
+        def p = Participant.createCriteria().list {
+            specimen {
                 aliquot {
                     eq('aliquotType', AliquotType.findByAliquotTypeName('Buffy Coat'))
+                    dNA_Extract {
+                        ge("dNAConcentrationNanodrop", '3'.toFloat())
+                        ge("dNAConcentrationQubit", '30'.toFloat())
+                        ge("dNAAmount", '100'.toDouble())
+                    }
                 }
-                ge("dNAConcentrationNanodrop", 3)
-                ge("dNAConcentrationQubit", 30)
-                ge("dNAAmount", 100)
             }
-        }
+        }.id
 
-        def ffpeDNAExtract = DNA_Extract.createCriteria().list{
-            and {
-                aliquot {
-                    eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'))
-                }
-                lt("delatQC", 2.8)
-            }
-        }
+        print(p)
+
+        ffDNAExtract = ffDNAExtract.findAll {it?.aliquot?.specimen?.participant?.id == p}
+        print(ffDNAExtract)
+        redirect action: "index", method: "GET"
+
+//        and {
+//            aliquot {
+//                eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+//            }
+//            ge("dNAConcentrationNanodrop", 1.8)
+//            ge("dNAConcentrationQubit", 18)
+//        }
+
+//        def glDNAExtract = DNA_Extract.createCriteria().list{
+//            and {
+//                aliquot {
+//                    eq('aliquotType', AliquotType.findByAliquotTypeName('Buffy Coat'))
+//                }
+//                ge("dNAConcentrationNanodrop", 3)
+//                ge("dNAConcentrationQubit", 30)
+//                ge("dNAAmount", 100)
+//            }
+//        }
+//
+//        def ffpeDNAExtract = DNA_Extract.createCriteria().list{
+//            and {
+//                aliquot {
+//                    eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'))
+//                }
+//                lt("delatQC", 2.9)
+//                ge("dNAConcentrationNanodrop", 1.8)
+//                ge("dNAConcentrationQubit", 18)
+//            }
+//        }
     }
 
     @Transactional

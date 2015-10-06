@@ -57,6 +57,10 @@
                     <g:link controller="position" action="index">Position</g:link>
                 </li>
 
+                <li>
+                    <g:link controller="fluidSpecimen" action="fluidSpecimenSummary">Main Project Specimen Summary</g:link>
+                </li>
+
             </ul>
         </li>
 

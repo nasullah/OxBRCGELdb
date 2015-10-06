@@ -118,6 +118,16 @@ class FluidSpecimenController {
         respond new FluidSpecimen(params)
     }
 
+    def fluidSpecimenSummary(){
+        def summary = Participant.createCriteria().list {
+            studySubject {
+                eq("study", Study?.findByStudyName("100K Genomes Main Project"))
+            }
+        }
+        summary = summary.sort {it.id}
+        [summary: summary.reverse()]
+    }
+
     @Transactional
     def save(FluidSpecimen fluidSpecimenInstance) {
         if (fluidSpecimenInstance == null) {
