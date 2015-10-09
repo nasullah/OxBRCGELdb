@@ -58,7 +58,7 @@
                 </li>
 
                 <li>
-                    <g:link controller="fluidSpecimen" action="fluidSpecimenSummary">Main Project Specimen Summary</g:link>
+                    <g:link controller="fluidSpecimen" action="fluidSpecimenSummary">Fluid Specimen Summary</g:link>
                 </li>
 
             </ul>

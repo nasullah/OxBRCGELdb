@@ -5,7 +5,7 @@
 
 <head>
     <meta name="layout" content="kickstart" />
-    <title>Main Project Specimen Summary</title>
+    <title>Main Project Fluid Specimen Summary</title>
 </head>
 
 <body>
