@@ -420,7 +420,7 @@
     <tr>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><span style="font-weight: normal;font-size: 7pt">7. Left Lateral</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">T-M ........................ M-B ........................</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
