@@ -51,7 +51,7 @@
 
 </p>
 
-<p><span style="font-weight: bold;font-size: 10pt">SECTION 1 (ctd): TISSUE ISCHAEMIA </span><span style="font-size: 8pt" >(warm ischemia: organ/tissue isolated in the body; cold ischemia: organ/tissue removed from body):</span></p>
+<p><span style="font-weight: bold;font-size: 10pt"><u>SECTION 1 (ctd): TISSUE ISCHAEMIA</u></span><span style="font-size: 8pt" >(warm ischemia: organ/tissue isolated in the body; cold ischemia: organ/tissue removed from body):</span></p>
 
 <table border="0.1" style="font-size: 8pt" width="100%">
     <tr>
