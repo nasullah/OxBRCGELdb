@@ -215,9 +215,9 @@
                                                                                                          'collectionDate': fluidSpecimenInstance?.collectionDate,'collectionTime': fluidSpecimenInstance?.collectionTime,'collectedBy': fluidSpecimenInstance?.collectedBy?.id, 'timePoint':fluidSpecimenInstance?.timePoint,
                                                                                                          'volumeUnit': fluidSpecimenInstance?.volumeUnit?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fluidSpecimen.label', default: 'Duplicate Fluid Specimen')])}</g:link>
 
-<g:if test="${!fluidSpecimenInstance.postmortem}">
-    <a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['specimen.id': fluidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>
-</g:if>
+%{--<g:if test="${!fluidSpecimenInstance.postmortem}">--}%
+    %{--<a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['specimen.id': fluidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>--}%
+%{--</g:if>--}%
 
 <hr style="border:1; height:1px" />
 </body>

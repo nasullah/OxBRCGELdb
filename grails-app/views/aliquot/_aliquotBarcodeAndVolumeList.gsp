@@ -17,7 +17,7 @@
                             <span class="input-group-addon">
                             </span>
                             <label class="control-label">Aliquot ${number} Volume/Mass</label>
-                            <g:field type="number decimal" class="form-control" name="aliquotVolumeMass_${i}" placeholder="Aliquot Volume Mass"/>
+                            <g:field type="number decimal" class="form-control" name="aliquotVolumeMass_${i}" placeholder="Aliquot Volume Mass" value="1"/>
                         </div>
                     </div>
                 </div>
