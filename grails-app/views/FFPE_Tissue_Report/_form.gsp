@@ -529,7 +529,6 @@
 
     } else{
         $("#fixed").hide();
-        $("#fixedButton").show();
     }
 
     if ($("#warm_ischaemia input#warm_ischaemia_reportedBy").val() != '' || $("#warm_ischaemia input#warm_ischaemia_startDate").val() != '' || $("#warm_ischaemia input#warm_ischaemia_endDate").val() != '' ){

@@ -184,6 +184,13 @@
             </li>
 
             <li class="">
+                <a href="${createLink(uri: '/tissueProcessor')}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    Add Tissue Processor
+                </a>
+            </li>
+
+            <li class="">
                 <a href="${createLink(uri: '/tumourLocation')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Tumour Location

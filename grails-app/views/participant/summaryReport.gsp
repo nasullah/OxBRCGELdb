@@ -231,6 +231,16 @@
                                     <li class="text-danger">GeL Suitability Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link>
                                     </li>
                                 </g:elseif>
+                                <g:if test="${aliquot.fixationReport}">
+                                    <li><g:link controller="fixationReport" action="show" id="${aliquot?.fixationReport?.first()?.id}">${aliquot?.fixationReport?.first()}</g:link></li>
+                                </g:if>
+                                <g:elseif test="${(!aliquot.fixationReport
+                                        && aliquot.createdOn > new Date().parse('yyyy/MM/dd', '2015/11/01')
+                                        && (aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF'
+                                        || aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE'))}">
+                                    <li class="text-danger">Genomic Block Fixation Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Genomic Block Fixation Report')])}</g:link>
+                                    </li>
+                                </g:elseif>
                                 <p>
                                 <p>
                             </g:each>

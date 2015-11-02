@@ -180,72 +180,90 @@
 
         </tr>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationType.label" default="Fixation Type" /></td>
+        <g:if test="${FFPE_Tissue_ReportInstance?.fixationType}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationType.label" default="Fixation Type" /></td>
 
-            <td valign="top" class="value">${FFPE_Tissue_ReportInstance?.fixationType?.encodeAsHTML()}</td>
+                <td valign="top" class="value">${FFPE_Tissue_ReportInstance?.fixationType?.encodeAsHTML()}</td>
 
-        </tr>
+            </tr>
+        </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.processingSchedule.label" default="Processing Schedule" /></td>
+        <g:if test="${FFPE_Tissue_ReportInstance?.processingSchedule}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.processingSchedule.label" default="Processing Schedule" /></td>
 
-            <td valign="top" class="value">${FFPE_Tissue_ReportInstance?.processingSchedule?.encodeAsHTML()}</td>
+                <td valign="top" class="value">${FFPE_Tissue_ReportInstance?.processingSchedule?.encodeAsHTML()}</td>
 
-        </tr>
+            </tr>
+        </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationStartDate.label" default="Fixation Start Date" /></td>
+        <g:if test="${FFPE_Tissue_ReportInstance?.fixationStartDate}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationStartDate.label" default="Fixation Start Date" /></td>
 
-            <td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${FFPE_Tissue_ReportInstance?.fixationStartDate}" /></td>
+                <td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${FFPE_Tissue_ReportInstance?.fixationStartDate}" /></td>
 
-        </tr>
+            </tr>
+        </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationStartTime.label" default="Fixation Start Time" /></td>
+        <g:if test="${FFPE_Tissue_ReportInstance?.fixationStartTime}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationStartTime.label" default="Fixation Start Time" /></td>
 
-            <td valign="top" class="value">${fieldValue(bean: FFPE_Tissue_ReportInstance, field: "fixationStartTime")}</td>
+                <td valign="top" class="value">${fieldValue(bean: FFPE_Tissue_ReportInstance, field: "fixationStartTime")}</td>
 
-        </tr>
+            </tr>
+        </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationEndDate.label" default="Fixation End Date" /></td>
+        <g:if test="${FFPE_Tissue_ReportInstance?.fixationEndDate}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationEndDate.label" default="Fixation End Date" /></td>
 
-            <td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${FFPE_Tissue_ReportInstance?.fixationEndDate}" /></td>
+                <td valign="top" class="value"><g:formatDate format="yyyy-MM-dd" date="${FFPE_Tissue_ReportInstance?.fixationEndDate}" /></td>
 
-        </tr>
+            </tr>
+        </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationEndTime.label" default="Fixation End Time" /></td>
+        <g:if test="${FFPE_Tissue_ReportInstance?.fixationEndTime}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationEndTime.label" default="Fixation End Time" /></td>
 
-            <td valign="top" class="value">${fieldValue(bean: FFPE_Tissue_ReportInstance, field: "fixationEndTime")}</td>
+                <td valign="top" class="value">${fieldValue(bean: FFPE_Tissue_ReportInstance, field: "fixationEndTime")}</td>
 
-        </tr>
+            </tr>
+        </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationPeriod.label" default="Fixation Period" /></td>
+        <g:if test="${FFPE_Tissue_ReportInstance?.fixationPeriod}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationPeriod.label" default="Fixation Period" /></td>
 
-            <td valign="top" class="value">${FFPE_Tissue_ReportInstance?.fixationPeriod?.encodeAsHTML()}</td>
+                <td valign="top" class="value">${FFPE_Tissue_ReportInstance?.fixationPeriod?.encodeAsHTML()}</td>
 
-        </tr>
+            </tr>
+        </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationTimeUnknown.label" default="Fixation Time Unknown" /></td>
+        <g:if test="${FFPE_Tissue_ReportInstance?.fixationTimeUnknown}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationTimeUnknown.label" default="Fixation Time Unknown" /></td>
 
-            <g:if test="${FFPE_Tissue_ReportInstance?.fixationTimeUnknown == null}">
-                <td valign="top" class="value"></td>
-            </g:if>
-            <g:else >
-                <td valign="top" class="value"><g:formatBoolean boolean="${FFPE_Tissue_ReportInstance?.fixationTimeUnknown}" true="Yes" false="No"/></td>
-            </g:else>
-        </tr>
+                <g:if test="${FFPE_Tissue_ReportInstance?.fixationTimeUnknown == null}">
+                    <td valign="top" class="value"></td>
+                </g:if>
+                <g:else >
+                    <td valign="top" class="value"><g:formatBoolean boolean="${FFPE_Tissue_ReportInstance?.fixationTimeUnknown}" true="Yes" false="No"/></td>
+                </g:else>
+            </tr>
+        </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationComments.label" default="Fixation Comments" /></td>
+        <g:if test="${FFPE_Tissue_ReportInstance?.fixationComments}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.fixationComments.label" default="Fixation Comments" /></td>
 
-            <td valign="top" class="value">${fieldValue(bean: FFPE_Tissue_ReportInstance, field: "fixationComments")}</td>
+                <td valign="top" class="value">${fieldValue(bean: FFPE_Tissue_ReportInstance, field: "fixationComments")}</td>
 
-        </tr>
+            </tr>
+        </g:if>
 
         <tr class="prop">
             <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.pathologyImages.label" default="Pathology Images" /></td>

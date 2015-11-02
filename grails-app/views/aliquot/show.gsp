@@ -338,6 +338,21 @@
             </tr>
         </g:if>
 
+        <g:if test="${aliquotInstance.fixationReport}">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.fixationReport.label" default="Genomic Block Fixation Report" /></td>
+
+                <td valign="top" style="text-align: left;" class="value">
+                    <ul>
+                        <g:each in="${aliquotInstance.fixationReport}" var="f">
+                            <li><g:link controller="fixationReport" action="show" id="${f.id}">${f?.encodeAsHTML()}</g:link></li>
+                        </g:each>
+                    </ul>
+                </td>
+
+            </tr>
+        </g:if>
+
         <g:if test="${aliquotInstance.dNA_Extract}">
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.dNA_Extract.label" default="DNA Extract" /></td>
@@ -364,7 +379,14 @@
 <g:if test="${aliquotInstance?.position?.id == null && aliquotInstance?.exhausted != true}">
     <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['containedSamples': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
 </g:if>
-<a class='btn btn-primary btn-small' <g:link controller="colocation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'colocation.label', default: 'Colocation')])}</g:link>
+
+<g:if test="${aliquotInstance?.specimen?.instanceOf(SolidSpecimen)}">
+    <a class='btn btn-primary btn-small' <g:link controller="colocation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'colocation.label', default: 'Colocation')])}</g:link>
+</g:if>
+
+<g:if test="${!aliquotInstance.fixationReport && (aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE')}">
+    <a class='btn btn-primary btn-small' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id, 'fixationStartDateAliquot': aliquotInstance?.specimen?.collectionDate]"><i class="glyphicon glyphicon-plus"></i> Add Genomic Block Fixation Report</g:link>
+</g:if>
 
 <g:if test="${(aliquotInstance?.aliquotType?.aliquotTypeName == 'Fresh Frozen Tissue' && aliquotInstance?.derivedFrom?.id == null) || (aliquotInstance?.aliquotType?.aliquotTypeName == 'Punch Biopsy Frozen' && aliquotInstance?.derivedFrom?.id == null)}">
     <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('Section')?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (Section)')])}</g:link>

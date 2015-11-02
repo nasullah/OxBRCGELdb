@@ -42,9 +42,9 @@
 
 <p><center><span style="font-size: 8pt" >Histology number………………………	GEL ID………${form?.studySubject?.studySubjectIdentifier?.findResult{it?.size() ? it : null}}…………	   Patient initials....${form?.givenName?.toString()?.getAt(0)} ${form?.familyName?.toString()?.getAt(0)}..........     Alternative study ID……………… </span></center></p>
 
-<span style="font-size: 8pt" >Tumour type ……………………………  Specimen collected from theatres by (initials) …………………On (date) …………at (time) ………</span><br/>
+<span style="font-size: 8pt" >Tumour type …………………………………………… Specimen collected from theatres by (initials) ……………………… On (date) ………………………………………………… at (time) …………………</span><br/>
 
-<span style="font-size: 8pt" >Name of surgeon …………………  Location of theatres    JR / WW / CH	Transported to JR:  on foot / on bicycle / by scooter / other ……………</span>
+<span style="font-size: 8pt" >Name of surgeon ………………………………………………… Location of theatres    JR / WW / CH	Transported to JR:  on foot / on bicycle / by scooter / other ………………………………………………</span>
 
 <p><span style="font-weight: bold;font-size: 10pt"><u>SECTION 1 (ctd): TISSUE ISCHAEMIA</u></span><span style="font-size: 8pt" >(warm ischemia: organ/tissue isolated in the body; cold ischemia: organ/tissue removed from body):</span></p>
 

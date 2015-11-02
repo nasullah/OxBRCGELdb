@@ -174,6 +174,12 @@ This menu is used to show function that can be triggered on the content (an obje
             </li>
         </g:if>
 
+        <g:if test="${ params.controller == 'tissueProcessor'}">
+            <li class="${ params.action == "create" ? 'active' : '' }">
+                <g:link action="create"><i class="glyphicon glyphicon-plus"></i> New Tissue Processor</g:link>
+            </li>
+        </g:if>
+
     </ul>
 </g:if>
 

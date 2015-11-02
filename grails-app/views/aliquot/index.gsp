@@ -41,9 +41,9 @@
         <p>
             <filterpane:filterButton text="Filter This List" />
             <filterpane:filterPane domain="geldb.Aliquot"
-                                   excludeProperties="createdOn, aliquotPhotograph"
+                                   excludeProperties="createdOn, aliquotPhotograph, createdTime"
                                    associatedProperties="specimen.participant.familyName, specimen.participant.familyName, specimen.participant.diagnosis,
-                                             specimen.participant.hospitalNumber, specimen.participant.nHSNumber,
+                                             specimen.participant.hospitalNumber, specimen.participant.nHSNumber, aliquotType.aliquotTypeName,
                                              specimen.participant.studySubject.studySubjectIdentifier"/>
         <p>
         <p>
