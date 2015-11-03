@@ -17,9 +17,9 @@
 		<thead>
 			<tr>
 
-				<g:sortableColumn property="reportDate" title="${message(code: 'fixationReport.reportDate.label', default: 'Report Date')}" />
+				<g:sortableColumn property="reportDate" title="${message(code: 'fixationReport.reportDate.label', default: 'Recorded Date')}" />
 
-				<th><g:message code="fixationReport.reportStaff.label" default="Report Staff" /></th>
+				<th><g:message code="fixationReport.reportStaff.label" default="Recorded Staff" /></th>
 
 				<th><g:message code="fixationReport.fixationTypeAliquot.label" default="Fixation Type" /></th>
 

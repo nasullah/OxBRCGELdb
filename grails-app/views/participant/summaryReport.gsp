@@ -227,7 +227,9 @@
                                         && aliquot?.aliquotType?.aliquotTypeName != 'Plasma PST'
                                         && aliquot?.aliquotType?.aliquotTypeName != 'Blood PAXgene'
                                         && aliquot?.aliquotType?.aliquotTypeName != 'Serum SST'
-                                        && aliquot?.aliquotType?.aliquotTypeName != 'Full Blood')}">
+                                        && aliquot?.aliquotType?.aliquotTypeName != 'Full Blood'
+                                        && aliquot?.aliquotType?.aliquotTypeName != 'Section'
+                                        && aliquot?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
                                     <li class="text-danger">GeL Suitability Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link>
                                     </li>
                                 </g:elseif>

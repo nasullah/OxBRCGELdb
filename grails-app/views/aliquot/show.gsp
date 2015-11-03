@@ -394,9 +394,9 @@
 
 </g:if>
 
-<g:if test="${(!aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Buffy Coat' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma' && !aliquotInstance?.gelSuitabilityReport
+<g:if test="${(!aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Buffy Coat' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma' && !aliquotInstance?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Section'
         && aliquotInstance?.aliquotType?.aliquotTypeName != 'Blood Germline'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma EDTA cfDNA'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma Strek cfDNA'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma PST'
-        && aliquotInstance?.aliquotType?.aliquotTypeName != 'Blood PAXgene'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Serum SST' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Full Blood')}">
+        && aliquotInstance?.aliquotType?.aliquotTypeName != 'Blood PAXgene'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Serum SST' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Full Blood' && aliquotInstance?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
     <a class='btn btn-primary btn-small' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link>
 </g:if>
 

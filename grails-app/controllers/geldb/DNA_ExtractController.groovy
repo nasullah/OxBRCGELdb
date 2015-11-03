@@ -241,14 +241,14 @@ class DNA_ExtractController {
             bookList.each { Map bookParams ->
                 def rowNumber = null
                 def sampleID = null
-                def aliquot = null
+                def aliquot
                 def dNAConcentrationNanodrop
                 def dNAConcentrationQubit
                 def extractionDate = null
                 def extractedBy = null
                 def participantID
                 def sapphireIdentifier = null
-                def barcode = null
+                def barcode
                 def dNAAmount
                 def delatQC
                 def a260A280
@@ -261,37 +261,25 @@ class DNA_ExtractController {
                 if (bookParams.get('rowNumber')){
                     rowNumber = Double?.valueOf(bookParams.get('rowNumber')?.toString())?.toInteger()?.toString()
                 }
-                print('rowNumber' +rowNumber)
                 if (bookParams.get('Sample ID')){
                     sampleID = bookParams.get('Sample ID')?.toString()
                 }
-                print('sampleID'+sampleID)
-                if(bookParams.get('Barcode aliquot').toString().isDouble()){
-                    def barcodeOfAliquot = (bookParams.get('Barcode original aliquot')?.toString())?.toInteger()?.toString()
+                if(bookParams.get('Barcode aliquot').toString().trim().isDouble()){
+                    def barcodeOfAliquot = (bookParams.get('Barcode original aliquot')?.toString()?.trim())?.toInteger()?.toString()
                     aliquot = Aliquot.findByBarcodeAndExhausted(barcodeOfAliquot, false)
                 }else {
-                    def barcodeOfAliquot = bookParams.get('Barcode original aliquot')?.toString()
+                    def barcodeOfAliquot = bookParams.get('Barcode original aliquot')?.toString()?.trim()
                     aliquot = Aliquot.findByBarcodeAndExhausted(barcodeOfAliquot, false)
                 }
-                print(bookParams.get('Barcode original aliquot'))
-                print('aliquot' +aliquot)
                 dNAConcentrationNanodrop = bookParams.get('Nanodrop concentration')?.toString()?.trim()
-                print('dNAConcentrationNanodrop'+ dNAConcentrationNanodrop)
-
                 dNAConcentrationQubit = bookParams.get('Qubit concentration')?.toString()?.trim()
-                print('dNAConcentrationQubit'+dNAConcentrationQubit)
                 if (bookParams.get('Date') && bookParams.get('Date')?.toString()?.trim()?.size() == 10){
                     extractionDate =Date?.parse("yyyy-MM-dd", bookParams.get('Date')?.toString()?.trim())
                 }
-                print('extractionDate'+ extractionDate)
                 if (bookParams.get('User name')){
                     extractedBy = StaffMember?.findByStaffName(bookParams.get('User name')?.toString()?.trim())
                 }
-                print('extractedBy'+ extractedBy)
-
                 participantID = aliquot?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}
-                print('participantID'+participantID)
-
                 if (aliquot && participantID){
                     if (aliquot?.aliquotType?.aliquotTypeName == 'Buffy Coat'){
                         sapphireIdentifier = participantID?.toString() + "_" + "GL" + "_" + bookParams.get('Elution')?.toString()?.trim()
@@ -299,56 +287,46 @@ class DNA_ExtractController {
                         sapphireIdentifier = participantID?.toString() + "_" + aliquot?.aliquotType?.toString()?.replace(" ","") + "_" + bookParams.get('Elution')?.toString()?.trim()
                     }
                 }
-                print('sapphireIdentifier'+ sapphireIdentifier)
-                print(bookParams.get('Elution')?.toString()?.trim())
-                if (bookParams.get('Barcode DNA tube')){
+                if (bookParams.get('Barcode DNA tube').toString().trim().isDouble()){
                     barcode = Double?.valueOf(bookParams.get('Barcode DNA tube')?.toString())?.toInteger()?.toString()
+                }else{
+                    barcode = bookParams.get('Barcode DNA tube')?.toString()?.trim()
                 }
-                print('barcode'+ barcode)
                 dNAAmount = bookParams.get('Volume')?.toString()?.trim()
-                print('dNAAmount'+ dNAAmount)
                 delatQC = bookParams.get('Delta Cq')?.toString()?.trim()
-                print('delatQC'+ delatQC)
                 a260A280 = bookParams.get('260/280')?.toString()?.trim()
-                print('a260A280'+ a260A280)
                 a260A230 = bookParams.get('260/230')?.toString()?.trim()
-                print('a260A230'+ a260A230)
                 experimentName = bookParams.get('Experiment name')?.toString()?.trim()
-                print('experimentName'+ experimentName)
                 if (bookParams.get('Kit')){
                     extractionKit = DNAExtractionKit.findByExtractionKitName(bookParams.get('Kit')?.toString()?.trim())
                 }
-                print('extractionKit'+extractionKit)
                 if (bookParams.get('Sample Type')){
                     extractionType = ExtractionType.findByExtractionTypeName(bookParams.get('Sample Type')?.toString()?.trim())
                 }
-                print('extractionType'+ extractionType)
-
                 existingDNAExtract = DNA_Extract.findBySapphireIdentifier(sapphireIdentifier)
-                print('existingDNAExtract'+existingDNAExtract)
-                            def row = rowNumber  + '--------------------' + sampleID  + '--------------------' + sapphireIdentifier
-                            if (existingDNAExtract){
-                                duplicatedList.add(row)
-                            } else if (aliquot
-                                        && dNAConcentrationNanodrop
-                                        && dNAConcentrationQubit
-                                        && extractionDate
-                                        && dNAAmount
-                                        && a260A280
-                                        && a260A230
-                                        && experimentName
-                                        && extractionKit
-                                        && extractionType
-                                        && !existingDNAExtract) {
-                                def dnaExtractInstance = new DNA_Extract(aliquot: aliquot, dNAConcentrationNanodrop: dNAConcentrationNanodrop, dNAConcentrationQubit: dNAConcentrationQubit, extractionDate: extractionDate,
-                                                                        extractedBy: extractedBy, sapphireIdentifier: sapphireIdentifier, barcode: barcode, dNAAmount: dNAAmount,
-                                                                        delatQC: delatQC, a260A280: a260A280, a260A230: a260A230, experimentName: experimentName, extractionKit: extractionKit, extractionType: extractionType)
-                                dnaExtractInstance.save failOnError: true
-                                passedList.add(row)
-                            }else {
-                                failedList.add(row)
-                            }
-                    }
+                def row = rowNumber  + '--------------------' + sampleID  + '--------------------' + sapphireIdentifier
+                if (existingDNAExtract){
+                    duplicatedList.add(row)
+                } else if (aliquot
+                            && dNAConcentrationNanodrop
+                            && dNAConcentrationQubit
+                            && extractionDate
+                            && dNAAmount
+                            && a260A280
+                            && a260A230
+                            && experimentName
+                            && extractionKit
+                            && extractionType
+                            && !existingDNAExtract) {
+                    def dnaExtractInstance = new DNA_Extract(aliquot: aliquot, dNAConcentrationNanodrop: dNAConcentrationNanodrop, dNAConcentrationQubit: dNAConcentrationQubit, extractionDate: extractionDate,
+                                                            extractedBy: extractedBy, sapphireIdentifier: sapphireIdentifier, barcode: barcode, dNAAmount: dNAAmount,
+                                                            delatQC: delatQC, a260A280: a260A280, a260A230: a260A230, experimentName: experimentName, extractionKit: extractionKit, extractionType: extractionType)
+                    dnaExtractInstance.save failOnError: true
+                    passedList.add(row)
+                }else {
+                    failedList.add(row)
+                }
+            }
             [passedList : passedList, failedList : failedList, duplicatedList : duplicatedList]
         }
     }
