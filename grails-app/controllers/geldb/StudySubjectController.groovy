@@ -37,7 +37,7 @@ class StudySubjectController {
         def consentType = Study.get(params.long('study'))
         if (consentType){
             if (consentType.studyName == 'GeL') {
-                def listConsentVersionForm = ["Version 1.0 dated  25.08.2014", "Version 2 dated 14.10.14", "Version 2 dated 14.10.2014"]
+                def listConsentVersionForm = ["Version 1.0 dated 25.08.2014", "Version 2 dated 14.10.14", "Version 2 dated 14.10.2014"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             } else if (consentType.studyName == 'ORB') {
                 def listConsentVersionForm = ["Version/date: 02/04/2014"]
