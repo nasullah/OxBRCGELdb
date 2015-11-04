@@ -526,9 +526,9 @@
     if ( $("#fixationType").val() != '' || $("#processingSchedule").val() != '' || $("#fixationStartDate").val() != '' ||
             $("#fixationEndDate").val() != '' || $("#fixationPeriod").val() != '' ) {
         showFixed()
-
     } else{
         $("#fixed").hide();
+        $("#fixedButton").hide();
     }
 
     if ($("#warm_ischaemia input#warm_ischaemia_reportedBy").val() != '' || $("#warm_ischaemia input#warm_ischaemia_startDate").val() != '' || $("#warm_ischaemia input#warm_ischaemia_endDate").val() != '' ){

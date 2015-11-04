@@ -1,6 +1,7 @@
 package geldb
 
 import grails.plugins.springsecurity.Secured
+import org.grails.plugin.filterpane.FilterPaneUtils
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -20,9 +21,22 @@ class FixationReportController {
         respond FixationReport.list(params), model: [fixationReportInstanceCount: FixationReport.count()]
     }
 
-    def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond FixationReport.list(params), model: [fixationReportInstanceCount: FixationReport.count()]
+//    def list(Integer max) {
+//        params.max = Math.min(max ?: 10, 100)
+//        respond FixationReport.list(params), model: [fixationReportInstanceCount: FixationReport.count()]
+//    }
+
+    def list() {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        [fixationReportInstanc: FixationReport.list(params), fixationReportInstanceTotal: FixationReport.count()]
+    }
+
+    def filterPaneService
+    def filter = {
+        if(!params.max) params.max = 10
+        render( view:'list', model:[ fixationReportInstanc: filterPaneService.filter( params, FixationReport ),
+                                     fixationReportInstanceTotal: filterPaneService.count( params, FixationReport ),
+                                     filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
     }
 
     def show(FixationReport fixationReportInstance) {

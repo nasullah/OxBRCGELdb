@@ -249,7 +249,7 @@ class SampleMetadataExportService {
                 return ''
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
-                    def fixationStartTime = domain?.identifiedSample?.aliquot?.specimen?.fFPE_Tissue_Report?.fixationStartTime
+                    def fixationStartTime = domain?.identifiedSample?.aliquot?.fixationReport?.fixationStartTimeAliquot
                     fixationStartTime = fixationStartTime?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                     def startDate = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                     if (startDate && fixationStartTime) {
@@ -270,7 +270,7 @@ class SampleMetadataExportService {
                 return ''
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
-                    def fixationEndTime = domain?.identifiedSample?.aliquot?.specimen?.fFPE_Tissue_Report?.fixationEndTime
+                    def fixationEndTime = domain?.identifiedSample?.aliquot?.fixationReport?.fixationEndTimeAliquot
                     fixationEndTime = fixationEndTime?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                     def endDate = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                     if (endDate && fixationEndTime) {
@@ -384,9 +384,9 @@ class SampleMetadataExportService {
                           "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed" :topology, "identifiedSample.aliquot.gelSuitabilityReport.comments":pathologistsComments,
                           "identifiedSample.aliquot.derivation.derivedBy.staffName":sectionCutBy,"identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails":macrodissectionDetails,
                           "identifiedSample.aliquot.derivation.derivationDate":sectionCutOn, "identifiedSample.aliquot.gelSuitabilityReport.reportDate":sectionAssessedDate, "identifiedSample.aliquot.gelSuitabilityReport.microdissection":macrodissection,
-                          "identifiedSample.aliquot.gelSuitabilityReport.reportStaff.staffName":sectionAssessedBy, "identifiedSample.aliquot.gelSuitabilityReport.slideMarkedBy":slideMarkedBy, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationStartDate":fixationStartDate,
-                          "identifiedSample.aliquot.gelSuitabilityReport.sideMarkedDate":sideMarkedDate, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationType":fixationType, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationEndDate":fixationEndDate,
-                          "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationComments":fixationComments, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.processingSchedule":processingSchedule,
+                          "identifiedSample.aliquot.gelSuitabilityReport.reportStaff.staffName":sectionAssessedBy, "identifiedSample.aliquot.gelSuitabilityReport.slideMarkedBy":slideMarkedBy, "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot":fixationStartDate,
+                          "identifiedSample.aliquot.gelSuitabilityReport.sideMarkedDate":sideMarkedDate, "identifiedSample.aliquot.fixationReport.fixationTypeAliquot":fixationType, "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot":fixationEndDate,
+                          "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot":fixationComments, "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":processingSchedule,
                           "volume_ul":volumeUl, "laboratorySampleID":laboratorySampleID, "Excision Margin":excisionMargin
         ]
 
@@ -404,10 +404,10 @@ class SampleMetadataExportService {
                        "identifiedSample.aliquot.derivation.derivedBy.staffName", "identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails",
                        "identifiedSample.aliquot.derivation.derivationDate", "identifiedSample.aliquot.gelSuitabilityReport.reportDate","Snap Freezing Start DateTime",
                        "identifiedSample.aliquot.gelSuitabilityReport.microdissection","identifiedSample.aliquot.gelSuitabilityReport.reportStaff.staffName",
-                       "Snap Freezing End DateTime","identifiedSample.aliquot.gelSuitabilityReport.slideMarkedBy","identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationEndDate",
-                       "identifiedSample.aliquot.gelSuitabilityReport.sideMarkedDate","Microdissection Details", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationType",
-                       "Microdissection", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationStartDate", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationComments",
-                       "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.processingSchedule"
+                       "Snap Freezing End DateTime","identifiedSample.aliquot.gelSuitabilityReport.slideMarkedBy","identifiedSample.aliquot.fixationReport.fixationEndDateAliquot",
+                       "identifiedSample.aliquot.gelSuitabilityReport.sideMarkedDate","Microdissection Details", "identifiedSample.aliquot.fixationReport.fixationTypeAliquot",
+                       "Microdissection", "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot", "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot",
+                       "identifiedSample.aliquot.fixationReport.processingScheduleAliquot"
                       ]
 
         return fields
@@ -426,9 +426,9 @@ class SampleMetadataExportService {
                      "identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails":"Macrodissection Details", "identifiedSample.aliquot.derivation.derivationDate":"Section Cut Date",
                      "identifiedSample.aliquot.gelSuitabilityReport.reportDate":"Section Assessed Date", "identifiedSample.aliquot.gelSuitabilityReport.microdissection":"Macrodissected",
                      "identifiedSample.aliquot.gelSuitabilityReport.reportStaff.staffName":"Section Assessed By", "identifiedSample.aliquot.gelSuitabilityReport.slideMarkedBy":"Slide Marked By",
-                     "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationEndDate":"Fixation End DateTime","identifiedSample.aliquot.gelSuitabilityReport.sideMarkedDate":"Slide Marked Date",
-                     "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationType":"Type of Fixative", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationStartDate":"Fixation Start DateTime",
-                     "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.fixationComments":"Fixation Comments","identifiedSample.aliquot.specimen.fFPE_Tissue_Report.processingSchedule":"Processing Schedule"
+                     "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot":"Fixation End DateTime","identifiedSample.aliquot.gelSuitabilityReport.sideMarkedDate":"Slide Marked Date",
+                     "identifiedSample.aliquot.fixationReport.fixationTypeAliquot":"Type of Fixative", "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot":"Fixation Start DateTime",
+                     "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot":"Fixation Comments","identifiedSample.aliquot.fixationReport.processingScheduleAliquot":"Processing Schedule"
                     ]
 
         return labels
