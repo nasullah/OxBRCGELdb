@@ -197,7 +197,7 @@ class DNA_ExtractController {
 
     @Transactional
     def uploadFile() {
-        Map CONFIG_BOOK_COLUMN_MAP = [
+        Map CONFIG_DNA_EXTRACT_COLUMN_MAP = [
                 sheet:'GEL',
                 startRow: 1,
                 columnMap:  [
@@ -237,8 +237,8 @@ class DNA_ExtractController {
             def failedList =[]
             def duplicatedList =[]
             Workbook workbook = WorkbookFactory.create(file.inputStream)
-            def bookList = excelImportService.columns(workbook, CONFIG_BOOK_COLUMN_MAP)
-            bookList.each { Map bookParams ->
+            def dnaExtractList = excelImportService.columns(workbook, CONFIG_DNA_EXTRACT_COLUMN_MAP)
+            dnaExtractList.each { Map dnaExtractParams ->
                 def rowNumber = null
                 def sampleID = null
                 def aliquot = null
@@ -260,54 +260,54 @@ class DNA_ExtractController {
                 def notes
                 def passFailureReason
 
-                if (bookParams.get('rowNumber')){
-                    rowNumber = Double?.valueOf(bookParams.get('rowNumber')?.toString())?.toInteger()?.toString()
+                if (dnaExtractParams.get('rowNumber')){
+                    rowNumber = Double?.valueOf(dnaExtractParams.get('rowNumber')?.toString())?.toInteger()?.toString()
                 }
-                if (bookParams.get('Sample ID')){
-                    sampleID = bookParams.get('Sample ID')?.toString()
+                if (dnaExtractParams.get('Sample ID')){
+                    sampleID = dnaExtractParams.get('Sample ID')?.toString()
                 }
-                if (bookParams.get('Barcode original aliquot')){
-                    if(bookParams.get('Barcode original aliquot').toString().trim().isDouble()){
-                        def barcodeOfAliquot = (bookParams.get('Barcode original aliquot')?.toString()?.trim())?.toInteger()?.toString()
+                if (dnaExtractParams.get('Barcode original aliquot')){
+                    if(dnaExtractParams.get('Barcode original aliquot').toString().trim().isDouble()){
+                        def barcodeOfAliquot = (dnaExtractParams.get('Barcode original aliquot')?.toString()?.trim())?.toInteger()?.toString()
                         aliquot = Aliquot.findByBarcode(barcodeOfAliquot)
                     }else {
-                        def barcodeOfAliquot = bookParams.get('Barcode original aliquot')?.toString()?.trim()
+                        def barcodeOfAliquot = dnaExtractParams.get('Barcode original aliquot')?.toString()?.trim()
                         aliquot = Aliquot.findByBarcode(barcodeOfAliquot)
                     }
                 }
-                dNAConcentrationNanodrop = bookParams.get('Nanodrop concentration')?.toString()?.trim()
-                dNAConcentrationQubit = bookParams.get('Qubit concentration')?.toString()?.trim()
-                if (bookParams.get('Date') && bookParams.get('Date')?.toString()?.trim()?.size() == 10){
-                    extractionDate =Date?.parse("yyyy-MM-dd", bookParams.get('Date')?.toString()?.trim())
+                dNAConcentrationNanodrop = dnaExtractParams.get('Nanodrop concentration')?.toString()?.trim()
+                dNAConcentrationQubit = dnaExtractParams.get('Qubit concentration')?.toString()?.trim()
+                if (dnaExtractParams.get('Date') && dnaExtractParams.get('Date')?.toString()?.trim()?.size() == 10){
+                    extractionDate =Date?.parse("yyyy-MM-dd", dnaExtractParams.get('Date')?.toString()?.trim())
                 }
-                if (bookParams.get('User name')){
-                    extractedBy = StaffMember?.findByStaffName(bookParams.get('User name')?.toString()?.trim())
+                if (dnaExtractParams.get('User name')){
+                    extractedBy = StaffMember?.findByStaffName(dnaExtractParams.get('User name')?.toString()?.trim())
                 }
                 participantID = aliquot?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}
                 if (aliquot && participantID){
                     if (aliquot?.aliquotType?.aliquotTypeName == 'Buffy Coat'){
-                        sapphireIdentifier = participantID?.toString() + "_" + "GL" + "_" + bookParams.get('Elution')?.toString()?.trim()
+                        sapphireIdentifier = participantID?.toString() + "_" + "GL" + "_" + dnaExtractParams.get('Elution')?.toString()?.trim()
                     }else {
-                        sapphireIdentifier = participantID?.toString() + "_" + aliquot?.aliquotType?.aliquotTypeName?.toString()?.replace(" ","") + "_" + bookParams.get('Elution')?.toString()?.trim()
+                        sapphireIdentifier = participantID?.toString() + "_" + aliquot?.aliquotType?.aliquotTypeName?.toString()?.replace(" ","") + "_" + dnaExtractParams.get('Elution')?.toString()?.trim()
                     }
                 }
-                if (bookParams.get('Barcode DNA tube').toString().trim().isDouble()){
-                    barcode = Double?.valueOf(bookParams.get('Barcode DNA tube')?.toString())?.toInteger()?.toString()
+                if (dnaExtractParams.get('Barcode DNA tube').toString().trim().isDouble()){
+                    barcode = Double?.valueOf(dnaExtractParams.get('Barcode DNA tube')?.toString())?.toInteger()?.toString()
                 }else{
-                    barcode = bookParams.get('Barcode DNA tube')?.toString()?.trim()
+                    barcode = dnaExtractParams.get('Barcode DNA tube')?.toString()?.trim()
                 }
-                dNAAmount = bookParams.get('Volume')?.toString()?.trim()
-                delatQC = bookParams.get('Delta Cq')?.toString()?.trim()
-                a260A280 = bookParams.get('260/280')?.toString()?.trim()
-                a260A230 = bookParams.get('260/230')?.toString()?.trim()
-                experimentName = bookParams.get('Experiment name')?.toString()?.trim()
-                notes = bookParams.get('Notes')?.toString()?.trim()
-                passFailureReason = bookParams.get('Pass/Fail Reason')?.toString()?.trim()
-                if (bookParams.get('Kit')){
-                    extractionKit = DNAExtractionKit.findByExtractionKitName(bookParams.get('Kit')?.toString()?.trim())
+                dNAAmount = dnaExtractParams.get('Volume')?.toString()?.trim()
+                delatQC = dnaExtractParams.get('Delta Cq')?.toString()?.trim()
+                a260A280 = dnaExtractParams.get('260/280')?.toString()?.trim()
+                a260A230 = dnaExtractParams.get('260/230')?.toString()?.trim()
+                experimentName = dnaExtractParams.get('Experiment name')?.toString()?.trim()
+                notes = dnaExtractParams.get('Notes')?.toString()?.trim()
+                passFailureReason = dnaExtractParams.get('Pass/Fail Reason')?.toString()?.trim()
+                if (dnaExtractParams.get('Kit')){
+                    extractionKit = DNAExtractionKit.findByExtractionKitName(dnaExtractParams.get('Kit')?.toString()?.trim())
                 }
-                if (bookParams.get('Sample Type')){
-                    extractionType = ExtractionType.findByExtractionTypeName(bookParams.get('Sample Type')?.toString()?.trim())
+                if (dnaExtractParams.get('Sample Type')){
+                    extractionType = ExtractionType.findByExtractionTypeName(dnaExtractParams.get('Sample Type')?.toString()?.trim())
                 }
                 if (sapphireIdentifier){
                     existingDNAExtract = DNA_Extract.findBySapphireIdentifier(sapphireIdentifier)
@@ -330,7 +330,7 @@ class DNA_ExtractController {
                                                             extractedBy: extractedBy, sapphireIdentifier: sapphireIdentifier, barcode: barcode, dNAAmount: dNAAmount, notes: notes, passFailReason: passFailureReason,
                                                             delatQC: delatQC, a260A280: a260A280, a260A230: a260A230, experimentName: experimentName, extractionKit: extractionKit, extractionType: extractionType)
                     dnaExtractInstance.save failOnError: true
-                    if (bookParams.get('Exhaust original aliquot').toString().trim() == "Yes"){
+                    if (dnaExtractParams.get('Exhaust original aliquot').toString().trim() == "Yes"){
                         aliquot.exhausted = true
                         aliquot.save flush: true
                     }
