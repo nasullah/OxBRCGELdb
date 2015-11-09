@@ -24,7 +24,7 @@ class DispatchRecordController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond DispatchRecord.list(params), model: [dispatchRecordInstanceCount: DispatchRecord.count()]
+        respond DispatchRecord.list(params).sort {it.sentOn}.reverse(), model: [dispatchRecordInstanceCount: DispatchRecord.count()]
     }
 
     def qcTestExport (){
@@ -59,7 +59,7 @@ class DispatchRecordController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond DispatchRecord.list(params), model: [dispatchRecordInstanceCount: DispatchRecord.count()]
+        respond DispatchRecord.list(params).sort {it.sentOn}.reverse(), model: [dispatchRecordInstanceCount: DispatchRecord.count()]
 
     }
 
