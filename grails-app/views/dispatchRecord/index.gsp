@@ -20,10 +20,8 @@
 				<th><g:message code="dispatchRecord.companyName.label" default="Company Name" /></th>
 
 				<g:sortableColumn property="sentOn" title="${message(code: 'dispatchRecord.sentOn.label', default: 'Sent On')}" />
-			
-				<g:sortableColumn property="receivedOn" title="${message(code: 'dispatchRecord.receivedOn.label', default: 'Received On')}" />
-			
-				<g:sortableColumn property="fAO" title="${message(code: 'dispatchRecord.fAO.label', default: 'FAO')}" />
+
+				<g:sortableColumn property="consignmentNumber" title="${message(code: 'dispatchRecord.consignmentNumber.label', default: 'Consignment Number')}" />
 
 			</tr>
 		</thead>
@@ -35,9 +33,7 @@
 			
 				<td><g:formatDate format="yyyy-MM-dd" date="${dispatchRecordInstance.sentOn}" /></td>
 
-                <td><g:formatDate format="yyyy-MM-dd" date="${dispatchRecordInstance.receivedOn}" /></td>
-			
-				<td>${fieldValue(bean: dispatchRecordInstance, field: "fAO")}</td>
+				<td>${fieldValue(bean: dispatchRecordInstance, field: "consignmentNumber")}</td>
 
 			</tr>
 		</g:each>
