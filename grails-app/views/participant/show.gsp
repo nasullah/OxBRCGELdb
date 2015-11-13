@@ -81,6 +81,13 @@
 
             </tr>
 
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.solidSpecimenExpected.label" default="Solid Specimen Expected"/></td>
+
+                <td valign="top" class="value"><g:formatBoolean boolean="${participantInstance?.solidSpecimenExpected}" true="Yes" false="No"/></td>
+
+            </tr>
+
             <g:if test="${participantInstance.studySubject}">
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="participant.studySubject.label" default="Consent Type" /></td>

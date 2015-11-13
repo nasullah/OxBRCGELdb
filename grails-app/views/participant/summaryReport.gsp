@@ -156,32 +156,37 @@
                         <% def fluidSpecimen = FluidSpecimen.listOrderByCollectionDate() %>
 
                         <ul>
-                            <g:each in="${solidSpecimen}" var="item">
-                                <g:each in="${participantSummary?.specimen}" var="specimen">
-                                    <g:if test="${item.id == specimen.id}">
-                                        <g:if test="${specimen.exhausted}">
-                                            <li><g:link controller="solidSpecimen" action="show" id="${specimen.id}">${specimen?.encodeAsHTML()}</g:link> <a class="text-warning">Exhausted</a></li>
+                            <g:if test="${participantSummary.solidSpecimenExpected != null && !participantSummary.solidSpecimenExpected}">
+                                <p><mark>No associated solid specimen expected</mark></p>
+                            </g:if>
+                            <g:else>
+                                <g:each in="${solidSpecimen}" var="item">
+                                    <g:each in="${participantSummary?.specimen}" var="specimen">
+                                        <g:if test="${item.id == specimen.id}">
+                                            <g:if test="${specimen.exhausted}">
+                                                <li><g:link controller="solidSpecimen" action="show" id="${specimen.id}">${specimen?.encodeAsHTML()}</g:link> <a class="text-warning">Exhausted</a></li>
+                                            </g:if>
+                                            <g:else>
+                                                <li><g:link controller="solidSpecimen" action="show" id="${specimen.id}">${specimen?.encodeAsHTML()}</g:link></li>
+                                            </g:else>
+                                            <g:if test="${specimen.fFPE_Tissue_Report}">
+                                                <li><g:link controller="FFPE_Tissue_Report" action="show" id="${specimen?.fFPE_Tissue_Report?.first()?.id}">${specimen?.fFPE_Tissue_Report?.first()}</g:link></li>
+                                            </g:if>
+                                            <g:else>
+                                                <li class="text-danger">Main Specimen Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': specimen?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Main Specimen Report')])}</g:link>
+                                                </li>
+                                            </g:else>
+                                            <g:if test="${specimen.noFFSampleExpected}">
+                                                <p><mark>No associated Fresh Frozen sample expected</mark></p>
+                                            </g:if>
                                         </g:if>
-                                        <g:else>
-                                            <li><g:link controller="solidSpecimen" action="show" id="${specimen.id}">${specimen?.encodeAsHTML()}</g:link></li>
-                                        </g:else>
-                                        <g:if test="${specimen.fFPE_Tissue_Report}">
-                                            <li><g:link controller="FFPE_Tissue_Report" action="show" id="${specimen?.fFPE_Tissue_Report?.first()?.id}">${specimen?.fFPE_Tissue_Report?.first()}</g:link></li>
-                                        </g:if>
-                                        <g:else>
-                                            <li class="text-danger">Main Specimen Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': specimen?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Main Specimen Report')])}</g:link>
-                                            </li>
-                                        </g:else>
-										<g:if test="${specimen.noFFSampleExpected}">
-                                            <p><mark>No associated Fresh Frozen sample expected</mark></p>
-                                        </g:if>
-                                    </g:if>
+                                    </g:each>
+                                    <p>
+                                    <p>
                                 </g:each>
-                                <p>
-                                <p>
-                            </g:each>
+                            </g:else>
                             <p>
-                        <p>
+                            <p>
                             <g:each in="${fluidSpecimen}" var="item">
                                 <g:each in="${participantSummary?.specimen}" var="s">
                                     <g:if test="${item.id == s.id}">

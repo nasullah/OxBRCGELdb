@@ -72,6 +72,22 @@
         </div>
     </div>
 
+    <div class="col-lg-6">
+        <div class="${hasErrors(bean: participantInstance, field: 'solidSpecimenExpected', 'error')} ">
+            <label for="solidSpecimenExpected" class="control-label"><g:message code="participantInstance.solidSpecimenExpected.label" default="Solid Specimen Expected?" /></label>
+            <div>
+                <g:radioGroup name="solidSpecimenExpected"
+                              values="[true, false]"
+                              labels="['Yes', 'No']"
+                              value="${participantInstance?.solidSpecimenExpected}">
+                    ${it.label}  ${it.radio}
+                </g:radioGroup>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-lg-6" id="showSearch">
         <label for="searchDiagnosis" class="control-label"><g:message code="participant.diagnosis.label" default="Enter diagnosis keywords or ICD10 code" /></label>
         <div class="input-group">
