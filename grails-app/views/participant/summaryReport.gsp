@@ -20,7 +20,7 @@
             <h5 class="text-center">Export Options</h5>
             <p>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="control-label"><small>Export GEL IDs/Participant IDs</small></label>
                     <a class='btn btn-success btn-sm' onclick="getExcelGeLID()"  <g:link controller="participant" action="exportSummaryReport" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
@@ -28,9 +28,14 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="control-label"><small>Export FFPE Tissue Handling File</small></label>
                     <a class='btn btn-success btn-sm'  <g:link controller="aliquot" action="exportFFPETissueHandling" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="control-label"><small>Export All Dispatched Items</small></label>
+                    <a class='btn btn-success btn-sm'  <g:link controller="dispatchRecord" action="exportAllDispatchedItems" params="['format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>
                 </div>
 
                 <div class="row">
@@ -54,7 +59,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                <hr>
+                    <hr>
                 </div>
             </div>
             <div class="row">

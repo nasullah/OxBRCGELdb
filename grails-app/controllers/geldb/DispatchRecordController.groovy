@@ -21,6 +21,7 @@ class DispatchRecordController {
     def sampleMetadataExportService
     def qcTestExportService
     def omicsSampleMetadataExportService
+    def allDispatchedItemsService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -54,6 +55,15 @@ class DispatchRecordController {
             omicsSamples = omicsSamples.findAll {Aliquot.findById(it.identifiedSample.id)}
             exportService.export(params.format, response.outputStream, dnaSamples, sampleMetadataExportService.fields, sampleMetadataExportService.labels, sampleMetadataExportService.formatters, sampleMetadataExportService.parameters)
             exportService.export(params.format, response.outputStream, omicsSamples, omicsSampleMetadataExportService.fields, [:], omicsSampleMetadataExportService.formatters, omicsSampleMetadataExportService.parameters)
+        }
+    }
+
+    def exportAllDispatchedItems(){
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= All Dispatched Item.${params.extension}")
+            def allDispatchedItems = DispatchItem.list()
+            exportService.export(params.format, response.outputStream, allDispatchedItems, allDispatchedItemsService.fields, allDispatchedItemsService.labels, allDispatchedItemsService.formatters, allDispatchedItemsService.parameters )
         }
     }
 
