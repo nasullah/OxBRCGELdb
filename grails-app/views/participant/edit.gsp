@@ -5,6 +5,7 @@
 <head>
 	<meta name="layout" content="kickstart" />
 	<title>Show Participant ${participantInstance.studySubject.studySubjectIdentifier.findResult{it?.size() ? it : null}}</title>
+	<resource:autoComplete/>
 </head>
 
 <body>

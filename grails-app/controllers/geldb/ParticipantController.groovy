@@ -296,17 +296,25 @@ class ParticipantController {
         }
     }
 
-    def findICD10() {
-        def searchDiagnosis= params.searchDiagnosis
-        def parts =searchDiagnosis.toString().split(' ')
+    def searchICD10 = {
+
         def listICD10 = ICD10.createCriteria().listDistinct {
             or {
-                and {parts.each {ilike("meaning", '%' + it + '%')}}
-                and {parts.each {ilike("code", '%' + it + '%')}}
+                and {ilike("meaning", "%${params.query}%")}
+                and {ilike("code", "%${params.query}%")}
             }
         }
-        if (!listICD10.empty){
-            render(template: "listICD10",  model: [listICD10: listICD10])
+        //Create XML response
+        render(contentType: "text/xml") {
+            results() {
+                listICD10.each { icd10 ->
+                    result(){
+                        name(icd10)
+                        //Optional id which will be available in onItemSelect
+                        id(icd10.id)
+                    }
+                }
+            }
         }
     }
 

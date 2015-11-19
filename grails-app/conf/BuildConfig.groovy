@@ -87,6 +87,7 @@ grails.project.dependency.resolution = {
         compile ":audit-logging:1.0.3"
         compile ":excel-import:1.0.0"
         compile ":rendering:1.0.0"
+        compile ":richui:0.8"
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0.1"
         //runtime ":cached-resources:1.1"
