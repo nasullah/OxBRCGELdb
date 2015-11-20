@@ -39,10 +39,11 @@
         <p>
         <h5 class="text-center">Search Options</h5>
         <p>
-        <filterpane:filterButton text="Filter This List" />
-        <filterpane:filterPane domain="geldb.Participant"
-                               excludeProperties="dateOfBirth"
-                               associatedProperties="studySubject.studySubjectIdentifier"/>
+            <filterpane:filterButton text="Filter This List" />
+            <filterpane:filterPane domain="geldb.Participant"
+                                   excludeProperties="dateOfBirth"
+                                   associatedProperties="studySubject.studySubjectIdentifier, studySubject.consentFormNumber, studySubject.consentFormVersion,
+                                   studySubject.recruitedBy, studySubject.study.studyName"/>
         <p>
         <p>
     </div>

@@ -76,19 +76,23 @@ class ParticipantController {
         def nhsNumber = results.consent.nhsNumber
         def hospitalNumber =  results.consent.hospitalNumber
         List<StudySubject> consentList = new ArrayList<StudySubject>();
+        def existingConsentFormNumber = null
         results.consent.consents.each{ c->
             def consentCreatedDateFormatted = new Date().parse("dd-MM-yyyy HH:mm:ss", c.lastCompleted)
-            if(c.form.namePrefix =="GEL"){
+            if(c.consentFormId){
+                existingConsentFormNumber = StudySubject?.findByConsentFormNumber(c.consentFormId)?.consentFormNumber
+            }
+            if(c.form.namePrefix =="GEL" && !existingConsentFormNumber){
                 def gelStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('GeL'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: consentCreatedDateFormatted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
                 if (gelStudySubjectInstance){
                     consentList.add(gelStudySubjectInstance)
                 }
-            } else if(c.form.namePrefix =="GEN"){
+            } else if(c.form.namePrefix =="GEN" && !existingConsentFormNumber){
                 def orbStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('ORB'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: consentCreatedDateFormatted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
                 if (orbStudySubjectInstance){
                     consentList.add(orbStudySubjectInstance)
                 }
-            }else if(c.form.namePrefix =="GLM"){
+            }else if(c.form.namePrefix =="GLM" && !existingConsentFormNumber){
                 def gelMainStudySubjectInstance = new StudySubject(study: geldb.Study.findByStudyName('100K Genomes Main Project'), studySubjectIdentifier: null, consentFormNumber:c.consentFormId, consentStatus: Boolean.TRUE, recruitmentDate: consentCreatedDateFormatted, recruitedBy:c.consentTakerName, consentFormVersion: c.form.version)
                 if (gelMainStudySubjectInstance){
                     consentList.add(gelMainStudySubjectInstance)
@@ -109,6 +113,9 @@ class ParticipantController {
                 participantInstance.save(failOnError: true)
             }
             redirect(action: "show", id: participantInstance.id)
+        }else if (existingConsentFormNumber) {
+            flash.message = "Participant with consent form number ${existingConsentFormNumber} already exist in NGS-LIMS."
+            redirect(uri: '/importparticipant')
         } else{
             flash.message = "Participant with NHS number ${nhsNumber} doesn't have any consent form"
             redirect(uri: '/importparticipant')

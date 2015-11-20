@@ -42,7 +42,8 @@
             <filterpane:filterButton text="Filter This List" />
             <filterpane:filterPane domain="geldb.Participant"
                                    excludeProperties="dateOfBirth"
-                                   associatedProperties="studySubject.studySubjectIdentifier"/>
+                                   associatedProperties="studySubject.studySubjectIdentifier, studySubject.consentFormNumber, studySubject.consentFormVersion,
+                                   studySubject.recruitedBy, studySubject.study.studyName"/>
         <p>
         <p>
     </div>
