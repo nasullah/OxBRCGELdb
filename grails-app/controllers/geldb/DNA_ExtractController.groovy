@@ -263,8 +263,8 @@ class DNA_ExtractController {
                 if (dnaExtractParams.get('rowNumber').toString().trim().isNumber()){
                     rowNumber = Double?.valueOf(dnaExtractParams.get('rowNumber')?.toString())?.toInteger()?.toString()
                 }
-                if (dnaExtractParams.get('Sample ID')){
-                    sampleID = dnaExtractParams.get('Sample ID')?.toString()
+                if (dnaExtractParams.get('Sample ID').toString().trim().isNumber()){
+                    sampleID = Double?.valueOf(dnaExtractParams.get('Sample ID')?.toString())?.toInteger()?.toString()
                 }
                 if (dnaExtractParams.get('Barcode original aliquot')){
                     if(dnaExtractParams.get('Barcode original aliquot').toString().trim().isNumber()){
