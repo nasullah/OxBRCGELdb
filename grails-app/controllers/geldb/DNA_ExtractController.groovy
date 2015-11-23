@@ -260,15 +260,15 @@ class DNA_ExtractController {
                 def notes
                 def passFailureReason
 
-                if (dnaExtractParams.get('rowNumber')){
+                if (dnaExtractParams.get('rowNumber').toString().trim().isNumber()){
                     rowNumber = Double?.valueOf(dnaExtractParams.get('rowNumber')?.toString())?.toInteger()?.toString()
                 }
                 if (dnaExtractParams.get('Sample ID')){
                     sampleID = dnaExtractParams.get('Sample ID')?.toString()
                 }
                 if (dnaExtractParams.get('Barcode original aliquot')){
-                    if(dnaExtractParams.get('Barcode original aliquot').toString().trim().isDouble()){
-                        def barcodeOfAliquot = (dnaExtractParams.get('Barcode original aliquot')?.toString()?.trim())?.toInteger()?.toString()
+                    if(dnaExtractParams.get('Barcode original aliquot').toString().trim().isNumber()){
+                        def barcodeOfAliquot = Double?.valueOf(dnaExtractParams.get('Barcode original aliquot')?.toString()?.trim())?.toInteger()?.toString()
                         aliquot = Aliquot.findByBarcode(barcodeOfAliquot)
                     }else {
                         def barcodeOfAliquot = dnaExtractParams.get('Barcode original aliquot')?.toString()?.trim()
@@ -291,8 +291,8 @@ class DNA_ExtractController {
                         sapphireIdentifier = participantID?.toString() + "_" + aliquot?.aliquotType?.aliquotTypeName?.toString()?.replace(" ","") + "_" + dnaExtractParams.get('Elution')?.toString()?.trim()
                     }
                 }
-                if (dnaExtractParams.get('Barcode DNA tube').toString().trim().isDouble()){
-                    barcode = Double?.valueOf(dnaExtractParams.get('Barcode DNA tube')?.toString())?.toInteger()?.toString()
+                if (dnaExtractParams.get('Barcode DNA tube').toString().trim().isNumber()){
+                    barcode = Double?.valueOf(dnaExtractParams.get('Barcode DNA tube')?.toString()?.trim())?.toInteger()?.toString()
                 }else{
                     barcode = dnaExtractParams.get('Barcode DNA tube')?.toString()?.trim()
                 }
