@@ -261,10 +261,10 @@ class DNA_ExtractController {
                 def passFailureReason
 
                 if (dnaExtractParams.get('rowNumber').toString().trim().isNumber()){
-                    rowNumber = Double?.valueOf(dnaExtractParams.get('rowNumber')?.toString())?.toInteger()?.toString()
+                    rowNumber = Double?.valueOf(dnaExtractParams.get('rowNumber')?.toString()?.trim())?.toInteger()?.toString()
                 }
                 if (dnaExtractParams.get('Sample ID').toString().trim().isNumber()){
-                    sampleID = Double?.valueOf(dnaExtractParams.get('Sample ID')?.toString())?.toInteger()?.toString()
+                    sampleID = Double?.valueOf(dnaExtractParams.get('Sample ID')?.toString()?.trim())?.toInteger()?.toString()
                 }
                 if (dnaExtractParams.get('Barcode original aliquot')){
                     if(dnaExtractParams.get('Barcode original aliquot').toString().trim().isNumber()){
