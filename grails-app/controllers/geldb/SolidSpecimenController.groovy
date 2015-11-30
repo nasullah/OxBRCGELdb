@@ -53,7 +53,7 @@ class SolidSpecimenController {
     }
 
     def findParticipantByBarcode() {
-        def barcode= params.barcode
+        def barcode= params.worksheetBarcode
         if (barcode) {
             def participantByByBarcode = Participant.findByNHSNumber(barcode)
             if (participantByByBarcode && barcode) {

@@ -15,7 +15,7 @@
                     <div class="col-lg-6">
                         <label class="control-label"> Or scan the tissue worksheet barcode</label>
                         <div class="input-group">
-                            <g:textField type="text" id="barcode" name="barcode" class="form-control"  placeholder="Scan barcode" ></g:textField>
+                            <g:textField type="text" id="worksheetBarcode" name="worksheetBarcode" class="form-control"  placeholder="Scan barcode" ></g:textField>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-success" value="Find" onClick= 'getParticipantByBarcode()'><span class="glyphicon glyphicon-search"></span> Find Participant</button>
                             </div>
@@ -275,7 +275,7 @@
     function getParticipantByBarcode(){
         ${remoteFunction (controller: 'solidSpecimen',
                         action: 'findParticipantByBarcode',
-                        params: '"barcode=" + $("#barcode").val()',
+                        params: '"worksheetBarcode=" + $("#worksheetBarcode").val()',
                         update: 'selectParticipant',
                         onFailure: 'errorBarcode()'
                 )}
