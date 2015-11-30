@@ -256,7 +256,9 @@ class DNA_ExtractController {
                 def experimentName
                 def extractionKit = null
                 def extractionType = null
-                def existingDNAExtract
+                def existingSapphireIdentifier
+                def existingDNAExtractBarcode
+                def existingBarcode
                 def notes
                 def passFailureReason
 
@@ -310,10 +312,16 @@ class DNA_ExtractController {
                     extractionType = ExtractionType.findByExtractionTypeName(dnaExtractParams.get('Sample Type')?.toString()?.trim())
                 }
                 if (sapphireIdentifier){
-                    existingDNAExtract = DNA_Extract.findBySapphireIdentifier(sapphireIdentifier)
+                    existingSapphireIdentifier = DNA_Extract.findBySapphireIdentifier(sapphireIdentifier)
+                }
+                if (barcode){
+                    existingDNAExtractBarcode = DNA_Extract.findByBarcode(barcode)
+                }
+                if (barcode){
+                    existingBarcode = IdentifiedSample.findByBarcode(barcode)
                 }
                 def row = 'Row Number ' + rowNumber  + '--------------------' +'Sample ID ' + sampleID  + '--------------------' + 'Elution ' + sapphireIdentifier + '--------------------' + 'Aliquot barcode ' + aliquot?.barcode
-                if (existingDNAExtract){
+                if (existingSapphireIdentifier || existingDNAExtractBarcode){
                     duplicatedList.add(row)
                 } else if (aliquot
                             && dNAConcentrationNanodrop
@@ -325,7 +333,9 @@ class DNA_ExtractController {
                             && experimentName
                             && extractionKit
                             && extractionType
-                            && !existingDNAExtract) {
+                            && !existingSapphireIdentifier
+                            && !existingDNAExtractBarcode
+                            && !existingBarcode) {
                     def dnaExtractInstance = new DNA_Extract(aliquot: aliquot, dNAConcentrationNanodrop: dNAConcentrationNanodrop, dNAConcentrationQubit: dNAConcentrationQubit, extractionDate: extractionDate,
                                                             extractedBy: extractedBy, sapphireIdentifier: sapphireIdentifier, barcode: barcode, dNAAmount: dNAAmount, notes: notes, passFailReason: passFailureReason,
                                                             delatQC: delatQC, a260A280: a260A280, a260A230: a260A230, experimentName: experimentName, extractionKit: extractionKit, extractionType: extractionType)
