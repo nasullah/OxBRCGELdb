@@ -256,9 +256,9 @@ class DNA_ExtractController {
                 def experimentName
                 def extractionKit = null
                 def extractionType = null
-                def existingSapphireIdentifier
-                def existingDNAExtractBarcode
-                def existingBarcode
+                def existingSapphireIdentifier = null
+                def existingDNAExtractBarcode = null
+                def existingBarcode = null
                 def notes
                 def passFailureReason
 
