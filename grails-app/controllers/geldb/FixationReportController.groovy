@@ -28,13 +28,13 @@ class FixationReportController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [fixationReportInstanc: FixationReport.list(params), fixationReportInstanceTotal: FixationReport.count()]
+        [fixationReportInstanceList: FixationReport.list(params), fixationReportInstanceTotal: FixationReport.count()]
     }
 
     def filterPaneService
     def filter = {
         if(!params.max) params.max = 10
-        render( view:'list', model:[ fixationReportInstanc: filterPaneService.filter( params, FixationReport ),
+        render( view:'list', model:[ fixationReportInstanceList: filterPaneService.filter( params, FixationReport ),
                                      fixationReportInstanceTotal: filterPaneService.count( params, FixationReport ),
                                      filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
     }
