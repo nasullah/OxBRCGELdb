@@ -72,22 +72,20 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
-        <div class="${hasErrors(bean: participantInstance, field: 'solidSpecimenExpected', 'error')} ">
-            <label for="solidSpecimenExpected" class="control-label"><g:message code="participantInstance.solidSpecimenExpected.label" default="Solid Specimen Expected?" /></label>
-            <div>
-                <g:radioGroup name="solidSpecimenExpected"
-                              values="[true, false]"
-                              labels="['Yes', 'No']"
-                              value="${participantInstance?.solidSpecimenExpected}">
-                    ${it.label}  ${it.radio}
-                </g:radioGroup>
-            </div>
-        </div>
-    </div>
-</div>
+    %{--<div class="col-lg-6">--}%
+        %{--<div class="${hasErrors(bean: participantInstance, field: 'solidSpecimenExpected', 'error')} ">--}%
+            %{--<label for="solidSpecimenExpected" class="control-label"><g:message code="participantInstance.solidSpecimenExpected.label" default="Solid Specimen Expected?" /></label>--}%
+            %{--<div>--}%
+                %{--<g:radioGroup name="solidSpecimenExpected"--}%
+                              %{--values="[true, false]"--}%
+                              %{--labels="['Yes', 'No']"--}%
+                              %{--value="${participantInstance?.solidSpecimenExpected}">--}%
+                    %{--${it.label}  ${it.radio}--}%
+                %{--</g:radioGroup>--}%
+            %{--</div>--}%
+        %{--</div>--}%
+    %{--</div>--}%
 
-<div class="row">
     <div class="col-lg-6">
         <label for="diagnosis" class="control-label"><g:message code="participant.diagnosis.label" default="Diagnosis (Enter diagnosis keywords or ICD10 code)" /></label>
         <richui:autoComplete class="form-control"  name="personaaa" action="${createLinkTo('dir': 'participant/searchICD10')}" value="${participantInstance?.diagnosis}" onItemSelect="callICD10(id)"  />

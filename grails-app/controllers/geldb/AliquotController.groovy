@@ -195,6 +195,7 @@ class AliquotController {
         if (solidSpecimen){
             solidSpecimen.noFFSampleExpected = true
             solidSpecimen.save flush: true
+            flash.message ="Selected item has been removed from the list"
         }
         def results = SolidSpecimen.list()
         results = results.findAll{specimen -> !Aliquot.findByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Punch Biopsy Frozen"), specimen)}

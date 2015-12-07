@@ -100,10 +100,18 @@ class SolidSpecimenController {
         }
     }
 
+    @Transactional
     def awaitingMainSpecimen() {
+        def participant = Participant.findById(params.long('participant'))
+        if (participant){
+            participant.solidSpecimenExpected = false
+            participant.save flush: true
+            flash.message ="Participant ${participant.givenName} ${participant.familyName} has been removed from the list"
+        }
         def fluidSpecimen = FluidSpecimen.list()
         fluidSpecimen = fluidSpecimen.findAll {specimen -> !SolidSpecimen.findByParticipant(specimen.participant)}
         def results = fluidSpecimen.participant.unique()
+        results = results.findAll {p -> p.solidSpecimenExpected == null || p.solidSpecimenExpected }
         [participantList: results.sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
@@ -128,6 +136,12 @@ class SolidSpecimenController {
         }
 
         solidSpecimenInstance.save flush: true
+
+        def participant = solidSpecimenInstance.participant
+        if (!participant.solidSpecimenExpected){
+            participant.solidSpecimenExpected = true
+            participant.save flush: true
+        }
 
         request.withFormat {
             form {

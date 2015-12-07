@@ -26,6 +26,8 @@
 
             <g:sortableColumn property="givenName" title="${message(code: 'participant.givenName.label', default: 'Given Name')}" />
 
+            <g:sortableColumn property="solidSpecimenExpected" title="${message(code: 'participant.solidSpecimenExpected.label', default: 'No Associated Main Specimen Expected')}" />
+
             <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id/Participant Id')}" />
 
             <th><g:message code="specimen.label" default="Action" /></th>
@@ -41,6 +43,13 @@
                 <td>${fieldValue(bean: participantInstance, field: "familyName")}</td>
 
                 <td>${fieldValue(bean: participantInstance, field: "givenName")}</td>
+
+                <td>
+                    <g:form controller="solidSpecimen" action="awaitingMainSpecimen">
+                        <g:checkBox name="noSolidSpecimenExpected" value="" onclick="submit();"/>
+                        <g:hiddenField id="participant" name="participant" value="${participantInstance.id}"/>
+                    </g:form>
+                </td>
 
                 <td>${fieldValue(bean: participantInstance.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
 

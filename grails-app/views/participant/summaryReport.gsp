@@ -161,7 +161,7 @@
                         <% def fluidSpecimen = FluidSpecimen.listOrderByCollectionDate() %>
 
                         <ul>
-                            <g:if test="${participantSummary.solidSpecimenExpected != null && !participantSummary.solidSpecimenExpected}">
+                            <g:if test="${participantSummary.solidSpecimenExpected != null && !participantSummary.solidSpecimenExpected && !SolidSpecimen.findByParticipant(participantSummary)}">
                                 <p><mark>No associated solid specimen expected</mark></p>
                             </g:if>
                             <g:else>
