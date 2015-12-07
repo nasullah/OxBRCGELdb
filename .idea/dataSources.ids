@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source source="LOCAL" name="GELBootsDB_v1.6 dev" uuid="d91da210-b930-4234-b820-7213a1af3771">
+  <data-source name="GELBootsDB_v1.6 dev" uuid="d91da210-b930-4234-b820-7213a1af3771">
     <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
   </data-source>
 </component>

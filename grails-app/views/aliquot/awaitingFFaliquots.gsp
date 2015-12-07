@@ -34,7 +34,7 @@
         <g:each in="${solidSpecimenInstanceList}" status="i" var="solidSpecimenInstance">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-                <td><g:link action="show" id="${solidSpecimenInstance.id}">${fieldValue(bean: solidSpecimenInstance, field: "histologyNumber")}</g:link></td>
+                <td><g:link controller="solidSpecimen" action="show" id="${solidSpecimenInstance.id}">${fieldValue(bean: solidSpecimenInstance, field: "histologyNumber")}</g:link></td>
 
                 <td>${fieldValue(bean: solidSpecimenInstance, field: "anatomicalSite")}</td>
 
