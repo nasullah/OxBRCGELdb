@@ -208,7 +208,7 @@ class ParticipantController {
                 def hospitalNumber = barcodeParts[1]
                 def familyName = barcodeParts[3]
                 def givenName = barcodeParts[2]
-                def consentFormVersion = 'Version 2.0 dated 20.01.2015'
+                def consentFormVersion = "Version 2.1 dated 24.09.2015"
                 def dateOfBirth = new Date().parse('d/M/yyyy',barcodeParts[4].substring(0,10))
                 def existingParticipant = Participant.findByNHSNumber(nHSNumber)
                 def study = Study.findByStudyName('100K Genomes Main Project')
