@@ -304,7 +304,6 @@ class ParticipantController {
     }
 
     def searchICD10 = {
-
         def listICD10 = ICD10.createCriteria().listDistinct {
             or {
                 and {ilike("meaning", "%${params.query}%")}
@@ -319,6 +318,24 @@ class ParticipantController {
                         name(icd10)
                         //Optional id which will be available in onItemSelect
                         id(icd10.id)
+                    }
+                }
+            }
+        }
+    }
+
+    def searchParticipant = {
+        def listParticipant = Participant.createCriteria().listDistinct {
+           ilike("nHSNumber", "%${params.query}%")
+        }
+        //Create XML response
+        render(contentType: "text/xml") {
+            results() {
+                listParticipant.each { participant ->
+                    result(){
+                        name(participant)
+                        //Optional id which will be available in onItemSelect
+                        id(participant.id)
                     }
                 }
             }

@@ -88,7 +88,7 @@
 
     <div class="col-lg-6">
         <label for="diagnosis" class="control-label"><g:message code="participant.diagnosis.label" default="Diagnosis (Enter diagnosis keywords or ICD10 code)" /></label>
-        <richui:autoComplete class="form-control"  name="personaaa" action="${createLinkTo('dir': 'participant/searchICD10')}" value="${participantInstance?.diagnosis}" onItemSelect="callICD10(id)"  />
+        <richui:autoComplete class="form-control" name="personName" action="${createLinkTo('dir': 'participant/searchICD10')}" value="${participantInstance?.diagnosis}" onItemSelect="callICD10(id)"  />
         <g:hiddenField id ="diagnosis" name ="diagnosis" value="${participantInstance?.diagnosis?.id}"/>
     </div>
 </div>

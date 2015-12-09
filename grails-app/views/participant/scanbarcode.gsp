@@ -1,4 +1,4 @@
-
+<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_CAN_SEE_DEMOGRAPHICS">
 <!DOCTYPE html>
 <html>
 
@@ -8,6 +8,7 @@
 </head>
 
 <body>
+
 <p>
 <p>
 <div style="background: rgba(139, 240, 37, 0.14);">
@@ -27,7 +28,10 @@
         <p>
     </div>
 </div>
-<hr style="border:1; height:1px" />
+<hr/>
+
 </body>
 
 </html>
+
+</sec:ifAnyGranted>

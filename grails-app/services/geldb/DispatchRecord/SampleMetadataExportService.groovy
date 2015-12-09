@@ -358,22 +358,11 @@ class SampleMetadataExportService {
         }
 
         def volumeUl = { domain, value ->
-            def fluidSpecimen = FluidSpecimen?.findById(domain?.identifiedSample?.aliquot?.specimen?.id)
-            if (fluidSpecimen){
-                return value
-            }else{
-                return ""
-            }
+            return value
         }
 
-
         def laboratoryRemainingVolumeBanked  = { domain, value ->
-            def fluidSpecimen = FluidSpecimen?.findById(domain?.identifiedSample?.aliquot?.specimen?.id)
-            if (fluidSpecimen){
-                return "0"
-            }else{
-                return ""
-            }
+            return "0"
         }
 
         Map formatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'clinicID':clinicID,"identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourStatus":tumourType,

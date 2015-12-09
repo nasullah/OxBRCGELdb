@@ -49,7 +49,14 @@
                 </a>
             </li>
 
-            <hr />
+            <li class="">
+                <a href="/GELdb/removeparticipant">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    Remove Participant
+                </a>
+            </li>
+
+            <hr/>
 
             <li class="">
                 <a tabindex="-1" href="#">

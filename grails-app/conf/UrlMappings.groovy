@@ -15,7 +15,7 @@ class UrlMappings {
 		"/nextSteps"	(view:"/home/nextSteps")
         "/importparticipant"	(view:"/participant/importparticipant")
 		"/scanbarcode"	(view:"/participant/scanbarcode")
-
+		"/removeparticipant"	(view:"/participant/removeparticipant")
 		/*
 		 * Pages with controller
 		 * WARN: No domain/controller should be named "api" or "mobile" or "web"!
