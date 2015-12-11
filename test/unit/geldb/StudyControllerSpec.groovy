@@ -12,7 +12,7 @@ class StudyControllerSpec extends Specification {
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        params["studyName"] = 'studyName'
     }
 
     void "Test the index action returns the correct model"() {
@@ -38,6 +38,8 @@ class StudyControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             def study = new Study()
             study.validate()
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.save(study)
 
         then:"The create view is rendered again with the correct model"
@@ -48,7 +50,8 @@ class StudyControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             study = new Study(params)
-
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.save(study)
 
         then:"A redirect is issued to the show action"
@@ -75,6 +78,8 @@ class StudyControllerSpec extends Specification {
 
     void "Test that the edit action returns the correct model"() {
         when:"The edit action is executed with a null domain"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.edit(null)
 
         then:"A 404 error is returned"
@@ -91,6 +96,8 @@ class StudyControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -112,6 +119,8 @@ class StudyControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             study = new Study(params).save(flush: true)
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(study)
 
         then:"A redirect is issues to the show action"
@@ -121,6 +130,8 @@ class StudyControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(null)
 
         then:"A 404 is returned"
@@ -136,6 +147,8 @@ class StudyControllerSpec extends Specification {
             Study.count() == 1
 
         when:"The domain instance is passed to the delete action"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(study)
 
         then:"The instance is deleted"

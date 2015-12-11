@@ -6,13 +6,15 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(ShelfController)
-@Mock(Shelf)
+@Mock([Shelf, Freezer, Centre])
 class ShelfControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        def centre = new Centre(centreName: 'c').save()
+        params["freezer"] = new Freezer(room: '1',freezerName: '2', freezerNotes: '3', freezerTemperature: '1', centre: centre).save()
+        params["shelfName"] = 'shelfName'
     }
 
     void "Test the index action returns the correct model"() {
@@ -48,11 +50,12 @@ class ShelfControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             shelf = new Shelf(params)
-
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.save(shelf)
 
         then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/shelf/show/1'
+            response.redirectedUrl == '/freezer/show/1'
             controller.flash.message != null
             Shelf.count() == 1
     }
@@ -91,6 +94,8 @@ class ShelfControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -112,6 +117,8 @@ class ShelfControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             shelf = new Shelf(params).save(flush: true)
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(shelf)
 
         then:"A redirect is issues to the show action"
@@ -121,6 +128,8 @@ class ShelfControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(null)
 
         then:"A 404 is returned"
@@ -136,6 +145,8 @@ class ShelfControllerSpec extends Specification {
             Shelf.count() == 1
 
         when:"The domain instance is passed to the delete action"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(shelf)
 
         then:"The instance is deleted"

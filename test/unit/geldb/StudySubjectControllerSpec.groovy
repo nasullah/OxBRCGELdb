@@ -6,13 +6,21 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(StudySubjectController)
-@Mock(StudySubject)
+@Mock([StudySubject, Study, Participant, Centre])
 class StudySubjectControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        def centre = new Centre(centreName: 'oxford').save()
+        params["participant"] = new Participant(hospitalNumber: '1234', centre: centre).save()
+        params["study"] = new Study(studyName: 'gel').save()
+        params["studySubjectIdentifier"] = '123456'
+        params["consentFormNumber"] = '1234'
+        params["consentStatus"] = true
+        params["recruitmentDate"] = new Date()
+        params["recruitedBy"] = 'recruitedBy'
+        params["consentFormVersion"] = "Version 2.1 dated 24.09.2015"
     }
 
     void "Test the index action returns the correct model"() {
@@ -48,11 +56,12 @@ class StudySubjectControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             studySubject = new StudySubject(params)
-
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.save(studySubject)
 
         then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/studySubject/show/1'
+            response.redirectedUrl == '/participant/show/1'
             controller.flash.message != null
             StudySubject.count() == 1
     }
@@ -91,6 +100,8 @@ class StudySubjectControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -112,15 +123,19 @@ class StudySubjectControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             studySubject = new StudySubject(params).save(flush: true)
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(studySubject)
 
         then:"A redirect is issues to the show action"
-            response.redirectedUrl == "/studySubject/show/$studySubject.id"
+            response.redirectedUrl == "/participant/show/$studySubject.id"
             flash.message != null
     }
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(null)
 
         then:"A 404 is returned"
@@ -136,6 +151,8 @@ class StudySubjectControllerSpec extends Specification {
             StudySubject.count() == 1
 
         when:"The domain instance is passed to the delete action"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(studySubject)
 
         then:"The instance is deleted"

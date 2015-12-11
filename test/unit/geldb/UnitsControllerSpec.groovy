@@ -12,7 +12,9 @@ class UnitsControllerSpec extends Specification {
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        params["unitType"] = 'MassUnit'
+        params["unitName"] = 'unitName'
+        params["unitDescription"] = 'unitDescription'
     }
 
     void "Test the index action returns the correct model"() {
@@ -48,7 +50,8 @@ class UnitsControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             units = new Units(params)
-
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.save(units)
 
         then:"A redirect is issued to the show action"
@@ -91,6 +94,8 @@ class UnitsControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -112,6 +117,8 @@ class UnitsControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             units = new Units(params).save(flush: true)
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(units)
 
         then:"A redirect is issues to the show action"
@@ -121,6 +128,8 @@ class UnitsControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(null)
 
         then:"A 404 is returned"
@@ -136,6 +145,8 @@ class UnitsControllerSpec extends Specification {
             Units.count() == 1
 
         when:"The domain instance is passed to the delete action"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(units)
 
         then:"The instance is deleted"

@@ -66,7 +66,7 @@ class DispatchItemController {
 
         } else{
             flash.message = 'Cannot find sample.'
-            redirect(controller:'dispatchItem',action: 'create', params: [dispatchedBox: dispatchItemInstance.dispatchedBox.id, positionIfPlated:dispatchItemInstance.positionIfPlated, volume_ul:dispatchItemInstance.volume_ul])
+            redirect(controller:'dispatchItem',action: 'create', params: [dispatchedBox: dispatchItemInstance?.dispatchedBox?.id, positionIfPlated:dispatchItemInstance?.positionIfPlated, volume_ul:dispatchItemInstance?.volume_ul])
         }
     }
 

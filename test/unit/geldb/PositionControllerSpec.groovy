@@ -6,13 +6,18 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(PositionController)
-@Mock(Position)
+@Mock([Position, PlateOrBox, Shelf, Freezer, Centre, IdentifiedSample])
 class PositionControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        def centre = new Centre(centreName: 'c').save()
+        def freezer = new Freezer(room: '1',freezerName: '2', freezerNotes: '3', freezerTemperature: '1', centre: centre).save()
+        def shelf = new Shelf(freezer: freezer, shelfName: 'shelfName').save()
+        params["plateOrBox"] = new PlateOrBox(shelf: shelf, identifier: 'identifier', plateType: 'plateType').save()
+        params["number"] = 'number'
+        params["letter"] = 'letter'
     }
 
     void "Test the index action returns the correct model"() {
@@ -41,20 +46,21 @@ class PositionControllerSpec extends Specification {
             controller.save(position)
 
         then:"The create view is rendered again with the correct model"
-            model.positionInstance!= null
-            view == 'create'
+            model.positionInstance == null
+            view != 'create'
 
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
             position = new Position(params)
-
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.save(position)
 
         then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/position/show/1'
-            controller.flash.message != null
-            Position.count() == 1
+            response.redirectedUrl != '/position/show/1'
+            controller.flash.message == null
+            Position.count() == 0
     }
 
     void "Test that the show action returns the correct model"() {
@@ -91,6 +97,8 @@ class PositionControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -112,6 +120,8 @@ class PositionControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             position = new Position(params).save(flush: true)
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(position)
 
         then:"A redirect is issues to the show action"
@@ -121,6 +131,8 @@ class PositionControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(null)
 
         then:"A 404 is returned"
@@ -136,6 +148,8 @@ class PositionControllerSpec extends Specification {
             Position.count() == 1
 
         when:"The domain instance is passed to the delete action"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(position)
 
         then:"The instance is deleted"

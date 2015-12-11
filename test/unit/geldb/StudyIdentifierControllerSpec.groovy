@@ -5,13 +5,14 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(StudyIdentifierController)
-@Mock(StudyIdentifier)
+@Mock([StudyIdentifier, Study])
 class StudyIdentifierControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        params["study"] = new Study(studyName: 'gel').save()
+        params["studyIdentifier"] = 'studyIdentifier'
     }
 
     void "Test the index action returns the correct model"() {
@@ -47,7 +48,8 @@ class StudyIdentifierControllerSpec extends Specification {
         response.reset()
         populateValidParams(params)
         studyIdentifier = new StudyIdentifier(params)
-
+        controller.request.method = "POST"
+        request.format = 'form'
         controller.save(studyIdentifier)
 
         then: "A redirect is issued to the show action"
@@ -90,6 +92,8 @@ class StudyIdentifierControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when: "Update is called for a domain instance that doesn't exist"
+        controller.request.method = "POST"
+        request.format = 'form'
         controller.update(null)
 
         then: "A 404 error is returned"
@@ -111,6 +115,8 @@ class StudyIdentifierControllerSpec extends Specification {
         response.reset()
         populateValidParams(params)
         studyIdentifier = new StudyIdentifier(params).save(flush: true)
+        controller.request.method = "POST"
+        request.format = 'form'
         controller.update(studyIdentifier)
 
         then: "A redirect is issues to the show action"
@@ -120,6 +126,8 @@ class StudyIdentifierControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when: "The delete action is called for a null instance"
+        controller.request.method = "POST"
+        request.format = 'form'
         controller.delete(null)
 
         then: "A 404 is returned"
@@ -135,6 +143,8 @@ class StudyIdentifierControllerSpec extends Specification {
         StudyIdentifier.count() == 1
 
         when: "The domain instance is passed to the delete action"
+        controller.request.method = "POST"
+        request.format = 'form'
         controller.delete(studyIdentifier)
 
         then: "The instance is deleted"

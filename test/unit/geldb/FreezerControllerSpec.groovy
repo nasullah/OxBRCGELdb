@@ -6,13 +6,16 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(FreezerController)
-@Mock(Freezer)
+@Mock([Freezer, Centre])
 class FreezerControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        params["centre"] = new Centre(centreName: 'oxford').save()
+        params["freezerName"] = 'freezerName'
+        params["freezerTemperature"] = 'freezerTemperature'
+        params["room"] = 'room'
     }
 
     void "Test the index action returns the correct model"() {
@@ -48,7 +51,8 @@ class FreezerControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             freezer = new Freezer(params)
-
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.save(freezer)
 
         then:"A redirect is issued to the show action"
@@ -91,6 +95,8 @@ class FreezerControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -112,6 +118,8 @@ class FreezerControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             freezer = new Freezer(params).save(flush: true)
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(freezer)
 
         then:"A redirect is issues to the show action"
@@ -121,6 +129,8 @@ class FreezerControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(null)
 
         then:"A 404 is returned"
@@ -136,6 +146,8 @@ class FreezerControllerSpec extends Specification {
             Freezer.count() == 1
 
         when:"The domain instance is passed to the delete action"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(freezer)
 
         then:"The instance is deleted"

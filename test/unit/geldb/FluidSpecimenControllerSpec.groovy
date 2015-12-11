@@ -6,13 +6,21 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(FluidSpecimenController)
-@Mock(FluidSpecimen)
+@Mock([FluidSpecimen, Participant, Centre, Location, Units])
 class FluidSpecimenControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        def centre = new Centre(centreName: 'oxford').save()
+        params["participant"] = new Participant(hospitalNumber: '1234', centre: centre).save()
+        params["exhausted"] = false
+        params["passFail"] = true
+        params["collectionDate"] = new Date()
+        params["collectionLocation"] = new Location(locationName: '1', locationDescription: '2').save()
+        params["fluidSampleType"] = "Blood_whole_BLD"
+        params["fluidSpecimenVolume"] = '1'
+        params["volumeUnit"] = new Units(unitName: 'ml', unitDescription: 'milli', unitType: 'VolumeUnit').save()
     }
 
     void "Test the index action returns the correct model"() {
@@ -48,7 +56,8 @@ class FluidSpecimenControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             fluidSpecimen = new FluidSpecimen(params)
-
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.save(fluidSpecimen)
 
         then:"A redirect is issued to the show action"
@@ -91,6 +100,8 @@ class FluidSpecimenControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -112,6 +123,8 @@ class FluidSpecimenControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             fluidSpecimen = new FluidSpecimen(params).save(flush: true)
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(fluidSpecimen)
 
         then:"A redirect is issues to the show action"
@@ -121,6 +134,8 @@ class FluidSpecimenControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(null)
 
         then:"A 404 is returned"
@@ -136,6 +151,8 @@ class FluidSpecimenControllerSpec extends Specification {
             FluidSpecimen.count() == 1
 
         when:"The domain instance is passed to the delete action"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(fluidSpecimen)
 
         then:"The instance is deleted"

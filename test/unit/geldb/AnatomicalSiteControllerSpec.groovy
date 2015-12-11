@@ -11,7 +11,9 @@ class AnatomicalSiteControllerSpec extends Specification {
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        params["anatomicalSiteCode"] = 'anatomicalSiteCode'
+        params["anatomicalSiteName"] = 'anatomicalSiteName'
+        params["anatomicalSiteDescription"] = 'anatomicalSiteDescription'
     }
 
     void "Test the index action returns the correct model"() {
@@ -47,7 +49,8 @@ class AnatomicalSiteControllerSpec extends Specification {
         response.reset()
         populateValidParams(params)
         anatomicalSite = new AnatomicalSite(params)
-
+        controller.request.method = "POST"
+        request.format = 'form'
         controller.save(anatomicalSite)
 
         then: "A redirect is issued to the show action"
@@ -90,6 +93,8 @@ class AnatomicalSiteControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when: "Update is called for a domain instance that doesn't exist"
+        controller.request.method = "POST"
+        request.format = 'form'
         controller.update(null)
 
         then: "A 404 error is returned"
@@ -111,6 +116,8 @@ class AnatomicalSiteControllerSpec extends Specification {
         response.reset()
         populateValidParams(params)
         anatomicalSite = new AnatomicalSite(params).save(flush: true)
+        controller.request.method = "POST"
+        request.format = 'form'
         controller.update(anatomicalSite)
 
         then: "A redirect is issues to the show action"
@@ -120,6 +127,8 @@ class AnatomicalSiteControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when: "The delete action is called for a null instance"
+        controller.request.method = "POST"
+        request.format = 'form'
         controller.delete(null)
 
         then: "A 404 is returned"
@@ -135,6 +144,8 @@ class AnatomicalSiteControllerSpec extends Specification {
         AnatomicalSite.count() == 1
 
         when: "The domain instance is passed to the delete action"
+        controller.request.method = "POST"
+        request.format = 'form'
         controller.delete(anatomicalSite)
 
         then: "The instance is deleted"

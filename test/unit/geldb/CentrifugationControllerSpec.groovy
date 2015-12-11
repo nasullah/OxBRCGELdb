@@ -48,7 +48,8 @@ class CentrifugationControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             centrifugation = new Centrifugation(params)
-
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.save(centrifugation)
 
         then:"A redirect is issued to the show action"
@@ -91,6 +92,8 @@ class CentrifugationControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -112,6 +115,8 @@ class CentrifugationControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             centrifugation = new Centrifugation(params).save(flush: true)
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(centrifugation)
 
         then:"A redirect is issues to the show action"
@@ -121,6 +126,8 @@ class CentrifugationControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(null)
 
         then:"A 404 is returned"
@@ -136,6 +143,8 @@ class CentrifugationControllerSpec extends Specification {
             Centrifugation.count() == 1
 
         when:"The domain instance is passed to the delete action"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(centrifugation)
 
         then:"The instance is deleted"

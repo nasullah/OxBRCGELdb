@@ -141,16 +141,16 @@ class AliquotController {
 
             Map formatters = ["Tissue Block Size":tissueBlockSize, "blockNumber":blockNumber, "specimen.participant.studySubject.studySubjectIdentifier":gelID,
                               "specimen.fFPE_Tissue_Report.cold_ischaemia.period": clean, "specimen.anatomicalSite":clean,"specimen.fFPE_Tissue_Report.fixationType":clean,
-                              "specimen.fFPE_Tissue_Report.fixationPeriod":clean, "specimen.fFPE_Tissue_Report.tumourType.tumourType":clean,
-                              "gelSuitabilityReport.cellularity": clean, "gelSuitabilityReport.percentageNecrosis":clean]
+                              "specimen.fFPE_Tissue_Report.fixationPeriod":clean, "specimen.fFPE_Tissue_Report.tumourType.tumourType":clean,"gelSuitabilityReport.cellularity": clean,
+                              "gelSuitabilityReport.percentageNecrosis":clean, "fixationReport.fixationTypeAliquot":clean,"fixationReport.fixationPeriodAliquot":clean]
 
             List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "specimen.anatomicalSite", "specimen.fFPE_Tissue_Report.cold_ischaemia.period","Tissue Block Size",
-                           "blockNumber", "specimen.fFPE_Tissue_Report.fixationType", "specimen.fFPE_Tissue_Report.fixationPeriod", "specimen.fFPE_Tissue_Report.tumourType.tumourType",
+                           "blockNumber", "specimen.fFPE_Tissue_Report.fixationType", "specimen.fFPE_Tissue_Report.fixationPeriod","fixationReport.fixationTypeAliquot","fixationReport.fixationPeriodAliquot", "specimen.fFPE_Tissue_Report.tumourType.tumourType",
                            "gelSuitabilityReport.cellularity", "gelSuitabilityReport.percentageNecrosis"]
             Map parameters = [title: "Aliquots", "column.widths": [0.2, 0.3, 0.5]]
             Map labels = ["specimen.participant.studySubject.studySubjectIdentifier":"Patient GeL ID", "specimen.anatomicalSite":"Tissue type", "specimen.fFPE_Tissue_Report.cold_ischaemia.period":"Cold Ischaemia time",
-                          "blockNumber":"Tissue Block ID", "specimen.fFPE_Tissue_Report.fixationType":"Fixative", "specimen.fFPE_Tissue_Report.fixationPeriod":"Fixation time (hours)",
-                          "specimen.fFPE_Tissue_Report.tumourType.tumourType":"Tumour type e.g NSCLC (if known)", "gelSuitabilityReport.cellularity":"Tumour sample cellularity",
+                          "blockNumber":"Tissue Block ID", "specimen.fFPE_Tissue_Report.fixationType":"Fixative (Main Specimen)", "specimen.fFPE_Tissue_Report.fixationPeriod":"Fixation time (Main Specimen)",
+                          "fixationReport.fixationTypeAliquot": "Fixative (Genomic Block)","fixationReport.fixationPeriodAliquot":"Fixation time (Genomic Block)","specimen.fFPE_Tissue_Report.tumourType.tumourType":"Tumour type e.g NSCLC (if known)", "gelSuitabilityReport.cellularity":"Tumour sample cellularity",
                           "gelSuitabilityReport.percentageNecrosis":"% necrosis"]
 
             exportService.export(params.format, response.outputStream, FFPETissueHandlingData, fields, labels, formatters, parameters )

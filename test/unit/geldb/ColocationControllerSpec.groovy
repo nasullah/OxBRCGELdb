@@ -6,13 +6,22 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(ColocationController)
-@Mock(Colocation)
+@Mock([Colocation, Aliquot, FluidSpecimen, Participant, Centre, Location, Units, AliquotType])
 class ColocationControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        def centre = new Centre(centreName: 'oxford').save()
+        def participant = new Participant(hospitalNumber: '1234', centre: centre).save()
+        def collectionLocation = new Location(locationName: '1', locationDescription: '2').save()
+        def volumeUnit = new Units(unitName: 'ml', unitDescription: 'milli', unitType: 'VolumeUnit').save()
+        def specimen = new FluidSpecimen(participant: participant, exhausted: false, passFail: true, collectionDate: new Date(),
+                collectionLocation: collectionLocation, fluidSampleType: "Blood_whole_BLD", fluidSpecimenVolume: 1, volumeUnit: volumeUnit).save()
+        def aliquotType = new AliquotType(aliquotTypeName: 'test').save()
+        params ["aliquot"] = new Aliquot(specimen: specimen, exhausted: false, passFail: true, aliquotType: aliquotType).save()
+        params["adjacent"] = true
+        params["notes"] = 'notes'
     }
 
     void "Test the index action returns the correct model"() {
@@ -48,7 +57,8 @@ class ColocationControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             colocation = new Colocation(params)
-
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.save(colocation)
 
         then:"A redirect is issued to the show action"
@@ -91,6 +101,8 @@ class ColocationControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -112,6 +124,8 @@ class ColocationControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             colocation = new Colocation(params).save(flush: true)
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.update(colocation)
 
         then:"A redirect is issues to the show action"
@@ -121,6 +135,8 @@ class ColocationControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(null)
 
         then:"A 404 is returned"
@@ -136,6 +152,8 @@ class ColocationControllerSpec extends Specification {
             Colocation.count() == 1
 
         when:"The domain instance is passed to the delete action"
+            controller.request.method = "POST"
+            request.format = 'form'
             controller.delete(colocation)
 
         then:"The instance is deleted"
