@@ -100,6 +100,34 @@ class SolidSpecimenController {
         }
     }
 
+    def renderBarcodeAndSampleType(){
+        if (!request.getFile('csvFileWithSampleType')?.originalFilename) {
+            flash.message = "Please choose a file"
+            redirect(uri: "/participant/summaryReport")
+        }else{
+            List <File> fileList = new ArrayList()
+            List <String> barcodeList = new ArrayList()
+            List <Integer> positionList = new ArrayList()
+            def counter = 0
+            request.getFile('csvFileWithSampleType').inputStream.splitEachLine(',')
+                    { fields ->
+                        def tempFile = File.createTempFile("temp"+counter,".png")
+                        def barcode = fields[1].trim()
+                        def input= barcode
+                        barcodeService.generateCode128(input,tempFile.path);
+                        barcodeList.add(fields[1].trim())
+                        positionList.add(fields[0].trim())
+                        fileList.add(tempFile)
+                        counter ++
+                    }
+            def args = [template:"printbarcodeandsampletype", model:[fileList: fileList,barcodeList: barcodeList, positionList:positionList]]
+            pdfRenderingService.render(args+[controller:this],response)
+            for (int i = 0; i < fileList.size(); i ++){
+                fileList.get(i).delete()
+            }
+        }
+    }
+
     @Transactional
     def awaitingMainSpecimen() {
         def participant = Participant.findById(params.long('participant'))
