@@ -11,96 +11,125 @@
 
 <head>
 	<meta name='layout' content='springSecurityUI'/>
-	<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
-	<title><g:message code="default.edit.label" args="[entityName]"/></title>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<style>
+
+	body {
+
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		font-size: 14px;
+	}
+
+	#navbar {
+		max-width: 1150px;
+		margin: 0 auto;
+	}
+
+	#editUser {
+		max-width: 500px;
+		margin: 0 auto;
+	}
+
+	</style>
 </head>
 
 <body>
 
-<h3><g:message code="default.edit.label" args="[entityName]"/></h3>
+<center><h3 style="font-size: xx-large">Edit User</h3></center>
 
-<g:form action="update" name='userEditForm' class="button-style">
-<g:hiddenField name="id" value="${user?.id}"/>
-<g:hiddenField name="version" value="${user?.version}"/>
+<div id='navbar'>
+	<g:render template="/_menu/navbar"/>
 
-<%
-def tabData = []
-tabData << [name: 'userinfo', icon: 'icon_user', messageCode: 'spring.security.ui.user.info']
-tabData << [name: 'roles',    icon: 'icon_role', messageCode: 'spring.security.ui.user.roles']
-boolean isOpenId = PluginManagerHolder.pluginManager.hasGrailsPlugin('springSecurityOpenid')
-if (isOpenId) {
-	tabData << [name: 'openIds', icon: 'icon_role', messageCode: 'spring.security.ui.user.openIds']
-}
-%>
+	<g:render template="/_menu/menubar"/>
 
-<s2ui:tabs elementId='tabs' height='375' data="${tabData}">
-
-	<s2ui:tab name='userinfo' height='275'>
-		<table>
-		<tbody>
-
-			<s2ui:textFieldRow name='username' labelCode='user.username.label' bean="${user}"
-                            labelCodeDefault='Username' value="${user?.username}"/>
-
-			<s2ui:passwordFieldRow name='password' labelCode='user.password.label' bean="${user}"
-                                labelCodeDefault='Password' value="${user?.password}"/>
-
-			<s2ui:checkboxRow name='enabled' labelCode='user.enabled.label' bean="${user}"
-                           labelCodeDefault='Enabled' value="${user?.enabled}"/>
-
-			<s2ui:checkboxRow name='accountExpired' labelCode='user.accountExpired.label' bean="${user}"
-                           labelCodeDefault='Account Expired' value="${user?.accountExpired}"/>
-
-			<s2ui:checkboxRow name='accountLocked' labelCode='user.accountLocked.label' bean="${user}"
-                           labelCodeDefault='Account Locked' value="${user?.accountLocked}"/>
-
-			<s2ui:checkboxRow name='passwordExpired' labelCode='user.passwordExpired.label' bean="${user}"
-                           labelCodeDefault='Password Expired' value="${user?.passwordExpired}"/>
-		</tbody>
-		</table>
-	</s2ui:tab>
-
-	<s2ui:tab name='roles' height='275'>
-		<g:each var="entry" in="${roleMap}">
-		<div>
-			<g:checkBox name="${entry.key.authority}" value="${entry.value}"/>
-			<g:link controller='role' action='edit' id='${entry.key.id}'>${entry.key.authority.encodeAsHTML()}</g:link>
-		</div>
-		</g:each>
-	</s2ui:tab>
-
-	<g:if test='${isOpenId}'>
-	<s2ui:tab name='openIds' height='275'>
-	<g:if test='${user?.openIds}'>
-		<ul>
-		<g:each var="openId" in="${user.openIds}">
-		<li>${openId.url}</li>
-		</g:each>
-		</ul>
-	</g:if>
-	<g:else>
-	No OpenIDs registered
-	</g:else>
-	</s2ui:tab>
-	</g:if>
-
-</s2ui:tabs>
-
-<div style='float:left; margin-top: 10px;'>
-<s2ui:submitButton elementId='update' form='userEditForm' messageCode='default.button.update.label'/>
-
-<g:if test='${user}'>
-<s2ui:deleteButton />
-</g:if>
-
-<g:if test='${canRunAs}'>
-<a id="runAsButton">${message(code:'spring.security.ui.runas.submit')}</a>
-</g:if>
+	<p>
 
 </div>
 
-</g:form>
+<div  id="editUser">
+	<g:form action="update" name='userEditForm' class="button-style">
+	<g:hiddenField name="id" value="${user?.id}"/>
+	<g:hiddenField name="version" value="${user?.version}"/>
 
+	<%
+	def tabData = []
+	tabData << [name: 'userinfo', icon: 'icon_user', messageCode: 'spring.security.ui.user.info']
+	tabData << [name: 'roles',    icon: 'icon_role', messageCode: 'spring.security.ui.user.roles']
+	boolean isOpenId = PluginManagerHolder.pluginManager.hasGrailsPlugin('springSecurityOpenid')
+	if (isOpenId) {
+		tabData << [name: 'openIds', icon: 'icon_role', messageCode: 'spring.security.ui.user.openIds']
+	}
+	%>
+
+	<s2ui:tabs elementId='tabs' height='375' data="${tabData}">
+
+		<s2ui:tab name='userinfo' height='275'>
+			<table>
+			<tbody>
+
+				<s2ui:textFieldRow name='username' labelCode='user.username.label' bean="${user}"
+								labelCodeDefault='Username' value="${user?.username}"/>
+
+				<s2ui:passwordFieldRow name='password' labelCode='user.password.label' bean="${user}"
+									labelCodeDefault='Password' value="${user?.password}"/>
+
+				<s2ui:checkboxRow name='enabled' labelCode='user.enabled.label' bean="${user}"
+							   labelCodeDefault='Enabled' value="${user?.enabled}"/>
+
+				<s2ui:checkboxRow name='accountExpired' labelCode='user.accountExpired.label' bean="${user}"
+							   labelCodeDefault='Account Expired' value="${user?.accountExpired}"/>
+
+				<s2ui:checkboxRow name='accountLocked' labelCode='user.accountLocked.label' bean="${user}"
+							   labelCodeDefault='Account Locked' value="${user?.accountLocked}"/>
+
+				<s2ui:checkboxRow name='passwordExpired' labelCode='user.passwordExpired.label' bean="${user}"
+							   labelCodeDefault='Password Expired' value="${user?.passwordExpired}"/>
+			</tbody>
+			</table>
+		</s2ui:tab>
+
+		<s2ui:tab name='roles' height='275'>
+			<g:each var="entry" in="${roleMap}">
+			<div>
+				<g:checkBox name="${entry.key.authority}" value="${entry.value}"/>
+				<g:link controller='role' action='edit' id='${entry.key.id}'>${entry.key.authority.encodeAsHTML()}</g:link>
+			</div>
+			</g:each>
+		</s2ui:tab>
+
+		<g:if test='${isOpenId}'>
+		<s2ui:tab name='openIds' height='275'>
+		<g:if test='${user?.openIds}'>
+			<ul>
+			<g:each var="openId" in="${user.openIds}">
+			<li>${openId.url}</li>
+			</g:each>
+			</ul>
+		</g:if>
+		<g:else>
+		No OpenIDs registered
+		</g:else>
+		</s2ui:tab>
+		</g:if>
+
+	</s2ui:tabs>
+
+	<div style='float:left; margin-top: 10px;'>
+	<s2ui:submitButton elementId='update' form='userEditForm' messageCode='default.button.update.label'/>
+
+	<g:if test='${user}'>
+	<s2ui:deleteButton />
+	</g:if>
+
+	<g:if test='${canRunAs}'>
+	<a id="runAsButton">${message(code:'spring.security.ui.runas.submit')}</a>
+	</g:if>
+
+	</div>
+
+	</g:form>
+
+</div>
 <g:if test='${user}'>
 <s2ui:deleteButtonForm instanceId='${user.id}'/>
 </g:if>

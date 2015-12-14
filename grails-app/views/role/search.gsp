@@ -2,12 +2,42 @@
 
 <head>
 	<meta name='layout' content='springSecurityUI'/>
-	<title><g:message code='spring.security.ui.role.search'/></title>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<style>
+
+	body {
+
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		font-size: 14px;
+	}
+
+	#navbar {
+		max-width: 1150px;
+		margin: 0 auto;
+	}
+
+	#searchRole {
+		max-width: 500px;
+		margin: 0 auto;
+	}
+
+	</style>
 </head>
 
 <body>
 
-<div>
+<center><h3 style="font-size: xx-large">Search Role</h3></center>
+
+<div id='navbar'>
+	<g:render template="/_menu/navbar"/>
+
+	<g:render template="/_menu/menubar"/>
+
+	<p>
+
+</div>
+
+<div id="searchRole">
 
 	<s2ui:form width='100%' height='200' elementId='formContainer'
 	           titleCode='spring.security.ui.role.search'>
@@ -24,7 +54,7 @@
 			</tr>
 			<tr><td colspan='2'>&nbsp;</td></tr>
 			<tr>
-				<td colspan='2'><s2ui:submitButton elementId='search' form='roleSearchForm' messageCode='spring.security.ui.search'/></td>
+				<td colspan='2'><g:submitButton name="search" class="btn btn-success" value="Search"/></td>
 			</tr>
 			</tbody>
 		</table>

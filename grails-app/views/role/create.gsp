@@ -3,12 +3,42 @@
 <head>
 	<meta name='layout' content='springSecurityUI'/>
 	<g:set var="entityName" value="${message(code: 'role.label', default: 'Role')}"/>
-	<title><g:message code="default.create.label" args="[entityName]"/></title>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<style>
+
+	body {
+
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		font-size: 14px;
+	}
+
+	#navbar {
+		max-width: 1150px;
+		margin: 0 auto;
+	}
+
+	#roleForm {
+		max-width: 500px;
+		margin: 0 auto;
+	}
+
+	</style>
 </head>
 
 <body>
 
-<div class="body">
+<center><h3 style="font-size: xx-large">Create Role</h3></center>
+
+<div id='navbar'>
+	<g:render template="/_menu/navbar"/>
+
+	<g:render template="/_menu/menubar"/>
+
+	<p>
+
+</div>
+
+<div class="body" id="roleForm">
 
 	<s2ui:form width='100%' height='200' elementId='formContainer'
 	           titleCode='default.create.label' titleCodeArgs='[entityName]'>
@@ -28,7 +58,7 @@
 
 					<tr class="prop">
 						<td valign="top">
-							<s2ui:submitButton elementId='create' form='roleCreateForm' messageCode='default.button.create.label'/>
+							<g:submitButton name="create" class="btn btn-primary" value="Save"/>
 						</td>
 					</tr>
 
