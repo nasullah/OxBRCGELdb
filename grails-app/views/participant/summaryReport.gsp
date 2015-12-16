@@ -22,20 +22,26 @@
             <div class="row">
                 <div class="col-md-4">
                     <label class="control-label"><small>Export GEL IDs/Participant IDs</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getExcelGeLID()"  <g:link controller="participant" action="exportSummaryReport" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
-                    <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                    <a class='btn btn-success btn-sm' onclick="getExcelGeLID()" <g:link controller="participant" action="exportSummaryReport" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div id="spinnerGELID" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <label class="control-label"><small>Export FFPE Tissue Handling File</small></label>
-                    <a class='btn btn-success btn-sm'  <g:link controller="aliquot" action="exportFFPETissueHandling" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <a class='btn btn-success btn-sm' onclick="getExcelFFPETissueHandling()" <g:link controller="aliquot" action="exportFFPETissueHandling" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div id="spinnerFFPETissueHandling" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                        <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
+                    </div>
                 </div>
 
                 <div class="col-md-4">
                     <label class="control-label"><small>Export All Dispatched Items</small></label>
-                    <a class='btn btn-success btn-sm'  <g:link controller="dispatchRecord" action="exportAllDispatchedItems" params="['format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>
+                    <a class='btn btn-success btn-sm' onclick="getCSVAllDispatchedItems()" <g:link controller="dispatchRecord" action="exportAllDispatchedItems" params="['format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>
+                    <div id="spinnerAllDispatchedItems" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                        <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
+                    </div>
                 </div>
 
                 <div class="row">
@@ -85,7 +91,7 @@
                             <label class="control-label"><small>End Date </small></label>
                             <bs:datePicker id="endDate" name="endDate" precision="day"   value="" /><span class=""></span>
                             <g:select class="form-control" id="aliquotType" name="aliquotType" from="${geldb.AliquotType.list().sort{it.aliquotTypeName}}" optionKey="id" noSelection="['':'- Choose Aliquot Type -']"/>
-                                <button type="submit" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-export"></span> Excel Format</button>
+                                <button type="submit"  class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-export"></span> Excel Format</button>
                             </div>
                         </div>
                     </g:form>
@@ -317,47 +323,43 @@
 
 <g:javascript plugin="jquery" library="jquery" />
 <script>
+
     function getMaterialSupplied(){
+        var startDate = $("#startDate").val();
+        var endDate = $("#endDate").val();
+        var aliquotType = $("#aliquotType").val();
         ${remoteFunction (controller: 'aliquot',
                         action: 'exportListOfMaterialSupplied',
-                        params: '[startDate:$("#startDate").val(), endDate:$("#endDate").val(), aliquotType:$("#aliquotType").val()]',
-                        onFailure:'error()'
+                        params:'\'startDate=\' + startDate +  \'&endDate=\' + endDate +\'&aliquotType=\' + aliquotType'
                 )}
     }
 
-    function error(){
-        var select = $("#selectICD10");
-        select.empty().append("Not found");
-        $('#notFound').modal()
-    }
-
-    function showSpinner() {
-        $('#spinner').show();
-    }
-    function hideSpinner() {
-        $('#spinner').hide();
-    }
-    function hideSpinnerKPI() {
-        $('#spinnerKPI').hide();
-    }
     function getExcelGeLID(){
-        showSpinner();
+        $('#spinnerGELID').show();
         ${remoteFunction (controller: 'participant',
                         action: 'exportSummaryReport',
                         params:[format:'excel',extension:'xls'],
-                        onSuccess:'hideSpinner()'
+                        onSuccess:'$("#spinnerGELID").hide()'
                 )}
     }
 
-    function getKPIReport(){
-        $('#spinnerKPI').show();
-        ${remoteFunction (controller: 'DNA_Extract',
-                        action: 'exportKPIReport',
+    function getExcelFFPETissueHandling(){
+        $('#spinnerFFPETissueHandling').show();
+        ${remoteFunction (controller: 'aliquot',
+                        action: 'exportFFPETissueHandling',
                         params:[format:'excel',extension:'xls'],
-                        onSuccess:'hideSpinnerKPI()'
+                        onSuccess:'$("#spinnerFFPETissueHandling").hide()'
                 )}
     }
 
+    function getCSVAllDispatchedItems(){
+        $('#spinnerAllDispatchedItems').show();
+        ${remoteFunction (controller: 'dispatchRecord',
+                        action: 'exportAllDispatchedItems',
+                        params:[format:'csv',extension:'csv'],
+                        onSuccess:'$("#spinnerAllDispatchedItems").hide()'
+                )}
+    }
 </script>
 </body>
 
