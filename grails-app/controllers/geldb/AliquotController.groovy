@@ -22,6 +22,7 @@ class AliquotController {
     def filterPaneService
     def exportAliquotService
     def exportListOfMaterialSuppliedService
+    def FFPETissueHandlingService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -106,54 +107,7 @@ class AliquotController {
             response.setHeader("Content-disposition", "attachment; filename= FFPE Tissue Handling File.${params.extension}")
             def FFPETissueHandlingData = Aliquot.findAllByAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'), AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'))
             FFPETissueHandlingData = FFPETissueHandlingData.sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
-
-            def tissueBlockSize =  { domain, value ->
-                def blockNumber = domain?.blockNumber
-                if (blockNumber){
-                    blockNumber = blockNumber.toString().split(',')
-                    if(blockNumber.size() > 2){
-                        return blockNumber[2]?.trim()
-                    }else{
-                        return ""
-                    }
-                }
-            }
-
-            def blockNumber =  { domain, value ->
-                def blockNumber = domain?.blockNumber
-                if(blockNumber){
-                    blockNumber = blockNumber.toString().split(',')
-                    if(blockNumber.size()>0){
-                        return blockNumber[0]?.trim()
-                    }else{
-                        return ""
-                    }
-                }
-            }
-
-            def gelID = { domain, value ->
-                return value?.toString()?.replace('[','')?.replace(']','')?.replace(' ','')?.replace(',','')?.replace('null','')
-            }
-
-            def clean = { domain, value ->
-                return value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-            }
-
-            Map formatters = ["Tissue Block Size":tissueBlockSize, "blockNumber":blockNumber, "specimen.participant.studySubject.studySubjectIdentifier":gelID,
-                              "specimen.fFPE_Tissue_Report.cold_ischaemia.period": clean, "specimen.anatomicalSite":clean,"specimen.fFPE_Tissue_Report.fixationType":clean,
-                              "specimen.fFPE_Tissue_Report.fixationPeriod":clean, "specimen.fFPE_Tissue_Report.tumourType.tumourType":clean,"gelSuitabilityReport.cellularity": clean,
-                              "gelSuitabilityReport.percentageNecrosis":clean, "fixationReport.fixationTypeAliquot":clean,"fixationReport.fixationPeriodAliquot":clean]
-
-            List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "specimen.anatomicalSite", "specimen.fFPE_Tissue_Report.cold_ischaemia.period","Tissue Block Size",
-                           "blockNumber", "specimen.fFPE_Tissue_Report.fixationType", "specimen.fFPE_Tissue_Report.fixationPeriod","fixationReport.fixationTypeAliquot","fixationReport.fixationPeriodAliquot", "specimen.fFPE_Tissue_Report.tumourType.tumourType",
-                           "gelSuitabilityReport.cellularity", "gelSuitabilityReport.percentageNecrosis"]
-            Map parameters = [title: "Aliquots", "column.widths": [0.2, 0.3, 0.5]]
-            Map labels = ["specimen.participant.studySubject.studySubjectIdentifier":"Patient GeL ID", "specimen.anatomicalSite":"Tissue type", "specimen.fFPE_Tissue_Report.cold_ischaemia.period":"Cold Ischaemia time",
-                          "blockNumber":"Tissue Block ID", "specimen.fFPE_Tissue_Report.fixationType":"Fixative (Main Specimen)", "specimen.fFPE_Tissue_Report.fixationPeriod":"Fixation time (Main Specimen)",
-                          "fixationReport.fixationTypeAliquot": "Fixative (Genomic Block)","fixationReport.fixationPeriodAliquot":"Fixation time (Genomic Block)","specimen.fFPE_Tissue_Report.tumourType.tumourType":"Tumour type e.g NSCLC (if known)", "gelSuitabilityReport.cellularity":"Tumour sample cellularity",
-                          "gelSuitabilityReport.percentageNecrosis":"% necrosis"]
-
-            exportService.export(params.format, response.outputStream, FFPETissueHandlingData, fields, labels, formatters, parameters )
+            exportService.export(params.format, response.outputStream, FFPETissueHandlingData, FFPETissueHandlingService.fields, FFPETissueHandlingService.labels, FFPETissueHandlingService.formatters, FFPETissueHandlingService.parameters )
         }
     }
 
