@@ -12,6 +12,26 @@
 
 <body>
 
+<sec:ifAnyGranted roles="ROLE_ADMIN">
+    <div style="background: rgba(139, 240, 37, 0.14);">
+        <div class="container">
+            <p>
+            <h5 class="text-center">Export Data</h5>
+            <p>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="control-label"><small>Export DNA Extracts & Elements of GEL Suitability Reports</small></label>
+                    <a class='btn btn-success btn-sm' onclick="getExcel()"  <g:link controller="DNA_Extract" action="exportAllDNAExtracts" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                        <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
+                    </div>
+                </div>
+            </div>
+            <p>
+            <p>
+        </div>
+    </div>
+</sec:ifAnyGranted>
 <p>
 <p>
 <div style="background: rgba(80, 110, 56, 0.04);">
@@ -90,6 +110,24 @@
 </g:form>
 
 <hr style="border:1; height:1px" />
+
+<g:javascript plugin="jquery" library="jquery" />
+<script>
+    function showSpinner() {
+        $('#spinner').show();
+    }
+    function hideSpinner() {
+        $('#spinner').hide();
+    }
+    function getExcel(){
+        showSpinner();
+        ${remoteFunction (controller: 'DNA_Extract',
+                        action: 'exportAllDNAExtracts',
+                        params:[format:'excel',extension:'xls'],
+                        onSuccess:'hideSpinner()'
+                )}
+    }
+</script>
 
 </body>
 

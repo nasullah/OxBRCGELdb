@@ -26,6 +26,7 @@ class DNA_ExtractController {
     def exportService
     def exportKPIReportService
     def filterPaneService
+    def exportAllDNAExtractService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -359,7 +360,17 @@ class DNA_ExtractController {
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
             response.setHeader("Content-disposition", "attachment; filename= Exported KPI Report.${params.extension}")
             def exportKPIReportData = DNA_Extract.list().sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
-            exportService.export(params.format, response.outputStream, exportKPIReportData, exportKPIReportService.fields, exportKPIReportService.labels, exportKPIReportService.formatters, exportKPIReportService.parameters )
+            exportService.export(params.format, response.outputStream, exportKPIReportData, exportKPIReportService.fields, exportKPIReportService.labels, exportKPIReportService.formatters, exportKPIReportService.parameters)
+        }
+    }
+
+    @Secured(['ROLE_ADMIN'])
+    def exportAllDNAExtracts (){
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= Exported DNA Extracts.${params.extension}")
+            def dnaExtractList = DNA_Extract.list().sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+            exportService.export(params.format, response.outputStream, dnaExtractList, exportAllDNAExtractService.fields, exportAllDNAExtractService.labels, exportAllDNAExtractService.formatters, exportAllDNAExtractService.parameters)
         }
     }
 
