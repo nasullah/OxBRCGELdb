@@ -31,7 +31,7 @@ class ExportSummaryReportService {
     }
 
     def getParameters(){
-        Map parameters = [title: "Exported Summary Report", "column.widths": [0.2, 0.3, 0.5]]
+        Map parameters = [title: "Exported Summary Report", "column.widths": [0.2, 0.3]]
         return parameters
     }
 }

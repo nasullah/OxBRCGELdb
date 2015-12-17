@@ -36,7 +36,7 @@ class ExportParticipantService {
     }
 
     def getParameters(){
-        Map parameters = [title: "Participants", "column.widths": [0.2, 0.3, 0.5]]
+        Map parameters = [title: "Participants", "column.widths": [0.2, 0.3, 0.2, 0.2, 0.15, 0.15, 0.2, 0.2, 0.5, 0.1]]
         return parameters
     }
 }

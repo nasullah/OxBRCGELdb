@@ -59,7 +59,8 @@ class ExportAliquotService {
     }
 
     def getParameters(){
-        Map parameters = [title: "Aliquots", "column.widths": [0.2, 0.3, 0.5]]
+        Map parameters = [title: "Aliquots", "column.widths": [0.15, 0.5, 0.5, 0.15, 0.15, 0.2, 0.2, 0.15, 0.25, 0.25, 0.2, 0.15, 0.2, 0.15, 0.2, 0.25, 0.15, 0.3, 0.15, 0.15, 0.25, 0.15, 0.25, 0.15, 0.15, 0.25, 0.25, 0.15, 0.25, 0.15,
+                                                               0.15, 0.15, 0.25, 0.25, 0.15, 0.25, 0.2, 0.2, 0.2, 0.2,]]
         return parameters
     }
 }

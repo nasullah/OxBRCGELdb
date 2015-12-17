@@ -13,7 +13,14 @@ class ExportFluidSpecimenService {
         def gelID = { domain, value ->
             return value.toString().replace('[','').replace(']','').replace('null','').replace(',','').trim()
         }
-        Map formatters = ["participant.studySubject.studySubjectIdentifier":gelID]
+
+        def exhausted = { domain, value ->
+            if (value.toString() == 'true'){
+                return 'Yes'
+            }else return 'No'
+        }
+
+        Map formatters = ["participant.studySubject.studySubjectIdentifier":gelID, "exhausted": exhausted]
         return formatters
     }
 
@@ -29,7 +36,7 @@ class ExportFluidSpecimenService {
     }
 
     def getParameters(){
-        Map parameters = [title: "FluidSpecimens", "column.widths": [0.2, 0.3, 0.5]]
+        Map parameters = [title: "FluidSpecimens", "column.widths": [0.2, 0.25, 0.4, 0.25, 0.15, 0.15, 0.25, 0.15, 0.15, 0.2, 0.2, 0.2, 0.15]]
         return parameters
     }
 

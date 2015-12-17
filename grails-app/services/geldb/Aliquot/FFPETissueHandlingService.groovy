@@ -65,7 +65,7 @@ class FFPETissueHandlingService {
     }
 
     def getParameters(){
-        Map parameters = [title: "FFPE Tissue", "column.widths": [0.2, 0.3, 0.5]]
+        Map parameters = [title: "FFPE Tissue", "column.widths": [0.15, 0.15, 0.2, 0.2, 0.15, 0.4, 0.2, 0.4, 0.2, 0.4, 0.2, 0.1]]
         return parameters
     }
 }
