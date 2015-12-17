@@ -1,5 +1,6 @@
 package geldb.DNAExtract
 
+import geldb.DispatchItem
 import grails.transaction.Transactional
 
 /**
@@ -18,15 +19,10 @@ class ExportAllDNAExtractService {
                 return 'Pass'
             } else return "Fail"
         }
-        def percentageTumourContent = { domain, value ->
+        def clean = { domain, value ->
             return value.toString().replace('[','').replace(']','').replace('null','')
         }
-        def percentageNecrosis = { domain, value ->
-            return value.toString().replace('[','').replace(']','').replace('null','')
-        }
-        def cellularity = { domain, value ->
-            return value.toString().replace('[','').replace(']','').replace('null','')
-        }
+
         def dysplasticNonInvasiveElements = { domain, value ->
             def elements = value.toString().replace('[','').replace(']','').replace('null','')
             if (elements == "true") {
@@ -35,13 +31,23 @@ class ExportAllDNAExtractService {
                 return "No"
             } else return ""
         }
-        Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":gelId, "passFail": passFail, "aliquot.gelSuitabilityReport.percentageTumourContent": percentageTumourContent,
-                          "aliquot.gelSuitabilityReport.percentageNecrosis":percentageNecrosis, "aliquot.gelSuitabilityReport.cellularity": cellularity, "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements":dysplasticNonInvasiveElements]
+
+        def dispatchItemList = DispatchItem.list()
+        def dispatched = { domain, value ->
+            def dispatchItem = dispatchItemList.find {item -> item.identifiedSample.id == value}
+            if (dispatchItem) {
+                return 'Yes'
+            } else return "No"
+        }
+
+        Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":gelId, "passFail": passFail, "aliquot.gelSuitabilityReport.percentageTumourContent": clean, "aliquot.aliquotType": clean,
+                          "aliquot.gelSuitabilityReport.percentageNecrosis":clean, "aliquot.gelSuitabilityReport.cellularity": clean, "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements":dysplasticNonInvasiveElements,
+                          "id":dispatched]
         return formatters
     }
 
     def getFields(){
-        List fields = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier", "passFail", "dNAConcentrationQubit", "dNAAmount", "delatQC", "aliquot.gelSuitabilityReport.percentageTumourContent",
+        List fields = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier", "aliquot.aliquotType", "id", "passFail", "dNAConcentrationQubit", "dNAAmount", "delatQC", "aliquot.gelSuitabilityReport.percentageTumourContent",
                        "aliquot.gelSuitabilityReport.percentageNecrosis", "aliquot.gelSuitabilityReport.cellularity", "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements"]
         return fields
     }
@@ -49,12 +55,13 @@ class ExportAllDNAExtractService {
     def getLabels(){
         Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":"GEL Study/Participant ID", "passFail": "Pass/Fail", "dNAConcentrationQubit": "DNA/RNA Concentration (Qubit)",
                       "dNAAmount": "DNA/RNA Volume", "delatQC":"Delta QC", "aliquot.gelSuitabilityReport.percentageTumourContent":"Percentage Tumour Content", "aliquot.gelSuitabilityReport.percentageNecrosis":
-                      "Percentage Necrosis", "aliquot.gelSuitabilityReport.cellularity": "Cellularity", "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements": "Dysplastic Non Invasive Elements"]
+                      "Percentage Necrosis", "aliquot.gelSuitabilityReport.cellularity": "Cellularity", "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements": "Dysplastic Non Invasive Elements",
+                      "aliquot.aliquotType":"Aliquot Type", "id": "Dispatched"]
         return labels
     }
 
     def getParameters(){
-        Map parameters = [title: "All DNA Extracts", "column.widths": [0.2, 0.3, 0.5]]
+        Map parameters = [title: "All DNA Extracts", "column.widths": [0.2, 0.25, 0.1, 0.1, 0.1, 0.2, 0.1, 0.15, 0.15, 0.1, 0.1]]
         return parameters
     }
 }

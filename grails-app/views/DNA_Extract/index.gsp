@@ -20,7 +20,7 @@
             <p>
             <div class="row">
                 <div class="col-md-6">
-                    <label class="control-label"><small>Export DNA Extracts & Elements of GEL Suitability Reports</small></label>
+                    <label class="control-label"><small>Export elements of DNA Extracts & GEL Suitability reports</small></label>
                     <a class='btn btn-success btn-sm' onclick="getExcel()"  <g:link controller="DNA_Extract" action="exportAllDNAExtracts" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
