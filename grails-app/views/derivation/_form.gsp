@@ -51,22 +51,13 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-6">
-                    <div>
-                        <label for="barcode" class="control-label"><g:message code="aliquot.barcode.label" default="Barcode (where available)" /></label>
-                        <div>
-                            <g:textField class="form-control" name="barcode" value=""/>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-6">
                     <div>
                         <g:if test="${derivationInstance?.derivationProcess?.name() == 'Tissue_disruption' || derivationInstance?.derivationProcess?.name() == 'Tissue_disruption_centrifugation_with_buffer'}">
-                            <label for="sapphireIdentifier" class="control-label">Identifier</label>
+                            <label for="sapphireIdentifier" class="control-label">Identifier <mark>(please complete the missing part)</mark></label>
                         </g:if>
                         <g:else>
                             <label for="sapphireIdentifier" class="control-label"><g:message code="aliquot.sapphireIdentifier.label" default="Slide ID (Frozen only)" /></label>
@@ -83,6 +74,17 @@
                         <div>
                             <label class="radio-inline"><input type="radio" name="exhausted" value= "True">Yes</label>
                             <label class="radio-inline"><input type="radio" name="exhausted" value= "False" checked="checked" >No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div>
+                        <label for="barcode" class="control-label"><g:message code="aliquot.barcode.label" default="Barcode (where available)" /></label>
+                        <div>
+                            <g:textField class="form-control" name="barcode" value=""/>
                         </div>
                     </div>
                 </div>

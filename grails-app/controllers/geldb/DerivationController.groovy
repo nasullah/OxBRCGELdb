@@ -72,6 +72,7 @@ class DerivationController {
                     gelId = gelIdList[i]
                 }
             }
+            gelId = gelId + '_'
             render([slidID: gelId] as XML)
         }
     }

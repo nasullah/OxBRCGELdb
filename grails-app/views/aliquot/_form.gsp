@@ -58,7 +58,12 @@
 
         <div class="col-lg-6">
             <div class="${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')} ">
-                <label for="sapphireIdentifier" class="control-label"><g:message code="aliquot.sapphireIdentifier.label" default="Slide Id" /></label>
+                <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption' || aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption_centrifugation_with_buffer'}">
+                    <label for="sapphireIdentifier" class="control-label">Identifier</label>
+                </g:if>
+                <g:else>
+                    <label for="sapphireIdentifier" class="control-label">Slide Id</label>
+                </g:else>
                 <div>
                     <g:textField class="form-control" id="sapphireIdentifier" name="sapphireIdentifier" value="${aliquotInstance?.sapphireIdentifier}"/>
                     <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')}</span>
@@ -81,7 +86,7 @@
         </div>
     </div>
 
-    <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption'}">
+    <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption' || aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption_centrifugation_with_buffer'}">
         <div class="row">
             <div class="col-lg-6">
                 <div class="${hasErrors(bean: aliquotInstance, field: 'aliquotVolumeMass', 'error')} ">
