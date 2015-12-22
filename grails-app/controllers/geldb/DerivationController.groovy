@@ -35,11 +35,13 @@ class DerivationController {
     }
 
     def getSlideID() {
-        def aliquot = Aliquot.findById(params.selectAliquot)
-        if(aliquot){
-            if (aliquot.sapphireIdentifier){
-                def lastSixDigit = aliquot.sapphireIdentifier.toString()[-6..-1]
-                def gelIdList = aliquot.specimen.participant.studySubject.studySubjectIdentifier
+        def parentAliquot = Aliquot.findById(params.parentAliquot)
+        def aliquotType = AliquotType.findById(params.aliquotType)
+
+        if(parentAliquot && aliquotType?.aliquotTypeName == 'Section'){
+            if (parentAliquot.sapphireIdentifier){
+                def lastSixDigit = parentAliquot.sapphireIdentifier.toString()[-6..-1]
+                def gelIdList = parentAliquot.specimen.participant.studySubject.studySubjectIdentifier
                 def gelId= ''
                 for (int i = 0; i < gelIdList.size(); i ++){
                     if(gelIdList[i]){
@@ -49,8 +51,8 @@ class DerivationController {
                 def slidID = gelId + ' ' + lastSixDigit
                 render([slidID: slidID] as XML)
             }else{
-                def barcode = aliquot?.barcode?.toString()
-                def gelIdList = aliquot.specimen.participant.studySubject.studySubjectIdentifier
+                def barcode = parentAliquot?.barcode?.toString()
+                def gelIdList = parentAliquot.specimen.participant.studySubject.studySubjectIdentifier
                 def gelId= ''
                 for (int i = 0; i < gelIdList.size(); i ++){
                     if(gelIdList[i]){
@@ -62,6 +64,15 @@ class DerivationController {
                     render([slidID: slidID] as XML)
                 }
             }
+        }else if ((parentAliquot && aliquotType?.aliquotTypeName == 'All Prep Lysate')) {
+            def gelIdList = parentAliquot.specimen.participant.studySubject.studySubjectIdentifier
+            def gelId = ''
+            for (int i = 0; i < gelIdList.size(); i ++){
+                if(gelIdList[i]){
+                    gelId = gelIdList[i]
+                }
+            }
+            render([slidID: gelId] as XML)
         }
     }
 
@@ -76,18 +87,38 @@ class DerivationController {
             respond derivationInstance.errors, view: 'create'
             return
         }
+
+        def barcode = params.barcode
+        def sapphireIdentifier = params.sapphireIdentifier
+        if (barcode){
+            def identifiedSample = IdentifiedSample.findByBarcode(barcode.toString())
+            if (identifiedSample){
+                flash.message = 'Barcode must be unique.'
+                respond derivationInstance, view: 'create'
+                return
+            }
+        }
+
+        if (sapphireIdentifier){
+            def identifiedSample = IdentifiedSample.findBySapphireIdentifier(sapphireIdentifier.toString())
+            if (identifiedSample){
+                flash.message = 'Slide Id/Identifier must be unique.'
+                respond derivationInstance, view: 'create'
+                return
+            }
+        }
+
         def getSpecimen = Specimen.where {
             aliquot.id == params.long('aliquot.id')
         }
 
-        def derivedAliquot = new Aliquot(specimen: getSpecimen.get().id, exhausted: params.exhausted, notes: params.notes, barcode: params.barcode, aliquotVolumeMass: params.aliquotVolumeMass, unit: params.unit, blockNumber: params.blockNumber,
-                aliquotType: params.aliquotType, sapphireIdentifier: params.sapphireIdentifier)
+        def derivedAliquot = new Aliquot(specimen: getSpecimen.get().id, exhausted: params.exhausted, barcode: barcode, aliquotVolumeMass: params.aliquotVolumeMass, unit: params.unit,
+                aliquotType: params.aliquotType, sapphireIdentifier: sapphireIdentifier)
 
         derivationInstance.addToDerivedAliquots(derivedAliquot).save(flush: true)
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'derivationInstance.label', default: 'Derivation'), derivationInstance.id])
-//                redirect derivationInstance
                 redirect(controller:'aliquot',action: 'show', params: [id: derivedAliquot.id])
             }
             '*' { respond derivationInstance, [status: CREATED] }
@@ -110,24 +141,8 @@ class DerivationController {
             return
         }
 
-        def getSpecimen = Specimen.where {
-            aliquot.id == params.long('aliquot.id')
-        }
-        def getAliquotType = AliquotType.get(params.long('aliquotType.id'))
         derivationInstance.save flush: true
-        def derivedAliquotList= derivationInstance.getDerivedAliquots()
-        def derivedAliquot= derivedAliquotList[0]
 
-        derivedAliquot.specimen.id       = getSpecimen.get().id
-        derivedAliquot.exhausted         = params.boolean('exhausted')
-        derivedAliquot.notes             = params.notes
-        derivedAliquot.barcode           = params.barcode
-        derivedAliquot.aliquotVolumeMass = params.aliquotVolumeMass
-        derivedAliquot.unit              = params.unit
-        derivedAliquot.blockNumber       = params.blockNumber
-        derivedAliquot.aliquotType       = getAliquotType
-        derivedAliquot.sapphireIdentifier= params.sapphireIdentifier
-        derivationInstance.addToDerivedAliquots(derivedAliquot).save(flush: true)
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Derivation.label', default: 'Derivation'), derivationInstance.id])
