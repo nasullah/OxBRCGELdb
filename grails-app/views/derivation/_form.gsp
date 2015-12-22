@@ -65,7 +65,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div>
-                        <g:if test="${derivationInstance?.derivationProcess?.name() =='Tissue_disruption'}">
+                        <g:if test="${derivationInstance?.derivationProcess?.name() == 'Tissue_disruption' || derivationInstance?.derivationProcess?.name() == 'Tissue_disruption_centrifugation_with_buffer'}">
                             <label for="sapphireIdentifier" class="control-label">Identifier</label>
                         </g:if>
                         <g:else>
@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <g:if test="${derivationInstance?.derivationProcess?.name() =='Tissue_disruption'}">
+            <g:if test="${derivationInstance?.derivationProcess?.name() == 'Tissue_disruption' || derivationInstance?.derivationProcess?.name() == 'Tissue_disruption_centrifugation_with_buffer'}">
                 <div class="row">
                     <div class="col-lg-6">
                         <div>

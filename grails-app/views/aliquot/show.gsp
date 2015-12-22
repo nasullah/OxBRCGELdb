@@ -149,7 +149,7 @@
             </tr>
         </g:if>
 
-        <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption'}">
+        <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() == 'Tissue_disruption' || aliquotInstance?.derivedFrom?.derivationProcess?.name() == 'Tissue_disruption_centrifugation_with_buffer'}">
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.sapphireIdentifier.label" default="Identifier" /></td>
 
@@ -209,7 +209,7 @@
             </tr>
         </g:if>
 
-        <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() =='Tissue_disruption'}">
+        <g:if test="${aliquotInstance?.derivedFrom?.derivationProcess?.name() == 'Tissue_disruption' || aliquotInstance?.derivedFrom?.derivationProcess?.name() == 'Tissue_disruption_centrifugation_with_buffer'}">
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.aliquotVolumeMass.label" default="Volume/Mass" /></td>
 
