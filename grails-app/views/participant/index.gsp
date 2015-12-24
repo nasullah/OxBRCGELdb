@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <section id="index-participant" class="first">
 
@@ -65,6 +65,8 @@
 				<g:sortableColumn property="centre" title="${message(code: 'participant.centre.label', default: 'Centre')}" />
 
                 <g:sortableColumn property="studySubject.studySubjectIdentifier" title="${message(code: 'studySubject.studySubjectIdentifier.label', default: 'GeL Id/Participant Id')}"/>
+
+                <th>Summary Report</th>
 			
 			</tr>
 		</thead>
@@ -82,7 +84,15 @@
 
                 <td>${fieldValue(bean: participantInstance.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
 
-			</tr>
+                <%def gelID = participantInstance?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}%>
+                <g:if test="${gelID}">
+                    <td><a class='btn btn-primary btn-xs' <g:link controller="participant" action="summaryReport" params="[gelStudyId : gelID]"><i class="glyphicon glyphicon-info-sign"></i> View Summary Report</g:link></td>
+                </g:if>
+                <g:else>
+                    <td></td>
+                </g:else>
+
+            </tr>
 		</g:each>
 		</tbody>
 	</table>

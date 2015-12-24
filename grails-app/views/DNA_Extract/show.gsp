@@ -22,11 +22,9 @@
                 <td valign="top" class="name"><g:message code="DNA_Extract.aliquot.label" default="Aliquot" /></td>
 
                 <td valign="top" style="text-align: left;" class="value">
-                    <ul>
-                        <g:each in="${DNA_ExtractInstance.aliquot}" var="a">
-                            <li><g:link controller="aliquot" action="show" id="${a.id.toString().replace('%5B','').replace('%5D','')}">${a?.encodeAsHTML()}</g:link></li>
-                        </g:each>
-                    </ul>
+                    <g:each in="${DNA_ExtractInstance.aliquot}" var="a">
+                        <g:link controller="aliquot" action="show" id="${a.id.toString().replace('%5B','').replace('%5D','')}">${a?.encodeAsHTML()}</g:link><br/>
+                    </g:each>
                 </td>
 
             </tr>
@@ -93,13 +91,6 @@
 				<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${DNA_ExtractInstance?.extractedBy?.id}">${DNA_ExtractInstance?.extractedBy?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
-		
-			%{--<tr class="prop">--}%
-				%{--<td valign="top" class="name"><g:message code="DNA_Extract.geLSampleIdentifier.label" default="GeL Sample Identifier/DNA Elution" /></td>--}%
-				%{----}%
-				%{--<td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "geLSampleIdentifier")}</td>--}%
-				%{----}%
-			%{--</tr>--}%
 
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="DNA_Extract.sapphireIdentifier.label" default="DNA/RNA Elution" /></td>
@@ -225,16 +216,17 @@
 	</table>
 </section>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <p class="text-primary">Available Action</p>
 
 <g:if test="${DNA_ExtractInstance?.position?.id == null}">
     <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['containedSamples': DNA_ExtractInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
 </g:if>
+
 <% def elution = DNA_ExtractInstance?.sapphireIdentifier?.toString()?.split('_')
 def duplicatedElution = null
-if(elution.length > 1){
+if(elution?.length > 1){
     duplicatedElution = elution[0] + '_' + elution[1] +'_'
 }
 %>
@@ -245,7 +237,7 @@ if(elution.length > 1){
                                                                                                        'experimentName': DNA_ExtractInstance?.experimentName,'delatQC':DNA_ExtractInstance?.delatQC,'sapphireIdentifier':duplicatedElution
                                                                                                        ]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate DNA/RNA Extract')])}</g:link>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 </body>
 
