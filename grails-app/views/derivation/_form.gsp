@@ -96,7 +96,7 @@
                         <div>
                             <label for="aliquotVolumeMass" class="control-label"><g:message code="aliquot.aliquotVolumeMass.label" default="Volume/Mass" /></label>
                             <div>
-                                <g:textField class="form-control" name="aliquotVolumeMass" value="0.6" />
+                                <g:textField class="form-control" name="aliquotVolumeMass" value="${aliquotVolumeMass}" />
                             </div>
                         </div>
                     </div>

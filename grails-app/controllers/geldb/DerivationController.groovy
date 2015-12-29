@@ -31,7 +31,7 @@ class DerivationController {
     }
 
     def create() {
-		respond new Derivation(params), model: [aliquotType: params.aliquotType]
+		respond new Derivation(params), model: [aliquotType: params.aliquotType, aliquotVolumeMass: params.aliquotVolumeMass]
     }
 
     def getSlideID() {

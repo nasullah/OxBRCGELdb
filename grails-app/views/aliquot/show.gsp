@@ -381,12 +381,13 @@
 
 <g:if test="${(aliquotInstance?.aliquotType?.aliquotTypeName == 'Fresh Frozen Tissue' && aliquotInstance?.derivedFrom?.id == null) || (aliquotInstance?.aliquotType?.aliquotTypeName == 'Punch Biopsy Frozen' && aliquotInstance?.derivedFrom?.id == null)}">
     <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'derivationProcess':'FrozenSection', 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('Section')?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (Section)')])}</g:link>
-    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'derivationProcess':'Tissue_disruption', 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('All Prep Lysate')?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (All Prep lysate)')])}</g:link>
+    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'derivationProcess':'Tissue_disruption', 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('All Prep Lysate')?.id, aliquotVolumeMass:'0.6']"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (All Prep lysate)')])}</g:link>
 </g:if>
 
 <g:if test="${aliquotInstance?.aliquotType?.aliquotTypeName == 'All Prep Lysate' && aliquotInstance?.derivedFrom?.id != null}">
     <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.derivedFrom?.aliquot?.id, 'derivationProcess':aliquotInstance?.derivedFrom?.derivationProcess?.getKey(),
-                                                                                                  'aliquotType':aliquotInstance?.aliquotType?.id, 'derivationDate':aliquotInstance?.derivedFrom?.derivationDate, 'derivedBy.id':aliquotInstance?.derivedFrom?.derivedBy?.id]"><i class="glyphicon glyphicon-plus"></i> Add Duplicate Aliquot</g:link>
+                                                                                                  'aliquotType':aliquotInstance?.aliquotType?.id, 'derivationDate':aliquotInstance?.derivedFrom?.derivationDate,
+                                                                                                  'derivedBy.id':aliquotInstance?.derivedFrom?.derivedBy?.id, aliquotVolumeMass:aliquotInstance?.aliquotVolumeMass]"><i class="glyphicon glyphicon-plus"></i> Add Duplicate Aliquot</g:link>
 </g:if>
 
 <g:if test="${(!aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Buffy Coat' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma' && !aliquotInstance?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Section'
