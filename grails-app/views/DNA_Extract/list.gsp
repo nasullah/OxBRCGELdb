@@ -5,7 +5,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'DNA_Extract.label', default: 'DNA/RNA Extract')}" />
+	<g:set var="entityName" value="${message(code: 'DNA_Extract.label', default: 'Available DNA/RNA Extract')}" />
 	<title><g:message code="default.list.label" args="[entityName]" /></title>
     <r:require module="filterpane" />
 </head>

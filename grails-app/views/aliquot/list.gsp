@@ -5,7 +5,7 @@
 
 <head>
     <meta name="layout" content="kickstart" />
-    <g:set var="entityName" value="${message(code: 'aliquot.label', default: 'Aliquot')}" />
+    <g:set var="entityName" value="${message(code: 'aliquot.label', default: 'Available Aliquot')}" />
     <title><g:message code="default.list.label" args="[entityName]" /></title>
     <r:require module="filterpane" />
 </head>

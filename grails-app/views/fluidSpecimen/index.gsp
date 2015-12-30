@@ -5,7 +5,7 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'fluidSpecimen.label', default: 'Fluid Specimen')}" />
+	<g:set var="entityName" value="${message(code: 'fluidSpecimen.label', default: 'Available Fluid Specimen')}" />
 	<title><g:message code="default.index.label" args="[entityName]" /></title>
     <r:require module="filterpane" />
 </head>
