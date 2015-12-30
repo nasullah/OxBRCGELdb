@@ -2,13 +2,16 @@
 
 
 
-<div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'solidSpecimen', 'error')} required">
-    <label for="solidSpecimen" class="control-label"><g:message code="FFPE_Tissue_Report.solidSpecimen.label" default="Main Specimen" /><span class="required-indicator">*</span></label>
-    <div>
-        <g:select class="form-control" id="solidSpecimen" name="solidSpecimen.id" from="${geldb.SolidSpecimen.list()}" optionKey="id" required="" value="${FFPE_Tissue_ReportInstance?.solidSpecimen?.id}" class="many-to-one"/>
-        <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'solidSpecimen', 'error')}</span>
-    </div>
-</div>
+%{--<div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'solidSpecimen', 'error')} required">--}%
+    %{--<label for="solidSpecimen" class="control-label"><g:message code="FFPE_Tissue_Report.solidSpecimen.label" default="Main Specimen" /><span class="required-indicator">*</span></label>--}%
+    %{--<div>--}%
+        %{--<g:select class="form-control" id="solidSpecimen" name="solidSpecimen.id" from="${geldb.SolidSpecimen.list()}" optionKey="id" required="" value="${FFPE_Tissue_ReportInstance?.solidSpecimen?.id}" class="many-to-one"/>--}%
+        %{--<span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'solidSpecimen', 'error')}</span>--}%
+    %{--</div>--}%
+%{--</div>--}%
+
+<p><b>${FFPE_Tissue_ReportInstance?.solidSpecimen}</b></p>
+<g:hiddenField name="solidSpecimen.id" id="solidSpecimen" value="${FFPE_Tissue_ReportInstance?.solidSpecimen?.id}"/>
 
 <div class="row">
     <div class="col-lg-6">

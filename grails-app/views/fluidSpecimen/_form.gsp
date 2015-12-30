@@ -17,17 +17,19 @@
             </g:if>
 
             <g:if test="${fluidSpecimenInstance?.participant?.id != null}">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'participant', 'error')} required">
-                            <label for="participant" class="control-label"><g:message code="fluidSpecimen.participant.label" default="Participant" /><span class="required-indicator">*</span></label>
-                            <div>
-                                <g:select class="form-control" id="participant" name="participant.id" from="${geldb.Participant.list()}" optionKey="id" required="" value="${fluidSpecimenInstance?.participant?.id}" class="many-to-one" />
-                                <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'participant', 'error')}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                %{--<div class="row">--}%
+                    %{--<div class="col-lg-6">--}%
+                        %{--<div class="${hasErrors(bean: fluidSpecimenInstance, field: 'participant', 'error')} required">--}%
+                            %{--<label for="participant" class="control-label"><g:message code="fluidSpecimen.participant.label" default="Participant" /><span class="required-indicator">*</span></label>--}%
+                            %{--<div>--}%
+                                %{--<g:select class="form-control" id="participant" name="participant.id" from="${geldb.Participant.list()}" optionKey="id" required="" value="${fluidSpecimenInstance?.participant?.id}" class="many-to-one" />--}%
+                                %{--<span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'participant', 'error')}</span>--}%
+                            %{--</div>--}%
+                        %{--</div>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
+                <p><b>Participant- ${fluidSpecimenInstance?.participant}</b></p>
+                <g:hiddenField name="participant.id" id="participant" value="${fluidSpecimenInstance?.participant?.id}"/>
             </g:if>
 
             <div class="row">

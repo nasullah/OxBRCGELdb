@@ -2,13 +2,16 @@
 
 
 
-			<div class="${hasErrors(bean: fixationReportInstance, field: 'aliquot', 'error')} required">
-				<label for="aliquot" class="control-label"><g:message code="fixationReport.aliquot.label" default="Aliquot" /><span class="required-indicator">*</span></label>
-				<div>
-					<g:select class="form-control" id="aliquot" name="aliquot.id" from="${geldb.Aliquot.list()}" optionKey="id" required="" value="${fixationReportInstance?.aliquot?.id}" class="many-to-one"/>
-					<span class="help-inline">${hasErrors(bean: fixationReportInstance, field: 'aliquot', 'error')}</span>
-				</div>
-			</div>
+			%{--<div class="${hasErrors(bean: fixationReportInstance, field: 'aliquot', 'error')} required">--}%
+				%{--<label for="aliquot" class="control-label"><g:message code="fixationReport.aliquot.label" default="Aliquot" /><span class="required-indicator">*</span></label>--}%
+				%{--<div>--}%
+					%{--<g:select class="form-control" id="aliquot" name="aliquot.id" from="${geldb.Aliquot.list()}" optionKey="id" required="" value="${fixationReportInstance?.aliquot?.id}" class="many-to-one"/>--}%
+					%{--<span class="help-inline">${hasErrors(bean: fixationReportInstance, field: 'aliquot', 'error')}</span>--}%
+				%{--</div>--}%
+			%{--</div>--}%
+
+			<p><b>${fixationReportInstance?.aliquot}</b></p>
+			<g:hiddenField name="aliquot.id" id="aliquot" value="${fixationReportInstance?.aliquot?.id}"/>
 
 			<div class="row">
 				<div class="col-lg-6">

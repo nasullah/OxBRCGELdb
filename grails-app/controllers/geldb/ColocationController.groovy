@@ -98,6 +98,11 @@ class ColocationController {
             return
         }
 
+        if (colocationInstance.pairedAliquot){
+            colocationInstance.pairedAliquot.colocation = null
+            colocationInstance.pairedAliquot.save flush: true
+        }
+
         colocationInstance.delete flush: true
 
         request.withFormat {

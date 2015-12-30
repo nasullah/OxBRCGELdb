@@ -1,14 +1,17 @@
 <%@ page import="geldb.StudySubject" %>
 
 
+            <p><b>Participant- ${studySubjectInstance?.participant}</b></p>
 
-			<div class="${hasErrors(bean: studySubjectInstance, field: 'participant', 'error')} required">
-				<label for="participant" class="control-label"><g:message code="studySubject.participant.label" default="Participant" /><span class="required-indicator">*</span></label>
-				<div>
-					<g:select class="form-control" id="participant" name="participant.id" from="${geldb.Participant.list()}" optionKey="id" required="" value="${studySubjectInstance?.participant?.id}" class="many-to-one"/>
-					<span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'participant', 'error')}</span>
-				</div>
-			</div>
+			%{--<div class="${hasErrors(bean: studySubjectInstance, field: 'participant', 'error')} required">--}%
+				%{--<label for="participant" class="control-label"><g:message code="studySubject.participant.label" default="Participant" /><span class="required-indicator">*</span></label>--}%
+				%{--<div>--}%
+					%{--<g:select class="form-control" id="participant" name="participant.id" from="${geldb.Participant.list()}" optionKey="id" required="" value="${studySubjectInstance?.participant?.id}" class="many-to-one"/>--}%
+					%{--<span class="help-inline">${hasErrors(bean: studySubjectInstance, field: 'participant', 'error')}</span>--}%
+				%{--</div>--}%
+			%{--</div>--}%
+
+            <g:hiddenField name="participant.id" id="participant" value="${studySubjectInstance?.participant?.id}"  />
 
             <div class="row">
                 <div class="col-lg-6">

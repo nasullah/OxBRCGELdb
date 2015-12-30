@@ -2,13 +2,16 @@
 
 
 
-            <div class="${hasErrors(bean: derivationInstance, field: 'aliquot', 'error')} ">
-                <label for="aliquot" class="control-label"><g:message code="derivation.aliquot.label" default="Parent Aliquot" /><span class="required-indicator">*</span></label>
-                <div>
-                    <g:select class="form-control" id="aliquot" name="aliquot.id" from="${geldb.Aliquot.list()}" optionKey="id"  value="${derivationInstance?.aliquot?.id}" required="" class="many-to-one"/>
-                    <span class="help-inline">${hasErrors(bean: derivationInstance, field: 'aliquot', 'error')}</span>
-                </div>
-            </div>
+            %{--<div class="${hasErrors(bean: derivationInstance, field: 'aliquot', 'error')} ">--}%
+                %{--<label for="aliquot" class="control-label"><g:message code="derivation.aliquot.label" default="Parent Aliquot" /><span class="required-indicator">*</span></label>--}%
+                %{--<div>--}%
+                    %{--<g:select class="form-control" id="aliquot" name="aliquot.id" from="${geldb.Aliquot.list()}" optionKey="id"  value="${derivationInstance?.aliquot?.id}" required="" class="many-to-one"/>--}%
+                    %{--<span class="help-inline">${hasErrors(bean: derivationInstance, field: 'aliquot', 'error')}</span>--}%
+                %{--</div>--}%
+            %{--</div>--}%
+
+            <p><b>Parent ${derivationInstance?.aliquot}</b></p>
+            <g:hiddenField name="aliquot.id" id="aliquot" value="${derivationInstance?.aliquot?.id}"/>
 
             <div class="row">
                 <div class="col-lg-6">

@@ -20,7 +20,7 @@ class ListAuditLogDataService {
     }
 
     def getParameters(){
-        Map parameters = [title: "Exported User Activity Log", "column.widths": [0.2, 0.3, 0.5]]
+        Map parameters = [title: "Exported User Activity Log", "column.widths": [0.2, 0.12, 0.15, 0.2, 0.2, 0.4, 0.4]]
         return parameters
     }
 }

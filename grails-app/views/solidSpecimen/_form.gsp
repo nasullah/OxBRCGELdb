@@ -27,17 +27,19 @@
             </g:if>
 
             <g:if test="${solidSpecimenInstance?.participant?.id != null}">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="${hasErrors(bean: solidSpecimenInstance, field: 'participant', 'error')} required" >
-                            <label for="participant" class="control-label"><g:message code="solidSpecimen.participant.label" default="Participant" /><span class="required-indicator">*</span></label>
-                            <div>
-                                <g:select class="form-control" id="participant" name="participant.id" from="${geldb.Participant.list()}" optionKey="id" required="" value="${solidSpecimenInstance?.participant?.id}" class="many-to-one"/>
-                                <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'participant', 'error')}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                %{--<div class="row">--}%
+                    %{--<div class="col-lg-6">--}%
+                        %{--<div class="${hasErrors(bean: solidSpecimenInstance, field: 'participant', 'error')} required" >--}%
+                            %{--<label for="participant" class="control-label"><g:message code="solidSpecimen.participant.label" default="Participant" /><span class="required-indicator">*</span></label>--}%
+                            %{--<div>--}%
+                                %{--<g:select class="form-control" id="participant" name="participant.id" from="${geldb.Participant.list()}" optionKey="id" required="" value="${solidSpecimenInstance?.participant?.id}" class="many-to-one"/>--}%
+                                %{--<span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'participant', 'error')}</span>--}%
+                            %{--</div>--}%
+                        %{--</div>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
+                <p><b>Participant- ${solidSpecimenInstance?.participant}</b></p>
+                <g:hiddenField name="participant.id" id="participant" value="${solidSpecimenInstance?.participant?.id}"/>
             </g:if>
 
             <div class="row">

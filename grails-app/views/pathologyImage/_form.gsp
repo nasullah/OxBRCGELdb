@@ -3,23 +3,27 @@
 
 
             <g:if test="${pathologyImageInstance?.solidSpecimenReport?.id !=null}">
-                <div class="${hasErrors(bean: pathologyImageInstance, field: 'solidSpecimenReport', 'error')} required">
-                    <label for="solidSpecimenReport" class="control-label"><g:message code="pathologyImage.solidSpecimenReport.label" default="Solid Specimen Report" /><span class="required-indicator">*</span></label>
-                    <div>
-                        <g:select class="form-control" id="solidSpecimenReport" name="solidSpecimenReport.id" from="${geldb.SolidSpecimenReport.list()}" optionKey="id" required="" value="${pathologyImageInstance?.solidSpecimenReport?.id}" class="many-to-one"/>
-                        <span class="help-inline">${hasErrors(bean: pathologyImageInstance, field: 'solidSpecimenReport', 'error')}</span>
-                    </div>
-                </div>
+                %{--<div class="${hasErrors(bean: pathologyImageInstance, field: 'solidSpecimenReport', 'error')} required">--}%
+                    %{--<label for="solidSpecimenReport" class="control-label"><g:message code="pathologyImage.solidSpecimenReport.label" default="Solid Specimen Report" /><span class="required-indicator">*</span></label>--}%
+                    %{--<div>--}%
+                        %{--<g:select class="form-control" id="solidSpecimenReport" name="solidSpecimenReport.id" from="${geldb.SolidSpecimenReport.list()}" optionKey="id" required="" value="${pathologyImageInstance?.solidSpecimenReport?.id}" class="many-to-one"/>--}%
+                        %{--<span class="help-inline">${hasErrors(bean: pathologyImageInstance, field: 'solidSpecimenReport', 'error')}</span>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
+                <p><b>${pathologyImageInstance?.solidSpecimenReport}</b></p>
+                <g:hiddenField name="solidSpecimenReport.id" id="solidSpecimenReport" value="${pathologyImageInstance?.solidSpecimenReport?.id}"/>
             </g:if>
 
             <g:if test="${pathologyImageInstance?.gelSuitabilityReport?.id !=null}">
-                <div class="${hasErrors(bean: pathologyImageInstance, field: 'gelSuitabilityReport', 'error')} required">
-                    <label for="gelSuitabilityReport" class="control-label"><g:message code="pathologyImage.gelSuitabilityReport.label" default="Gel Suitability Report" /><span class="required-indicator">*</span></label>
-                    <div>
-                        <g:select class="form-control" id="gelSuitabilityReport" name="gelSuitabilityReport.id" from="${geldb.GelSuitabilityReport.list()}" optionKey="id" required="" value="${pathologyImageInstance?.gelSuitabilityReport?.id}" class="many-to-one"/>
-                        <span class="help-inline">${hasErrors(bean: pathologyImageInstance, field: 'gelSuitabilityReport', 'error')}</span>
-                    </div>
-                </div>
+                %{--<div class="${hasErrors(bean: pathologyImageInstance, field: 'gelSuitabilityReport', 'error')} required">--}%
+                    %{--<label for="gelSuitabilityReport" class="control-label"><g:message code="pathologyImage.gelSuitabilityReport.label" default="Gel Suitability Report" /><span class="required-indicator">*</span></label>--}%
+                    %{--<div>--}%
+                        %{--<g:select class="form-control" id="gelSuitabilityReport" name="gelSuitabilityReport.id" from="${geldb.GelSuitabilityReport.list()}" optionKey="id" required="" value="${pathologyImageInstance?.gelSuitabilityReport?.id}" class="many-to-one"/>--}%
+                        %{--<span class="help-inline">${hasErrors(bean: pathologyImageInstance, field: 'gelSuitabilityReport', 'error')}</span>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
+                <p><b>${pathologyImageInstance?.gelSuitabilityReport}</b></p>
+                <g:hiddenField name="gelSuitabilityReport.id" id="gelSuitabilityReport" value="${pathologyImageInstance?.gelSuitabilityReport?.id}"/>
             </g:if>
 
             <div class="row">

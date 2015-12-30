@@ -1,17 +1,20 @@
 <%@ page import="geldb.DispatchItem" %>
 
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="${hasErrors(bean: dispatchItemInstance, field: 'dispatchedBox', 'error')} required">
-                        <label for="dispatchedBox" class="control-label"><g:message code="dispatchItem.dispatchedBox.label" default="Dispatched Box" /><span class="required-indicator">*</span></label>
-                        <div>
-                            <g:select class="form-control" id="dispatchedBox" name="dispatchedBox.id" from="${geldb.DispatchedBox.list()}" optionKey="id" required="" value="${dispatchItemInstance?.dispatchedBox?.id}"/>
-                            <span class="help-inline">${hasErrors(bean: dispatchItemInstance, field: 'dispatchedBox', 'error')}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            %{--<div class="row">--}%
+                %{--<div class="col-lg-6">--}%
+                    %{--<div class="${hasErrors(bean: dispatchItemInstance, field: 'dispatchedBox', 'error')} required">--}%
+                        %{--<label for="dispatchedBox" class="control-label"><g:message code="dispatchItem.dispatchedBox.label" default="Dispatched Box" /><span class="required-indicator">*</span></label>--}%
+                        %{--<div>--}%
+                            %{--<g:select class="form-control" id="dispatchedBox" name="dispatchedBox.id" from="${geldb.DispatchedBox.list()}" optionKey="id" required="" value="${dispatchItemInstance?.dispatchedBox?.id}"/>--}%
+                            %{--<span class="help-inline">${hasErrors(bean: dispatchItemInstance, field: 'dispatchedBox', 'error')}</span>--}%
+                        %{--</div>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
+            %{--</div>--}%
+
+            <p><b>Dispatched Box- ${dispatchItemInstance?.dispatchedBox}</b></p>
+            <g:hiddenField id="dispatchedBox" name="dispatchedBox.id"  value="${dispatchItemInstance?.dispatchedBox?.id}"/>
 
             <div class="row">
                 <div class="col-lg-6">
