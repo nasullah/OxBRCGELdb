@@ -204,8 +204,8 @@ class ParticipantController {
             if (barcode && (barcodeVersionDate =='01/07/2015' ||  barcodeVersionDate == '01/09/2015')){
                 def barcodeParts = barcode.toString().split('~')
                 def nHSNumber = barcodeParts[0].substring(11,21)
-                def barcodePart0= barcodeParts[0].replaceAll("[^\\x20-\\x7e]", "")
-                def participantId = barcodePart0.substring(25,34)
+                def barcodePart0Parts= barcodeParts[0].split("[^\\x20-\\x7e]")
+                def participantId = barcodePart0Parts[1].substring(2, 11)
                 def hospitalNumber = barcodeParts[1]
                 def familyName = barcodeParts[3]
                 def givenName = barcodeParts[2]

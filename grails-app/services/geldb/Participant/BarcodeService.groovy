@@ -25,7 +25,6 @@ class BarcodeService {
         }
     }
 
-
     public void generateCode128(String barcodeValue,String fileName){
 
         BitMatrix bitMatrix;
@@ -82,7 +81,6 @@ class BarcodeService {
         return pixels;
     }
 
-
     //Source from
     //http://stackoverflow.com/questions/22766017/datamatrix-encoding-with-zxing-only-generates-14px-bitmap
     private BufferedImage scale(BitMatrix bitMatrix, int requestedWidth,
@@ -124,9 +122,5 @@ class BarcodeService {
         bitmap.getRaster().setDataElements(0, 0, requestedWidth,
                 requestedHeight, pixels);
         return bitmap;
-
     }
-
-
-
 }
