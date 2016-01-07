@@ -247,6 +247,9 @@
                 </div>
             </div>
 
+            <g:hiddenField name="originalVolume" value="${originalVolume}" />
+            <g:hiddenField name="originalDnaId" value="${originalDnaId}" />
+
             <div class="modal fade" id="notFound">
                 <div class="modal-dialog" style="position: absolute; left: 0%;">
                     <div class="modal-content">

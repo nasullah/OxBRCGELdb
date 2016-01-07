@@ -80,7 +80,7 @@ class DNA_ExtractController {
     }
 
     def create() {
-        respond new DNA_Extract(params)
+        respond new DNA_Extract(params), model: [originalVolume: params.originalVolume, originalDnaId: params.originalDnaId]
     }
 
     def workLists() {
@@ -198,6 +198,18 @@ class DNA_ExtractController {
             return
         }
 
+        if (params.originalVolume && params.originalDnaId){
+            def originalDNA = DNA_Extract.findById(params.long('originalDnaId'))
+            if (originalDNA){
+                def originalVolume = params.originalVolume
+                originalVolume = originalVolume?.toString()?.toDouble()
+                if (originalVolume > DNA_ExtractInstance.dNAAmount){
+                    def newVolume = originalVolume - DNA_ExtractInstance.dNAAmount
+                    originalDNA.dNAAmount = newVolume
+                    originalDNA.save flush: true
+                }
+            }
+        }
 
         request.withFormat {
             form {
