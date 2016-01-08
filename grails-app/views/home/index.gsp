@@ -35,8 +35,6 @@
 
         </p>
 
-        <br/>
-
         <hr>
 
         <p>
@@ -53,12 +51,6 @@
             All enquiries: <a href="mailto:steve.harris@ndcls.ox.ac.uk">Steve Harris</a>
 
         </p>
-
-        <hr>
-
-        <br/>
-
-        <hr>
 
         <p>
             © University of Oxford 2016
