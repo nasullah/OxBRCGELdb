@@ -81,7 +81,19 @@
 
                 <td>${fieldValue(bean: aliquotInstance.specimen.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
 
-                <td><a class='btn btn-primary btn-xs' <g:link controller="DNA_Extract" action="create" params="['aliquot': aliquotInstance?.id,'extractionType':geldb.ExtractionType?.findByExtractionTypeName('DNA Extraction')?.id]"><i class="glyphicon glyphicon-plus"></i> Add DNA Extract</g:link></td>
+                <% def aliquotType = aliquotInstance?.aliquotType?.aliquotTypeName
+                def gelId = aliquotInstance?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}
+                def elution = ""
+                if (aliquotType && gelId){
+                    if (aliquotType == 'Buffy Coat'){
+                        elution = gelId.toString() + "_" + "GL" + "_"
+                    }else {
+                        elution = gelId.toString() + "_" + aliquotType.toString().replace(" ","") + "_"
+                    }
+                } %>
+
+                <td><a class='btn btn-primary btn-xs' <g:link controller="DNA_Extract" action="create" params="['aliquot': aliquotInstance?.id,'extractionType':geldb.ExtractionType?.findByExtractionTypeName('DNA Extraction')?.id,
+                                                                                                                'sapphireIdentifier': elution]"><i class="glyphicon glyphicon-plus"></i> Add DNA Extract</g:link></td>
 
             </tr>
         </g:each>
