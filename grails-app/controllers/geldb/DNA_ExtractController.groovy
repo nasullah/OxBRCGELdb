@@ -96,6 +96,8 @@ class DNA_ExtractController {
                 ge("dNAConcentrationNanodrop", '1.8'.toFloat())
                 ge("dNAConcentrationQubit", '18'.toFloat())
                 eq("exhausted", false)
+                eq("passFail", true)
+                eq('extractionType', ExtractionType.findByExtractionTypeName('DNA Extraction'))
             }
         }
         def glDNAExtract = DNA_Extract.createCriteria().list {
@@ -110,6 +112,8 @@ class DNA_ExtractController {
                 ge("dNAConcentrationQubit", '30'.toFloat())
                 ge("dNAAmount", '100'.toDouble())
                 eq("exhausted", false)
+                eq("passFail", true)
+                eq('extractionType', ExtractionType.findByExtractionTypeName('DNA Extraction'))
             }
         }
         def ffpDNAExtract = DNA_Extract.createCriteria().list {
@@ -124,6 +128,8 @@ class DNA_ExtractController {
                 ge("dNAConcentrationNanodrop", '1.8'.toFloat())
                 ge("dNAConcentrationQubit", '18'.toFloat())
                 eq("exhausted", false)
+                eq("passFail", true)
+                eq('extractionType', ExtractionType.findByExtractionTypeName('DNA Extraction'))
             }
         }
         def ffPatientIds = ffDNAExtract.aliquot.specimen.participant.id.flatten().unique()
