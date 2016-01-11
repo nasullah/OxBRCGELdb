@@ -57,29 +57,38 @@
 	<table class="table table-bordered margin-top-medium">
 		<thead>
 			<tr>
-			
+
 				<g:sortableColumn property="fluidSampleType" title="${message(code: 'fluidSpecimen.fluidSampleType.label', default: 'Fluid Sample Type')}" />
 
                 <g:sortableColumn property="collectionDate" title="${message(code: 'fluidSpecimen.collectionDate.label', default: 'Collection Date')}" />
 
 				<g:sortableColumn property="timePoint" title="${message(code: 'fluidSpecimen.timePoint.label', default: 'Time Point')}" />
-			
+
 				<g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'fluidSpecimen.participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
-			
+
+                <th>Summary Report</th>
+
 			</tr>
 		</thead>
 		<tbody>
 		<g:each in="${fluidSpecimenInstanceList}" status="i" var="fluidSpecimenInstance">
 			<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-			
+
 				<td><g:link action="show" id="${fluidSpecimenInstance.id}">${fieldValue(bean: fluidSpecimenInstance, field: "fluidSampleType")}</g:link></td>
 
                 <td><g:formatDate format="yyyy-MM-dd" date="${fluidSpecimenInstance.collectionDate}" /></td>
 
                 <td>${fieldValue(bean: fluidSpecimenInstance, field: "timePoint")}</td>
-			
+
 				<td>${fieldValue(bean: fluidSpecimenInstance.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
-			
+
+                <%def gelID = fluidSpecimenInstance?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}%>
+                <g:if test="${gelID}">
+                    <td><a class='btn btn-primary btn-xs' <g:link controller="participant" action="summaryReport" params="[gelStudyId : gelID]"><i class="glyphicon glyphicon-info-sign"></i> View Summary Report</g:link></td>
+                </g:if>
+                <g:else>
+                    <td></td>
+                </g:else>
 			</tr>
 		</g:each>
 		</tbody>

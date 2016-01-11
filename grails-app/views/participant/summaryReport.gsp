@@ -38,7 +38,7 @@
 
                 <div class="col-md-4">
                     <label class="control-label"><small>Export All Dispatched Items</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getCSVAllDispatchedItems()" <g:link controller="dispatchRecord" action="exportAllDispatchedItems" params="['format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>
+                    <a class='btn btn-success btn-sm' onclick="getCSVAllDispatchedItems()" <g:link controller="dispatchRecord" action="exportAllDispatchedItems" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     <div id="spinnerAllDispatchedItems" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>

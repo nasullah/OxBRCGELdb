@@ -48,6 +48,8 @@
 
             <g:sortableColumn property="aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
 
+            <th>Summary Report</th>
+
         </tr>
         </thead>
         <tbody>
@@ -67,6 +69,13 @@
                 <% gelId =gelId.findResult {it.studySubjectIdentifier ? it : null}%>
 
                 <td>${fieldValue(bean: gelId, field: "studySubjectIdentifier")}</td>
+
+                <g:if test="${gelId}">
+                    <td><a class='btn btn-primary btn-xs' <g:link controller="participant" action="summaryReport" params="[gelStudyId : gelId.studySubjectIdentifier]"><i class="glyphicon glyphicon-info-sign"></i> View Summary Report</g:link></td>
+                </g:if>
+                <g:else>
+                    <td></td>
+                </g:else>
 
             </tr>
         </g:each>

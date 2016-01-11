@@ -66,6 +66,8 @@
 
             <g:sortableColumn property="participant.studySubject.studySubjectIdentifier" title="${message(code: 'fluidSpecimen.participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
 
+            <th>Summary Report</th>
+
         </tr>
         </thead>
         <tbody>
@@ -79,6 +81,14 @@
                 <td>${fieldValue(bean: fluidSpecimenInstance, field: "timePoint")}</td>
 
                 <td>${fieldValue(bean: fluidSpecimenInstance.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+
+                <%def gelID = fluidSpecimenInstance?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}%>
+                <g:if test="${gelID}">
+                    <td><a class='btn btn-primary btn-xs' <g:link controller="participant" action="summaryReport" params="[gelStudyId : gelID]"><i class="glyphicon glyphicon-info-sign"></i> View Summary Report</g:link></td>
+                </g:if>
+                <g:else>
+                    <td></td>
+                </g:else>
 
             </tr>
         </g:each>
