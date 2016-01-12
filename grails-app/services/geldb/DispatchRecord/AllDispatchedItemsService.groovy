@@ -52,7 +52,7 @@ class AllDispatchedItemsService {
     }
 
     def getParameters(){
-        Map parameters = [title: "Dispatched Item", "column.widths": [0.2, 0.3, 0.3, 0.2, 0.2, 0.25]]
+        Map parameters = [title: "Dispatched Item", "column.widths": [0.2, 0.2, 0.2, 0.3, 0.2, 0.25]]
         return parameters
     }
 }
