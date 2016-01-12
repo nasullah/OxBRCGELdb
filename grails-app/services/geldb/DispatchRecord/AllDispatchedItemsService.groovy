@@ -1,6 +1,6 @@
 package geldb.DispatchRecord
 
-
+import geldb.DNA_Extract
 import grails.transaction.Transactional
 
 /**
@@ -20,7 +20,11 @@ class AllDispatchedItemsService {
         }
 
         def dNAConcentrationQubit = { domain, value ->
-            return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+            if (DNA_Extract.findById(domain.identifiedSample.id)){
+                return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+            }else{
+                return ''
+            }
         }
 
         def dispatchDate  = { domain, value ->
