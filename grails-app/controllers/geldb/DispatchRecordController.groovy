@@ -422,7 +422,18 @@ class DispatchRecordController {
 //                }
 //
 //                def laboratoryRemainingVolumeBanked  = { domain, value ->
-//                    return "0"
+//                    if (domain?.identifiedSample?.aliquot?.specimen?.toString()?.startsWith('[Fluid Specimen-')) {
+//                        return "0"
+//                    }else{
+//                        def elution = DNA_Extract?.findById(domain?.identifiedSample?.id)?.sapphireIdentifier
+//                        if (elution){
+//                            elution = elution?.toString() + '_Remaining'
+//                            def remainingVolume = DNA_Extract?.findBySapphireIdentifier(elution)?.dNAAmount
+//                            if (remainingVolume){
+//                                return remainingVolume
+//                            }
+//                        }
+//                    }
 //                }
 //
 //                Map formatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'clinicID':clinicID,"identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourStatus":tumourType,
