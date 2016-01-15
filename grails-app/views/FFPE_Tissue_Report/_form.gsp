@@ -301,14 +301,24 @@
         </div>
 
         <div class="col-lg-6">
-            <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'processingSchedule', 'error')} ">
-                <label for="processingSchedule" class="control-label"><g:message code="FFPE_Tissue_Report.processingSchedule.label" default="Processing Schedule" /></label>
+            <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'fixationPeriod', 'error')} ">
+                <label for="fixationPeriod" class="control-label"><g:message code="FFPE_Tissue_Report.fixationPeriod.label" default="Fixation Period" /></label>
                 <div>
-                    <g:select class="form-control" id ="processingSchedule" name="processingSchedule" from="${geldb.ProcessingSchedule?.values()?.sort()}" keys="${geldb.ProcessingSchedule.values()*.name()}" value="${FFPE_Tissue_ReportInstance?.processingSchedule?.name()}" noSelection="['': '']"/>
-                    <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'processingSchedule', 'error')}</span>
+                    <g:select class="form-control" id="fixationPeriod" name="fixationPeriod" from="${geldb.Time12Hourly?.values()}" keys="${geldb.Time12Hourly.values()*.name()}" value="${FFPE_Tissue_ReportInstance?.fixationPeriod?.name()}" noSelection="['':'- Choose -']"/>
+                    <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'fixationPeriod', 'error')}</span>
                 </div>
             </div>
         </div>
+
+        %{--<div class="col-lg-6">--}%
+            %{--<div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'processingSchedule', 'error')} ">--}%
+                %{--<label for="processingSchedule" class="control-label"><g:message code="FFPE_Tissue_Report.processingSchedule.label" default="Processing Schedule" /></label>--}%
+                %{--<div>--}%
+                    %{--<g:select class="form-control" id ="processingSchedule" name="processingSchedule" from="${geldb.ProcessingSchedule?.values()?.sort()}" keys="${geldb.ProcessingSchedule.values()*.name()}" value="${FFPE_Tissue_ReportInstance?.processingSchedule?.name()}" noSelection="['': '']"/>--}%
+                    %{--<span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'processingSchedule', 'error')}</span>--}%
+                %{--</div>--}%
+            %{--</div>--}%
+        %{--</div>--}%
 
         <div class="col-lg-6">
             <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'fixationStartDate', 'error')} required">
@@ -346,16 +356,6 @@
                 <div>
                     <g:field type="time" class="form-control" name="fixationEndTime" value="${FFPE_Tissue_ReportInstance?.fixationEndTime}"/>
                     <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'fixationEndTime', 'error')}</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'fixationPeriod', 'error')} ">
-                <label for="fixationPeriod" class="control-label"><g:message code="FFPE_Tissue_Report.fixationPeriod.label" default="Fixation Period" /></label>
-                <div>
-                    <g:select class="form-control" id="fixationPeriod" name="fixationPeriod" from="${geldb.Time12Hourly?.values()}" keys="${geldb.Time12Hourly.values()*.name()}" value="${FFPE_Tissue_ReportInstance?.fixationPeriod?.name()}" noSelection="['':'- Choose -']"/>
-                    <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'fixationPeriod', 'error')}</span>
                 </div>
             </div>
         </div>

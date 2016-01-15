@@ -189,14 +189,14 @@
             </tr>
         </g:if>
 
-        <g:if test="${FFPE_Tissue_ReportInstance?.processingSchedule}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.processingSchedule.label" default="Processing Schedule" /></td>
+        %{--<g:if test="${FFPE_Tissue_ReportInstance?.processingSchedule}">--}%
+            %{--<tr class="prop">--}%
+                %{--<td valign="top" class="name"><g:message code="FFPE_Tissue_Report.processingSchedule.label" default="Processing Schedule" /></td>--}%
 
-                <td valign="top" class="value">${FFPE_Tissue_ReportInstance?.processingSchedule?.encodeAsHTML()}</td>
+                %{--<td valign="top" class="value">${FFPE_Tissue_ReportInstance?.processingSchedule?.encodeAsHTML()}</td>--}%
 
-            </tr>
-        </g:if>
+            %{--</tr>--}%
+        %{--</g:if>--}%
 
         <g:if test="${FFPE_Tissue_ReportInstance?.fixationStartDate}">
             <tr class="prop">
