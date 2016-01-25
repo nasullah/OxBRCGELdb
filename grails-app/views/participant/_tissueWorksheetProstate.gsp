@@ -330,8 +330,8 @@
 <table width="100%" border="1">
 
     <tr>
-        <th width="44%"><center><span style="font-weight: bold;font-size: 7pt">To be completed by biobanker</span></center></th>
-        <th width="56%" bgcolor="#dcdcdc"><center><span style="font-weight: bold;font-size: 7pt">To be completed by ORB / NDS team</span></center></th>
+        <th width="30%"><center><span style="font-weight: bold;font-size: 7pt">To be completed by biobanker</span></center></th>
+        <th width="70%" bgcolor="#dcdcdc"><center><span style="font-weight: bold;font-size: 7pt">To be completed by ORB / NDS team</span></center></th>
 
     </tr>
 
@@ -340,9 +340,11 @@
 <table border="1">
 
     <tr>
-        <th width="20%"><span style="font-weight: normal;font-size: 7pt">Full unique ID Sapphire / biobank ID</span></th>
-        <th width="9%"><span style="font-weight: normal;font-size: 7pt">Inking colour if appl.</span></th>
-        <th width="15%"><span style="font-weight: normal;font-size: 7pt">Zone</span></th>
+        <th width="15%"><span style="font-weight: normal;font-size: 7pt">Full unique ID Sapphire / biobank ID</span></th>
+        <th width="5%"><span style="font-weight: normal;font-size: 7pt">Inking colour if appl.</span></th>
+        <th width="10%"><span style="font-weight: normal;font-size: 7pt">Zone</span></th>
+        <th width="7%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Punch Classification</span></th>
+        <th width="7%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Ranking</span></th>
         <th width="10%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Punch weight mg</span></th>
         <th width="10%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Frozen slide IDs GELxxx last 4/6 digits of unique ID + T, M, B for top, middle, bottom</span></th>
         <th width="9%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">H&amp;E slide prepared by</span></th>
@@ -356,6 +358,8 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt">1. Mid anterior</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">B or T (1)</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">P, R (2)</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">T-M ........................ M-B ........................</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -369,6 +373,8 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt">2. Right lateral</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">B or T (1)</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">P, R (2)</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">T-M ........................ M-B ........................</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -381,6 +387,8 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt">3. Right peripheral zone towards lateral</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">B or T (1)</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">P, R (2)</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">T-M ........................ M-B ........................</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -393,6 +401,8 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt">4. Right peripheral zone towards mid</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">B or T (1)</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">P, R (2)</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">T-M ........................ M-B ........................</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -405,6 +415,8 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt">5. Left peripheral zone towards lateral</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">B or T (1)</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">P, R (2)</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">T-M ........................ M-B ........................</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -417,6 +429,8 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt">6. Left Peripheral zone towards mid</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">B or T (1)</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">P, R (2)</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">T-M ........................ M-B ........................</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -429,6 +443,8 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt">7. Left Lateral</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">B or T (1)</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">P, R (2)</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">T-M ........................ M-B ........................</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -441,6 +457,8 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt">8. LTZ</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">B or T (1)</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">P, R (2)</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">T-M ........................ M-B ........................</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -453,6 +471,8 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt">9. RTZ</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">B or T (1)</span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">P, R (2)</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">T-M ........................ M-B ........................</span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -462,6 +482,10 @@
     </tr>
 
 </table>
+
+<p><span style="font-weight: bold; font-size: 8pt">(1)</span><span style="font-size: 8pt"> B = Benign tissue, T = Tumour</span></p>
+
+<p><span style="font-weight: bold; font-size: 8pt">(2)</span><span style="font-size: 8pt"> P = Priority punch for sequencing, R = Reserve punch for sequencing</span></p>
 
 <p></p>
 
