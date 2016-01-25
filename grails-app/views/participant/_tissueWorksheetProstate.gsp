@@ -343,7 +343,7 @@
         <th width="15%"><span style="font-weight: normal;font-size: 7pt">Full unique ID Sapphire / biobank ID</span></th>
         <th width="5%"><span style="font-weight: normal;font-size: 7pt">Inking colour if appl.</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 7pt">Zone</span></th>
-        <th width="7%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Punch Classification</span></th>
+        <th width="7%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Punch classification</span></th>
         <th width="7%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Ranking</span></th>
         <th width="10%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Punch weight mg</span></th>
         <th width="10%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Frozen slide IDs GELxxx last 4/6 digits of unique ID + T, M, B for top, middle, bottom</span></th>
