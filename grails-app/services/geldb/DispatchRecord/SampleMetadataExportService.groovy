@@ -372,6 +372,8 @@ class SampleMetadataExportService {
                     def remainingVolume = DNA_Extract?.findBySapphireIdentifier(elution)?.dNAAmount
                     if (remainingVolume){
                         return remainingVolume
+                    }else{
+                        return "0"
                     }
                 }
             }
