@@ -431,7 +431,39 @@ class DispatchRecordController {
 //                            def remainingVolume = DNA_Extract?.findBySapphireIdentifier(elution)?.dNAAmount
 //                            if (remainingVolume){
 //                                return remainingVolume
+//                            }else{
+//                                return "0"
 //                            }
+//                        }
+//                    }
+//                }
+//
+//                def numberOfBiopsies = { domain, value ->
+//                    if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+//                        return ''
+//                    } else {
+//                        def number = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+//                        if (number) {
+//                            return number
+//                        } else {
+//                            return ""
+//                        }
+//                    }
+//                 }
+//
+//                def timeInProcessor = { domain, value ->
+//                    if (value.toString()?.startsWith('[Fluid Specimen-')) {
+//                        return ''
+//                    } else {
+//                        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
+//                            def time = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+//                            if (time){
+//                                return time
+//                            }else{
+//                                return ""
+//                            }
+//                        }else{
+//                            return ""
 //                        }
 //                    }
 //                }
@@ -443,7 +475,8 @@ class DispatchRecordController {
 //                                  "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed" :topography, "identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails":macrodissectionDetails,
 //                                  "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot":fixationStartDate, "identifiedSample.aliquot.fixationReport.fixationTypeAliquot":fixationType,
 //                                  "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot":fixationEndDate, "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot":fixationComments,
-//                                  "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":processingSchedule, "volume_ul":volumeUl, "laboratorySampleID":laboratorySampleID, "Excision Margin":excisionMargin
+//                                  "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":processingSchedule, "volume_ul":volumeUl, "laboratorySampleID":laboratorySampleID, "Excision Margin":excisionMargin,
+//                                  "identifiedSample.aliquot.specimen.numberOfBiopsies":numberOfBiopsies, "identifiedSample.aliquot.fixationReport.timeInProcessor": timeInProcessor
 //                ]
 //
 //                List fields = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier","clinicID","identifiedSample.barcode",
@@ -455,7 +488,7 @@ class DispatchRecordController {
 //                               "Topography (SnomedRT)", "identifiedSample.aliquot.gelSuitabilityReport.microdissection", "identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails",
 //                               "Snap Freezing Start DateTime", "identifiedSample.aliquot.fixationReport.fixationTypeAliquot", "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot",
 //                               "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot", "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot", "identifiedSample.aliquot.fixationReport.processingScheduleAliquot",
-//                               "Time in formalin on processor", "Number of Biopsies", "Gauge of Biopsies", "DNA Extraction Protocol", "Prolonged Sample Storage", "Reason Sample Not Sent", "Tumour Sample Type",
+//                               "identifiedSample.aliquot.fixationReport.timeInProcessor", "identifiedSample.aliquot.specimen.numberOfBiopsies", "Gauge of Biopsies", "DNA Extraction Protocol", "Prolonged Sample Storage", "Reason Sample Not Sent", "Tumour Sample Type",
 //                               "Scroll Thickness", "Number of Scrolls", "Number of Sections", "Section Thickness", "Number of Blocks", "Core Diameter", "Number of Cores"
 //                ]
 //
@@ -469,7 +502,8 @@ class DispatchRecordController {
 //                             "identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails":"Macrodissection Details", "identifiedSample.aliquot.gelSuitabilityReport.microdissection":"Macrodissected",
 //                             "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot":"Fixation End DateTime", "identifiedSample.aliquot.fixationReport.fixationTypeAliquot":"Type of Fixative",
 //                             "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot":"Fixation Start DateTime", "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot":"Fixation Comments",
-//                             "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":"Processing Schedule"
+//                             "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":"Processing Schedule", "identifiedSample.aliquot.specimen.numberOfBiopsies":"Number of Biopsies",
+//                             "identifiedSample.aliquot.fixationReport.timeInProcessor":"Time in formalin on processor"
 //                ]
 //
 //                Map parameters = [title: "GMC GEL Sample Metadata Cancer", "column.widths": [0.2, 0.2, 0.2]]
