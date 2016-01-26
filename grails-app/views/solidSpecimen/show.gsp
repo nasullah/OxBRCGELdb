@@ -38,6 +38,14 @@
 
             </tr>
 
+            <g:if test="${solidSpecimenInstance?.collectionMethod?.id == 118}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="solidSpecimen. numberOfBiopsies.label" default="Number of Biopsies" /></td>
+
+                    <td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "numberOfBiopsies")}</td>
+                </tr>
+            </g:if>
+
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="solidSpecimen.anatomicalSite.label" default="Anatomical Site" /></td>
 

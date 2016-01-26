@@ -57,12 +57,24 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'collectionMethod', 'error')} required">
                         <label for="collectionMethod" class="control-label"><g:message code="solidSpecimen.collectionMethod.label" default="Collection Method" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="collectionMethod" name="collectionMethod.id" from="${geldb.CollectionMethod.list().sort()}" optionKey="id" required="" value="${solidSpecimenInstance?.collectionMethod?.id}" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="collectionMethod" name="collectionMethod.id" from="${geldb.CollectionMethod.list().sort()}" optionKey="id" required="" value="${solidSpecimenInstance?.collectionMethod?.id}" onchange="showNumberOfBiopsies()" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'collectionMethod', 'error')}</span>
                         </div>
                     </div>
                 </div>
 
+                <div class="col-lg-6" id="numberOfBiopsiesRow">
+                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'numberOfBiopsies', 'error')} ">
+                        <label for="numberOfBiopsies" class="control-label"><g:message code="solidSpecimen.numberOfBiopsies.label" default="Number of Biopsies" /></label>
+                        <div>
+                            <g:select class="form-control" id="numberOfBiopsies" name="numberOfBiopsies" from="${solidSpecimenInstance.constraints.numberOfBiopsies.inList}" value="${solidSpecimenInstance?.numberOfBiopsies}" valueMessagePrefix="solidSpecimenInstance.numberOfBiopsies" noSelection="['':'- Choose -']" />
+                            <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'numberOfBiopsies', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'anatomicalSite', 'error')} ">
                         <label for="anatomicalSite" class="control-label"><g:message code="solidSpecimen.anatomicalSite.label" default="Anatomical Site" /></label>
@@ -183,16 +195,6 @@
                     </div>
                 </div>
 
-                %{--<div class="col-lg-6">--}%
-                    %{--<div class="${hasErrors(bean: solidSpecimenInstance, field: 'preparedBy', 'error')} ">--}%
-                        %{--<label for="preparedBy" class="control-label"><g:message code="solidSpecimen.preparedBy.label" default="Prepared By" /></label>--}%
-                        %{--<div>--}%
-                            %{--<g:select class="form-control" id="preparedBy" name="preparedBy.id" from="${geldb.StaffMember.list().sort()}" optionKey="id" value="${solidSpecimenInstance?.preparedBy?.id}" noSelection="['':'- Choose -']"/>--}%
-                            %{--<span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'preparedBy', 'error')}</span>--}%
-                        %{--</div>--}%
-                    %{--</div>--}%
-                %{--</div>--}%
-
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'surgeon', 'error')} ">
                         <label for="surgeon" class="control-label"><g:message code="solidSpecimen.surgeon.label" default="Surgeon" /><span class="required-indicator">*</span></label>
@@ -289,5 +291,16 @@
         $('#notFound').modal()
     }
 
+    showNumberOfBiopsies();
+
+    function showNumberOfBiopsies(){
+        var select = $("#collectionMethod").val();
+        if (select == 118){
+            $("#numberOfBiopsiesRow").show()
+        }else{
+            $("#numberOfBiopsiesRow").hide();
+            $("#numberOfBiopsies").val('');
+        }
+    }
 </script>
 

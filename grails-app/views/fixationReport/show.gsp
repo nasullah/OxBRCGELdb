@@ -113,6 +113,13 @@
 				<td valign="top" class="value"><g:link controller="tissueProcessor" action="show" id="${fixationReportInstance?.tissueProcessorUsed?.id}">${fixationReportInstance?.tissueProcessorUsed?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
+
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fixationReport.timeInProcessor.label" default="Time in formalin on processor (time in hours)" /></td>
+
+				<td valign="top" class="value">${fieldValue(bean: fixationReportInstance, field: "timeInProcessor")}</td>
+
+			</tr>
 		
 		</tbody>
 	</table>

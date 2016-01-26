@@ -143,6 +143,16 @@
 				</div>
 
 				<div class="col-lg-6">
+					<div class="${hasErrors(bean: fixationReportInstance, field: 'timeInProcessor', 'error')} ">
+						<label for="timeInProcessor" class="control-label"><g:message code="fixationReport.timeInProcessor.label" default="Time in formalin on processor (time in hours)" /></label>
+						<div>
+							<g:field type="number decimal" class="form-control" name="timeInProcessor" value="${fixationReportInstance?.timeInProcessor}"/>
+							<span class="help-inline">${hasErrors(bean: fixationReportInstance, field: 'timeInProcessor', 'error')}</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-6">
 					<div class="${hasErrors(bean: fixationReportInstance, field: 'comments', 'error')} ">
 						<label for="comments" class="control-label"><g:message code="fixationReport.comments.label" default="Comments" /></label>
 						<div>
