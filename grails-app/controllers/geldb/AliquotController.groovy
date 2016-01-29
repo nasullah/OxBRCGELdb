@@ -201,13 +201,27 @@ class AliquotController {
                 return value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
             }
 
-            List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "aliquotType", "specimen.fFPE_Tissue_Report.fixationPeriod"]
+            def ffDNA = { domain, value ->
+                def ffDNAExtract = DNA_Extract.createCriteria().list{
+                    aliquot {
+                        eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+                    }
+                }
+                def passFail = ffDNAExtract.find{d -> d?.aliquot?.specimen?.participant?.first() == domain?.specimen?.participant}?.passFail
+                if (passFail) {
+                    return 'Pass'
+                } else if(passFail == null){
+                    return ''
+                } else return 'Fail'
+            }
+
+            List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "aliquotType", "specimen.fFPE_Tissue_Report.fixationPeriod", "FF DNA Pass/Fail QC"]
 
             Map labels = ["specimen.participant.studySubject.studySubjectIdentifier": "Gel Id ", "aliquotType": "Aliquot Type", "specimen.fFPE_Tissue_Report.fixationPeriod": "Fixation Period"]
 
-            Map formatters = ["specimen.participant.studySubject.studySubjectIdentifier": gelID, "specimen.fFPE_Tissue_Report.fixationPeriod": clean]
+            Map formatters = ["specimen.participant.studySubject.studySubjectIdentifier": gelID, "specimen.fFPE_Tissue_Report.fixationPeriod": clean, "FF DNA Pass/Fail QC": ffDNA]
 
-            Map parameters = [title: "FFPE List", "column.widths": [0.25, 0.25, 0.25]]
+            Map parameters = [title: "FFPE List", "column.widths": [0.25, 0.25, 0.25, 0.25]]
             def fFPEList = Aliquot.findAllByAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF')).sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
             exportService.export(params.format, response.outputStream, fFPEList, fields, labels, formatters, parameters)
         }
