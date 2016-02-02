@@ -132,21 +132,6 @@ class DispatchRecordController {
 //                    }
 //                }
 //
-////                def tumourContent  = { domain, value ->
-////                    def content = value?.toString()?.replace('[','')?.replace(']','')?.replace('%','')?.trim()
-////                    if (content){
-////                        if (content?.toInteger() < 30){
-////                            return "Low"
-////                        }else if (content?.toInteger() > 50){
-////                            return "High"
-////                        }else if (content?.toInteger() > 29 && content?.toInteger() < 51){
-////                            return "Medium"
-////                        }
-////                    }else{
-////                        return ""
-////                    }
-////                }
-//
 //                def morphology = { domain, value ->
 //                    if (value?.toString()?.startsWith('[Fluid Specimen-')) {
 //                        return ''
@@ -172,19 +157,6 @@ class DispatchRecordController {
 //                    }
 //                }
 //
-//                def nonInvasiveElements  = { domain, value ->
-//                    def elements = value?.toString()?.replace('[','')?.replace(']','')
-//                    if (elements){
-//                        if (elements == 'true'){
-//                            return "yes"
-//                        }else {
-//                            return "no"
-//                        }
-//                    }else{
-//                        return ""
-//                    }
-//                }
-//
 //                def topography = { domain, value ->
 //                    if (value?.toString()?.startsWith('[Fluid Specimen-')) {
 //                        return ''
@@ -197,68 +169,6 @@ class DispatchRecordController {
 //                            return list?.toString()?.replace('[','')?.replace(']','')?.replace('T','')
 //                        }
 //                        return ''
-//                    }
-//                }
-//
-//                def pathologistsComments = { domain, value ->
-//                    def comments = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-//                    if (comments){
-//                        return comments
-//                    }else{
-//                        return ""
-//                    }
-//                }
-//
-//                def sectionCutBy = { domain, value ->
-//                    if(domain?.identifiedSample?.aliquot?.derivation?.derivedAliquots?.aliquotType?.aliquotTypeName?.toString()?.contains('Section')) {
-//                        def parentAliquot = Aliquot.findByIdInList(domain?.identifiedSample?.aliquot?.id)
-//                        def aliquots = Aliquot.findAll {derivedFrom.aliquot == parentAliquot}
-//                        aliquots = aliquots.findAll {c -> c.aliquotType.aliquotTypeName == 'Section'}
-//                        return aliquots.derivedFrom.derivedBy.staffName?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
-//                    }else {
-//                        return ""
-//                    }
-//                }
-//
-//                def macrodissectionDetails = { domain, value ->
-//                    if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
-//                        def details = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
-//                        if (details) {
-//                            return details
-//                        } else {
-//                            return ""
-//                        }
-//                    }else {
-//                        return ""
-//                    }
-//                }
-//
-//                def sectionCutOn = { domain, value ->
-//                    if(domain?.identifiedSample?.aliquot?.derivation?.derivedAliquots?.aliquotType?.aliquotTypeName?.toString()?.contains('Section')) {
-//                        def parentAliquot = Aliquot.findByIdInList(domain?.identifiedSample?.aliquot?.id)
-//                        def aliquots = Aliquot.findAll {derivedFrom.aliquot == parentAliquot}
-//                        aliquots = aliquots.findAll {c -> c.aliquotType.aliquotTypeName == 'Section'}
-//                        def date = aliquots.derivedFrom.derivationDate?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
-//                        if (date) {
-//                            return date?.substring(0, 10)
-//                        } else {
-//                            return ""
-//                        }
-//                    }else {
-//                        return ""
-//                    }
-//                }
-//
-//                def sectionAssessedDate = { domain, value ->
-//                    if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy Frozen')) {
-//                        def date = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
-//                        if (date) {
-//                            return date?.substring(0, 10)
-//                        } else {
-//                            return ""
-//                        }
-//                    }else{
-//                        return ""
 //                    }
 //                }
 //
@@ -279,26 +189,15 @@ class DispatchRecordController {
 //                    }
 //                }
 //
-//                def sectionAssessedBy = { domain, value ->
-//                    if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy Frozen')) {
-//                        value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
-//                    }else{
-//                        return ""
-//                    }
-//                }
-//
-//                def slideMarkedBy = { domain, value ->
+//                def macrodissectionDetails = { domain, value ->
 //                    if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
-//                        def markedBy = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
-//                        if (markedBy){
-//                            if (markedBy?.isNumber()){
-//                                def staffMember = StaffMember?.get(markedBy?.toInteger())?.staffName
-//                                return staffMember
-//                            }else{
-//                                markedBy
-//                            }
+//                        def details = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+//                        if (details) {
+//                            return details
+//                        } else {
+//                            return ""
 //                        }
-//                    }else{
+//                    }else {
 //                        return ""
 //                    }
 //                }
@@ -342,19 +241,6 @@ class DispatchRecordController {
 //                        }else{
 //                            return ""
 //                        }
-//                    }
-//                }
-//
-//                def sideMarkedDate = { domain, value ->
-//                    if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
-//                        def markedDate = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
-//                        if (markedDate) {
-//                            return markedDate?.substring(0, 10)
-//                        } else {
-//                            return ""
-//                        }
-//                    }else{
-//                        return ""
 //                    }
 //                }
 //
@@ -468,6 +354,69 @@ class DispatchRecordController {
 //                    }
 //                }
 //
+//                def coreDiameter = { domain, value ->
+//                    if (value.toString()?.startsWith('[Fluid Specimen-')) {
+//                        return ''
+//                    } else {
+//                        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
+//                            def diameter = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+//                            if (diameter){
+//                                return diameter
+//                            }else{
+//                                return ""
+//                            }
+//                        }else{
+//                            return ""
+//                        }
+//                    }
+//                }
+//
+//                def coresNumber = { domain, value ->
+//                    if (value.toString()?.startsWith('[Fluid Specimen-')) {
+//                        return ''
+//                    } else {
+//                        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
+//                            def number = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+//                            if (number){
+//                                return number
+//                            }else{
+//                                return ""
+//                            }
+//                        }else{
+//                            return ""
+//                        }
+//                    }
+//                }
+//
+//                def extractionProtocol = { domain, value ->
+//                    if(domain?.identifiedSample?.extractionKit?.toString()?.contains('QIAmp DNA FFPE Tissue Kit, Qiagen')){
+//                        return "Qiagen_80"
+//                    }else if(domain?.identifiedSample?.extractionKit?.toString()?.contains('truXTRAC FFPE DNA Kit, Covaris')){
+//                        return "Covaris"
+//                    }else if(domain?.identifiedSample?.extractionKit?.toString()?.contains('All Prep DNA/RNA Mini Kit, Qiagen')){
+//                        return "Fresh_Frozen"
+//                    }else {
+//                        return ''
+//                    }
+//                }
+//
+//                def tumourSampleType = { domain, value ->
+//                    if (value.toString()?.startsWith('[Fluid Specimen-')) {
+//                        return ''
+//                    } else {
+//                        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy')) {
+//                            return 'cores'
+//                        }else if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Section')) {
+//                            return 'sections'
+//                        }
+//                        else if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Scroll')) {
+//                            return 'scrolls'
+//                        }else {
+//                            return ""
+//                        }
+//                    }
+//                }
+//
 //                Map formatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'clinicID':clinicID,"identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourStatus":tumourType,
 //                                  "identifiedSample.extractionDate":extractionDate,"identifiedSample.aliquot.aliquotType": clinicSampleType, "identifiedSample.barcode":aliquotBarcode, "laboratoryID":laboratoryID,
 //                                  "identifiedSample.extractionType":laboratoryMethod, "laboratoryRemainingVolumeBanked":laboratoryRemainingVolumeBanked, "dispatchedBox.dispatchRecord.sentOn":dispatchDate,
@@ -476,7 +425,9 @@ class DispatchRecordController {
 //                                  "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot":fixationStartDate, "identifiedSample.aliquot.fixationReport.fixationTypeAliquot":fixationType,
 //                                  "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot":fixationEndDate, "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot":fixationComments,
 //                                  "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":processingSchedule, "volume_ul":volumeUl, "laboratorySampleID":laboratorySampleID, "Excision Margin":excisionMargin,
-//                                  "identifiedSample.aliquot.specimen.numberOfBiopsies":numberOfBiopsies, "identifiedSample.aliquot.fixationReport.timeInProcessor": timeInProcessor
+//                                  "identifiedSample.aliquot.specimen.numberOfBiopsies":numberOfBiopsies, "identifiedSample.aliquot.fixationReport.timeInProcessor": timeInProcessor, "identifiedSample.aliquot.unit":coreDiameter,
+//                                  "identifiedSample.aliquot.aliquotVolumeMass":coresNumber, "identifiedSample.extractionKit":extractionProtocol, "Tumour Sample Type":tumourSampleType,
+//                                  "identifiedSample.aliquot.gelSuitabilityReport.microdissection":macrodissection
 //                ]
 //
 //                List fields = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier","clinicID","identifiedSample.barcode",
@@ -488,8 +439,9 @@ class DispatchRecordController {
 //                               "Topography (SnomedRT)", "identifiedSample.aliquot.gelSuitabilityReport.microdissection", "identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails",
 //                               "Snap Freezing Start DateTime", "identifiedSample.aliquot.fixationReport.fixationTypeAliquot", "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot",
 //                               "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot", "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot", "identifiedSample.aliquot.fixationReport.processingScheduleAliquot",
-//                               "identifiedSample.aliquot.fixationReport.timeInProcessor", "identifiedSample.aliquot.specimen.numberOfBiopsies", "Gauge of Biopsies", "DNA Extraction Protocol", "Prolonged Sample Storage", "Reason Sample Not Sent", "Tumour Sample Type",
-//                               "Scroll Thickness", "Number of Scrolls", "Number of Sections", "Section Thickness", "Number of Blocks", "Core Diameter", "Number of Cores"
+//                               "identifiedSample.aliquot.fixationReport.timeInProcessor", "identifiedSample.aliquot.specimen.numberOfBiopsies", "Gauge of Biopsies", "identifiedSample.extractionKit",
+//                               "Prolonged Sample Storage", "Reason Sample Not Sent", "Tumour Sample Type", "Scroll Thickness", "Number of Scrolls", "Number of Sections", "Section Thickness", "Number of Blocks",
+//                               "identifiedSample.aliquot.unit", "identifiedSample.aliquot.aliquotVolumeMass"
 //                ]
 //
 //                Map labels= ["identifiedSample.barcode" : "Sample ID","identifiedSample.aliquot.aliquotType":"Clinic Sample Type","testResultTypeSummaryQC" : "Test Result Type",
@@ -503,7 +455,8 @@ class DispatchRecordController {
 //                             "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot":"Fixation End DateTime", "identifiedSample.aliquot.fixationReport.fixationTypeAliquot":"Type of Fixative",
 //                             "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot":"Fixation Start DateTime", "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot":"Fixation Comments",
 //                             "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":"Processing Schedule", "identifiedSample.aliquot.specimen.numberOfBiopsies":"Number of Biopsies",
-//                             "identifiedSample.aliquot.fixationReport.timeInProcessor":"Time in formalin on processor"
+//                             "identifiedSample.aliquot.fixationReport.timeInProcessor":"Time in formalin on processor", "identifiedSample.aliquot.unit":"Core Diameter", "identifiedSample.aliquot.aliquotVolumeMass":"Number of Cores",
+//                             "identifiedSample.extractionKit":"DNA Extraction Protocol"
 //                ]
 //
 //                Map parameters = [title: "GMC GEL Sample Metadata Cancer", "column.widths": [0.2, 0.2, 0.2]]
