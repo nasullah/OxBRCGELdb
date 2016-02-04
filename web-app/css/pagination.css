@@ -25,7 +25,7 @@
 
 .pagination a:hover, .pagination a:focus,
 .pagination .currentStep {
-    background-color: rgba(27, 102, 255, 0.69);
+    background-color: rgba(25, 85, 171, 0.8);
     color: #ffffff;
     outline: none;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
