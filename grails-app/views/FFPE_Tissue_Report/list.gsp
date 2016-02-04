@@ -70,6 +70,7 @@
 	</table>
     <div class="pagination">
         <g:paginate total="${FFPE_Tissue_ReportInstanceTotal == null ? FFPE_Tissue_Report.count(): FFPE_Tissue_ReportInstanceTotal}" params="${filterParams}" />
+        <a>Number of records: ${FFPE_Tissue_ReportInstanceTotal == null ? FFPE_Tissue_Report.count(): FFPE_Tissue_ReportInstanceTotal}</a>
     </div>
 </section>
 

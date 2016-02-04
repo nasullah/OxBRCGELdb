@@ -96,6 +96,7 @@
 	</table>
     <div class="pagination">
         <g:paginate total="${solidSpecimenInstanceTotal == null ? SolidSpecimen.count(): solidSpecimenInstanceTotal}" params="${filterParams}" />
+        <a>Number of records: ${solidSpecimenInstanceTotal == null ? solidSpecimenInstanceCount: solidSpecimenInstanceTotal}</a>
     </div>
 </section>
 

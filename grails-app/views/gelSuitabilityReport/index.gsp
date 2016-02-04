@@ -70,6 +70,7 @@
 	</table>
 	<div class="pagination">
 		<g:paginate total="${gelSuitabilityReportInstanceTotal == null ? GelSuitabilityReport.count(): gelSuitabilityReportInstanceTotal}" params="${filterParams}" />
+		<a>Number of records: ${gelSuitabilityReportInstanceTotal == null ? GelSuitabilityReport.count(): gelSuitabilityReportInstanceTotal}</a>
 	</div>
 </section>
 

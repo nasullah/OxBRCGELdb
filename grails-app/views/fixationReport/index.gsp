@@ -45,6 +45,7 @@
 	</table>
 	<div class="pagination">
 		<g:paginate total="${fixationReportInstanceTotal == null ? FixationReport.count(): fixationReportInstanceTotal}" params="${filterParams}" />
+		<a>Number of records: ${fixationReportInstanceTotal == null ? FixationReport.count(): fixationReportInstanceTotal}</a>
 	</div>
 </section>
 

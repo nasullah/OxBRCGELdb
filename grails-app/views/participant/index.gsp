@@ -98,6 +98,7 @@
 	</table>
     <div class="pagination">
         <g:paginate total="${participantInstanceTotal == null ? Participant.count(): participantInstanceTotal}" params="${filterParams}" />
+        <a>Number of records: ${participantInstanceTotal == null ? Participant.count(): participantInstanceTotal}</a>
     </div>
 </section>
 
