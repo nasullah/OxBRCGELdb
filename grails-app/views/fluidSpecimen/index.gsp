@@ -94,7 +94,7 @@
 		</tbody>
 	</table>
     <div class="pagination">
-        <g:paginate total="${fluidSpecimenInstanceTotal == null ? FluidSpecimen.count(): fluidSpecimenInstanceTotal}" params="${filterParams}" />
+        <g:paginate total="${fluidSpecimenInstanceTotal == null ? fluidSpecimenInstanceCount: fluidSpecimenInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 

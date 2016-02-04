@@ -102,7 +102,7 @@
 		</tbody>
 	</table>
     <div class="pagination">
-        <g:paginate total="${DNA_ExtractInstanceTotal == null ? DNA_Extract.count(): DNA_ExtractInstanceTotal}" params="${filterParams}" />
+        <g:paginate total="${DNA_ExtractInstanceTotal == null ? DNA_ExtractInstanceCount: DNA_ExtractInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 
