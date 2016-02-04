@@ -69,8 +69,8 @@
 		</g:each>
 		</tbody>
 	</table>
-	<div>
-		<bs:paginate total="${DNA_LibraryInstanceCount}" />
+	<div class="pagination">
+		<g:paginate total="${DNA_LibraryInstanceTotal == null ? DNA_Library.count(): DNA_LibraryInstanceTotal}" params="${filterParams}" />
 	</div>
 </section>
 

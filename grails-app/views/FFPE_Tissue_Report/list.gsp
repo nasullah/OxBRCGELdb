@@ -68,9 +68,9 @@
         </g:each>
 		</tbody>
 	</table>
-	<div>
-		<bs:paginate total="${FFPE_Tissue_ReportInstanceTotal}" />
-	</div>
+    <div class="pagination">
+        <g:paginate total="${FFPE_Tissue_ReportInstanceTotal == null ? FFPE_Tissue_Report.count(): FFPE_Tissue_ReportInstanceTotal}" params="${filterParams}" />
+    </div>
 </section>
 
 </body>

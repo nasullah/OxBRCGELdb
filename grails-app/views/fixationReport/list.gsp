@@ -64,8 +64,8 @@
 		</g:each>
 		</tbody>
 	</table>
-	<div>
-		<bs:paginate total="${fixationReportInstanceTotal}" />
+	<div class="pagination">
+		<g:paginate total="${fixationReportInstanceTotal == null ? FixationReport.count(): fixationReportInstanceTotal}" params="${filterParams}" />
 	</div>
 </section>
 

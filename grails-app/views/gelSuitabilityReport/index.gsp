@@ -68,8 +68,8 @@
 		</g:each>
 		</tbody>
 	</table>
-	<div>
-		<bs:paginate total="${gelSuitabilityReportInstanceCount}" />
+	<div class="pagination">
+		<g:paginate total="${gelSuitabilityReportInstanceTotal == null ? GelSuitabilityReport.count(): gelSuitabilityReportInstanceTotal}" params="${filterParams}" />
 	</div>
 </section>
 

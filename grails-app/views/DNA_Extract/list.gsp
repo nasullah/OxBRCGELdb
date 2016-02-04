@@ -81,8 +81,8 @@
         </g:each>
         </tbody>
 	</table>
-    <div>
-        <bs:paginate total="${DNA_ExtractInstanceTotal}" />
+    <div class="pagination">
+        <g:paginate total="${DNA_ExtractInstanceTotal == null ? DNA_Extract.count(): DNA_ExtractInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 

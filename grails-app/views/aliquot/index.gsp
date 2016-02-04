@@ -113,8 +113,8 @@
         </g:each>
         </tbody>
     </table>
-    <div>
-        <bs:paginate total="${aliquotInstanceCount}" />
+    <div class="pagination">
+        <g:paginate total="${aliquotInstanceTotal == null ? Aliquot.count(): aliquotInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 

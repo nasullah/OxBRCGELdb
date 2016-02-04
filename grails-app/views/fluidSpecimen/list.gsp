@@ -94,8 +94,8 @@
         </g:each>
 		</tbody>
 	</table>
-    <div>
-        <bs:paginate total="${fluidSpecimenInstanceTotal}" />
+    <div class="pagination">
+        <g:paginate total="${fluidSpecimenInstanceTotal == null ? FluidSpecimen.count(): fluidSpecimenInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 

@@ -94,8 +94,8 @@
         </g:each>
         </tbody>
 	</table>
-    <div>
-        <bs:paginate total="${solidSpecimenInstanceTotal}" />
+    <div class="pagination">
+        <g:paginate total="${solidSpecimenInstanceTotal == null ? SolidSpecimen.count(): solidSpecimenInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 

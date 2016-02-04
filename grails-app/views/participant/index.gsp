@@ -96,9 +96,9 @@
 		</g:each>
 		</tbody>
 	</table>
-	<div>
-		<bs:paginate total="${participantInstanceCount}"/>
-	</div>
+    <div class="pagination">
+        <g:paginate total="${participantInstanceTotal == null ? Participant.count(): participantInstanceTotal}" params="${filterParams}" />
+    </div>
 </section>
 
 <g:javascript plugin="jquery" library="jquery" />
