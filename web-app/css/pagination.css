@@ -15,7 +15,7 @@
 .pagination .currentStep {
     color: rgba(25, 85, 171, 0.76);
     display: inline-block;
-    padding: 0.36em 0.7em;
+    padding: 0.50em 0.7em;
     text-decoration: none;
     -moz-border-radius: 0.3em;
     -webkit-border-radius: 0.3em;
@@ -31,7 +31,6 @@
     background-color: rgba(25, 85, 171, 0.76);
     color: #ffffff;
     outline: none;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }
 
 .no-borderradius .pagination a:hover, .no-borderradius .pagination a:focus,

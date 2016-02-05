@@ -51,6 +51,15 @@
 
 <hr/>
 
+<div class="container">
+    <div class="text-warning text-center">
+        <b>
+            <filterpane:isFiltered>Filter applied!</filterpane:isFiltered>
+            <filterpane:isNotFiltered>Not filtered!</filterpane:isNotFiltered>
+        </b>
+    </div>
+</div>
+
 <section id="index-participant" class="first">
 
 	<table class="table table-bordered margin-top-medium">

@@ -26,7 +26,16 @@
     </div>
 </div>
 
-<hr style="border:1; height:1px" />
+<hr/>
+
+<div class="container">
+    <div class="text-warning text-center">
+        <b>
+            <filterpane:isFiltered>Filter applied!</filterpane:isFiltered>
+            <filterpane:isNotFiltered>Not filtered!</filterpane:isNotFiltered>
+        </b>
+    </div>
+</div>
 
 <section id="index-plateOrBox" class="first">
 
@@ -63,9 +72,10 @@
         </g:each>
         </tbody>
 	</table>
-	<div>
-		<bs:paginate total="${plateOrBoxInstanceCount}" />
-	</div>
+    <div class="pagination">
+        <g:paginate total="${plateOrBoxInstanceTotal == null ? PlateOrBox.count(): plateOrBoxInstanceTotal}" params="${filterParams}" />
+        <a>Number of records: ${plateOrBoxInstanceTotal == null ? PlateOrBox.count(): plateOrBoxInstanceTotal}</a>
+    </div>
 </section>
 
 </body>

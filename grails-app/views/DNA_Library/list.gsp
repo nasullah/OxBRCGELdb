@@ -30,7 +30,16 @@
     </div>
 </div>
 
-<hr style="border:1; height:1px" />
+<hr/>
+
+<div class="container">
+    <div class="text-warning text-center">
+        <b>
+            <filterpane:isFiltered>Filter applied!</filterpane:isFiltered>
+            <filterpane:isNotFiltered>Not filtered!</filterpane:isNotFiltered>
+        </b>
+    </div>
+</div>
 
 <section id="list-DNA_Library" class="first">
 
