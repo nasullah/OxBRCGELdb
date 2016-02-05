@@ -7,7 +7,7 @@
     text-align: center;
     -moz-box-shadow: 0 0 3px 1px #AAAAAA;
     -webkit-box-shadow: 0 0 3px 1px #AAAAAA;
-    box-shadow: 0 0 3px 1px #AAAAAA;
+    box-shadow: 0 0 3px 1px #ffffff;
     background-color: #ffffff;
 }
 
@@ -21,6 +21,7 @@
     -moz-border-radius: 0.3em;
     -webkit-border-radius: 0.3em;
     border-radius: 0.3em;
+    border: 1px solid #ddd;
 }
 
 .pagination a:hover, .pagination a:focus,
