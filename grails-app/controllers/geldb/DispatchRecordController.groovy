@@ -150,8 +150,6 @@ class DispatchRecordController {
                 def provenance = { domain, value ->
                     if (value?.toString()?.startsWith('[Fluid Specimen-')) {
                         return ''
-                    }else if (value?.toString()?.contains('Resection')) {
-                        return 'surgical resection'
                     } else {
                         return cleanString(value?.toString())
                     }

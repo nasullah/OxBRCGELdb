@@ -38,14 +38,6 @@
 
             </tr>
 
-            <g:if test="${solidSpecimenInstance?.collectionMethod?.id == 118}">
-                <tr class="prop">
-                    <td valign="top" class="name"><g:message code="solidSpecimen. numberOfBiopsies.label" default="Number of Biopsies" /></td>
-
-                    <td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "numberOfBiopsies")}</td>
-                </tr>
-            </g:if>
-
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="solidSpecimen.anatomicalSite.label" default="Anatomical Site" /></td>
 
@@ -147,20 +139,35 @@
 				<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${solidSpecimenInstance?.pathologist?.id}">${solidSpecimenInstance?.pathologist?.encodeAsHTML()}</g:link></td>
 				
 			</tr>
+
+            <g:if test="${solidSpecimenInstance?.collectionMethod?.collectionMethodName == 'Biopsy'}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="solidSpecimen. numberOfBiopsies.label" default="Number of Biopsies" /></td>
+
+                    <td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "numberOfBiopsies")}</td>
+                </tr>
+            </g:if>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.specimenWeight.label" default="Specimen Weight" /></td>
+                <g:if test="${solidSpecimenInstance?.collectionMethod?.collectionMethodName == 'Biopsy'}">
+                    <td valign="top" class="name"><g:message code="solidSpecimen.specimenWeight.label" default="Gauge of Biopsies (mm)" /></td>
+                </g:if>
+                <g:else >
+                    <td valign="top" class="name"><g:message code="solidSpecimen.specimenWeight.label" default="Specimen Weight" /></td>
+                </g:else>
 				
 				<td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "specimenWeight")}</td>
 				
 			</tr>
-		
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="solidSpecimen.massUnit.label" default="Mass Unit" /></td>
-				
-				<td valign="top" class="value"><g:link controller="units" action="show" id="${solidSpecimenInstance?.massUnit?.id}">${solidSpecimenInstance?.massUnit?.encodeAsHTML()}</g:link></td>
-				
-			</tr>
+
+            <g:if test="${solidSpecimenInstance?.collectionMethod?.collectionMethodName != 'Biopsy'}">
+                <tr class="prop">
+                    <td valign="top" class="name"><g:message code="solidSpecimen.massUnit.label" default="Unit" /></td>
+
+                    <td valign="top" class="value"><g:link controller="units" action="show" id="${solidSpecimenInstance?.massUnit?.id}">${solidSpecimenInstance?.massUnit?.encodeAsHTML()}</g:link></td>
+
+                </tr>
+            </g:if>
 
             <g:if test="${solidSpecimenInstance.postmortem}">
                 <tr class="prop">

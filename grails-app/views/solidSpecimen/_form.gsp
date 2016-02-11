@@ -57,18 +57,8 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'collectionMethod', 'error')} required">
                         <label for="collectionMethod" class="control-label"><g:message code="solidSpecimen.collectionMethod.label" default="Collection Method" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="collectionMethod" name="collectionMethod.id" from="${geldb.CollectionMethod.list().sort()}" optionKey="id" required="" value="${solidSpecimenInstance?.collectionMethod?.id}" onchange="showNumberOfBiopsies()" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="collectionMethod" name="collectionMethod.id" from="${geldb.CollectionMethod.list().sort {it.collectionMethodName}}" optionKey="id" required="" value="${solidSpecimenInstance?.collectionMethod?.id}" onchange="showNumberOfBiopsies()" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'collectionMethod', 'error')}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6" id="numberOfBiopsiesRow">
-                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'numberOfBiopsies', 'error')} ">
-                        <label for="numberOfBiopsies" class="control-label"><g:message code="solidSpecimen.numberOfBiopsies.label" default="Number of Biopsies" /></label>
-                        <div>
-                            <g:select class="form-control" id="numberOfBiopsies" name="numberOfBiopsies" from="${solidSpecimenInstance.constraints.numberOfBiopsies.inList}" value="${solidSpecimenInstance?.numberOfBiopsies}" valueMessagePrefix="solidSpecimenInstance.numberOfBiopsies" noSelection="['':'- Choose -']" />
-                            <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'numberOfBiopsies', 'error')}</span>
                         </div>
                     </div>
                 </div>
@@ -79,7 +69,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'anatomicalSite', 'error')} ">
                         <label for="anatomicalSite" class="control-label"><g:message code="solidSpecimen.anatomicalSite.label" default="Anatomical Site" /></label>
                         <div>
-                            <g:select class="form-control" id="anatomicalSite" name="anatomicalSite.id" from="${geldb.AnatomicalSite.list().sort()}" optionKey="id" value="${solidSpecimenInstance?.anatomicalSite?.id}" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="anatomicalSite" name="anatomicalSite.id" from="${geldb.AnatomicalSite.list().sort {it.anatomicalSiteName}}" optionKey="id" value="${solidSpecimenInstance?.anatomicalSite?.id}" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'anatomicalSite', 'error')}</span>
                         </div>
                     </div>
@@ -169,7 +159,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'collectionLocation', 'error')} ">
                         <label for="collectionLocation" class="control-label"><g:message code="solidSpecimen.collectionLocation.label" default="Collection Location" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="collectionLocation" name="collectionLocation.id" from="${geldb.Location.list().sort()}" optionKey="id" value="${solidSpecimenInstance?.collectionLocation?.id}" required="" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="collectionLocation" name="collectionLocation.id" from="${geldb.Location.list().sort {it.locationName}}" optionKey="id" value="${solidSpecimenInstance?.collectionLocation?.id}" required="" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'collectionLocation', 'error')}</span>
                         </div>
                     </div>
@@ -179,7 +169,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'methodOfTransportToPathologist', 'error')} ">
                         <label for="methodOfTransportToPathologist" class="control-label"><g:message code="solidSpecimen.methodOfTransportToPathologist.label" default="Method of Transport to Pathologist" /></label>
                         <div>
-                            <g:select class="form-control" id="methodOfTransportToPathologist" name="methodOfTransportToPathologist.id" from="${geldb.MethodOfTransport.list().sort()}" optionKey="id" value="${solidSpecimenInstance?.methodOfTransportToPathologist?.id}" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="methodOfTransportToPathologist" name="methodOfTransportToPathologist.id" from="${geldb.MethodOfTransport.list().sort {it.methodOfTransportName}}" optionKey="id" value="${solidSpecimenInstance?.methodOfTransportToPathologist?.id}" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'methodOfTransportToPathologist', 'error')}</span>
                         </div>
                     </div>
@@ -218,9 +208,20 @@
             </div>
 
             <div class="row">
+                <div class="col-lg-6" id="numberOfBiopsiesRow">
+                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'numberOfBiopsies', 'error')} ">
+                        <label for="numberOfBiopsies" class="control-label"><g:message code="solidSpecimen.numberOfBiopsies.label" default="Number of Biopsies" /></label>
+                        <div>
+                            <g:select class="form-control" id="numberOfBiopsies" name="numberOfBiopsies" from="${solidSpecimenInstance.constraints.numberOfBiopsies.inList}" value="${solidSpecimenInstance?.numberOfBiopsies}" valueMessagePrefix="solidSpecimenInstance.numberOfBiopsies" noSelection="['':'- Choose -']" />
+                            <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'numberOfBiopsies', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'specimenWeight', 'error')} ">
-                        <label for="specimenWeight" class="control-label"><g:message code="solidSpecimen.specimenWeight.label" default="Specimen Weight" /></label>
+                        <label id="GaugeBiopsiesLabelId" for="specimenWeight" class="control-label"><g:message code="solidSpecimen.specimenWeight.label" default="Gauge of Biopsies (mm)" /></label>
+                        <label id="specimenWeightLabelId" for="specimenWeight" class="control-label"><g:message code="solidSpecimen.specimenWeight.label" default="Specimen Weight" /></label>
                         <div>
                             <g:field class="form-control" name="specimenWeight" value="${fieldValue(bean: solidSpecimenInstance, field: 'specimenWeight')}"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'specimenWeight', 'error')}</span>
@@ -228,11 +229,11 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-6" id="massUnitRow">
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'massUnit', 'error')} ">
                         <label for="massUnit" class="control-label"><g:message code="solidSpecimen.massUnit.label" default="Mass Unit" /></label>
                         <div>
-                            <g:select class="form-control" id="massUnit" name="massUnit.id" from="${geldb.Units.findAllByUnitType(UnitType.MassUnit).sort()}"
+                            <g:select class="form-control" id="massUnit" name="massUnit.id" from="${geldb.Units.findAllByUnitType(UnitType.MassUnit).sort {it.unitName}}"
                                       optionKey="id" value="${solidSpecimenInstance?.massUnit?.id}"  noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'massUnit', 'error')}</span>
                         </div>
@@ -294,13 +295,34 @@
     showNumberOfBiopsies();
 
     function showNumberOfBiopsies(){
-        var select = $("#collectionMethod").val();
-        if (select == 118){
-            $("#numberOfBiopsiesRow").show()
-        }else{
-            $("#numberOfBiopsiesRow").hide();
-            $("#numberOfBiopsies").val('');
-        }
+        var baseUrl = "${createLink(controller:'solidSpecimen', action:'collectionMethodType')}";
+        var collectionMethod = $('#collectionMethod').val();
+        var url = baseUrl + "?collectionMethod=" + collectionMethod;
+        $.ajax({
+            url:url,
+            type: 'POST',
+            dataType: 'xml',
+            async:true,
+            success: function(res) {
+                if (res){
+                    var collectionMethodName = $(res).find('collectionMethodName').text();
+                    if(collectionMethodName == 'Biopsy'){
+                        $("#numberOfBiopsiesRow").show();
+                        $("#GaugeBiopsiesLabelId").show();
+                        $("#specimenWeightLabelId").hide();
+                        $("#massUnitRow").hide();
+                        $("#massUnit").val('');
+                    }
+                }
+            },
+            error: function(request, status, error) {
+                $("#numberOfBiopsiesRow").hide();
+                $("#numberOfBiopsies").val('');
+                $("#GaugeBiopsiesLabelId").hide();
+                $("#specimenWeightLabelId").show();
+                $("#massUnitRow").show()
+            }
+        });
     }
 </script>
 

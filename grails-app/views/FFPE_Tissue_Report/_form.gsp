@@ -93,7 +93,7 @@
         <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'tumourType', 'error')} required">
             <label for="tumourType" class="control-label"><g:message code="FFPE_Tissue_Report.tumourType.label" default="Tumour Type" /><span class="required-indicator">*</span></label>
             <div>
-                <g:select class="form-control" id="tumourType" name="tumourType.id" from="${geldb.TumourType.list()}" optionKey="id" required="" value="${FFPE_Tissue_ReportInstance?.tumourType?.id}" noSelection="['':'- Choose -']"/>
+                <g:select class="form-control" id="tumourType" name="tumourType.id" from="${geldb.TumourType.list().sort {it.tumourType}}" optionKey="id" required="" value="${FFPE_Tissue_ReportInstance?.tumourType?.id}" noSelection="['':'- Choose -']"/>
                 <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'tumourType', 'error')}</span>
             </div>
         </div>

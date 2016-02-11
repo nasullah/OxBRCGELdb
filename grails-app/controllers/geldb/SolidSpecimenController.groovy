@@ -1,5 +1,6 @@
 package geldb
 
+import grails.converters.XML
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -141,6 +142,13 @@ class SolidSpecimenController {
         def results = fluidSpecimen.participant.unique()
         results = results.findAll {p -> p.solidSpecimenExpected == null || p.solidSpecimenExpected }
         [participantList: results.sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
+    }
+
+    def collectionMethodType() {
+        def collectionMethod = CollectionMethod.get(params.long('collectionMethod'))
+        if (collectionMethod?.collectionMethodName == "Biopsy"){
+            render collectionMethod as XML
+        }
     }
 
     def show(SolidSpecimen solidSpecimenInstance) {

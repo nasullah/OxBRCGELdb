@@ -142,7 +142,7 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'collectionLocation', 'error')} ">
                         <label for="collectionLocation" class="control-label"><g:message code="fluidSpecimen.collectionLocation.label" default="Collection Location" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="collectionLocation" name="collectionLocation.id" from="${geldb.Location.list().sort()}" optionKey="id" value="${fluidSpecimenInstance?.collectionLocation?.id}" required="" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="collectionLocation" name="collectionLocation.id" from="${geldb.Location.list().sort {it.locationName}}" optionKey="id" value="${fluidSpecimenInstance?.collectionLocation?.id}" required="" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'collectionLocation', 'error')}</span>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'volumeUnit', 'error')} required">
                         <label for="volumeUnit" class="control-label"><g:message code="fluidSpecimen.volumeUnit.label" default="Volume Unit" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="volumeUnit" name="volumeUnit.id" from="${geldb.Units.findAllByUnitType(UnitType.VolumeUnit).sort()}" optionKey="id" required="" value="${fluidSpecimenInstance?.volumeUnit?.id}" />
+                            <g:select class="form-control" id="volumeUnit" name="volumeUnit.id" from="${geldb.Units.findAllByUnitType(UnitType.VolumeUnit).sort {it.unitName}}" optionKey="id" required="" value="${fluidSpecimenInstance?.volumeUnit?.id}" />
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'volumeUnit', 'error')}</span>
                         </div>
                     </div>
