@@ -37,7 +37,7 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'fluidSampleType', 'error')} required">
                         <label for="fluidSampleType" class="control-label"><g:message code="fluidSpecimen.fluidSampleType.label" default="Fluid Sample Type" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" name="fluidSampleType" from="${geldb.FluidSampleType?.values()?.sort()}" keys="${geldb.FluidSampleType.values()*.name()}" required="" value="${fluidSpecimenInstance?.fluidSampleType?.name()}"/>
+                            <g:select class="form-control" name="fluidSampleType" from="${geldb.FluidSampleType?.values()?.sort {it.value}}" keys="${geldb.FluidSampleType.values()*.name()}" required="" value="${fluidSpecimenInstance?.fluidSampleType?.name()}"/>
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'fluidSampleType', 'error')}</span>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'primaryContainer', 'error')} ">
                         <label for="primaryContainer" class="control-label"><g:message code="fluidSpecimen.primaryContainer.label" default="Primary Container" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" name="primaryContainer" from="${geldb.PrimaryContainerType?.values()?.sort()}" keys="${geldb.PrimaryContainerType.values()*.name()}" value="${fluidSpecimenInstance?.primaryContainer?.name()}" required="" noSelection="['':'- Choose -']" />
+                            <g:select class="form-control" name="primaryContainer" from="${geldb.PrimaryContainerType?.values()?.sort {it.value}}" keys="${geldb.PrimaryContainerType.values()*.name()}" value="${fluidSpecimenInstance?.primaryContainer?.name()}" required="" noSelection="['':'- Choose -']" />
                             <span class="help-inline">${hasErrors(bean: fluidSpecimenInstance, field: 'primaryContainer', 'error')}</span>
                         </div>
                     </div>

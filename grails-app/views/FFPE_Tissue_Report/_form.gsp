@@ -51,7 +51,7 @@
         <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'sampleType', 'error')} required">
             <label for="sampleType" class="control-label"><g:message code="FFPE_Tissue_Report.sampleType.label" default="Sample Type" /><span class="required-indicator">*</span></label>
             <div>
-                <g:select class="form-control" id="sampleType" name="sampleType.id" from="${geldb.SampleType.list().sort()}" optionKey="id" required="" value="${FFPE_Tissue_ReportInstance?.sampleType?.id}" noSelection="['':'- Choose -']"/>
+                <g:select class="form-control" id="sampleType" name="sampleType.id" from="${geldb.SampleType.list().sort {it.sampleTypeName}}" optionKey="id" required="" value="${FFPE_Tissue_ReportInstance?.sampleType?.id}" noSelection="['':'- Choose -']"/>
                 <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'sampleType', 'error')}</span>
             </div>
         </div>
@@ -83,7 +83,7 @@
         <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'tumourStatus', 'error')} required">
             <label for="tumourStatus" class="control-label"><g:message code="FFPE_Tissue_Report.tumourStatus.label" default="Tumour Status" /><span class="required-indicator">*</span></label>
             <div>
-                <g:select class="form-control" name="tumourStatus" from="${geldb.TumourStatus?.values()}" keys="${geldb.TumourStatus.values()*.name()}" required="" value="${FFPE_Tissue_ReportInstance?.tumourStatus?.name()}" noSelection="['':'- Choose -']"/>
+                <g:select class="form-control" name="tumourStatus" from="${geldb.TumourStatus?.values()?.sort {it.value}}" keys="${geldb.TumourStatus.values()*.name()}" required="" value="${FFPE_Tissue_ReportInstance?.tumourStatus?.name()}" noSelection="['':'- Choose -']"/>
                 <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'tumourStatus', 'error')}</span>
             </div>
         </div>
@@ -93,7 +93,7 @@
         <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'tumourType', 'error')} required">
             <label for="tumourType" class="control-label"><g:message code="FFPE_Tissue_Report.tumourType.label" default="Tumour Type" /><span class="required-indicator">*</span></label>
             <div>
-                <g:select class="form-control" id="tumourType" name="tumourType.id" from="${geldb.TumourType.list().sort {it.tumourType}}" optionKey="id" required="" value="${FFPE_Tissue_ReportInstance?.tumourType?.id}" noSelection="['':'- Choose -']"/>
+                <g:select class="form-control" id="tumourType" name="tumourType.id" from="${geldb.TumourType?.list()?.sort {it.tumourLocation}}" optionKey="id" required="" value="${FFPE_Tissue_ReportInstance?.tumourType?.id}" noSelection="['':'- Choose -']"/>
                 <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'tumourType', 'error')}</span>
             </div>
         </div>
@@ -294,7 +294,7 @@
             <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'fixationType', 'error')} required">
                 <label for="fixationType" class="control-label"><g:message code="FFPE_Tissue_Report.fixationType.label" default="Fixation Type" /></label>
                 <div>
-                    <g:select class="form-control" id="fixationType" name="fixationType" from="${geldb.FixationType?.values().sort()}" keys="${geldb.FixationType.values()*.name()}" value="${FFPE_Tissue_ReportInstance?.fixationType?.name()}" noSelection="['':'- Choose -']"/>
+                    <g:select class="form-control" id="fixationType" name="fixationType" from="${geldb.FixationType?.values().sort {it.value}}" keys="${geldb.FixationType.values()*.name()}" value="${FFPE_Tissue_ReportInstance?.fixationType?.name()}" noSelection="['':'- Choose -']"/>
                     <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'fixationType', 'error')}</span>
                 </div>
             </div>
