@@ -140,7 +140,7 @@
         <div class="${hasErrors(bean: gelSuitabilityReportInstance, field: 'cellularity', 'error')} ">
             <label for="cellularity" class="control-label"><g:message code="gelSuitabilityReport.cellularity.label" default="Cellularity" /></label>
             <div>
-                <g:select class="form-control" name="cellularity" from="${geldb.Cellularity?.values()?.sort {it.value}}" keys="${geldb.Cellularity.values()*.name()}" value="${gelSuitabilityReportInstance?.cellularity?.name()}" noSelection="['':'- Choose -']"/>
+                <g:select class="form-control" name="cellularity" from="${geldb.Cellularity?.values()}" keys="${geldb.Cellularity.values()*.name()}" value="${gelSuitabilityReportInstance?.cellularity?.name()}" noSelection="['':'- Choose -']"/>
                 <span class="help-inline">${hasErrors(bean: gelSuitabilityReportInstance, field: 'cellularity', 'error')}</span>
             </div>
         </div>

@@ -239,15 +239,17 @@
         </div>
     </g:if>
 
-    <div class="col-lg-6">
-        <div class="${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')} ">
-            <label for="barcode" class="control-label"><g:message code="aliquot.barcode.label" default="Barcode (where available)" /></label>
-            <div>
-                <g:textField class="form-control" name="barcode" value="${aliquotInstance?.barcode}"/>
-                <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')}</span>
+    <g:if test="${aliquotInstance?.aliquotType?.aliquotTypeName != "Section" }">
+        <div class="col-lg-6">
+            <div class="${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')} ">
+                <label for="barcode" class="control-label"><g:message code="aliquot.barcode.label" default="Barcode (where available)" /></label>
+                <div>
+                    <g:textField class="form-control" name="barcode" value="${aliquotInstance?.barcode}"/>
+                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')}</span>
+                </div>
             </div>
         </div>
-    </div>
+    </g:if>
 </div>
 
 <g:if test="${aliquotInstance?.derivedFrom?.id == null}">

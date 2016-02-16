@@ -480,7 +480,7 @@ class DispatchRecordController {
                              "identifiedSample.extractionKit":"DNA Extraction Protocol", "identifiedSample.aliquot.specimen.specimenWeight":"Gauge of Biopsies"
                 ]
 
-                Map parameters = [title: "GMC GEL Sample Metadata Cancer", "column.widths": [0.2, 0.2, 0.2]]
+                Map parameters = [title: "GMC GEL Sample Metadata Cancer", "column.widths": [0.2, 0.2, 0.2], "lineEnd":"\r\n", "quoteCharacter": "\u0000"]
 
             exportService.export(params.format, response.outputStream, allDispatchedItems, fields, labels, formatters, parameters)
         }

@@ -106,7 +106,7 @@ class OmicsSampleMetadataExportService {
 
 
     def getParameters(){
-        Map parameters = [title: "GMC GEL Sample Metadata Cancer","header.enabled":false, "column.widths": [0.2, 0.3, 0.5]]
+        Map parameters = [title: "GMC GEL Sample Metadata Cancer","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n"]
         return parameters
     }
 }

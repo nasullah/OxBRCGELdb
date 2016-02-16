@@ -164,12 +164,14 @@
 
         </tr>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.barcode.label" default="Barcode" /></td>
+        <g:if test="${aliquotInstance?.aliquotType?.aliquotTypeName != "Section" }">
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="aliquot.barcode.label" default="Barcode" /></td>
 
-            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "barcode")}</td>
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "barcode")}</td>
 
-        </tr>
+            </tr>
+        </g:if>
 
         <tr class="prop">
             <td valign="top" class="name"><g:message code="aliquot.exhausted.label" default="Exhausted"/></td>

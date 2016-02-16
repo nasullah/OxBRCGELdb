@@ -98,7 +98,7 @@ class QcTestExportService {
     }
 
     def getSummaryQCParameters(){
-        Map summaryQCParameters= [title: "GMC_to_GEL_QC_test_csv_format", "column.widths": [0.2, 0.3, 0.5]]
+        Map summaryQCParameters= [title: "GMC_to_GEL_QC_test_csv_format", "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n"]
         return summaryQCParameters
     }
 
@@ -121,7 +121,7 @@ class QcTestExportService {
     }
 
     def getTrineanOD260Parameters(){
-        Map trineanOD260Parameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5]]
+        Map trineanOD260Parameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n"]
         return trineanOD260Parameters
     }
 
@@ -143,7 +143,7 @@ class QcTestExportService {
     }
 
     def getNanodropConcentrationParameters(){
-        Map nanodropConcentrationParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5]]
+        Map nanodropConcentrationParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n"]
         return nanodropConcentrationParameters
     }
 
@@ -165,7 +165,7 @@ class QcTestExportService {
     }
 
     def getQubitParameters(){
-        Map nanodropConcentrationParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5]]
+        Map nanodropConcentrationParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n"]
         return nanodropConcentrationParameters
     }
 
@@ -186,7 +186,7 @@ class QcTestExportService {
     }
 
     def getDeltaCqParameters(){
-        Map deltaCqParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5]]
+        Map deltaCqParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n"]
         return deltaCqParameters
     }
 

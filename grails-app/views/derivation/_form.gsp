@@ -1,4 +1,4 @@
-<%@ page import="geldb.Derivation" %>
+<%@ page import="geldb.AliquotType; geldb.Aliquot; geldb.Derivation" %>
 
 
 
@@ -82,16 +82,18 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <div>
-                        <label for="barcode" class="control-label"><g:message code="aliquot.barcode.label" default="Barcode (where available)" /></label>
+            <g:if test="${geldb.AliquotType.findById(aliquotType)?.aliquotTypeName != "Section" }">
+                <div class="row">
+                    <div class="col-lg-6">
                         <div>
-                            <g:textField class="form-control" name="barcode" value=""/>
+                            <label for="barcode" class="control-label"><g:message code="aliquot.barcode.label" default="Barcode (where available)" /></label>
+                            <div>
+                                <g:textField class="form-control" name="barcode" value=""/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </g:if>
 
             <g:if test="${derivationInstance?.derivationProcess?.name() == 'Tissue_disruption' || derivationInstance?.derivationProcess?.name() == 'Tissue_disruption_centrifugation_with_buffer'}">
                 <div class="row">
