@@ -94,7 +94,7 @@
         <div class="${hasErrors(bean: gelSuitabilityReportInstance, field: 'tumourContentVerifiedBy', 'error')} ">
             <label for="tumourContentVerifiedBy" class="control-label"><g:message code="gelSuitabilityReport.tumourContentVerifiedBy.label" default="Tumour Content Verified By" /></label>
             <div>
-                <g:select class="form-control" name="tumourContentVerifiedBy" from="${geldb.TumourContentVerification?.values()?.sort {it.value}}" keys="${geldb.TumourContentVerification.values()*.name()}" value="${gelSuitabilityReportInstance?.tumourContentVerifiedBy?.name()}" />
+                <g:select class="form-control" name="tumourContentVerifiedBy" from="${geldb.TumourContentVerification?.values()}" keys="${geldb.TumourContentVerification.values()*.name()}" value="${gelSuitabilityReportInstance?.tumourContentVerifiedBy?.name()}" />
                 <span class="help-inline">${hasErrors(bean: gelSuitabilityReportInstance, field: 'tumourContentVerifiedBy', 'error')}</span>
             </div>
         </div>

@@ -38,7 +38,7 @@
 					<div class="${hasErrors(bean: fixationReportInstance, field: 'fixationTypeAliquot', 'error')} ">
 						<label for="fixationTypeAliquot" class="control-label"><g:message code="fixationReport.fixationTypeAliquot.label" default="Fixation Type" /></label>
 						<div>
-							<g:select class="form-control" name="fixationTypeAliquot" from="${geldb.FixationType?.values()?.sort {it.value}}" keys="${geldb.FixationType.values()*.name()}" value="${fixationReportInstance?.fixationTypeAliquot?.name()}" noSelection="['': '- Choose -']"/>
+							<g:select class="form-control" name="fixationTypeAliquot" from="${geldb.FixationType?.values()}" keys="${geldb.FixationType.values()*.name()}" value="${fixationReportInstance?.fixationTypeAliquot?.name()}" noSelection="['': '- Choose -']"/>
 							<span class="help-inline">${hasErrors(bean: fixationReportInstance, field: 'fixationTypeAliquot', 'error')}</span>
 						</div>
 					</div>
@@ -48,7 +48,7 @@
 					<div class="${hasErrors(bean: fixationReportInstance, field: 'processingScheduleAliquot', 'error')} ">
 						<label for="processingScheduleAliquot" class="control-label"><g:message code="fixationReport.processingScheduleAliquot.label" default="Processing Schedule" /></label>
 						<div>
-							<g:select class="form-control" name="processingScheduleAliquot" from="${geldb.ProcessingSchedule?.values()?.sort {it.value}}" keys="${geldb.ProcessingSchedule.values()*.name()}" value="${fixationReportInstance?.processingScheduleAliquot?.name()}" noSelection="['': '- Choose -']"/>
+							<g:select class="form-control" name="processingScheduleAliquot" from="${geldb.ProcessingSchedule?.values()}" keys="${geldb.ProcessingSchedule.values()*.name()}" value="${fixationReportInstance?.processingScheduleAliquot?.name()}" noSelection="['': '- Choose -']"/>
 							<span class="help-inline">${hasErrors(bean: fixationReportInstance, field: 'processingScheduleAliquot', 'error')}</span>
 						</div>
 					</div>

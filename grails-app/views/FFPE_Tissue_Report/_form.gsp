@@ -83,7 +83,7 @@
         <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'tumourStatus', 'error')} required">
             <label for="tumourStatus" class="control-label"><g:message code="FFPE_Tissue_Report.tumourStatus.label" default="Tumour Status" /><span class="required-indicator">*</span></label>
             <div>
-                <g:select class="form-control" name="tumourStatus" from="${geldb.TumourStatus?.values()?.sort {it.value}}" keys="${geldb.TumourStatus.values()*.name()}" required="" value="${FFPE_Tissue_ReportInstance?.tumourStatus?.name()}" noSelection="['':'- Choose -']"/>
+                <g:select class="form-control" name="tumourStatus" from="${geldb.TumourStatus?.values()}" keys="${geldb.TumourStatus.values()*.name()}" required="" value="${FFPE_Tissue_ReportInstance?.tumourStatus?.name()}" noSelection="['':'- Choose -']"/>
                 <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'tumourStatus', 'error')}</span>
             </div>
         </div>
@@ -294,7 +294,7 @@
             <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'fixationType', 'error')} required">
                 <label for="fixationType" class="control-label"><g:message code="FFPE_Tissue_Report.fixationType.label" default="Fixation Type" /></label>
                 <div>
-                    <g:select class="form-control" id="fixationType" name="fixationType" from="${geldb.FixationType?.values().sort {it.value}}" keys="${geldb.FixationType.values()*.name()}" value="${FFPE_Tissue_ReportInstance?.fixationType?.name()}" noSelection="['':'- Choose -']"/>
+                    <g:select class="form-control" id="fixationType" name="fixationType" from="${geldb.FixationType?.values()}" keys="${geldb.FixationType.values()*.name()}" value="${FFPE_Tissue_ReportInstance?.fixationType?.name()}" noSelection="['':'- Choose -']"/>
                     <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'fixationType', 'error')}</span>
                 </div>
             </div>
