@@ -107,7 +107,7 @@ class DispatchRecordController {
                 }
 
                 def extractionDate  = { domain, value ->
-                    return value?.toString()?.replace(' ', 'T')?.replace(']', '')?.replace('[', '')
+                    return value?.toString()?.replace(' ', 'T')?.replace(']', '')?.replace('[', '')?.replace('.0', '')
                 }
 
                 def aliquotBarcode  = { domain, value ->
