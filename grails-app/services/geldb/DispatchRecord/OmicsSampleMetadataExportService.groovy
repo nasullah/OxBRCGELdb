@@ -41,7 +41,7 @@ class OmicsSampleMetadataExportService {
         }
 
         def createdOn  = { domain, value ->
-            return value?.toString()?.replace(' ', 'T')?.replace(']', '')?.replace('[', '')
+            return value?.toString()?.replace(' ', 'T')?.replace(']', '')?.replace('[', '')?.replace('.0', '')
         }
 
         def aliquotBarcode  = { domain, value ->
@@ -54,13 +54,13 @@ class OmicsSampleMetadataExportService {
         }
 
         def laboratoryMethod  = { domain, value ->
-            return domain?.identifiedSample?.aliquotType?.toString() +" Extraction"
+            return "v2"
         }
 
         def dispatchDate  = { domain, value ->
             def date = value?.toString()
             if(date){
-                return date?.substring(0,10)
+                return date?.substring(0,10) + "T00:00:00"
             }else{
                 return ""
             }
@@ -86,7 +86,7 @@ class OmicsSampleMetadataExportService {
         }
 
         Map formatters = ["identifiedSample.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'clinicID':clinicID,
-                          "identifiedSample.createdOn":createdOn,"identifiedSample.aliquotType.aliquotName": clinicSampleType, "identifiedSample.barcode":aliquotBarcode, "laboratoryID":laboratoryID,
+                          "identifiedSample.createdOn":createdOn,"identifiedSample.aliquotType.aliquotTypeName": clinicSampleType, "identifiedSample.barcode":aliquotBarcode, "laboratoryID":laboratoryID,
                           "laboratoryMethod":laboratoryMethod, "laboratoryRemainingVolumeBanked":laboratoryRemainingVolumeBanked, "dispatchedBox.dispatchRecord.sentOn":dispatchDate,
                           "volume_ul":volumeUl, "laboratorySampleID":laboratorySampleID
         ]
@@ -96,7 +96,7 @@ class OmicsSampleMetadataExportService {
 
     def getFields(){
         List fields = ["identifiedSample.specimen.participant.studySubject.studySubjectIdentifier","clinicID","identifiedSample.barcode",
-                       "identifiedSample.aliquotType.aliquotName", "identifiedSample.createdOn","laboratoryID", "laboratorySampleID", "laboratoryMethod",
+                       "identifiedSample.aliquotType.aliquotTypeName", "identifiedSample.createdOn","laboratoryID", "laboratorySampleID", "laboratoryMethod",
                        "volume_ul", "laboratoryRemainingVolumeBanked","dispatchedBox.dispatchRecord.sentOn", "dispatchedBox.dispatchRecord.consignmentNumber",
                        "positionIfPlated", "dispatchedBox.barcode"
         ]
@@ -106,7 +106,7 @@ class OmicsSampleMetadataExportService {
 
 
     def getParameters(){
-        Map parameters = [title: "GMC GEL Sample Metadata Cancer","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n"]
+        Map parameters = [title: "GMC GEL Sample Metadata Cancer","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n", "quoteCharacter": "\u0000"]
         return parameters
     }
 }
