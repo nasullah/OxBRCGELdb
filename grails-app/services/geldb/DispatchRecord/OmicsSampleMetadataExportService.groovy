@@ -26,7 +26,6 @@ class OmicsSampleMetadataExportService {
         }
 
         def clinicSampleType  = { domain, value ->
-            println(value)
             if(value?.toString()?.contains('Serum SST')) {
                 return "Serum"
             }else if(value?.toString()?.contains('Plasma PST')) {
