@@ -44,8 +44,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'exhausted', 'error')} ">
-                        <label for="exhausted" class="control-label"><g:message code="DNA_Extract.exhausted.label" default="Exhausted DNA Extract
-                        " /></label>
+                        <label for="exhausted" class="control-label"><g:message code="DNA_Extract.exhausted.label" default="Exhausted DNA Extract" /></label>
                         <div>
                             <g:radioGroup name="exhausted"
                                           values="[true, false]"

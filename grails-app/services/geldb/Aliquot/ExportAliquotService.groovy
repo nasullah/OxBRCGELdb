@@ -17,6 +17,14 @@ class ExportAliquotService {
         def clean = { domain, value ->
             return value.toString().replace('[','').replace(']','').trim()
         }
+
+        def processingSchedule = {domain, value ->
+            if (value.toString()?.startsWith('Fluid Specimen-')) {
+                return ""
+            } else {
+                return value.toString().replace('[','').replace(']','').replace('null','').trim()
+            }
+        }
         Map formatters = ["gelSuitabilityReport.reportDate":clean, "gelSuitabilityReport.reportStaff":clean, "gelSuitabilityReport.comments":clean, "gelSuitabilityReport.handE_pathreview":clean,
                           "gelSuitabilityReport.slideMarkedBy":clean, "gelSuitabilityReport.sideMarkedDate":clean, "gelSuitabilityReport.percentageTumourContent":clean,
                           "gelSuitabilityReport.tumourContentVerifiedBy":clean, "gelSuitabilityReport.tumourContentVerificationOther":clean,
@@ -25,7 +33,8 @@ class ExportAliquotService {
                           "gelSuitabilityReport.dysplasticNonInvasiveNotes":clean, "gelSuitabilityReport.pathologistComments":clean,
                           "gelSuitabilityReport.suitableForGel":clean, "gelSuitabilityReport.failureReason":clean, "gelSuitabilityReport.slideScannedOn":clean,
                           "gelSuitabilityReport.slideScannedBy":clean, "gelSuitabilityReport.handEcarriedOutOn":clean, "gelSuitabilityReport.handEcarriedOutBy":clean,
-                          "specimen.participant.studySubject.studySubjectIdentifier":cleanGelID]
+                          "specimen.participant.studySubject.studySubjectIdentifier":cleanGelID, "fixationReport.processingScheduleAliquot":clean,
+                          "specimen.fFPE_Tissue_Report.processingSchedule":processingSchedule]
         return formatters
     }
 
@@ -38,7 +47,7 @@ class ExportAliquotService {
                        "gelSuitabilityReport.microdissectionDetails", "gelSuitabilityReport.cellularity", "gelSuitabilityReport.percentageNecrosis",
                        "gelSuitabilityReport.dysplasticNonInvasiveElements", "gelSuitabilityReport.dysplasticNonInvasiveNotes", "gelSuitabilityReport.pathologistComments",
                        "gelSuitabilityReport.suitableForGel", "gelSuitabilityReport.failureReason", "gelSuitabilityReport.slideScannedOn", "gelSuitabilityReport.slideScannedBy",
-                       "gelSuitabilityReport.handEcarriedOutOn", "gelSuitabilityReport.handEcarriedOutBy"]
+                       "gelSuitabilityReport.handEcarriedOutOn", "gelSuitabilityReport.handEcarriedOutBy","specimen.fFPE_Tissue_Report.processingSchedule", "fixationReport.processingScheduleAliquot"]
         return fields
     }
 
@@ -54,13 +63,14 @@ class ExportAliquotService {
                       "gelSuitabilityReport.dysplasticNonInvasiveNotes":"Dysplastic Non Invasive Notes", "gelSuitabilityReport.pathologistComments":"Pathologist Comments",
                       "gelSuitabilityReport.suitableForGel":"Suitable For Gel", "gelSuitabilityReport.failureReason":"Failure Reason", "gelSuitabilityReport.slideScannedOn":"Slide Scanned On",
                       "gelSuitabilityReport.slideScannedBy":"Slide Scanned By", "gelSuitabilityReport.handEcarriedOutOn":"H & E Carried Out On", "gelSuitabilityReport.handEcarriedOutBy":"H & E carried Out By",
-                      "specimen.participant.studySubject.studySubjectIdentifier":"GeL Study ID"]
+                      "specimen.participant.studySubject.studySubjectIdentifier":"GeL Study ID", "fixationReport.processingScheduleAliquot":"Genomic block processing schedule",
+                      "specimen.fFPE_Tissue_Report.processingSchedule":"Main specimen processing schedule"]
         return labels
     }
 
     def getParameters(){
         Map parameters = [title: "Aliquots", "column.widths": [0.15, 0.5, 0.5, 0.15, 0.15, 0.2, 0.2, 0.15, 0.25, 0.25, 0.2, 0.15, 0.2, 0.15, 0.2, 0.25, 0.15, 0.3, 0.15, 0.15, 0.25, 0.15, 0.25, 0.15, 0.15, 0.25, 0.25, 0.15, 0.25, 0.15,
-                                                               0.15, 0.15, 0.25, 0.25, 0.15, 0.25, 0.2, 0.2, 0.2, 0.2,]]
+                                                               0.15, 0.15, 0.25, 0.25, 0.15, 0.25, 0.2, 0.2, 0.2, 0.2, 0.35, 0.35]]
         return parameters
     }
 }
