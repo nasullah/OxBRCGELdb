@@ -35,19 +35,26 @@
 				
 				<td valign="top" style="text-align: left;" class="value">
 					<ul>
-					<g:each in="${dispatchedBoxInstance.dispatchItems}" var="d">
+					<g:each in="${dispatchedBoxInstance?.dispatchItems?.sort{it.positionIfPlated}}" var="d">
 						<li><g:link controller="dispatchItem" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
 					</g:each>
 					</ul>
 				</td>
 				
 			</tr>
+
+			<tr class="prop">
+				<td valign="top" class="name">Number of items in the box</td>
+
+				<td valign="top" class="value"><a class="text-danger">${dispatchedBoxInstance?.dispatchItems?.size()}</a></td>
+
+			</tr>
 		
 		</tbody>
 	</table>
 </section>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <p class="text-primary">Available Action</p>
 
@@ -64,7 +71,7 @@
 	<button type="submit" class="btn btn-success btn-xs" value="Upload"><span class="glyphicon glyphicon-upload"></span> Upload</button>
 </g:form>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 </body>
 
