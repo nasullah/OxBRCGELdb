@@ -105,12 +105,29 @@ class DispatchItemController {
             return
         }
 
-        dispatchItemInstance.delete flush: true
+        def identifiedSample = dispatchItemInstance?.identifiedSample
+
+        if (identifiedSample){
+            def aliquot = Aliquot.findById(identifiedSample.id)
+            def dnaExtract = DNA_Extract.findById(identifiedSample.id)
+            if (aliquot){
+                aliquot.exhausted = false
+                aliquot.save flush: true
+                dispatchItemInstance.delete flush: true
+            } else if(dnaExtract){
+                dnaExtract.exhausted = false
+                dnaExtract.save flush: true
+                dispatchItemInstance.delete flush: true
+            }
+        }else {
+            dispatchItemInstance.delete flush: true
+        }
 
         request.withFormat {
             form {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'DispatchItem.label', default: 'DispatchItem'), dispatchItemInstance.id])
-                redirect action: "index", method: "GET"
+//                redirect action: "index", method: "GET"
+                redirect(controller:'dispatchedBox',action: 'show', params: [id: dispatchItemInstance.dispatchedBox.id])
             }
             '*' { render status: NO_CONTENT }
         }

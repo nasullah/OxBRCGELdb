@@ -128,7 +128,8 @@ class DispatchedBoxController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'DispatchedBox.label', default: 'DispatchedBox'), dispatchedBoxInstance.id])
-                redirect action:"index", method:"GET"
+//                redirect action:"index", method:"GET"
+                redirect(controller:'dispatchRecord',action: 'show', params: [id: dispatchedBoxInstance.dispatchRecord.id])
             }
             '*'{ render status: NO_CONTENT }
         }
