@@ -35,14 +35,14 @@
 				
 				<td valign="top" style="text-align: left;" class="value">
 					<g:each in="${dispatchedBoxInstance?.dispatchItems?.sort{it.positionIfPlated}}" var="d">
-						<g:link controller="dispatchItem" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link>
+						<li><g:link controller="dispatchItem" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
 					</g:each>
 				</td>
 				
 			</tr>
 
 			<tr class="prop">
-				<td valign="top" class="name">Number of items in the box</td>
+				<td valign="top" class="name">Number of items</td>
 
 				<td valign="top" class="value"><a class="text-danger">${dispatchedBoxInstance?.dispatchItems?.size()}</a></td>
 
