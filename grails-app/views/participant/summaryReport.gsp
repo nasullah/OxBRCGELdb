@@ -13,9 +13,10 @@
 
 <hr/>
 
-<sec:ifAnyGranted roles="ROLE_ADMIN">
-    <div style="background: rgba(139, 240, 37, 0.14);">
-        <div class="container">
+
+<div style="background: rgba(139, 240, 37, 0.14);">
+    <div class="container">
+        <sec:ifAnyGranted roles="ROLE_ADMIN">
             <p>
             <h5 class="text-center">Export Options</h5>
             <p>
@@ -108,14 +109,32 @@
             <p>
             <p>
             <div class="row">
-
             </div>
-            <p>
-            <p>
+        </sec:ifAnyGranted>
+        <p>
+        <p>
+        <div class="row">
+            <div class="col-md-6">
+                <g:form controller="DNA_Extract" action="exportDNAExportListToCheck" params="['format': 'pdf', 'extension': 'pdf']">
+                    <label class="control-label"><small>Export DNA list to check </small></label>
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <label class="control-label"><small>Start Date </small></label>
+                            <bs:datePicker id="startDateDNA" name="startDateDNA" precision="day"   value="" /><span class=""></span>
+                            <label class="control-label"><small>End Date </small></label>
+                            <bs:datePicker id="endDateDNA" name="endDateDNA" precision="day"   value="" /><span class=""></span>
+                            <button type="submit"  class="btn btn btn-sm" ><span class="glyphicon glyphicon-export"></span> PDF Format</button>
+                        </div>
+                    </div>
+                </g:form>
+            </div>
         </div>
+        <p>
+        <p>
     </div>
-    <hr/>
-</sec:ifAnyGranted>
+</div>
+
+<hr/>
 
 <div style="background: rgba(139, 240, 37, 0.14);">
     <div class="container">

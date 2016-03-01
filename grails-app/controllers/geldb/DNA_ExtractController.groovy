@@ -177,6 +177,49 @@ class DNA_ExtractController {
         }
     }
 
+    def exportDNAExportListToCheck(){
+        if (params?.format && params.format != "html") {
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= DNA_Extract.${params.extension}")
+
+            def paramsStartDate = params.startDateDNA
+            def paramsEndDate = params.endDateDNA
+            def startDate = new Date()
+            def endDate =new Date()
+            if (paramsStartDate){
+                startDate = startDate.parse("yyyy-MM-dd", paramsStartDate.toString())
+            }
+            if (paramsEndDate){
+                endDate = endDate.parse("yyyy-MM-dd", paramsEndDate.toString())
+            }
+
+            def gelID = { domain, value ->
+                return value?.toString()?.replace('[','')?.replace(']','')?.replace(' ','')?.replace(',','')?.replace('null','')
+            }
+
+            def clean = { domain, value ->
+                return value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            }
+
+            def list = DNA_Extract.createCriteria().list {
+                    and {
+                        le("extractionDate", endDate)
+                        ge("extractionDate", startDate)
+                    }
+            }?.sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+
+            List fields = ["Check", "aliquot.specimen.participant.studySubject.studySubjectIdentifier", "aliquot.aliquotType", "aliquot.barcode", "barcode", "dNAConcentrationQubit"]
+
+            Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": "Participant Id ", "aliquot.aliquotType": "Sample Type",
+                          "aliquot.barcode": "Original aliquot barcode", "barcode":"DNA extract barcode", "dNAConcentrationQubit":"Qubit Concentration"]
+
+            Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": gelID, "aliquot.aliquotType": clean, "aliquot.barcode": clean]
+
+            Map parameters = [title: "DNA Extract List", "column.widths": [0.2, 0.3, 0.3, 0.3, 0.3, 0.3]]
+            exportService.export(params.format, response.outputStream, list, fields, labels, formatters, parameters)
+        }
+    }
+
     @Transactional
     def save(DNA_Extract DNA_ExtractInstance) {
         if (DNA_ExtractInstance == null) {
