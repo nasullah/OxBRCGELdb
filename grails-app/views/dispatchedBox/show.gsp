@@ -34,11 +34,9 @@
 				<td valign="top" class="name"><g:message code="dispatchedBox.dispatchItems.label" default="Dispatch Items" /></td>
 				
 				<td valign="top" style="text-align: left;" class="value">
-					<ul>
 					<g:each in="${dispatchedBoxInstance?.dispatchItems?.sort{it.positionIfPlated}}" var="d">
-						<li><g:link controller="dispatchItem" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
+						<g:link controller="dispatchItem" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link>
 					</g:each>
-					</ul>
 				</td>
 				
 			</tr>
