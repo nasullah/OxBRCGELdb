@@ -139,7 +139,7 @@ class DNA_ExtractController {
         def dispatchedItemSampleIdList = DispatchItem.list().identifiedSample.id
         def dispatchedItemDNAPatientIds = DNA_Extract.findAllByIdInList(dispatchedItemSampleIdList).aliquot.specimen.participant.id.flatten().unique()
         if(!dispatchedItemDNAPatientIds.empty){
-            patientIdList = patientIdList.findAll {p -> dispatchedItemDNAPatientIds.findAll {it != p}}
+            patientIdList -= dispatchedItemDNAPatientIds
         }
         ffDNAExtract = ffDNAExtract.findAll {c -> patientIdList.findAll {it == c.aliquot.specimen.participant.id.first()}}
         glDNAExtract = glDNAExtract.findAll {c -> patientIdList.findAll {it == c.aliquot.specimen.participant.id.first()}}
