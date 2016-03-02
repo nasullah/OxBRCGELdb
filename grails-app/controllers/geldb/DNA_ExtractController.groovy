@@ -29,6 +29,7 @@ class DNA_ExtractController {
     def exportAllDNAExtractService
     def importService
     def workListService
+    def exportDNAListToCheckService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -93,7 +94,6 @@ class DNA_ExtractController {
                 aliquot {
                     eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
                 }
-                ge("dNAConcentrationNanodrop", '1.8'.toFloat())
                 ge("dNAConcentrationQubit", '18'.toFloat())
                 eq("exhausted", false)
                 eq("passFail", true)
@@ -108,7 +108,6 @@ class DNA_ExtractController {
                         eq('aliquotType', AliquotType.findByAliquotTypeName('Buffy Coat'))
                     }
                 }
-                ge("dNAConcentrationNanodrop", '3'.toFloat())
                 ge("dNAConcentrationQubit", '30'.toFloat())
                 ge("dNAAmount", '100'.toDouble())
                 eq("exhausted", false)
@@ -125,7 +124,6 @@ class DNA_ExtractController {
                     }
                 }
                 lt("delatQC", '2.9'.toDouble())
-                ge("dNAConcentrationNanodrop", '1.8'.toFloat())
                 ge("dNAConcentrationQubit", '18'.toFloat())
                 eq("exhausted", false)
                 eq("passFail", true)
@@ -138,6 +136,11 @@ class DNA_ExtractController {
         def noFFSampleExpectedPatientIds = SolidSpecimen.findAllByNoFFSampleExpected(true).participant.id
         ffPatientIds.addAll(noFFSampleExpectedPatientIds)
         def patientIdList = ffPatientIds.intersect(glPatientIds).intersect(ffpPatientIds)
+        def dispatchedItemSampleIdList = DispatchItem.list().identifiedSample.id
+        def dispatchedItemDNAPatientIds = DNA_Extract.findAllByIdInList(dispatchedItemSampleIdList).aliquot.specimen.participant.id.flatten().unique()
+        if(!dispatchedItemDNAPatientIds.empty){
+            patientIdList = patientIdList.findAll {p -> dispatchedItemDNAPatientIds.findAll {it != p}}
+        }
         ffDNAExtract = ffDNAExtract.findAll {c -> patientIdList.findAll {it == c.aliquot.specimen.participant.id.first()}}
         glDNAExtract = glDNAExtract.findAll {c -> patientIdList.findAll {it == c.aliquot.specimen.participant.id.first()}}
         ffpDNAExtract = ffpDNAExtract.findAll {c -> patientIdList.findAll {it == c.aliquot.specimen.participant.id.first()}}
@@ -193,30 +196,13 @@ class DNA_ExtractController {
                 endDate = endDate.parse("yyyy-MM-dd", paramsEndDate.toString())
             }
 
-            def gelID = { domain, value ->
-                return value?.toString()?.replace('[','')?.replace(']','')?.replace(' ','')?.replace(',','')?.replace('null','')
-            }
-
-            def clean = { domain, value ->
-                return value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-            }
-
-            def list = DNA_Extract.createCriteria().list {
-                    and {
-                        le("extractionDate", endDate)
-                        ge("extractionDate", startDate)
-                    }
-            }?.sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
-
-            List fields = ["Check", "aliquot.specimen.participant.studySubject.studySubjectIdentifier", "aliquot.aliquotType", "aliquot.barcode", "barcode", "dNAConcentrationQubit"]
-
-            Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": "Participant Id ", "aliquot.aliquotType": "Sample Type",
-                          "aliquot.barcode": "Original aliquot barcode", "barcode":"DNA extract barcode", "dNAConcentrationQubit":"Qubit Concentration"]
-
-            Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": gelID, "aliquot.aliquotType": clean, "aliquot.barcode": clean]
-
-            Map parameters = [title: "DNA Extract List", "column.widths": [0.2, 0.3, 0.3, 0.3, 0.3, 0.3]]
-            exportService.export(params.format, response.outputStream, list, fields, labels, formatters, parameters)
+            def listDNA = DNA_Extract.createCriteria().list {
+                        and {
+                            le("extractionDate", endDate)
+                            ge("extractionDate", startDate)
+                            }
+                        }?.sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+            exportService.export(params.format, response.outputStream, listDNA, exportDNAListToCheckService.fields, exportDNAListToCheckService.labels, exportDNAListToCheckService.formatters, exportDNAListToCheckService.parameters)
         }
     }
 
