@@ -92,14 +92,14 @@ class DNA_ExtractController {
     def readyToDispatch(){
         def dna = DNA_Extract.findById(params.long('dnaExtractId'))
         if (dna){
-            if (!dna.checked){
+            if (!dna.checked || dna.checked == null){
                 dna.checked = true
                 dna.save flush: true
-                flash.message ="Selected item has been checked !"
+                flash.message ="Selected item has been checked"
             }else {
                 dna.checked = false
                 dna.save flush: true
-                flash.message ="Selected item has been unchecked !"
+                flash.message ="Selected item has been unchecked"
             }
         }
         def ffDNAExtract = DNA_Extract.createCriteria().list{
