@@ -106,13 +106,12 @@
                     </g:form>
                 </div>
             </div>
-            <p>
-            <p>
-            <div class="row">
-            </div>
         </sec:ifAnyGranted>
-        <p>
-        <p>
+        <div class="row">
+            <div class="col-md-11">
+                <hr>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <g:form controller="DNA_Extract" action="exportDNAExportListToCheck" params="['format': 'pdf', 'extension': 'pdf']">
@@ -129,7 +128,6 @@
                 </g:form>
             </div>
         </div>
-        <p>
         <p>
     </div>
 </div>

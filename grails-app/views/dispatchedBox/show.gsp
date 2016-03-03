@@ -1,5 +1,5 @@
 
-<%@ page import="geldb.DispatchedBox" %>
+<%@ page import="geldb.Aliquot; geldb.DNA_Extract; geldb.DispatchedBox" %>
 <!DOCTYPE html>
 <html>
 
@@ -35,7 +35,22 @@
 				
 				<td valign="top" style="text-align: left;" class="value">
 					<g:each in="${dispatchedBoxInstance?.dispatchItems?.sort{it.positionIfPlated}}" var="d">
-						<li><g:link controller="dispatchItem" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
+						<% def dna = DNA_Extract.findById(d.identifiedSample.id) %>
+						<% def aliquot = Aliquot.findById(d.identifiedSample.id) %>
+						<g:if test="${dna}">
+							<g:if test="${dna.checked}">
+								<li><g:link controller="dispatchItem" action="show" id="${d.id}" style="color: #00a700">${d?.encodeAsHTML()}</g:link></li>
+							</g:if>
+							<g:elseif test="${dna.checked == null}">
+								<li><g:link controller="dispatchItem" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
+							</g:elseif>
+							<g:elseif test="${!dna.checked}">
+								<li><g:link controller="dispatchItem" action="show" id="${d.id}" style="color: #c01913">${d?.encodeAsHTML()}</g:link></li>
+							</g:elseif>
+						</g:if>
+						<g:elseif test="${aliquot}">
+							<li><g:link controller="dispatchItem" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
+						</g:elseif>
 					</g:each>
 				</td>
 				

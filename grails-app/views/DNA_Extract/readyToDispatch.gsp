@@ -10,6 +10,18 @@
 
 <body>
 
+<hr/>
+
+<div class="center">
+    <g:form controller="DNA_Extract" action="exportCheckedDNA" params="['format': 'pdf', 'extension': 'pdf']">
+        <div>
+            <button type="submit"  class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-export"></span> Export Checked DNA List</button>
+        </div>
+    </g:form>
+</div>
+
+<hr/>
+
 <section id="index-DNA_Extract" class="first">
 
     <table class="table table-bordered margin-top-medium">
@@ -25,6 +37,8 @@
             <g:sortableColumn property="passFail" title="${message(code: 'DNA_Extract.passFail.label', default: 'Pass Fail')}" />
 
             <g:sortableColumn property="aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
+
+            <g:sortableColumn property="checked" title=" ${message(code: 'DNA_Extract.checked.label', default: 'Check')}"/>
 
         </tr>
         </thead>
@@ -45,6 +59,13 @@
                 <% gelId =gelId.findResult {it.studySubjectIdentifier ? it : null}%>
 
                 <td>${fieldValue(bean: gelId, field: "studySubjectIdentifier")}</td>
+
+                <td>
+                    <g:form controller="DNA_Extract" action="readyToDispatch">
+                        <g:checkBox name="checkedBox" value="${DNA_ExtractInstance?.checked}" onclick="submit();"/>
+                        <g:hiddenField id="dnaExtractId" name="dnaExtractId" value="${DNA_ExtractInstance.id}"/>
+                    </g:form>
+                </td>
 
             </tr>
         </g:each>

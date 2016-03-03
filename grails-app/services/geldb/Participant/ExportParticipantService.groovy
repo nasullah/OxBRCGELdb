@@ -21,7 +21,14 @@ class ExportParticipantService {
         def consentType = { domain, value ->
             return value.toString().replace('[','').replace(']','').replace('null','').trim()
         }
-        Map formatters = ["studySubject.studySubjectIdentifier":gelId, "studySubject.study":consentType]
+        def dateOfBirth = { domain, value ->
+            if (value.toString().size() > 10){
+                return value.toString().substring(0, 10)
+            }else {
+                return value
+            }
+        }
+        Map formatters = ["studySubject.studySubjectIdentifier":gelId, "studySubject.study":consentType, "dateOfBirth":dateOfBirth]
         return formatters
     }
 

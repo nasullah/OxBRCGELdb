@@ -88,7 +88,20 @@ class DNA_ExtractController {
         workListService.workLists(params.sampleType)
     }
 
+    @Transactional
     def readyToDispatch(){
+        def dna = DNA_Extract.findById(params.long('dnaExtractId'))
+        if (dna){
+            if (!dna.checked){
+                dna.checked = true
+                dna.save flush: true
+                flash.message ="Selected item has been checked !"
+            }else {
+                dna.checked = false
+                dna.save flush: true
+                flash.message ="Selected item has been unchecked !"
+            }
+        }
         def ffDNAExtract = DNA_Extract.createCriteria().list{
             and {
                 aliquot {
@@ -146,6 +159,47 @@ class DNA_ExtractController {
         ffpDNAExtract = ffpDNAExtract.findAll {c -> patientIdList.findAll {it == c.aliquot.specimen.participant.id.first()}}
         def trio = ffDNAExtract + glDNAExtract + ffpDNAExtract
         [trio: trio.sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
+    }
+
+    def exportCheckedDNA(){
+        List<DNA_Extract> dnaList = new ArrayList<DNA_Extract>();
+        dnaList.addAll(readyToDispatch().trio)
+        def checkedList = dnaList.findAll {d -> d.checked}
+
+        print('')
+        if (params?.format && params.format != "html") {
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= Exported FFPE.${params.extension}")
+
+            def gelID = { domain, value ->
+                return value?.toString()?.replace('[','')?.replace(']','')?.replace(' ','')?.replace(',','')?.replace('null','')
+            }
+
+            def clean = { domain, value ->
+                return value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            }
+
+            def dateFormat = { domain, value ->
+                if (value.toString().size() > 10){
+                    return value?.toString()?.substring(0, 10)
+                }else {
+                    return value
+                }
+            }
+
+            Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": gelID, "aliquot.aliquotType": clean, "aliquot.barcode": clean,
+                              "extractionDate": dateFormat]
+
+            List fields = ["Check", "aliquot.specimen.participant.studySubject.studySubjectIdentifier", "aliquot.aliquotType", "aliquot.barcode", "barcode",
+                           "dNAConcentrationQubit", "extractionDate"]
+
+            Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": "Participant Id ", "aliquot.aliquotType": "Sample Type",
+                          "aliquot.barcode": "Original Aliquot Barcode", "barcode":"DNA Extract Barcode", "dNAConcentrationQubit":"Qubit Concentration",
+                          "extractionDate":"Extraction Date"]
+
+            Map parameters = [title: "DNA Extract Check List", "column.widths": [0.2, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]]
+            exportService.export(params.format, response.outputStream, checkedList, fields, labels, formatters, parameters)
+        }
     }
 
     @Transactional
