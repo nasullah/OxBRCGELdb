@@ -89,6 +89,7 @@
                     <hr>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <g:form controller="aliquot" action="exportListOfMaterialSupplied" params="['format': 'excel', 'extension': 'xls']">
@@ -107,11 +108,13 @@
                 </div>
             </div>
         </sec:ifAnyGranted>
+
         <div class="row">
             <div class="col-md-11">
                 <hr>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-6">
                 <g:form controller="DNA_Extract" action="exportDNAExportListToCheck" params="['format': 'pdf', 'extension': 'pdf']">
@@ -122,6 +125,7 @@
                             <bs:datePicker id="startDateDNA" name="startDateDNA" precision="day"   value="" /><span class=""></span>
                             <label class="control-label"><small>End Date </small></label>
                             <bs:datePicker id="endDateDNA" name="endDateDNA" precision="day"   value="" /><span class=""></span>
+                            <g:select class="form-control" id="aliquotTypeDNA" name="aliquotTypeDNA" from="${geldb.AliquotType.list().sort{it.aliquotTypeName}}" optionKey="id" noSelection="['':'- Choose Aliquot Type -']"/>
                             <button type="submit"  class="btn btn btn-sm" ><span class="glyphicon glyphicon-export"></span> PDF Format</button>
                         </div>
                     </div>

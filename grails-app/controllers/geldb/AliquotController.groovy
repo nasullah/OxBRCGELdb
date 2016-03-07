@@ -138,7 +138,7 @@ class AliquotController {
                 exportService.export(params.format, response.outputStream, exportListOfMaterialSuppliedData, exportListOfMaterialSuppliedService.fields, exportListOfMaterialSuppliedService.labels, exportListOfMaterialSuppliedService.formatters, exportListOfMaterialSuppliedService.parameters)
             }
         }else {
-            flash.message = "Enter start date, end date and aliquotType"
+            flash.message = "Enter start date, end date and aliquot type"
             redirect(uri: "/participant/summaryReport")
         }
     }

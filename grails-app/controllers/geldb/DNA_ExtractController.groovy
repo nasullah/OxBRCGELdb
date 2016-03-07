@@ -166,7 +166,6 @@ class DNA_ExtractController {
         dnaList.addAll(readyToDispatch().trio)
         def checkedList = dnaList.findAll {d -> d.checked}
 
-        print('')
         if (params?.format && params.format != "html") {
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
             response.setHeader("Content-disposition", "attachment; filename= Exported FFPE.${params.extension}")
@@ -235,28 +234,36 @@ class DNA_ExtractController {
     }
 
     def exportDNAExportListToCheck(){
-        if (params?.format && params.format != "html") {
-            response.contentType = grailsApplication.config.grails.mime.types[params.format]
-            response.setHeader("Content-disposition", "attachment; filename= DNA_Extract.${params.extension}")
+        def aliquotType = params.long('aliquotTypeDNA')
+        def paramsStartDate = params.startDateDNA
+        def paramsEndDate = params.endDateDNA
+        def startDate = new Date()
+        def endDate =new Date()
+        if (paramsStartDate){
+            startDate = startDate.parse("yyyy-MM-dd", paramsStartDate.toString())
+        }
+        if (paramsEndDate){
+            endDate = endDate.parse("yyyy-MM-dd", paramsEndDate.toString())
+        }
 
-            def paramsStartDate = params.startDateDNA
-            def paramsEndDate = params.endDateDNA
-            def startDate = new Date()
-            def endDate =new Date()
-            if (paramsStartDate){
-                startDate = startDate.parse("yyyy-MM-dd", paramsStartDate.toString())
+        if (paramsEndDate && paramsStartDate && aliquotType){
+            if (params?.format && params.format != "html") {
+                response.contentType = grailsApplication.config.grails.mime.types[params.format]
+                response.setHeader("Content-disposition", "attachment; filename= DNA_Extract.${params.extension}")
+                def listDNA = DNA_Extract.createCriteria().list {
+                    and {
+                        le("extractionDate", endDate)
+                        ge("extractionDate", startDate)
+                        aliquot {
+                            eq("aliquotType", AliquotType.findById(aliquotType))
+                        }
+                    }
+                }?.sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+                exportService.export(params.format, response.outputStream, listDNA, exportDNAListToCheckService.fields, exportDNAListToCheckService.labels, exportDNAListToCheckService.formatters, exportDNAListToCheckService.parameters)
             }
-            if (paramsEndDate){
-                endDate = endDate.parse("yyyy-MM-dd", paramsEndDate.toString())
-            }
-
-            def listDNA = DNA_Extract.createCriteria().list {
-                        and {
-                            le("extractionDate", endDate)
-                            ge("extractionDate", startDate)
-                            }
-                        }?.sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
-            exportService.export(params.format, response.outputStream, listDNA, exportDNAListToCheckService.fields, exportDNAListToCheckService.labels, exportDNAListToCheckService.formatters, exportDNAListToCheckService.parameters)
+        }else {
+            flash.message = "Enter start date, end date and aliquot type"
+            redirect(uri: "/participant/summaryReport")
         }
     }
 
