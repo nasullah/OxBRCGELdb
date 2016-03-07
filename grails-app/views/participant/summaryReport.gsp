@@ -125,7 +125,7 @@
                             <bs:datePicker id="startDateDNA" name="startDateDNA" precision="day"   value="" /><span class=""></span>
                             <label class="control-label"><small>End Date </small></label>
                             <bs:datePicker id="endDateDNA" name="endDateDNA" precision="day"   value="" /><span class=""></span>
-                            <g:select class="form-control" id="aliquotTypeDNA" name="aliquotTypeDNA" from="${geldb.AliquotType.list().sort{it.aliquotTypeName}}" optionKey="id" noSelection="['':'- Choose Aliquot Type -']"/>
+                            <g:select class="form-control" id="aliquotTypeDNA" name="aliquotTypeDNA" from="${geldb.AliquotType.list().sort{it.aliquotTypeName}}" optionKey="id" noSelection="['':'- Choose Sample Type -']"/>
                             <button type="submit"  class="btn btn btn-sm" ><span class="glyphicon glyphicon-export"></span> PDF Format</button>
                         </div>
                     </div>

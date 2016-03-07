@@ -262,7 +262,7 @@ class DNA_ExtractController {
                 exportService.export(params.format, response.outputStream, listDNA, exportDNAListToCheckService.fields, exportDNAListToCheckService.labels, exportDNAListToCheckService.formatters, exportDNAListToCheckService.parameters)
             }
         }else {
-            flash.message = "Enter start date, end date and aliquot type"
+            flash.message = "Enter start date, end date and sample type"
             redirect(uri: "/participant/summaryReport")
         }
     }
