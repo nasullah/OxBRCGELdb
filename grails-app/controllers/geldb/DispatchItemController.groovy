@@ -49,19 +49,25 @@ class DispatchItemController {
                 return
             }
 
-            dispatchItemInstance.save flush: true
-            for ( item in IdentifiedSample.listOrderById())
-                if(item.id == dispatchItemInstance.identifiedSample.id){
-                    item.exhausted = 'true'
-                    item.save flush: true
+            if (dispatchItemInstance.volume_ul){
+                dispatchItemInstance.save flush: true
+                for ( item in IdentifiedSample.listOrderById()){
+                    if(item.id == dispatchItemInstance.identifiedSample.id){
+                        item.exhausted = 'true'
+                        item.save flush: true
+                    }
                 }
 
-            request.withFormat {
-                form {
-                    flash.message = message(code: 'default.created.message', args: [message(code: 'dispatchItemInstance.label', default: 'DispatchItem'), dispatchItemInstance.id])
-                    redirect dispatchItemInstance.dispatchedBox
+                request.withFormat {
+                    form {
+                        flash.message = message(code: 'default.created.message', args: [message(code: 'dispatchItemInstance.label', default: 'DispatchItem'), dispatchItemInstance.id])
+                        redirect dispatchItemInstance.dispatchedBox
+                    }
+                    '*' { respond dispatchItemInstance, [status: CREATED] }
                 }
-                '*' { respond dispatchItemInstance, [status: CREATED] }
+            }else {
+                flash.message = 'No sample volume was found.'
+                redirect(controller:'dispatchItem',action: 'create', params: [dispatchedBox: dispatchItemInstance?.dispatchedBox?.id, positionIfPlated:dispatchItemInstance?.positionIfPlated, volume_ul:dispatchItemInstance?.volume_ul])
             }
 
         } else{

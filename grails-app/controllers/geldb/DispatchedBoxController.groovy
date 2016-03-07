@@ -52,11 +52,13 @@ class DispatchedBoxController {
                             }
                             dispatchItemInstance.positionIfPlated = fields[0].trim()
                             dispatchItemInstance.dispatchedBox = dispatchedBox
-                            dispatchItemInstance.save flush: true
-                            for (item in IdentifiedSample.listOrderById()) {
-                                if (item.id == dispatchItemInstance.identifiedSample.id) {
-                                    item.exhausted = 'true'
-                                    item.save flush: true
+                            if (dispatchItemInstance.volume_ul){
+                                dispatchItemInstance.save flush: true
+                                for (item in IdentifiedSample.listOrderById()) {
+                                    if (item.id == dispatchItemInstance.identifiedSample.id) {
+                                        item.exhausted = 'true'
+                                        item.save flush: true
+                                    }
                                 }
                             }
                         }
