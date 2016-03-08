@@ -33,20 +33,20 @@ class ExportDNAListToCheckService {
     }
 
     def getFields(){
-        List fields = ["Check", "aliquot.specimen.participant.studySubject.studySubjectIdentifier", "aliquot.aliquotType", "aliquot.barcode", "barcode",
-                       "dNAConcentrationQubit", "extractionDate"]
+        List fields = ["Checked By", "aliquot.specimen.participant.studySubject.studySubjectIdentifier", "aliquot.aliquotType", "aliquot.barcode", "barcode",
+                       "dNAConcentrationQubit", "extractionDate", "extractedBy.staffName"]
         return fields
     }
 
     def getLabels(){
         Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": "Participant Id ", "aliquot.aliquotType": "Sample Type",
                       "aliquot.barcode": "Original Aliquot Barcode", "barcode":"DNA Extract Barcode", "dNAConcentrationQubit":"Qubit Concentration",
-                      "extractionDate":"Extraction Date"]
+                      "extractionDate":"Extraction Date", "extractedBy.staffName":"Extracted By"]
         return labels
     }
 
     def getParameters(){
-        Map parameters = [title: "DNA Extract Check List", "column.widths": [0.2, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]]
+        Map parameters = [title: "DNA Extract Check List", "column.widths": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]]
         return parameters
     }
 }
