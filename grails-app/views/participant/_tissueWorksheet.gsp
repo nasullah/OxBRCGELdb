@@ -88,14 +88,15 @@
         <th width="15%"><span style="font-weight: normal;font-size: 8pt"> Sample type (if not main: e.g. punch, slice)</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 8pt"> Cassette reference</span></th>
         <th width="5%"><span style="font-weight: normal;font-size: 8pt">Fixation type(1)</span></th>
-        <th width="10%"><span style="font-weight: normal;font-size: 8pt">Fixation start time </span></th>
-        <th width="10%"><span style="font-weight: normal;font-size: 8pt">Fixation end time </span></th>
+        <th width="8%"><span style="font-weight: normal;font-size: 8pt">Fixation start time </span></th>
+        <th width="8%"><span style="font-weight: normal;font-size: 8pt">Fixation end time </span></th>
         <th width="25%"><span style="font-weight: normal;font-size: 8pt">Period in hours (circle appropriate) (time into formalin to time processing starts. For extra-large blocks add 15.5 hours as blocks sit overnight in formalin; if specimen goes onto processor on a Friday, add 48 hours as processor cycle starts on a Sunday night)</span></th>
-        <th width="15%"><span style="font-weight: normal;font-size: 8pt">Processing schedule(2)</span></th>
+        <th width="11%"><span style="font-weight: normal;font-size: 8pt">Processing schedule(2)</span></th>
+        <th width="8%"><span style="font-weight: normal;font-size: 8pt">Time in processor</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 8pt">Recorded by</span></th>
     </tr>
     <tr>
-        <td>NBF block</td>
+        <td>Genomic Block</td>
         <td></td>
         <td><center>NBF</center></td>
         <td></td>
@@ -103,25 +104,28 @@
         <td>&lt;12 &#160; 12-24	&#160; 24-48 &#160; 48-72 &#160;	&gt;72 &#160;	Unknown</td>
         <td>4H  &#160;  O/N   &#160;  EXT  &#160;    XL</td>
         <td></td>
+        <td></td>
     </tr>
     <tr>
         <td>Main specimen (small blocks)</td>
         <td bgcolor="#dcdcdc"></td>
-        <td><center>F</center></td>
+        <td><center>NBF</center></td>
         <td></td>
         <td></td>
         <td>&lt;12 &#160; 12-24	&#160; 24-48 &#160; 48-72 &#160;	&gt;72 &#160;	Unknown</td>
         <td>4H  &#160;  O/N   &#160;  EXT  &#160;    XL</td>
+        <td></td>
         <td></td>
     </tr>
     <tr>
-        <td>Main specimen (XL blocks)</td>
+        <td></td>
         <td bgcolor="#dcdcdc"></td>
-        <td><center>F</center></td>
+        <td></td>
         <td></td>
         <td></td>
         <td>&lt;12 &#160; 12-24	&#160; 24-48 &#160; 48-72 &#160;	&gt;72 &#160;	Unknown</td>
         <td>4H  &#160;  O/N   &#160;  EXT  &#160;    XL</td>
+        <td></td>
         <td></td>
     </tr>
 </table>
