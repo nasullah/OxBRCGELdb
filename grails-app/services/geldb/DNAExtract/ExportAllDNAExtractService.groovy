@@ -5,6 +5,7 @@ import geldb.DNA_Extract
 import geldb.DispatchItem
 import geldb.ExtractionType
 import geldb.FFPE_Tissue_Report
+import geldb.SolidSpecimen
 import grails.transaction.Transactional
 
 /**
@@ -46,11 +47,16 @@ class ExportAllDNAExtractService {
 
         def tumourType = { domain, value ->
             if (value.toString()?.startsWith('[Fluid Specimen-')) {
-                def patient = domain.aliquot.first().specimen.participant
-                def tumour = FFPE_Tissue_Report.find {solidSpecimen.participant == patient}?.tumourType?.tumourType
-                if (tumour){
-                    return tumour
-                }else{
+                def patient = domain?.aliquot?.first()?.specimen?.participant
+                if (patient){
+                    def tumour = SolidSpecimen?.findByParticipant(patient)?.fFPE_Tissue_Report
+                    if (!tumour?.empty){
+                        return tumour?.first()?.tumourType?.tumourLocation
+                    }else{
+                        return ""
+                    }
+                }
+               else{
                     return ""
                 }
             } else {
@@ -65,12 +71,12 @@ class ExportAllDNAExtractService {
 
         Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":gelId, "passFail": passFail, "aliquot.gelSuitabilityReport.percentageTumourContent": clean, "aliquot.aliquotType": clean,
                           "aliquot.gelSuitabilityReport.percentageNecrosis":clean, "aliquot.gelSuitabilityReport.cellularity": clean, "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements":dysplasticNonInvasiveElements,
-                          "id":dispatched, "aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourType":tumourType]
+                          "id":dispatched, "aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":tumourType]
         return formatters
     }
 
     def getFields(){
-        List fields = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier","aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourType", "aliquot.aliquotType", "id", "passFail",
+        List fields = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier","aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation", "aliquot.aliquotType", "id", "passFail",
                        "dNAConcentrationQubit", "dNAAmount", "delatQC", "aliquot.gelSuitabilityReport.percentageTumourContent", "aliquot.gelSuitabilityReport.percentageNecrosis",
                        "aliquot.gelSuitabilityReport.cellularity", "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements"]
         return fields
@@ -80,7 +86,7 @@ class ExportAllDNAExtractService {
         Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":"GEL Study/Participant ID", "passFail": "Pass/Fail", "dNAConcentrationQubit": "DNA/RNA Concentration (Qubit)",
                       "dNAAmount": "DNA/RNA Volume", "delatQC":"Delta QC", "aliquot.gelSuitabilityReport.percentageTumourContent":"Percentage Tumour Content", "aliquot.gelSuitabilityReport.percentageNecrosis":
                       "Percentage Necrosis", "aliquot.gelSuitabilityReport.cellularity": "Cellularity", "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements": "Dysplastic Non Invasive Elements",
-                      "aliquot.aliquotType":"Aliquot Type", "id": "Dispatched", "aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourType":"Cancer Type"]
+                      "aliquot.aliquotType":"Aliquot Type", "id": "Dispatched", "aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":"Cancer Type"]
         return labels
     }
 
