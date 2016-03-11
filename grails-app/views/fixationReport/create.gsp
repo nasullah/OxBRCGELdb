@@ -4,8 +4,12 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'fixationReport.label', default: 'Genomic Block Fixation Report')}" />
-	<title><g:message code="default.create.label" args="[entityName]" /></title>
+	<g:if test="${fixationReportInstance.aliquot.aliquotType.aliquotTypeName == 'Punch biopsy, PAXgene'}">
+		<title>Create Fixation Report</title>
+	</g:if>
+	<g:else>
+		<title>Create Genomic Block Fixation Report</title>
+	</g:else>
 </head>
 
 <body>

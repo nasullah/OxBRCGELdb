@@ -333,7 +333,12 @@
 
         <g:if test="${aliquotInstance.fixationReport}">
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="aliquot.fixationReport.label" default="Genomic Block Fixation Report" /></td>
+                <g:if test="${aliquotInstance.aliquotType.aliquotTypeName == 'Punch biopsy, PAXgene'}">
+                    <td valign="top" class="name"><g:message code="aliquot.fixationReport.label" default="Fixation Report" /></td>
+                </g:if>
+                <g:else>
+                    <td valign="top" class="name"><g:message code="aliquot.fixationReport.label" default="Genomic Block Fixation Report" /></td>
+                </g:else>
 
                 <td valign="top" style="text-align: left;" class="value">
                     <ul>
@@ -379,6 +384,10 @@
 
 <g:if test="${!aliquotInstance.fixationReport && (aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE')}">
     <a class='btn btn-primary btn-small' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id, 'fixationStartDateAliquot': aliquotInstance?.specimen?.collectionDate]"><i class="glyphicon glyphicon-plus"></i> Add Genomic Block Fixation Report</g:link>
+</g:if>
+
+<g:if test="${!aliquotInstance.fixationReport && aliquotInstance.aliquotType.aliquotTypeName == 'Punch biopsy, PAXgene'}">
+    <a class='btn btn-primary btn-small' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id, 'fixationTypeAliquot':'PAXgene']"><i class="glyphicon glyphicon-plus"></i> Add Fixation Report</g:link>
 </g:if>
 
 <g:if test="${(aliquotInstance?.aliquotType?.aliquotTypeName == 'Fresh Frozen Tissue' && aliquotInstance?.derivedFrom?.id == null) || (aliquotInstance?.aliquotType?.aliquotTypeName == 'Punch Biopsy Frozen' && aliquotInstance?.derivedFrom?.id == null)}">

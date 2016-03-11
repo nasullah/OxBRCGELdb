@@ -5,8 +5,12 @@
 
 <head>
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="${message(code: 'fixationReport.label', default: 'Genomic Block Fixation Report')}" />
-	<title><g:message code="default.show.label" args="[entityName]" /></title>
+	<g:if test="${fixationReportInstance.aliquot.aliquotType.aliquotTypeName == 'Punch biopsy, PAXgene'}">
+		<title>Show Fixation Report</title>
+	</g:if>
+	<g:else>
+		<title>Show Genomic Block Fixation Report</title>
+	</g:else>
 </head>
 
 <body>
@@ -114,12 +118,14 @@
 				
 			</tr>
 
-			<tr class="prop">
-				<td valign="top" class="name"><g:message code="fixationReport.timeInProcessor.label" default="Time in formalin on processor (time in hours)" /></td>
+			<g:if test="${fixationReportInstance.aliquot.aliquotType.aliquotTypeName != 'Punch biopsy, PAXgene'}">
+				<tr class="prop">
+					<td valign="top" class="name"><g:message code="fixationReport.timeInProcessor.label" default="Time in formalin on processor (time in hours)" /></td>
 
-				<td valign="top" class="value">${fieldValue(bean: fixationReportInstance, field: "timeInProcessor")}</td>
+					<td valign="top" class="value">${fieldValue(bean: fixationReportInstance, field: "timeInProcessor")}</td>
 
-			</tr>
+				</tr>
+			</g:if>
 		
 		</tbody>
 	</table>
