@@ -91,7 +91,7 @@ class ExportAllDNAExtractService {
     }
 
     def getParameters(){
-        Map parameters = [title: "All DNA Extracts", "column.widths": [0.2, 0.35, 0.25, 0.1, 0.1, 0.1, 0.2, 0.1, 0.15, 0.15, 0.1, 0.1]]
+        Map parameters = [title: "All DNA Extracts", "column.widths": [0.2, 0.2, 0.25, 0.1, 0.1, 0.1, 0.2, 0.1, 0.15, 0.15, 0.1, 0.1]]
         return parameters
     }
 }

@@ -30,6 +30,7 @@ class DNA_ExtractController {
     def importService
     def workListService
     def exportDNAListToCheckService
+    def exportCheckedDNAListService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -168,36 +169,8 @@ class DNA_ExtractController {
 
         if (params?.format && params.format != "html") {
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
-            response.setHeader("Content-disposition", "attachment; filename= Exported FFPE.${params.extension}")
-
-            def gelID = { domain, value ->
-                return value?.toString()?.replace('[','')?.replace(']','')?.replace(' ','')?.replace(',','')?.replace('null','')
-            }
-
-            def clean = { domain, value ->
-                return value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-            }
-
-            def dateFormat = { domain, value ->
-                if (value.toString().size() > 10){
-                    return value?.toString()?.substring(0, 10)
-                }else {
-                    return value
-                }
-            }
-
-            Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": gelID, "aliquot.aliquotType": clean, "aliquot.barcode": clean,
-                              "extractionDate": dateFormat]
-
-            List fields = ["Checked By", "aliquot.specimen.participant.studySubject.studySubjectIdentifier", "aliquot.aliquotType", "aliquot.barcode", "barcode",
-                           "dNAConcentrationQubit", "extractionDate", "extractedBy.staffName"]
-
-            Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": "Participant Id ", "aliquot.aliquotType": "Sample Type",
-                          "aliquot.barcode": "Original Aliquot Barcode", "barcode":"DNA Extract Barcode", "dNAConcentrationQubit":"Qubit Concentration",
-                          "extractionDate":"Extraction Date", "extractedBy.staffName":"Extracted By"]
-
-            Map parameters = [title: "DNA Extract Check List", "column.widths": [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]]
-            exportService.export(params.format, response.outputStream, checkedList, fields, labels, formatters, parameters)
+            response.setHeader("Content-disposition", "attachment; filename= Exported_Checked_DNA_List.${params.extension}")
+            exportService.export(params.format, response.outputStream, checkedList, exportCheckedDNAListService.fields, exportCheckedDNAListService.labels, exportCheckedDNAListService.formatters, exportCheckedDNAListService.parameters)
         }
     }
 
