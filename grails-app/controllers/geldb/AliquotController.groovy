@@ -23,6 +23,7 @@ class AliquotController {
     def exportAliquotService
     def exportListOfMaterialSuppliedService
     def FFPETissueHandlingService
+    def exportFFPEListService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -192,38 +193,8 @@ class AliquotController {
         if (params?.format && params.format != "html") {
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
             response.setHeader("Content-disposition", "attachment; filename= Exported FFPE.${params.extension}")
-
-            def gelID = { domain, value ->
-                return value?.toString()?.replace('[','')?.replace(']','')?.replace(' ','')?.replace(',','')?.replace('null','')
-            }
-
-            def clean = { domain, value ->
-                return value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-            }
-
-            def ffDNA = { domain, value ->
-                def ffDNAExtract = DNA_Extract.createCriteria().list{
-                    aliquot {
-                        eq('aliquotType', AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
-                    }
-                }
-                def passFail = ffDNAExtract.find{d -> d?.aliquot?.specimen?.participant?.first() == domain?.specimen?.participant}?.passFail
-                if (passFail) {
-                    return 'Pass'
-                } else if(passFail == null){
-                    return ''
-                } else return 'Fail'
-            }
-
-            List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "aliquotType", "specimen.fFPE_Tissue_Report.fixationPeriod", "FF DNA Pass/Fail QC"]
-
-            Map labels = ["specimen.participant.studySubject.studySubjectIdentifier": "Gel Id ", "aliquotType": "Aliquot Type", "specimen.fFPE_Tissue_Report.fixationPeriod": "Fixation Period"]
-
-            Map formatters = ["specimen.participant.studySubject.studySubjectIdentifier": gelID, "specimen.fFPE_Tissue_Report.fixationPeriod": clean, "FF DNA Pass/Fail QC": ffDNA]
-
-            Map parameters = [title: "FFPE List", "column.widths": [0.25, 0.25, 0.25, 0.25]]
             def fFPEList = Aliquot.findAllByAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF')).sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
-            exportService.export(params.format, response.outputStream, fFPEList, fields, labels, formatters, parameters)
+            exportService.export(params.format, response.outputStream, fFPEList, exportFFPEListService.fields, exportFFPEListService.labels, exportFFPEListService.formatters, exportFFPEListService.parameters)
         }
     }
 
