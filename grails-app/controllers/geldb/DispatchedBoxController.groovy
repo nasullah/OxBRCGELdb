@@ -56,7 +56,7 @@ class DispatchedBoxController {
                                 dispatchItemInstance.save flush: true
                                 for (item in IdentifiedSample.listOrderById()) {
                                     if (item.id == dispatchItemInstance.identifiedSample.id) {
-                                        item.exhausted = 'true'
+                                        item.exhausted = true
                                         item.save flush: true
                                     }
                                 }
