@@ -1,18 +1,10 @@
 package geldb
 
 import grails.converters.XML
-
-import java.text.SimpleDateFormat
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import org.grails.plugin.filterpane.FilterPaneUtils
 import grails.plugins.springsecurity.*
-
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.grails.plugins.excelimport.*
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 /**
@@ -304,6 +296,75 @@ class DNA_ExtractController {
                     render([elution: elution] as XML)
                 }
             }
+        }
+    }
+
+    def preDispatchReport(){
+        List <IdentifiedSample> identifiedSampleList = new ArrayList()
+        def positionMap = [:]
+        if (!request.getFile('preDispatchCsvFile')?.originalFilename) {
+            flash.message = "Please choose a file"
+            redirect(uri: "/participant/summaryReport")
+        }else{
+            request.getFile('preDispatchCsvFile').inputStream.splitEachLine(',')
+                { fields ->
+                    def barcode = fields[1].trim()
+                    if (barcode && barcode != "NO READ"){
+                        def identifiedSample = IdentifiedSample.findByBarcode(barcode)
+                        if (identifiedSample){
+                            identifiedSampleList.add(identifiedSample)
+                            positionMap.put(barcode,fields[0].trim())
+                        }
+                    }
+                }
+        }
+
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= Pre-dispatch report.${params.extension}")
+
+            def position  = { domain, value ->
+                if (domain.barcode){
+                    return positionMap.get(domain.barcode)
+                }else {
+                    return ''
+                }
+            }
+
+            def barcode  = { domain, value ->
+                return domain?.barcode
+            }
+
+            def participanId  = { domain, value ->
+                if (Aliquot.findById(domain.id)){
+                    def gelId = domain.specimen.participant.studySubject.studySubjectIdentifier
+                    gelId = gelId.toString().replace('[','')?.replace(']','')?.replace('null','')?.replace(',','')?.trim()
+                    return gelId
+                }else if (DNA_Extract.findById(domain.id)){
+                    def gelId = domain.aliquot.specimen.participant.studySubject.studySubjectIdentifier
+                    gelId = gelId.toString().replace('[','')?.replace(']','')?.replace('null','')?.replace(',','')?.trim()
+                    return gelId
+                }else {
+                    return ''
+                }
+            }
+
+            def sampleType  = { domain, value ->
+                if (Aliquot.findById(domain.id)){
+                    return domain.aliquotType
+                }else if (DNA_Extract.findById(domain.id)){
+                    def aliquotType = domain.aliquot.aliquotType
+                    aliquotType = aliquotType.toString().replace('[','')?.replace(']','')
+                    return aliquotType
+                }else {
+                    return ''
+                }
+            }
+            Map formatters = ["Position":position, "Sample Barcode":barcode, "Participant Id": participanId, "Sample Type":sampleType]
+            List fields = ["Position","Participant Id", "Sample Barcode", "Sample Type"]
+            Map labels = [:]
+            Map parameters = [title: "Pre-dispatch report", "column.widths": [0.1, 0.2, 0.2, 0.25]]
+            exportService.export(params.format, response.outputStream, identifiedSampleList, fields, labels, formatters, parameters)
         }
     }
 
