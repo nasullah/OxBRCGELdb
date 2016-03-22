@@ -83,7 +83,7 @@ class SampleMetadataExportService {
                     code = code?.toString()?.replace('[','')?.replace(']','')?.replace(' ','')
                     def list = code?.toString()?.split(',')
                     list = list?.findAll {s -> s?.startsWith('M')}
-                    return list?.toString()?.replace('[','')?.replace(']','')?.replace('M','')
+                    return list?.toString()?.replace('[','')?.replace(']','')
                 }
                 return ''
             }
@@ -106,7 +106,7 @@ class SampleMetadataExportService {
                     code = code?.toString()?.replace('[','')?.replace(']','')?.replace(' ','')
                     def list = code?.toString()?.split(',')
                     list = list?.findAll{s -> s?.startsWith('T')}
-                    return list?.toString()?.replace('[','')?.replace(']','')?.replace('T','')
+                    return list?.toString()?.replace('[','')?.replace(']','')
                 }
                 return ''
             }
