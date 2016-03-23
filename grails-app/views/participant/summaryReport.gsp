@@ -335,12 +335,18 @@
                 <td valign="top" style="text-align: left;" class="value">
                     <% def dna_Extracts = DNA_Extract.findAll {aliquot.specimen.participant == participantSummary} %>
                     <g:each in="${dna_Extracts}" var="dna_Extract">
-                        <g:if test="${dna_Extract.exhausted}">
+                        <g:if test="${dna_Extract.exhausted && dna_Extract.passFail}">
                             <g:link controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link> <a class="text-warning">Exhausted</a><br/>
                         </g:if>
-                        <g:else>
+                        <g:elseif test="${dna_Extract.exhausted && !dna_Extract.passFail}">
+                            <g:link class="text-danger" controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link> <a class="text-warning">Exhausted</a><br/>
+                        </g:elseif>
+                        <g:elseif test="${!dna_Extract.exhausted && !dna_Extract.passFail}">
+                            <g:link class="text-danger" controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link><br/>
+                        </g:elseif>
+                        <g:elseif test="${!dna_Extract.exhausted && dna_Extract.passFail}">
                             <g:link controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link><br/>
-                        </g:else>
+                        </g:elseif>
                         <p>
                         <p>
                     </g:each>
