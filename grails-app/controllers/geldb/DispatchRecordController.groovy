@@ -2,6 +2,7 @@ package geldb
 
 import grails.converters.*
 import grails.plugins.springsecurity.Secured
+import org.grails.plugin.filterpane.FilterPaneUtils
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -22,6 +23,7 @@ class DispatchRecordController {
     def qcTestExportService
     def omicsSampleMetadataExportService
     def allDispatchedItemsService
+    def filterPaneService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -67,10 +69,16 @@ class DispatchRecordController {
         }
     }
 
-    def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond DispatchRecord.list(params).sort {it.sentOn}, model: [dispatchRecordInstanceCount: DispatchRecord.count()]
+    def list() {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        [dispatchRecordInstanceList: DispatchRecord.list(params).sort {it.sentOn}, dispatchRecordInstanceTotal: DispatchRecord.count()]
+    }
 
+    def filter = {
+        if(!params.max) params.max = 10
+        render( view:'list', model:[ dispatchRecordInstanceList: filterPaneService.filter( params, DispatchRecord ),
+                                     dispatchRecordInstanceTotal: filterPaneService.count( params, DispatchRecord ),
+                                     filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
     }
 
     def show(DispatchRecord dispatchRecordInstance) {

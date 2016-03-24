@@ -7,9 +7,29 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'dispatchRecord.label', default: 'Dispatch Record')}" />
 	<title><g:message code="default.list.label" args="[entityName]" /></title>
+    <r:require module="filterpane" />
 </head>
 
 <body>
+
+<p>
+<p>
+<div style="background: rgba(80, 110, 56, 0.04);">
+    <div class="container">
+        <p>
+        <h5 class="text-center">Search Options</h5>
+        <p>
+            <filterpane:filterButton text="Filter This List" />
+            <filterpane:filterPane domain="geldb.DispatchRecord"
+                                   excludeProperties="sentOn, receivedOn"
+                                   associatedProperties="dispatchedBoxs.barcode, dispatchedBoxs.dispatchItems.identifiedSample.barcode, dispatchedBoxs.dispatchItems.volume_ul,
+								   						 dispatchedBoxs.dispatchItems.positionIfPlated"/>
+        <p>
+        <p>
+    </div>
+</div>
+
+<hr/>
 
 <section id="list-dispatchRecord" class="first">
 
@@ -39,9 +59,10 @@
         </g:each>
         </tbody>
 	</table>
-	<div>
-		<bs:paginate total="${dispatchRecordInstanceCount}" />
-	</div>
+    <div class="pagination">
+        <g:paginate total="${dispatchRecordInstanceTotal == null ? DispatchRecord.count(): dispatchRecordInstanceTotal}" params="${filterParams}" />
+        <a>Number of records: ${dispatchRecordInstanceTotal == null ? DispatchRecord.count(): dispatchRecordInstanceTotal}</a>
+    </div>
 </section>
 
 </body>
