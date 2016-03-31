@@ -47,7 +47,7 @@
 
     <span style="font-size: 8pt" >Tumour type …………………………………………… Specimen collected from theatres by (initials) ……………………… On (date) ………………………………………………… at (time) …………………</span><br/>
 
-    <span style="font-size: 8pt" >Name of surgeon ………………………………………………… Location of theatres    JR / WW / CH	Transported to JR:  on foot / on bicycle / by scooter / other ………………………………………………</span>
+    <span style="font-size: 8pt" >Name of surgeon ………………………………………………… Location of theatres    JR / WW / CH / NOC	Transported to JR:  on foot / on bicycle / by scooter / other ……………………………………………</span>
 
 </p>
 
