@@ -43,6 +43,10 @@ class DNA_ExtractController {
                                      filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
     }
 
+    def failedDNASampleList(){
+        [DNA_ExtractInstanceList: DNA_Extract.findAllByPassFail(false).sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
+    }
+
     def findAliquotsByGeLId() {
         def gelId= params.search
         if (gelId) {

@@ -45,6 +45,9 @@ This menu is used to show function that can be triggered on the content (an obje
                 <li class=${ params.action == "workLists" ? 'active' : '' }>
                     <g:link action="workLists"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Worklists</g:link>
                 </li>
+                <li class=${ params.action == "failedDNASampleList" ? 'active' : '' }>
+                    <g:link action="failedDNASampleList"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Failed DNA Samples</g:link>
+                </li>
                 <li class=${ params.action == "readyToDispatch" ? 'active' : '' }>
                     <g:link action="readyToDispatch"><span style="color:#140e06"><i class="glyphicon glyphicon-send"></i></span> Ready to dispatch</g:link>
                 </li>
