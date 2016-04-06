@@ -186,188 +186,306 @@
     <p>
     <center><p style="font-size: xx-large"><b>${participantSummary?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}</b></p></center>
 
-    <section id="show-participant" class="first">
-
-        <table class="table">
+    <section id="show-diagnosis" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <th style="background: rgba(25, 105, 255, 0.33)"><center>Diagnosis</center></th>
+            </tr>
+            </thead>
             <tbody>
-
             <tr class="prop">
-                <td valign="top" class="name"><b>Diagnosis</b></td>
-
-                <td valign="top" class="value"><g:link controller="ICD10" action="show" id="${participantSummary?.diagnosis?.id}">${participantSummary?.diagnosis?.encodeAsHTML()}</g:link></td>
-
-            </tr>
-
-            <tr class="prop">
-                <td valign="top" class="name"><b>Centre</b></td>
-
-                <td valign="top" class="value"><g:link controller="centre" action="show" id="${participantSummary?.centre?.id}">${participantSummary?.centre?.encodeAsHTML()}</g:link></td>
-
-            </tr>
-
-            <tr class="prop">
-                <td valign="top" class="name"><b>Consent Type</b></td>
-
-                <td valign="top" style="text-align: left;" class="value">
-                    <% def studySubjectList = participantSummary.studySubject.sort{it.studySubjectIdentifier} %>
-                    <% studySubjectList = studySubjectList.reverse() %>
-                    <g:each in="${studySubjectList}" var="s">
-                        <g:link controller="studySubject" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link>
-                    </g:each>
-                    <p>
-                    <p>
+                <td>
+                    <g:link controller="ICD10" action="show" id="${participantSummary?.diagnosis?.id}">${participantSummary?.diagnosis?.encodeAsHTML()}</g:link>
                 </td>
-
             </tr>
+            </tbody>
+        </table>
+    </section>
 
+    <section id="show-centre" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <th style="background: rgba(25, 105, 255, 0.33)"><center>Centre</center></th>
+            </tr>
+            </thead>
+            <tbody>
             <tr class="prop">
-                <td valign="top" class="name"><b>Main Specimen</b></td>
+                <td>
+                    <g:link controller="centre" action="show" id="${participantSummary?.centre?.id}">${participantSummary?.centre?.encodeAsHTML()}</g:link>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
 
-                <td valign="top" style="text-align: left;" class="value">
-                    <% def solidSpecimen = SolidSpecimen.listOrderByCollectionDate() %>
-                    <g:if test="${participantSummary.solidSpecimenExpected != null && !participantSummary.solidSpecimenExpected && !SolidSpecimen.findByParticipant(participantSummary)}">
-                        <a><mark>No associated solid specimen expected</mark></a><br/>
+    <section id="show-consentType" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <th style="background: rgba(25, 105, 255, 0.33)"><center>Consent Type</center></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% def studySubjectList = participantSummary.studySubject.sort{it.studySubjectIdentifier} %>
+            <% studySubjectList = studySubjectList.reverse() %>
+            <g:each in="${studySubjectList}" status="i" var="s">
+                <tr>
+                    <td>
+                        <g:link controller="studySubject" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link>
+                    </td>
+                </tr>
+            </g:each>
+            </tbody>
+        </table>
+    </section>
+    <section id="show-mainSpecimen" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <th style="background: rgba(25, 105, 255, 0.33)"><center>Main Specimen</center></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% def solidSpecimen = SolidSpecimen.listOrderByCollectionDate() %>
+            <g:if test="${participantSummary.solidSpecimenExpected != null && !participantSummary.solidSpecimenExpected && !SolidSpecimen.findByParticipant(participantSummary)}">
+                <tr>
+                    <td>
+                        <a><mark>No associated solid specimen expected</mark></a>
+                    </td>
+                </tr>
+            </g:if>
+            <g:else>
+                <g:each in="${solidSpecimen}" var="item">
+                    <g:each in="${participantSummary?.specimen}" var="specimen">
+                        <g:if test="${item.id == specimen.id}">
+                            <g:if test="${specimen.exhausted}">
+                                <tr>
+                                    <td>
+                                        <g:link controller="solidSpecimen" action="show" id="${specimen.id}">${specimen?.encodeAsHTML()}</g:link> <a class="text-warning">Exhausted</a><br/>
+                                        <g:if test="${specimen.fFPE_Tissue_Report}">
+                                            <g:link controller="FFPE_Tissue_Report" action="show" id="${specimen?.fFPE_Tissue_Report?.first()?.id}">${specimen?.fFPE_Tissue_Report?.first()}</g:link><br/>
+                                        </g:if>
+                                        <g:else>
+                                            <a class="text-danger">Main Specimen Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': specimen?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Main Specimen Report')])}</g:link><br/></a>
+                                        </g:else>
+                                        <g:if test="${specimen.noFFSampleExpected}">
+                                            <a><mark>No associated Fresh Frozen sample expected</mark></a><br/>
+                                        </g:if>
+                                    </td>
+                                </tr>
+                            </g:if>
+                            <g:else>
+                                <tr>
+                                    <td>
+                                        <g:link controller="solidSpecimen" action="show" id="${specimen.id}">${specimen?.encodeAsHTML()}</g:link><br/>
+                                        <g:if test="${specimen.fFPE_Tissue_Report}">
+                                            <g:link controller="FFPE_Tissue_Report" action="show" id="${specimen?.fFPE_Tissue_Report?.first()?.id}">${specimen?.fFPE_Tissue_Report?.first()}</g:link><br/>
+                                        </g:if>
+                                        <g:else>
+                                            <a class="text-danger">Main Specimen Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': specimen?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Main Specimen Report')])}</g:link><br/></a>
+                                        </g:else>
+                                        <g:if test="${specimen.noFFSampleExpected}">
+                                            <a><mark>No associated Fresh Frozen sample expected</mark></a><br/>
+                                        </g:if>
+                                    </td>
+                                </tr>
+                            </g:else>
+                        </g:if>
+                    </g:each>
+                </g:each>
+            </g:else>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="show-solidSpecimenAliquots" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <th style="background: rgba(25, 105, 255, 0.33)"><center>Main Specimen Aliquot</center></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% def solidSpecimenAliquots = Aliquot.findAll{specimen.participant == participantSummary}.sort {it.aliquotType.aliquotTypeName} %>
+            <g:each in="${solidSpecimenAliquots}" var="aliquot">
+                <g:if test="${SolidSpecimen.findById(aliquot.specimen.id)}">
+                    <g:if test="${aliquot.exhausted}">
+                        <tr>
+                            <td>
+                                <g:link controller="aliquot" action="show" id="${aliquot.id}">${aliquot}</g:link> <a class="text-warning">Exhausted</a><br/>
+                                <g:if test="${aliquot.gelSuitabilityReport}">
+                                    <g:link controller="gelSuitabilityReport" action="show" id="${aliquot?.gelSuitabilityReport?.first()?.id}">${aliquot?.gelSuitabilityReport?.first()}</g:link><br/>
+                                </g:if>
+                                <g:elseif test="${(!aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport
+                                        && !aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport
+                                        && aliquot?.aliquotType?.aliquotTypeName != 'Section'
+                                        && aliquot?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
+                                    <a class="text-danger">GeL Suitability Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link><br/>
+                                    </a>
+                                </g:elseif>
+                                <g:if test="${aliquot.fixationReport}">
+                                    <g:link controller="fixationReport" action="show" id="${aliquot?.fixationReport?.first()?.id}">${aliquot?.fixationReport?.first()}</g:link><br/>
+                                </g:if>
+                                <g:elseif test="${(!aliquot.fixationReport
+                                        && aliquot.createdOn > new Date().parse('yyyy/MM/dd', '2015/11/01')
+                                        && (aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF'
+                                        || aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE'))}">
+                                    <a class="text-danger">Genomic Block Fixation Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Genomic Block Fixation Report')])}</g:link><br/>
+                                    </a>
+                                </g:elseif>
+                            </td>
+                        </tr>
                     </g:if>
                     <g:else>
-                        <g:each in="${solidSpecimen}" var="item">
-                            <g:each in="${participantSummary?.specimen}" var="specimen">
-                                <g:if test="${item.id == specimen.id}">
-                                    <g:if test="${specimen.exhausted}">
-                                        <g:link controller="solidSpecimen" action="show" id="${specimen.id}">${specimen?.encodeAsHTML()}</g:link> <a class="text-warning">Exhausted</a><br/>
-                                    </g:if>
-                                    <g:else>
-                                        <g:link controller="solidSpecimen" action="show" id="${specimen.id}">${specimen?.encodeAsHTML()}</g:link><br/>
-                                    </g:else>
-                                    <g:if test="${specimen.fFPE_Tissue_Report}">
-                                        <g:link controller="FFPE_Tissue_Report" action="show" id="${specimen?.fFPE_Tissue_Report?.first()?.id}">${specimen?.fFPE_Tissue_Report?.first()}</g:link><br/>
-                                    </g:if>
-                                    <g:else>
-                                        <a class="text-danger">Main Specimen Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': specimen?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Main Specimen Report')])}</g:link><br/>
-                                        </a>
-                                    </g:else>
-                                    <g:if test="${specimen.noFFSampleExpected}">
-                                        <a><mark>No associated Fresh Frozen sample expected</mark></a><br/>
-                                    </g:if>
+                        <tr>
+                            <td>
+                                <g:link controller="aliquot" action="show" id="${aliquot.id}">${aliquot}</g:link><br/>
+                                <g:if test="${aliquot.gelSuitabilityReport}">
+                                    <g:link controller="gelSuitabilityReport" action="show" id="${aliquot?.gelSuitabilityReport?.first()?.id}">${aliquot?.gelSuitabilityReport?.first()}</g:link><br/>
                                 </g:if>
-                            </g:each>
-                            <p>
-                            <p>
-                        </g:each>
+                                <g:elseif test="${(!aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport
+                                        && !aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport
+                                        && aliquot?.aliquotType?.aliquotTypeName != 'Section'
+                                        && aliquot?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
+                                    <a class="text-danger">GeL Suitability Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link><br/>
+                                    </a>
+                                </g:elseif>
+                                <g:if test="${aliquot.fixationReport}">
+                                    <g:link controller="fixationReport" action="show" id="${aliquot?.fixationReport?.first()?.id}">${aliquot?.fixationReport?.first()}</g:link><br/>
+                                </g:if>
+                                <g:elseif test="${(!aliquot.fixationReport
+                                        && aliquot.createdOn > new Date().parse('yyyy/MM/dd', '2015/11/01')
+                                        && (aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF'
+                                        || aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE'))}">
+                                    <a class="text-danger">Genomic Block Fixation Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Genomic Block Fixation Report')])}</g:link><br/>
+                                    </a>
+                                </g:elseif>
+                            </td>
+                        </tr>
                     </g:else>
-                </td>
+                </g:if>
+            </g:each>
+            </tbody>
+        </table>
+    </section>
 
+    <section id="show-fluidSpecimen" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <th style="background: rgba(25, 105, 255, 0.33)"><center>Fluid Specimen</center></th>
             </tr>
-
-            <tr class="prop">
-                <td valign="top" class="name"><b>Fluid Specimen</b></td>
-
-                <td valign="top" style="text-align: left;" class="value">
-                    <% def fluidSpecimen = FluidSpecimen.listOrderByCollectionDate() %>
-                    <g:each in="${fluidSpecimen}" var="item">
-                        <g:each in="${participantSummary?.specimen}" var="s">
-                            <g:if test="${item.id == s.id}">
-                                <g:if test="${s.exhausted}">
+            </thead>
+            <tbody>
+            <% def fluidSpecimen = FluidSpecimen.listOrderByCollectionDate() %>
+            <g:each in="${fluidSpecimen}" var="item">
+                <g:each in="${participantSummary?.specimen}" var="s">
+                    <tr>
+                        <g:if test="${item.id == s.id}">
+                            <g:if test="${s.exhausted}">
+                                <td>
                                     <g:link controller="fluidSpecimen" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link> <a class="text-warning">Exhausted</a>
-                                </g:if>
-                                <g:else>
-                                    <g:link controller="fluidSpecimen" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link>
-                                </g:else>
+                                </td>
                             </g:if>
-                        </g:each>
-                        <p>
-                        <p>
-                    </g:each>
-                </td>
+                            <g:else>
+                                <td>
+                                    <g:link controller="fluidSpecimen" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link>
+                                </td>
+                            </g:else>
+                        </g:if>
+                    </tr>
+                </g:each>
+            </g:each>
+            </tbody>
+        </table>
+    </section>
 
+    <section id="show-fluidSpecimenAliquot" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <th style="background: rgba(25, 105, 255, 0.33)"><center>Fluid Specimen Aliquot</center></th>
             </tr>
+            </thead>
+            <tbody>
+            <% def fluidSpecimenAliquots = Aliquot.findAll{specimen.participant == participantSummary}.sort {it.aliquotType.aliquotTypeName} %>
+            <g:each in="${fluidSpecimenAliquots}" var="aliquot">
+                <g:if test="${FluidSpecimen.findById(aliquot.specimen.id)}">
+                    <g:if test="${aliquot.exhausted}">
+                        <tr>
+                            <td>
+                                <g:link controller="aliquot" action="show" id="${aliquot.id}">${aliquot}</g:link> <a class="text-warning">Exhausted</a><br/>
+                            </td>
+                        </tr>
+                    </g:if>
+                    <g:else>
+                        <tr>
+                            <td>
+                                <g:link controller="aliquot" action="show" id="${aliquot.id}">${aliquot}</g:link><br/>
+                            </td>
+                        </tr>
+                    </g:else>
+                </g:if>
+            </g:each>
+            </tbody>
+        </table>
+    </section>
 
-            <tr class="prop">
-                <td valign="top" class="name"><b>Aliquot</b></td>
-
-                <td valign="top" style="text-align: left;" class="value">
-                    <% def aliquots = Aliquot.findAll{specimen.participant == participantSummary}.sort {it.aliquotType.aliquotTypeName} %>
-                    <g:each in="${aliquots}" var="aliquot">
-                        <g:if test="${aliquot.exhausted}">
-                            <g:link controller="aliquot" action="show" id="${aliquot.id}">${aliquot}</g:link> <a class="text-warning">Exhausted</a><br/>
-                        </g:if>
-                        <g:else>
-                            <g:link controller="aliquot" action="show" id="${aliquot.id}">${aliquot}</g:link><br/>
-                        </g:else>
-                        <g:if test="${aliquot.gelSuitabilityReport}">
-                            <g:link controller="gelSuitabilityReport" action="show" id="${aliquot?.gelSuitabilityReport?.first()?.id}">${aliquot?.gelSuitabilityReport?.first()}</g:link><br/>
-                        </g:if>
-                        <g:elseif test="${(!aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport
-                                && !aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport
-                                && aliquot?.aliquotType?.aliquotTypeName != 'Buffy Coat'
-                                && aliquot?.aliquotType?.aliquotTypeName != 'Plasma'
-                                && aliquot?.aliquotType?.aliquotTypeName != 'Blood Germline'
-                                && aliquot?.aliquotType?.aliquotTypeName != 'Plasma EDTA cfDNA'
-                                && aliquot?.aliquotType?.aliquotTypeName != 'Plasma Strek cfDNA'
-                                && aliquot?.aliquotType?.aliquotTypeName != 'Plasma PST'
-                                && aliquot?.aliquotType?.aliquotTypeName != 'Blood PAXgene'
-                                && aliquot?.aliquotType?.aliquotTypeName != 'Serum SST'
-                                && aliquot?.aliquotType?.aliquotTypeName != 'Full Blood'
-                                && aliquot?.aliquotType?.aliquotTypeName != 'Section'
-                                && aliquot?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
-                            <a class="text-danger">GeL Suitability Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link><br/>
-                            </a>
-                        </g:elseif>
-                        <g:if test="${aliquot.fixationReport}">
-                            <g:link controller="fixationReport" action="show" id="${aliquot?.fixationReport?.first()?.id}">${aliquot?.fixationReport?.first()}</g:link><br/>
-                        </g:if>
-                        <g:elseif test="${(!aliquot.fixationReport
-                                && aliquot.createdOn > new Date().parse('yyyy/MM/dd', '2015/11/01')
-                                && (aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF'
-                                || aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE'))}">
-                            <a class="text-danger">Genomic Block Fixation Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Genomic Block Fixation Report')])}</g:link><br/>
-                            </a>
-                        </g:elseif>
-                        <p>
-                        <p>
-                    </g:each>
-                </td>
-
+    <section id="show-dnaExtract" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <th style="background: rgba(25, 105, 255, 0.33)"><center>DNA Extract</center></th>
             </tr>
-
-            <tr class="prop">
-                <td valign="top" class="name"><b>DNA Extract</b></td>
-
-                <td valign="top" style="text-align: left;" class="value">
-                    <% def dna_Extracts = DNA_Extract.findAll {aliquot.specimen.participant == participantSummary} %>
-                    <g:each in="${dna_Extracts}" var="dna_Extract">
-                        <g:if test="${dna_Extract.exhausted && dna_Extract.passFail}">
+            </thead>
+            <tbody>
+            <% def dna_Extracts = DNA_Extract.findAll {aliquot.specimen.participant == participantSummary} %>
+            <g:each in="${dna_Extracts}" var="dna_Extract">
+                <tr>
+                    <g:if test="${dna_Extract.exhausted && dna_Extract.passFail}">
+                        <td>
                             <g:link controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link> <a class="text-warning">Exhausted</a><br/>
-                        </g:if>
-                        <g:elseif test="${dna_Extract.exhausted && !dna_Extract.passFail}">
+                        </td>
+                    </g:if>
+                    <g:elseif test="${dna_Extract.exhausted && !dna_Extract.passFail}">
+                        <td>
                             <g:link class="text-danger" controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link> <a class="text-warning">Exhausted</a><br/>
-                        </g:elseif>
-                        <g:elseif test="${!dna_Extract.exhausted && !dna_Extract.passFail}">
+                        </td>
+                    </g:elseif>
+                    <g:elseif test="${!dna_Extract.exhausted && !dna_Extract.passFail}">
+                        <td>
                             <g:link class="text-danger" controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link><br/>
-                        </g:elseif>
-                        <g:elseif test="${!dna_Extract.exhausted && dna_Extract.passFail}">
+                        </td>
+                    </g:elseif>
+                    <g:elseif test="${!dna_Extract.exhausted && dna_Extract.passFail}">
+                        <td>
                             <g:link controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link><br/>
-                        </g:elseif>
-                        <p>
-                        <p>
-                    </g:each>
-                </td>
+                        </td>
+                    </g:elseif>
+                </tr>
+            </g:each>
+            </tbody>
+        </table>
+    </section>
 
+    <section id="show-dnaLibrary" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <th style="background: rgba(25, 105, 255, 0.33)"><center>DNA Library</center></th>
             </tr>
-
-            <tr class="prop">
-                <td valign="top" class="name"><b>DNA Library</b></td>
-
-                <td valign="top" style="text-align: left;" class="value">
-                    <% def dna_Libraries = DNA_Library.findAll {na_extract.aliquot.specimen.participant == participantSummary} %>
-                    <g:each in="${dna_Libraries}" var="dna_Library">
+            </thead>
+            <tbody>
+            <% def dna_Libraries = DNA_Library.findAll {na_extract.aliquot.specimen.participant == participantSummary} %>
+            <g:each in="${dna_Libraries}" var="dna_Library">
+                <tr>
+                    <td>
                         <g:link controller="DNA_Library" action="show" id="${dna_Library.id}">${dna_Library}</g:link><br/>
-                    </g:each>
-                    <p>
-                    <p>
-                </td>
-
-            </tr>
-
+                    </td>
+                </tr>
+            </g:each>
             </tbody>
         </table>
     </section>
