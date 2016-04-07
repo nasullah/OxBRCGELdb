@@ -1,4 +1,4 @@
-<%@ page import="geldb.DNA_Library; geldb.DNA_Extract; geldb.FluidSpecimen; geldb.Participant" %>
+<%@ page import="geldb.ExtractionType; geldb.DNA_Library; geldb.DNA_Extract; geldb.FluidSpecimen; geldb.Participant" %>
 <%@ page import="geldb.SolidSpecimen" %>
 <%@ page import="geldb.Aliquot" %>
 <!DOCTYPE html>
@@ -186,30 +186,43 @@
     <p>
     <center><p style="font-size: xx-large"><b>${participantSummary?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}</b></p></center>
 
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>Diagnosis</center></th>
+        </tr>
+    </table>
     <section id="show-diagnosis" class="first">
         <table class="table table-bordered margin-top-medium">
             <thead>
             <tr>
-                <th style="background: rgba(25, 105, 255, 0.33)"><center>Diagnosis</center></th>
+
+                <th>ICD10 Code & Description</th>
+
+                <th>Anatomical Site</th>
+
             </tr>
             </thead>
             <tbody>
             <tr class="prop">
-                <td>
-                    <g:link controller="ICD10" action="show" id="${participantSummary?.diagnosis?.id}">${participantSummary?.diagnosis?.encodeAsHTML()}</g:link>
-                </td>
+
+                <td>${fieldValue(bean: participantSummary, field: "diagnosis")}</td>
+
+                <% def anatomicalSite = SolidSpecimen.findByParticipant(participantSummary)?.anatomicalSite %>
+                <td>${anatomicalSite}</td>
+
             </tr>
             </tbody>
         </table>
     </section>
 
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>Centre</center></th>
+        </tr>
+    </table>
+
     <section id="show-centre" class="first">
         <table class="table table-bordered margin-top-medium">
-            <thead>
-            <tr>
-                <th style="background: rgba(25, 105, 255, 0.33)"><center>Centre</center></th>
-            </tr>
-            </thead>
             <tbody>
             <tr class="prop">
                 <td>
@@ -220,180 +233,283 @@
         </table>
     </section>
 
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>Consent Type</center></th>
+        </tr>
+    </table>
+
     <section id="show-consentType" class="first">
         <table class="table table-bordered margin-top-medium">
             <thead>
             <tr>
-                <th style="background: rgba(25, 105, 255, 0.33)"><center>Consent Type</center></th>
+
+                <th>Consent Type</th>
+
+                <th>Consent Status</th>
+
+                <th>Consent Form Version</th>
+
+                <th>Recruitment Date</th>
+
+                <th>Recruited By</th>
+
+                <th>Participant Id</th>
+
             </tr>
             </thead>
             <tbody>
             <% def studySubjectList = participantSummary.studySubject.sort{it.studySubjectIdentifier} %>
             <% studySubjectList = studySubjectList.reverse() %>
-            <g:each in="${studySubjectList}" status="i" var="s">
+            <g:each in="${studySubjectList}" status="i" var="studySubjectInstance">
                 <tr>
-                    <td>
-                        <g:link controller="studySubject" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link>
-                    </td>
+
+                    <td><g:link action="show" id="${studySubjectInstance.id}">${fieldValue(bean: studySubjectInstance, field: "study")}</g:link></td>
+
+                    <td><g:formatBoolean false="No" true="Yes" boolean="${studySubjectInstance.consentStatus}" /></td>
+
+                    <td>${fieldValue(bean: studySubjectInstance, field: "consentFormVersion")}</td>
+
+                    <td><g:formatDate format="yyyy-MM-dd" date="${studySubjectInstance.recruitmentDate}" /></td>
+
+                    <td>${fieldValue(bean: studySubjectInstance, field: "recruitedBy")}</td>
+
+                    <td>${fieldValue(bean: studySubjectInstance, field: "studySubjectIdentifier")}</td>
+
                 </tr>
             </g:each>
             </tbody>
         </table>
     </section>
+
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>Main Specimen</center></th>
+        </tr>
+    </table>
+
+    <% def solidSpecimen = SolidSpecimen.listOrderByCollectionDate() %>
+    <g:if test="${participantSummary.solidSpecimenExpected != null && !participantSummary.solidSpecimenExpected && !SolidSpecimen.findByParticipant(participantSummary)}">
+        <table border="1" width="100%">
+            <tr>
+                <td>
+                    <a><mark>No associated solid specimen expected</mark></a>
+                </td>
+            </tr>
+        </table>
+    </g:if>
+
     <section id="show-mainSpecimen" class="first">
         <table class="table table-bordered margin-top-medium">
             <thead>
             <tr>
-                <th style="background: rgba(25, 105, 255, 0.33)"><center>Main Specimen</center></th>
+
+                <th>Histology Number</th>
+
+                <th>Collection Date</th>
+
+                <th>Exhausted</th>
+
+                <th>Main Specimen Report</th>
+
+                <th>No FF Sample Expected</th>
+
+                <th>Participant Id</th>
+
             </tr>
             </thead>
             <tbody>
-            <% def solidSpecimen = SolidSpecimen.listOrderByCollectionDate() %>
-            <g:if test="${participantSummary.solidSpecimenExpected != null && !participantSummary.solidSpecimenExpected && !SolidSpecimen.findByParticipant(participantSummary)}">
-                <tr>
-                    <td>
-                        <a><mark>No associated solid specimen expected</mark></a>
-                    </td>
-                </tr>
-            </g:if>
-            <g:else>
                 <g:each in="${solidSpecimen}" var="item">
-                    <g:each in="${participantSummary?.specimen}" var="specimen">
-                        <g:if test="${item.id == specimen.id}">
-                            <g:if test="${specimen.exhausted}">
-                                <tr>
-                                    <td>
-                                        <g:link controller="solidSpecimen" action="show" id="${specimen.id}">${specimen?.encodeAsHTML()}</g:link> <a class="text-warning">Exhausted</a><br/>
-                                        <g:if test="${specimen.fFPE_Tissue_Report}">
-                                            <g:link controller="FFPE_Tissue_Report" action="show" id="${specimen?.fFPE_Tissue_Report?.first()?.id}">${specimen?.fFPE_Tissue_Report?.first()}</g:link><br/>
-                                        </g:if>
-                                        <g:else>
-                                            <a class="text-danger">Main Specimen Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': specimen?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Main Specimen Report')])}</g:link><br/></a>
-                                        </g:else>
-                                        <g:if test="${specimen.noFFSampleExpected}">
-                                            <a><mark>No associated Fresh Frozen sample expected</mark></a><br/>
-                                        </g:if>
-                                    </td>
-                                </tr>
-                            </g:if>
-                            <g:else>
-                                <tr>
-                                    <td>
-                                        <g:link controller="solidSpecimen" action="show" id="${specimen.id}">${specimen?.encodeAsHTML()}</g:link><br/>
-                                        <g:if test="${specimen.fFPE_Tissue_Report}">
-                                            <g:link controller="FFPE_Tissue_Report" action="show" id="${specimen?.fFPE_Tissue_Report?.first()?.id}">${specimen?.fFPE_Tissue_Report?.first()}</g:link><br/>
-                                        </g:if>
-                                        <g:else>
-                                            <a class="text-danger">Main Specimen Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': specimen?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Main Specimen Report')])}</g:link><br/></a>
-                                        </g:else>
-                                        <g:if test="${specimen.noFFSampleExpected}">
-                                            <a><mark>No associated Fresh Frozen sample expected</mark></a><br/>
-                                        </g:if>
-                                    </td>
-                                </tr>
-                            </g:else>
+                    <g:each in="${participantSummary?.specimen}" var="solidSpecimenInstance">
+                        <g:if test="${item.id == solidSpecimenInstance.id}">
+                            <tr>
+
+                                <td><g:link controller="solidSpecimen" action="show" id="${solidSpecimenInstance.id}">${fieldValue(bean: solidSpecimenInstance, field: "histologyNumber")}</g:link></td>
+
+                                <td><g:formatDate format="yyyy-MM-dd" date="${solidSpecimenInstance.collectionDate}" /></td>
+
+                                <td>
+                                    <g:if test="${solidSpecimenInstance.exhausted}">
+                                        <a class="text-warning"><g:formatBoolean false="No" true="Yes" boolean="${solidSpecimenInstance.exhausted}" /></a>
+                                    </g:if>
+                                    <g:else>
+                                        <g:formatBoolean false="No" true="Yes" boolean="${solidSpecimenInstance.exhausted}" />
+                                    </g:else>
+                                </td>
+
+                                <td>
+                                    <g:if test="${solidSpecimenInstance.fFPE_Tissue_Report}">
+                                        <g:link controller="FFPE_Tissue_Report" action="show" id="${solidSpecimenInstance?.fFPE_Tissue_Report?.first()?.id}">Main Specimen Report</g:link>
+                                    </g:if>
+                                    <g:else>
+                                        <a class="text-danger">Missing Report <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Report')])}</g:link><br/></a>
+                                    </g:else>
+                                </td>
+
+                                <td>
+                                    <g:if test="${solidSpecimenInstance.noFFSampleExpected}">
+                                        <a class="text-danger"><g:formatBoolean false="No" true="Yes" boolean="${solidSpecimenInstance.noFFSampleExpected}" /></a>
+                                    </g:if>
+                                    <g:else>
+                                        <g:formatBoolean false="No" true="Yes" boolean="${solidSpecimenInstance.noFFSampleExpected}" />
+                                    </g:else>
+                                </td>
+
+                                <td>${fieldValue(bean: solidSpecimenInstance.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+                            </tr>
                         </g:if>
                     </g:each>
                 </g:each>
-            </g:else>
             </tbody>
         </table>
     </section>
+
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>Main Specimen Aliquot</center></th>
+        </tr>
+    </table>
 
     <section id="show-solidSpecimenAliquots" class="first">
         <table class="table table-bordered margin-top-medium">
             <thead>
             <tr>
-                <th style="background: rgba(25, 105, 255, 0.33)"><center>Main Specimen Aliquot</center></th>
+
+                <th>Aliquot Type</th>
+
+                <th>Identifier</th>
+
+                <th>Created On</th>
+
+                <th>Aliquot Ranking</th>
+
+                <th>GeL Suitability Report</th>
+
+                <th>Genomic Block Fixation Report</th>
+
+                <th>Exhausted</th>
+
+                <th>Participant Id</th>
+
             </tr>
             </thead>
             <tbody>
             <% def solidSpecimenAliquots = Aliquot.findAll{specimen.participant == participantSummary}.sort {it.aliquotType.aliquotTypeName} %>
-            <g:each in="${solidSpecimenAliquots}" var="aliquot">
-                <g:if test="${SolidSpecimen.findById(aliquot.specimen.id)}">
-                    <g:if test="${aliquot.exhausted}">
-                        <tr>
-                            <td>
-                                <g:link controller="aliquot" action="show" id="${aliquot.id}">${aliquot}</g:link> <a class="text-warning">Exhausted</a><br/>
-                                <g:if test="${aliquot.gelSuitabilityReport}">
-                                    <g:link controller="gelSuitabilityReport" action="show" id="${aliquot?.gelSuitabilityReport?.first()?.id}">${aliquot?.gelSuitabilityReport?.first()}</g:link><br/>
-                                </g:if>
-                                <g:elseif test="${(!aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport
-                                        && !aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport
-                                        && aliquot?.aliquotType?.aliquotTypeName != 'Section'
-                                        && aliquot?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
-                                    <a class="text-danger">GeL Suitability Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link><br/>
-                                    </a>
-                                </g:elseif>
-                                <g:if test="${aliquot.fixationReport}">
-                                    <g:link controller="fixationReport" action="show" id="${aliquot?.fixationReport?.first()?.id}">${aliquot?.fixationReport?.first()}</g:link><br/>
-                                </g:if>
-                                <g:elseif test="${(!aliquot.fixationReport
-                                        && aliquot.createdOn > new Date().parse('yyyy/MM/dd', '2015/11/01')
-                                        && (aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF'
-                                        || aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE'))}">
-                                    <a class="text-danger">Genomic Block Fixation Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Genomic Block Fixation Report')])}</g:link><br/>
-                                    </a>
-                                </g:elseif>
-                            </td>
-                        </tr>
-                    </g:if>
-                    <g:else>
-                        <tr>
-                            <td>
-                                <g:link controller="aliquot" action="show" id="${aliquot.id}">${aliquot}</g:link><br/>
-                                <g:if test="${aliquot.gelSuitabilityReport}">
-                                    <g:link controller="gelSuitabilityReport" action="show" id="${aliquot?.gelSuitabilityReport?.first()?.id}">${aliquot?.gelSuitabilityReport?.first()}</g:link><br/>
-                                </g:if>
-                                <g:elseif test="${(!aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport
-                                        && !aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport
-                                        && aliquot?.aliquotType?.aliquotTypeName != 'Section'
-                                        && aliquot?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
-                                    <a class="text-danger">GeL Suitability Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link><br/>
-                                    </a>
-                                </g:elseif>
-                                <g:if test="${aliquot.fixationReport}">
-                                    <g:link controller="fixationReport" action="show" id="${aliquot?.fixationReport?.first()?.id}">${aliquot?.fixationReport?.first()}</g:link><br/>
-                                </g:if>
-                                <g:elseif test="${(!aliquot.fixationReport
-                                        && aliquot.createdOn > new Date().parse('yyyy/MM/dd', '2015/11/01')
-                                        && (aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF'
-                                        || aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE'))}">
-                                    <a class="text-danger">Genomic Block Fixation Report is missing. <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquot?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Genomic Block Fixation Report')])}</g:link><br/>
-                                    </a>
-                                </g:elseif>
-                            </td>
-                        </tr>
-                    </g:else>
+            <g:each in="${solidSpecimenAliquots}" var="aliquotInstance">
+                <g:if test="${SolidSpecimen.findById(aliquotInstance.specimen.id)}">
+                    <tr>
+
+                        <td><g:link controller="aliquot" action="show" id="${aliquotInstance.id}">${fieldValue(bean: aliquotInstance, field: "aliquotType")}</g:link></td>
+
+                        <td>
+                            <g:if test="${aliquotInstance.blockNumber != null}">
+                                ${fieldValue(bean: aliquotInstance, field: "blockNumber")}
+                            </g:if>
+                            <g:else>
+                                ${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}
+                            </g:else>
+                        </td>
+
+                        <td><g:formatDate format="yyyy-MM-dd" date="${aliquotInstance.createdOn}" /></td>
+
+
+                        <td>${fieldValue(bean: aliquotInstance, field: "aliquotRanking")}</td>
+
+                        <td>
+                            <g:if test="${aliquotInstance.gelSuitabilityReport}">
+                                <g:link controller="gelSuitabilityReport" action="show" id="${aliquotInstance?.gelSuitabilityReport?.first()?.id}">GeL Suitability Report</g:link><br/>
+                            </g:if>
+                            <g:elseif test="${(!aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport
+                                    && !aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport
+                                    && aliquotInstance?.aliquotType?.aliquotTypeName != 'Section'
+                                    && aliquotInstance?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
+                                <a class="text-danger">Missing Report <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'Report')])}</g:link><br/>
+                                </a>
+                            </g:elseif>
+                        </td>
+
+                        <td>
+                            <g:if test="${aliquotInstance.fixationReport}">
+                                <g:link controller="fixationReport" action="show" id="${aliquotInstance?.fixationReport?.first()?.id}">Genomic Block Fixation Report</g:link><br/>
+                            </g:if>
+                            <g:elseif test="${(!aliquotInstance.fixationReport
+                                    && aliquotInstance.createdOn > new Date().parse('yyyy/MM/dd', '2015/11/01')
+                                    && (aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF'
+                                    || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE'))}">
+                                <a class="text-danger">Missing Report <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Report')])}</g:link><br/>
+                                </a>
+                            </g:elseif>
+                        </td>
+
+                        <td>
+                            <g:if test="${aliquotInstance.exhausted}">
+                                <a class="text-warning"><g:formatBoolean false="No" true="Yes" boolean="${aliquotInstance.exhausted}" /></a>
+                            </g:if>
+                            <g:else>
+                                <g:formatBoolean false="No" true="Yes" boolean="${aliquotInstance.exhausted}" />
+                            </g:else>
+                        </td>
+
+                        <td>${fieldValue(bean: aliquotInstance.specimen.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+
+                    </tr>
                 </g:if>
             </g:each>
             </tbody>
         </table>
     </section>
 
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>Fluid Specimen</center></th>
+        </tr>
+    </table>
+
     <section id="show-fluidSpecimen" class="first">
         <table class="table table-bordered margin-top-medium">
             <thead>
             <tr>
-                <th style="background: rgba(25, 105, 255, 0.33)"><center>Fluid Specimen</center></th>
+
+                <th>Fluid Sample Type</th>
+
+                <th>Primary Container</th>
+
+                <th>Time Point</th>
+
+                <th>Collection Date</th>
+
+                <th>Exhausted</th>
+
+                <th>Participant Id</th>
+
             </tr>
             </thead>
             <tbody>
             <% def fluidSpecimen = FluidSpecimen.listOrderByCollectionDate() %>
             <g:each in="${fluidSpecimen}" var="item">
-                <g:each in="${participantSummary?.specimen}" var="s">
+                <g:each in="${participantSummary?.specimen}" var="fluidSpecimenInstance">
                     <tr>
-                        <g:if test="${item.id == s.id}">
-                            <g:if test="${s.exhausted}">
-                                <td>
-                                    <g:link controller="fluidSpecimen" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link> <a class="text-warning">Exhausted</a>
-                                </td>
-                            </g:if>
-                            <g:else>
-                                <td>
-                                    <g:link controller="fluidSpecimen" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link>
-                                </td>
-                            </g:else>
+                        <g:if test="${item.id == fluidSpecimenInstance.id}">
+
+                            <td><g:link controller="fluidSpecimen" action="show" id="${fluidSpecimenInstance.id}">${fieldValue(bean: fluidSpecimenInstance, field: "fluidSampleType")}</g:link></td>
+
+                            <td>${fieldValue(bean: fluidSpecimenInstance, field: "primaryContainer")}</td>
+
+                            <td>${fieldValue(bean: fluidSpecimenInstance, field: "timePoint")}</td>
+
+                            <td><g:formatDate format="yyyy-MM-dd" date="${fluidSpecimenInstance.collectionDate}" /></td>
+
+                            <td>
+                                <g:if test="${fluidSpecimenInstance.exhausted}">
+                                    <a class="text-warning"><g:formatBoolean false="No" true="Yes" boolean="${fluidSpecimenInstance.exhausted}" /></a>
+                                </g:if>
+                                <g:else>
+                                    <g:formatBoolean false="No" true="Yes" boolean="${fluidSpecimenInstance.exhausted}" />
+                                </g:else>
+                            </td>
+
+                            <td>${fieldValue(bean: fluidSpecimenInstance.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+
                         </g:if>
                     </tr>
                 </g:each>
@@ -402,81 +518,223 @@
         </table>
     </section>
 
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>Fluid Specimen Aliquot</center></th>
+        </tr>
+    </table>
+
     <section id="show-fluidSpecimenAliquot" class="first">
         <table class="table table-bordered margin-top-medium">
             <thead>
             <tr>
-                <th style="background: rgba(25, 105, 255, 0.33)"><center>Fluid Specimen Aliquot</center></th>
+
+                <th>Aliquot Type</th>
+
+                <th>Identifier</th>
+
+                <th>Barcode</th>
+
+                <th>Created On</th>
+
+                <th>Time Point</th>
+
+                <th>Exhausted</th>
+
+                <th>Participant Id</th>
+
             </tr>
             </thead>
             <tbody>
             <% def fluidSpecimenAliquots = Aliquot.findAll{specimen.participant == participantSummary}.sort {it.aliquotType.aliquotTypeName} %>
-            <g:each in="${fluidSpecimenAliquots}" var="aliquot">
-                <g:if test="${FluidSpecimen.findById(aliquot.specimen.id)}">
-                    <g:if test="${aliquot.exhausted}">
-                        <tr>
-                            <td>
-                                <g:link controller="aliquot" action="show" id="${aliquot.id}">${aliquot}</g:link> <a class="text-warning">Exhausted</a><br/>
-                            </td>
-                        </tr>
-                    </g:if>
-                    <g:else>
-                        <tr>
-                            <td>
-                                <g:link controller="aliquot" action="show" id="${aliquot.id}">${aliquot}</g:link><br/>
-                            </td>
-                        </tr>
-                    </g:else>
+
+            <g:each in="${fluidSpecimenAliquots}" var="aliquotInstance">
+                <g:if test="${FluidSpecimen.findById(aliquotInstance.specimen.id)}">
+                    <tr>
+
+                    <td><g:link controller="aliquot" action="show" id="${aliquotInstance.id}">${fieldValue(bean: aliquotInstance, field: "aliquotType")}</g:link></td>
+
+                    <td>${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
+
+                    <td>${fieldValue(bean: aliquotInstance, field: "barcode")}</td>
+
+                    <td><g:formatDate format="yyyy-MM-dd" date="${aliquotInstance.createdOn}" /></td>
+
+                    <td>
+                        ${fieldValue(bean: aliquotInstance?.specimen, field: "timePoint")}
+                    </td>
+
+                    <td>
+                        <g:if test="${aliquotInstance.exhausted}">
+                            <a class="text-warning"><g:formatBoolean false="No" true="Yes" boolean="${aliquotInstance.exhausted}" /></a>
+                        </g:if>
+                        <g:else>
+                            <g:formatBoolean false="No" true="Yes" boolean="${aliquotInstance.exhausted}" />
+                        </g:else>
+                    </td>
+
+                    <td>${fieldValue(bean: aliquotInstance.specimen.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+                    </tr>
                 </g:if>
             </g:each>
             </tbody>
         </table>
     </section>
 
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>DNA Extract</center></th>
+        </tr>
+    </table>
+
     <section id="show-dnaExtract" class="first">
         <table class="table table-bordered margin-top-medium">
             <thead>
             <tr>
-                <th style="background: rgba(25, 105, 255, 0.33)"><center>DNA Extract</center></th>
+
+                <th>Sample Type</th>
+
+                <th>Elution</th>
+
+                <th>Pass Fail</th>
+
+                <th>Barcode</th>
+
+                <th>Extraction Date</th>
+
+                <th>Exhausted</th>
+
+                <th>Participant Id</th>
+
             </tr>
             </thead>
             <tbody>
-            <% def dna_Extracts = DNA_Extract.findAll {aliquot.specimen.participant == participantSummary} %>
-            <g:each in="${dna_Extracts}" var="dna_Extract">
+            <% def dna_Extracts = DNA_Extract.findAll {aliquot.specimen.participant == participantSummary}
+                dna_Extracts = dna_Extracts.findAll {d -> d.extractionType == geldb.ExtractionType.findByExtractionTypeName('DNA Extraction')}
+            %>
+            <g:each in="${dna_Extracts}" var="DNA_ExtractInstance">
                 <tr>
-                    <g:if test="${dna_Extract.exhausted && dna_Extract.passFail}">
-                        <td>
-                            <g:link controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link> <a class="text-warning">Exhausted</a><br/>
-                        </td>
-                    </g:if>
-                    <g:elseif test="${dna_Extract.exhausted && !dna_Extract.passFail}">
-                        <td>
-                            <g:link class="text-danger" controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link> <a class="text-warning">Exhausted</a><br/>
-                        </td>
-                    </g:elseif>
-                    <g:elseif test="${!dna_Extract.exhausted && !dna_Extract.passFail}">
-                        <td>
-                            <g:link class="text-danger" controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link><br/>
-                        </td>
-                    </g:elseif>
-                    <g:elseif test="${!dna_Extract.exhausted && dna_Extract.passFail}">
-                        <td>
-                            <g:link controller="DNA_Extract" action="show" id="${dna_Extract.id}">${dna_Extract}</g:link><br/>
-                        </td>
-                    </g:elseif>
+                    <td><g:link controller="DNA_Extract" action="show" id="${DNA_ExtractInstance?.id}">${fieldValue(bean: DNA_ExtractInstance?.aliquot?.first(), field: "aliquotType")}</g:link></td>
+
+                    <td>${fieldValue(bean: DNA_ExtractInstance, field: "sapphireIdentifier")}</td>
+
+                    <td>
+                        <g:if test="${DNA_ExtractInstance.passFail}">
+                            <g:formatBoolean true="Pass" false="Fail" boolean="${DNA_ExtractInstance.passFail}" />
+                        </g:if>
+                        <g:else>
+                            <a class="text-danger"><g:formatBoolean boolean="${DNA_ExtractInstance.passFail}" true="Pass" false="Fail" /></a>
+                        </g:else>
+                    </td>
+
+                    <td>${fieldValue(bean: DNA_ExtractInstance, field: "barcode")}</td>
+
+                    <td><g:formatDate format="yyyy-MM-dd" date="${DNA_ExtractInstance?.extractionDate}" /></td>
+
+                    <td>
+                        <g:if test="${DNA_ExtractInstance.exhausted}">
+                            <a class="text-warning"><g:formatBoolean false="No" true="Yes" boolean="${DNA_ExtractInstance.exhausted}" /></a>
+                        </g:if>
+                        <g:else>
+                            <g:formatBoolean false="No" true="Yes" boolean="${DNA_ExtractInstance.exhausted}" />
+                        </g:else>
+                    </td>
+
+                    <% def gelId = DNA_ExtractInstance.aliquot.specimen.participant.studySubject %>
+                    <% gelId = gelId.first()%>
+                    <% gelId = gelId.findResult {it.studySubjectIdentifier ? it : null}%>
+
+                    <td>${fieldValue(bean: gelId, field: "studySubjectIdentifier")}</td>
+
                 </tr>
             </g:each>
             </tbody>
         </table>
     </section>
 
-    <section id="show-dnaLibrary" class="first">
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>RNA Extract</center></th>
+        </tr>
+    </table>
+
+    <section id="show-dnaExtract" class="first">
         <table class="table table-bordered margin-top-medium">
             <thead>
             <tr>
-                <th style="background: rgba(25, 105, 255, 0.33)"><center>DNA Library</center></th>
+
+                <th>Sample Type</th>
+
+                <th>Elution</th>
+
+                <th>Pass Fail</th>
+
+                <th>Barcode</th>
+
+                <th>Extraction Date</th>
+
+                <th>RIN</th>
+
+                <th>Exhausted</th>
+
+                <th>Participant Id</th>
+
             </tr>
             </thead>
+            <tbody>
+            <% def rna_Extracts = DNA_Extract.findAll {aliquot.specimen.participant == participantSummary}
+                rna_Extracts = rna_Extracts.findAll {r -> r.extractionType == geldb.ExtractionType.findByExtractionTypeName('RNA Extraction')}
+            %>
+            <g:each in="${rna_Extracts}" var="RNA_ExtractInstance">
+                <tr>
+                    <td><g:link controller="DNA_Extract" action="show" id="${RNA_ExtractInstance?.id}">${fieldValue(bean: RNA_ExtractInstance?.aliquot?.first(), field: "aliquotType")}</g:link></td>
+
+                    <td>${fieldValue(bean: RNA_ExtractInstance, field: "sapphireIdentifier")}</td>
+
+                    <td>
+                        <g:if test="${RNA_ExtractInstance.passFail}">
+                            <g:formatBoolean true="Pass" false="Fail" boolean="${RNA_ExtractInstance.passFail}" />
+                        </g:if>
+                        <g:else>
+                            <a class="text-danger"><g:formatBoolean boolean="${RNA_ExtractInstance.passFail}" true="Pass" false="Fail" /></a>
+                        </g:else>
+                    </td>
+
+                    <td>${fieldValue(bean: RNA_ExtractInstance, field: "barcode")}</td>
+
+                    <td><g:formatDate format="yyyy-MM-dd" date="${RNA_ExtractInstance?.extractionDate}" /></td>
+
+                    <td>${fieldValue(bean: RNA_ExtractInstance, field: "rin")}</td>
+
+                    <td>
+                        <g:if test="${RNA_ExtractInstance.exhausted}">
+                            <a class="text-warning"><g:formatBoolean false="No" true="Yes" boolean="${RNA_ExtractInstance.exhausted}" /></a>
+                        </g:if>
+                        <g:else>
+                            <g:formatBoolean false="No" true="Yes" boolean="${RNA_ExtractInstance.exhausted}" />
+                        </g:else>
+                    </td>
+
+                    <% def participantId = RNA_ExtractInstance.aliquot.specimen.participant.studySubject %>
+                    <% participantId = participantId.first()%>
+                    <% participantId = participantId.findResult {it.studySubjectIdentifier ? it : null}%>
+
+                    <td>${fieldValue(bean: participantId, field: "studySubjectIdentifier")}</td>
+
+                </tr>
+            </g:each>
+            </tbody>
+        </table>
+    </section>
+
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>DNA Library</center></th>
+        </tr>
+    </table>
+
+    <section id="show-dnaLibrary" class="first">
+        <table class="table table-bordered margin-top-medium">
             <tbody>
             <% def dna_Libraries = DNA_Library.findAll {na_extract.aliquot.specimen.participant == participantSummary} %>
             <g:each in="${dna_Libraries}" var="dna_Library">
