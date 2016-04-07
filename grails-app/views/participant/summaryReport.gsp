@@ -198,7 +198,7 @@
 
                 <th>ICD10 Code & Description</th>
 
-                <th>Anatomical Site</th>
+                <th>Tumour Type</th>
 
             </tr>
             </thead>
@@ -207,8 +207,13 @@
 
                 <td>${fieldValue(bean: participantSummary, field: "diagnosis")}</td>
 
-                <% def anatomicalSite = SolidSpecimen.findByParticipant(participantSummary)?.anatomicalSite %>
-                <td>${anatomicalSite}</td>
+                <% def fFPE_Tissue_Report = SolidSpecimen.findByParticipant(participantSummary)?.fFPE_Tissue_Report
+                def tumourType = ""
+                if (!fFPE_Tissue_Report.empty){
+                    tumourType = fFPE_Tissue_Report?.first()?.tumourType
+                }
+                %>
+                <td>${tumourType}</td>
 
             </tr>
             </tbody>
@@ -264,7 +269,7 @@
             <g:each in="${studySubjectList}" status="i" var="studySubjectInstance">
                 <tr>
 
-                    <td><g:link action="show" id="${studySubjectInstance.id}">${fieldValue(bean: studySubjectInstance, field: "study")}</g:link></td>
+                    <td><g:link controller="studySubject" action="show" id="${studySubjectInstance.id}">${fieldValue(bean: studySubjectInstance, field: "study")}</g:link></td>
 
                     <td><g:formatBoolean false="No" true="Yes" boolean="${studySubjectInstance.consentStatus}" /></td>
 
@@ -312,7 +317,7 @@
 
                 <th>Main Specimen Report</th>
 
-                <th>No FF Sample Expected</th>
+                <th>FF Sample Expected</th>
 
                 <th>Participant Id</th>
 
@@ -347,11 +352,11 @@
                                 </td>
 
                                 <td>
-                                    <g:if test="${solidSpecimenInstance.noFFSampleExpected}">
-                                        <a class="text-danger"><g:formatBoolean false="No" true="Yes" boolean="${solidSpecimenInstance.noFFSampleExpected}" /></a>
+                                    <g:if test="${!solidSpecimenInstance.noFFSampleExpected}">
+                                        <a class="text-success">Yes</a>
                                     </g:if>
                                     <g:else>
-                                        <g:formatBoolean false="No" true="Yes" boolean="${solidSpecimenInstance.noFFSampleExpected}" />
+                                        <a class="text-danger">No</a>
                                     </g:else>
                                 </td>
 
@@ -474,6 +479,8 @@
 
                 <th>Primary Container</th>
 
+                <th>Number of Aliquots</th>
+
                 <th>Time Point</th>
 
                 <th>Collection Date</th>
@@ -494,6 +501,8 @@
                             <td><g:link controller="fluidSpecimen" action="show" id="${fluidSpecimenInstance.id}">${fieldValue(bean: fluidSpecimenInstance, field: "fluidSampleType")}</g:link></td>
 
                             <td>${fieldValue(bean: fluidSpecimenInstance, field: "primaryContainer")}</td>
+
+                            <td>${fluidSpecimenInstance?.aliquot?.size()}</td>
 
                             <td>${fieldValue(bean: fluidSpecimenInstance, field: "timePoint")}</td>
 
@@ -598,6 +607,10 @@
 
                 <th>Pass Fail</th>
 
+                <th>DNA Quantity</th>
+
+                <th>Delta QC</th>
+
                 <th>Barcode</th>
 
                 <th>Extraction Date</th>
@@ -626,6 +639,11 @@
                             <a class="text-danger"><g:formatBoolean boolean="${DNA_ExtractInstance.passFail}" true="Pass" false="Fail" /></a>
                         </g:else>
                     </td>
+
+                    <% def dnaQuantity = DNA_ExtractInstance.dNAConcentrationQubit * DNA_ExtractInstance.dNAAmount %>
+                    <td>${dnaQuantity}</td>
+
+                    <td>${fieldValue(bean: DNA_ExtractInstance, field: "delatQC")}</td>
 
                     <td>${fieldValue(bean: DNA_ExtractInstance, field: "barcode")}</td>
 
