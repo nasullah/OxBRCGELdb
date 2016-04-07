@@ -14,6 +14,7 @@ class UrlMappings {
 		"/imprint"		(view:"/siteinfo/imprint")
 		"/nextSteps"	(view:"/home/nextSteps")
         "/importparticipant"	(view:"/participant/importparticipant")
+		"/exportOptions"	(view:"/participant/exportOptions")
 		"/scanbarcode"	(view:"/participant/scanbarcode")
 		"/removeparticipant"	(view:"/participant/removeparticipant")
 		/*

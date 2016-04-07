@@ -31,6 +31,10 @@
             <g:link controller="SequencingRun" action="index">Sequencing Run</g:link>
         </li>
 
+        <li>
+            <g:link controller="participant" action="summaryReport">Summary Report</g:link>
+        </li>
+
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 More  <b class="caret"></b>
@@ -50,15 +54,15 @@
                 </li>
 
                 <li>
-                    <g:link controller="participant" action="summaryReport">Summary Report</g:link>
-                </li>
-
-                <li>
                     <g:link controller="position" action="index">Position</g:link>
                 </li>
 
                 <li>
                     <g:link controller="fluidSpecimen" action="fluidSpecimenSummary">Fluid Specimen Summary</g:link>
+                </li>
+
+                <li>
+                    <a href="/GELdb/exportOptions"> Export Options</a>
                 </li>
 
             </ul>

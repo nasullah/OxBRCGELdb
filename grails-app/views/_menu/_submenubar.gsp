@@ -213,11 +213,11 @@ This menu is used to show function that can be triggered on the content (an obje
         </li>
 
         <li class="">
-            <li><a href="/GELdb/importparticipant"><span style="color:#46d010"><i class="glyphicon glyphicon-import"></i></span> Import Participant</a></li>
+            <a href="/GELdb/importparticipant"><span style="color:#46d010"><i class="glyphicon glyphicon-import"></i></span> Import Participant</a>
         </li>
 
         <li class="">
-        <li><a href="/GELdb/scanbarcode"><span style="color:#060e02"><i class="glyphicon glyphicon-barcode"></i></span> Scan Barcode</a></li>
+            <a href="/GELdb/scanbarcode"><span style="color:#060e02"><i class="glyphicon glyphicon-barcode"></i></span> Scan Barcode</a>
         </li>
 
         <g:if test="${ params.action == 'show' || params.action == 'edit' }">
