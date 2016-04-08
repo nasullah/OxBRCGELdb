@@ -165,6 +165,8 @@
 
                     <th>Histology Number</th>
 
+                    <th>Collection Method</th>
+
                     <th>Collection Date</th>
 
                     <th>Exhausted</th>
@@ -185,6 +187,8 @@
                             <tr>
 
                                 <td><g:link controller="solidSpecimen" action="show" id="${solidSpecimenInstance.id}">${fieldValue(bean: solidSpecimenInstance, field: "histologyNumber")}</g:link></td>
+
+                                <td>${fieldValue(bean: solidSpecimenInstance, field: "collectionMethod")}</td>
 
                                 <td><g:formatDate format="yyyy-MM-dd" date="${solidSpecimenInstance.collectionDate}" /></td>
 
