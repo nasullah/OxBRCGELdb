@@ -4,7 +4,7 @@
 
 <head>
     <meta name="layout" content="kickstart" />
-    <title>Import Participant from Consent Management System</title>
+    <title>Export Options</title>
 </head>
 
 <body>
