@@ -101,15 +101,13 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.collectionLocation.label" default="Collection Location" /></td>
 				
-				<td valign="top" class="value"><g:link controller="location" action="show" id="${fluidSpecimenInstance?.collectionLocation?.id}">${fluidSpecimenInstance?.collectionLocation?.encodeAsHTML()}</g:link></td>
-				
+                <td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "collectionLocation")}</td>
 			</tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.collectedBy.label" default="Collected By" /></td>
 				
-				<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${fluidSpecimenInstance?.collectedBy?.id}">${fluidSpecimenInstance?.collectedBy?.encodeAsHTML()}</g:link></td>
-				
+                <td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "collectedBy")}</td>
 			</tr>
 		
 			%{--<tr class="prop">--}%
@@ -134,8 +132,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.volumeUnit.label" default="Volume Unit" /></td>
 				
-				<td valign="top" class="value"><g:link controller="units" action="show" id="${fluidSpecimenInstance?.volumeUnit?.id}">${fluidSpecimenInstance?.volumeUnit?.encodeAsHTML()}</g:link></td>
-				
+                <td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "volumeUnit")}</td>
 			</tr>
 
             <g:if test="${fluidSpecimenInstance.postmortem}">

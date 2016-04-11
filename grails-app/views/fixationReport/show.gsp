@@ -37,8 +37,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fixationReport.reportStaff.label" default="Recorded By" /></td>
 				
-				<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${fixationReportInstance?.reportStaff?.id}">${fixationReportInstance?.reportStaff?.encodeAsHTML()}</g:link></td>
-				
+				<td valign="top" class="value">${fieldValue(bean: fixationReportInstance, field: "reportStaff")}</td>
 			</tr>
 		
 			<tr class="prop">
@@ -114,8 +113,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fixationReport.tissueProcessorUsed.label" default="Tissue Processor Used" /></td>
 				
-				<td valign="top" class="value"><g:link controller="tissueProcessor" action="show" id="${fixationReportInstance?.tissueProcessorUsed?.id}">${fixationReportInstance?.tissueProcessorUsed?.encodeAsHTML()}</g:link></td>
-				
+				<td valign="top" class="value">${fieldValue(bean: fixationReportInstance, field: "tissueProcessorUsed")}</td>
 			</tr>
 
 			<g:if test="${fixationReportInstance.aliquot.aliquotType.aliquotTypeName != 'Punch biopsy, PAXgene'}">

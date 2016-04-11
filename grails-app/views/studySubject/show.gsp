@@ -26,7 +26,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="studySubject.study.label" default="Consent Type" /></td>
 				
-				<td valign="top" class="value"><g:link controller="study" action="show" id="${studySubjectInstance?.study?.id}">${studySubjectInstance?.study?.encodeAsHTML()}</g:link></td>
+				<td valign="top" class="value">${fieldValue(bean: studySubjectInstance, field: "study")}</td>
 				
 			</tr>
 

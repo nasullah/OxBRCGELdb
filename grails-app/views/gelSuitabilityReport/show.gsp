@@ -33,8 +33,7 @@
         <tr class="prop">
             <td valign="top" class="name"><g:message code="gelSuitabilityReport.reportStaff.label" default="Report Staff" /></td>
 
-            <td valign="top" class="value"><g:link controller="staffMember" action="show" id="${gelSuitabilityReportInstance?.reportStaff?.id}">${gelSuitabilityReportInstance?.reportStaff?.encodeAsHTML()}</g:link></td>
-
+            <td valign="top" class="value">${fieldValue(bean: gelSuitabilityReportInstance, field: "reportStaff")}</td>
         </tr>
 
         <tr class="prop">
@@ -60,7 +59,7 @@
             <td valign="top" class="name"><g:message code="gelSuitabilityReport.slideMarkedBy.label" default="Slide Marked By" /></td>
 
             <g:if test="${gelSuitabilityReportInstance?.slideMarkedBy?.toString()?.isNumber()}">
-                <td valign="top" class="value"><g:link controller="staffMember" action="show" id="${gelSuitabilityReportInstance?.slideMarkedBy}">${geldb.StaffMember.get(gelSuitabilityReportInstance?.slideMarkedBy)}</g:link></td>
+                <td valign="top" class="value">${geldb.StaffMember.get(gelSuitabilityReportInstance?.slideMarkedBy)}</td>
             </g:if>
             <g:else >
                 <td valign="top" class="value">${fieldValue(bean: gelSuitabilityReportInstance, field: "slideMarkedBy")}</td>

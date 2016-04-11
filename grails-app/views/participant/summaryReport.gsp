@@ -84,7 +84,7 @@
             <tbody>
             <tr class="prop">
                 <td>
-                    <g:link controller="centre" action="show" id="${participantSummary?.centre?.id}">${participantSummary?.centre?.encodeAsHTML()}</g:link>
+                ${fieldValue(bean: participantSummary, field: "centre")}
                 </td>
             </tr>
             </tbody>

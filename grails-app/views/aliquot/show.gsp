@@ -52,8 +52,7 @@
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="derivation.derivedBy.label" default="Derived By" /></td>
 
-                <td valign="top" class="value"><g:link controller="staffMember" action="show" id="${aliquotInstance?.derivedFrom?.derivedBy?.id}">${aliquotInstance?.derivedFrom?.derivedBy?.encodeAsHTML()}</g:link></td>
-
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance?.derivedFrom, field: "derivedBy")}</td>
             </tr>
 
             <tr class="prop">
@@ -96,6 +95,12 @@
 
             </tr>
         </g:if>
+
+        <tr class="prop">
+            <td valign="top" class="name"><g:message code="aliquot.aliquotType.label" default="Aliquot Type" /></td>
+
+            <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "aliquotType")}</td>
+        </tr>
 
         <g:if test="${aliquotInstance?.derivedFrom?.id == null}">
             <tr class="prop">
@@ -157,13 +162,6 @@
             </tr>
         </g:if>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="aliquot.aliquotType.label" default="Aliquot Type" /></td>
-
-            <td valign="top" class="value"><g:link controller="aliquotType" action="show" id="${aliquotInstance?.aliquotType?.id}">${aliquotInstance?.aliquotType?.encodeAsHTML()}</g:link></td>
-
-        </tr>
-
         <g:if test="${aliquotInstance?.aliquotType?.aliquotTypeName != "Section" }">
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.barcode.label" default="Barcode" /></td>
@@ -206,8 +204,7 @@
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.unit.label" default="Unit" /></td>
 
-                <td valign="top" class="value"><g:link controller="units" action="show" id="${aliquotInstance?.unit?.id}">${aliquotInstance?.unit?.encodeAsHTML()}</g:link></td>
-
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "unit")}</td>
             </tr>
         </g:if>
 

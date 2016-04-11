@@ -32,8 +32,7 @@
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="DNA_Extract.extractionType.label" default="Extraction Type" /></td>
 
-                <td valign="top" class="value"><g:link controller="extractionType" action="show" id="${DNA_ExtractInstance?.extractionType?.id}">${DNA_ExtractInstance?.extractionType?.encodeAsHTML()}</g:link></td>
-
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "extractionType")}</td>
             </tr>
 		
 			<tr class="prop">
@@ -88,8 +87,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Extract.extractedBy.label" default="Extracted By" /></td>
 				
-				<td valign="top" class="value"><g:link controller="staffMember" action="show" id="${DNA_ExtractInstance?.extractedBy?.id}">${DNA_ExtractInstance?.extractedBy?.encodeAsHTML()}</g:link></td>
-				
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "extractedBy")}</td>
 			</tr>
 
             <tr class="prop">
@@ -102,8 +100,7 @@
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="DNA_Extract.extractionKit.label" default="DNA/RNA Extraction Kit" /></td>
 
-                <td valign="top" class="value"><g:link controller="DNAExtractionKit" action="show" id="${DNA_ExtractInstance?.extractionKit?.id}">${DNA_ExtractInstance?.extractionKit?.encodeAsHTML()}</g:link></td>
-				
+                <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "extractionKit")}</td>
 			</tr>
 
             <tr class="prop">

@@ -66,7 +66,7 @@
 				<td valign="top" class="name"><g:message code="participant.diagnosis.label" default="Diagnosis" /></td>
 
                 <g:if test="${participantInstance.diagnosis}">
-                    <td valign="top" class="value"><g:link controller="ICD10" action="show" id="${participantInstance?.diagnosis?.id}">${participantInstance?.diagnosis?.encodeAsHTML()}</g:link></td>
+                    <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "diagnosis")}</td>
                 </g:if>
                 <g:else>
                     <td valign="top" class="value"><p class="text-danger">Please enter diagnosis by clicking the Edit Participant link</p></td>
@@ -77,7 +77,7 @@
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="participant.centre.label" default="Centre" /></td>
 
-                <td valign="top" class="value"><g:link controller="centre" action="show" id="${participantInstance?.centre?.id}">${participantInstance?.centre?.encodeAsHTML()}</g:link></td>
+                <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "centre")}</td>
 
             </tr>
 

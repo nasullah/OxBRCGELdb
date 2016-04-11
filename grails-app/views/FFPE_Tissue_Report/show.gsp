@@ -34,8 +34,7 @@
         <tr class="prop">
             <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.reportStaff.label" default="Reporting Pathologist" /></td>
 
-            <td valign="top" class="value"><g:link controller="staffMember" action="show" id="${FFPE_Tissue_ReportInstance?.reportStaff?.id}">${FFPE_Tissue_ReportInstance?.reportStaff?.encodeAsHTML()}</g:link></td>
-
+            <td valign="top" class="value">${fieldValue(bean: FFPE_Tissue_ReportInstance, field: "reportStaff")}</td>
         </tr>
 
         <tr class="prop">
@@ -48,8 +47,7 @@
         <tr class="prop">
             <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.sampleType.label" default="Sample Type" /></td>
 
-            <td valign="top" class="value"><g:link controller="sampleType" action="show" id="${FFPE_Tissue_ReportInstance?.sampleType?.id}">${FFPE_Tissue_ReportInstance?.sampleType?.encodeAsHTML()}</g:link></td>
-
+            <td valign="top" class="value">${fieldValue(bean: FFPE_Tissue_ReportInstance, field: "sampleType")}</td>
         </tr>
 
         <tr class="prop">
@@ -76,8 +74,7 @@
         <tr class="prop">
             <td valign="top" class="name"><g:message code="FFPE_Tissue_Report.tumourType.label" default="Tumour Type" /></td>
 
-            <td valign="top" class="value"><g:link controller="tumourType" action="show" id="${FFPE_Tissue_ReportInstance?.tumourType?.id}">${FFPE_Tissue_ReportInstance?.tumourType?.encodeAsHTML()}</g:link></td>
-
+            <td valign="top" class="value">${fieldValue(bean: FFPE_Tissue_ReportInstance, field: "tumourType")}</td>
         </tr>
 
         <tr class="prop">
