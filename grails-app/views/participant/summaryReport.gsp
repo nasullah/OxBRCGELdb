@@ -206,7 +206,7 @@
                                         <g:link controller="FFPE_Tissue_Report" action="show" id="${solidSpecimenInstance?.fFPE_Tissue_Report?.first()?.id}">Main Specimen Report</g:link>
                                     </g:if>
                                     <g:else>
-                                        <a class="text-danger">Missing Report <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Report')])}</g:link><br/></a>
+                                        <a class="text-danger">Missing <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Report')])}</g:link><br/></a>
                                     </g:else>
                                 </td>
 
@@ -246,9 +246,11 @@
 
                     <th>Created On</th>
 
-                    <th>Aliquot Ranking</th>
+                    <th>Aliq. Rank.</th>
 
                     <th>GeL Suitability Rep.</th>
+
+                    <th>Suitable</th>
 
                     <th>Genomic Block Fix. Rep.</th>
 
@@ -289,9 +291,23 @@
                                     && !aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport
                                     && aliquotInstance?.aliquotType?.aliquotTypeName != 'Section'
                                     && aliquotInstance?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
-                                <a class="text-danger">Missing Report <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'Report')])}</g:link><br/>
+                                <a class="text-danger">Missing <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'Report')])}</g:link><br/>
                                 </a>
                             </g:elseif>
+                        </td>
+
+                        <td>
+                            <g:if test="${!aliquotInstance?.gelSuitabilityReport?.empty}">
+                                <g:if test="${aliquotInstance?.gelSuitabilityReport?.first()?.suitableForGel == null}">
+                                    <p class="text-danger">Not completed</p>
+                                </g:if>
+                                <g:elseif test="${aliquotInstance?.gelSuitabilityReport?.first()?.suitableForGel}">
+                                    <p>Yes</p>
+                                </g:elseif>
+                                <g:else>
+                                    <p class="text-danger">No</p>
+                                </g:else>
+                            </g:if>
                         </td>
 
                         <td>
@@ -302,7 +318,7 @@
                                     && aliquotInstance.createdOn > new Date().parse('yyyy/MM/dd', '2015/11/01')
                                     && (aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF'
                                     || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE'))}">
-                                <a class="text-danger">Missing Report <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Report')])}</g:link><br/>
+                                <a class="text-danger">Missing <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fixationReport.label', default: 'Report')])}</g:link><br/>
                                 </a>
                             </g:elseif>
                         </td>
