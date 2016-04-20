@@ -219,7 +219,7 @@
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.unit.label" default="Unit" /></td>
 
-                <td valign="top" class="value"><g:link controller="units" action="show" id="${aliquotInstance?.unit?.id}">${aliquotInstance?.unit?.encodeAsHTML()}</g:link></td>
+                <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "unit")}</td>
 
             </tr>
         </g:if>
