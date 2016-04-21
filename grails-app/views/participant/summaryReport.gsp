@@ -303,13 +303,13 @@
                         <td>
                             <g:if test="${!aliquotInstance?.gelSuitabilityReport?.empty}">
                                 <g:if test="${aliquotInstance?.gelSuitabilityReport?.first()?.suitableForGel == null}">
-                                    <p class="text-danger">Not completed</p>
+                                    <a class="text-danger">Not completed</a>
                                 </g:if>
                                 <g:elseif test="${aliquotInstance?.gelSuitabilityReport?.first()?.suitableForGel}">
-                                    <p>Yes</p>
+                                    <a class="text-success">Yes</a>
                                 </g:elseif>
                                 <g:else>
-                                    <p class="text-danger">No</p>
+                                    <a class="text-danger">No</a>
                                 </g:else>
                             </g:if>
                         </td>
