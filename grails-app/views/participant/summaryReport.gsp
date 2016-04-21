@@ -256,7 +256,7 @@
 
                     <th>Geno. Bl. Fix. Rep.</th>
 
-                    <th>Exhausted</th>
+                    <th>Exh.</th>
 
                     <th>Participant Id</th>
 
