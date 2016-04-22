@@ -283,19 +283,44 @@
     </tr>
 </table>
 
-<p><span style="font-weight: bold; font-size: 8pt">(3) Tumour content of sample </span><span style="font-size: 8pt">defined as number of viable invasive tumour cells / total number of viable cells present in marked area, to nearest 5%;</span></p>
+<span style="font-weight: bold; font-size: 8pt">(3) Tumour content of sample </span><span style="font-size: 8pt">defined as number of viable invasive tumour cells / total number of viable cells present in marked area, to nearest 5%;</span><br/>
 
-<p><span style="font-weight: bold; font-size: 8pt">(4) Percentage necrosis </span><span style="font-size: 8pt">present in marked area, by surface area;</span></p>
+<span style="font-weight: bold; font-size: 8pt">(4) Percentage necrosis </span><span style="font-size: 8pt">present in marked area, by surface area;</span><br/>
 
-<p><span style="font-weight: bold; font-size: 8pt">(5) Tumour sample cellularity: </span><span style="font-size: 8pt">A - Very low (&lt;700); B - Low (&lt;4000); C - Medium (4000-10000); D - High (&gt;10000); E - Very High (&gt;50000); F – Unknown.</span></p>
+<span style="font-weight: bold; font-size: 8pt">(5) Tumour sample cellularity: </span><span style="font-size: 8pt">A - Very low (&lt;700); B - Low (&lt;4000); C - Medium (4000-10000); D - High (&gt;10000); E - Very High (&gt;50000); F – Unknown.</span><br/>
 
-<p><span style="font-weight: bold; font-size: 8pt">(6) Non-invasive neoplastic elements </span><span style="font-size: 8pt">present in the sample (please specify) eg PIN, DCIS, or none.</span></p>
+<span style="font-weight: bold; font-size: 8pt">(6) Non-invasive neoplastic elements </span><span style="font-size: 8pt">present in the sample (please specify) eg PIN, DCIS, or none.</span><br/>
 
-<p><span style="font-weight: bold; font-size: 8pt">(7) GeL suitability: </span><span style="font-size: 8pt">at least 40% tumour and no more than 50% necrosis in marked area </span></p>
+<span style="font-weight: bold; font-size: 8pt">(7) GeL suitability: </span><span style="font-size: 8pt">at least 40% tumour and no more than 50% necrosis in marked area </span><br/>
 
-<p><span style="font-size: 8pt">(8) If punches are not 1mm, </span><span style="font-weight: bold; font-size: 8pt">ndicate size </span><span style="font-size: 8pt">here as well as number of punches.</span></p>
+<span style="font-size: 8pt">(8) If punches are not 1mm, </span><span style="font-weight: bold; font-size: 8pt">ndicate size </span><span style="font-size: 8pt">here as well as number of punches.</span><br/>
 
 <p></p>
+
+<table border="1" width="20%">
+
+    <tr>
+        <th width="30%"><center><span style="font-weight: bold;font-size: 7pt">SNOMED CODES <sup>(9)</sup></span></center></th>
+    </tr>
+
+</table>
+<table border="1" width="20%">
+
+    <tr>
+        <th width="2%"><center><span style="font-weight: bold;font-size: 7pt">T</span></center></th>
+        <th width="18%"><span style="font-weight: bold;font-size: 7pt"></span></th>
+
+    </tr>
+
+    <tr>
+        <th width="2%"><center><span style="font-weight: bold;font-size: 7pt">M</span></center></th>
+        <th width="18%" ><span style="font-weight: bold;font-size: 7pt"></span></th>
+
+    </tr>
+
+</table>
+
+<span style="font-weight: bold; font-size: 8pt">(9) </span><span style="font-size: 8pt">Please indicate SNOMED codes applicable to tumour sampled in more than one pair is listed in the pathology report. </span><br/>
 
 <p>
 
