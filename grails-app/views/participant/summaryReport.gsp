@@ -244,9 +244,9 @@
 
                     <th>Identifier</th>
 
-                    <th>Histo. No.</th>
+                    <th>Barcode</th>
 
-                    <th>Created On</th>
+                    <th>Histo. No.</th>
 
                     <th>Aliq. Rank.</th>
 
@@ -280,10 +280,9 @@
                             </g:else>
                         </td>
 
+                        <td>${fieldValue(bean: aliquotInstance, field: "barcode")}</td>
+
                         <td>${fieldValue(bean: aliquotInstance.specimen, field: "histologyNumber")}</td>
-
-                        <td><g:formatDate format="yyyy-MM-dd" date="${aliquotInstance.createdOn}" /></td>
-
 
                         <td>${fieldValue(bean: aliquotInstance, field: "aliquotRanking")}</td>
 
