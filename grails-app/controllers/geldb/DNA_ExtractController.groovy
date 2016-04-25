@@ -47,6 +47,10 @@ class DNA_ExtractController {
         [DNA_ExtractInstanceList: DNA_Extract.findAllByPassFail(false).sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
+    def reservedDNASampleList(){
+        [DNA_ExtractInstanceList: DNA_Extract.findAllBySapphireIdentifierIlike('%_Remaining%').sort {it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
+    }
+
     def findAliquotsByGeLId() {
         def gelId= params.search
         if (gelId) {

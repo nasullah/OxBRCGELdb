@@ -42,6 +42,9 @@ This menu is used to show function that can be triggered on the content (an obje
                 </li>
             </g:if>
             <g:if test="${ params.controller == 'DNA_Extract'}">
+                <li class=${ params.action == "reservedDNASampleList" ? 'active' : '' }>
+                    <g:link action="reservedDNASampleList"><span><i class="glyphicon glyphicon-list-alt"></i></span> Reserved DNA Samples</g:link>
+                </li>
                 <li class=${ params.action == "workLists" ? 'active' : '' }>
                     <g:link action="workLists" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Worklists</g:link>
                 </li>
