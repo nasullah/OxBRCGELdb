@@ -94,7 +94,7 @@
 		</tr>
 	</table>
 
-	<section id="show-fluidSpecimen" class="first">
+	<section id="show-well" class="first">
 		<table class="table table-bordered margin-top-medium">
 			<g:if test="${!plateOrBoxInstance.well.empty}">
 				<thead>
