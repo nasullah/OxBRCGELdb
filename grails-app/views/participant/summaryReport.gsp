@@ -495,7 +495,7 @@
 
                     <th>Pass Fail</th>
 
-                    <th>DNA Quantity</th>
+                    <th>DNA Yield</th>
 
                     <th>Delta QC</th>
 

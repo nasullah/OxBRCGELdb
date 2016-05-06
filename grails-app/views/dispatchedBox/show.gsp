@@ -33,22 +33,109 @@
 			<tr class="prop">
 				<td valign="top" class="name">Number of items</td>
 
-				<td valign="top" class="value"><a class="text-danger">${dispatchedBoxInstance?.dispatchItems?.size()}</a></td>
+				<td valign="top" class="value"><a class="text-danger">${dispatchItemList?.size()}</a></td>
 
 			</tr>
 		
 		</tbody>
 	</table>
 
-	<table border="1" width="100%">
-		<tr>
-			<th style="background: rgba(25, 105, 255, 0.33)"><center>Dispatch Items</center></th>
-		</tr>
-	</table>
+	<% def dnaList = DNA_Extract.findAllByIdInList(dispatchItemList.identifiedSample.id) %>
+	<g:if test="${!dnaList?.empty}">
+		<table border="1" width="100%">
+			<tr>
+				<th style="background: rgba(25, 105, 255, 0.33)"><center>Dispatch Items (DNA Samples)</center></th>
+			</tr>
+		</table>
+	</g:if>
 
-	<section id="show-dispatchItems" class="first">
+	<section id="show-dispatchItemsDNA" class="first">
 		<table class="table table-bordered margin-top-medium">
-			<g:if test="${!dispatchedBoxInstance?.dispatchItems?.empty}">
+			<g:if test="${!dnaList?.empty}">
+				<thead>
+				<tr>
+
+					<g:sortableColumn property="positionIfPlated" title="Position" />
+
+					<th>Sample Type</th>
+
+					<th>Pass/Fail</th>
+
+					<th>DNA Yield</th>
+
+					<th>Elution</th>
+
+					<th>Extraction Date</th>
+
+					<th>Barcode</th>
+
+					<g:sortableColumn property="aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
+
+				</tr>
+				</thead>
+			</g:if>
+			<tbody>
+			<g:each in="${dispatchItemList}" var="dispatchItemInstance">
+				<% def dnaInstance = dnaList.find {d -> d.id == dispatchItemInstance.identifiedSample.id} %>
+				<g:if test="${dnaInstance}">
+					<tr>
+						<td>
+							<g:link controller="dispatchItem" action="show" id="${dispatchItemInstance?.id}">${dispatchItemInstance.positionIfPlated}</g:link>
+						</td>
+
+						<td>
+							${dispatchItemInstance?.identifiedSample?.aliquot?.first()?.aliquotType}
+						</td>
+
+						<td>
+							<g:if test="${dispatchItemInstance?.identifiedSample?.passFail}">
+								Pass
+							</g:if>
+							<g:else>
+								Fail
+							</g:else>
+						</td>
+
+						<td>
+							<% def dnaQuantity = (dispatchItemInstance?.identifiedSample?.dNAConcentrationQubit * dispatchItemInstance?.identifiedSample?.dNAAmount)/1000 %>
+							${dnaQuantity.trunc(1)}
+						</td>
+
+						<td>
+							${dispatchItemInstance?.identifiedSample?.sapphireIdentifier}
+						</td>
+
+						<td>
+							${dispatchItemInstance?.identifiedSample?.extractionDate?.format('yyyy-MM-dd')}
+						</td>
+
+						<td>
+							${dispatchItemInstance?.identifiedSample?.barcode}
+						</td>
+
+						<td>
+							${dispatchItemInstance?.identifiedSample?.aliquot?.first()?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it.size() ? it : null}}
+						</td>
+
+					</tr>
+				</g:if>
+			</g:each>
+			</tbody>
+		</table>
+	</section>
+
+	<% def aliquotList = Aliquot.findAllByIdInList(dispatchItemList.identifiedSample.id) %>
+	<g:if test="${!aliquotList?.empty}">
+		<table border="1" width="100%">
+			<tr>
+				<th style="background: rgba(25, 105, 255, 0.33)"><center>Dispatch Items (Omics Samples)</center></th>
+			</tr>
+		</table>
+	</g:if>
+
+	<section id="show-dispatchItemsAliquot" class="first">
+		<table class="table table-bordered margin-top-medium">
+			<g:if test="${!aliquotList?.empty}">
 				<thead>
 				<tr>
 
@@ -56,13 +143,7 @@
 
 					<th>Sample Type</th>
 
-					<th>Pass/Fail</th>
-
-					<th>DNA Quantity</th>
-
-					<th>Elution</th>
-
-					<th>Ext./Crt. Date</th>
+					<th>Created On</th>
 
 					<th>Barcode</th>
 
@@ -72,70 +153,32 @@
 				</thead>
 			</g:if>
 			<tbody>
-			<g:each in="${dispatchedBoxInstance?.dispatchItems?.sort{it.positionIfPlated}}" var="dispatchItemInstance">
-				<% def dna = DNA_Extract.findById(dispatchItemInstance.identifiedSample.id) %>
-				<% def aliquot = Aliquot.findById(dispatchItemInstance.identifiedSample.id) %>
-				<tr>
-					<td>
-						<g:link controller="dispatchItem" action="show" id="${dispatchItemInstance?.id}">${dispatchItemInstance.positionIfPlated}</g:link>
-					</td>
+			<g:each in="${dispatchItemList}" var="dispatchItemInstance">
+				<% def aliquotInstance = aliquotList.find {d -> d.id == dispatchItemInstance.identifiedSample.id} %>
+				<g:if test="${aliquotInstance}">
+					<tr>
+						<td>
+							<g:link controller="dispatchItem" action="show" id="${dispatchItemInstance?.id}">${dispatchItemInstance.positionIfPlated}</g:link>
+						</td>
 
-					<td>
-						<g:if test="${dna}">
-							${dispatchItemInstance?.identifiedSample?.aliquot?.first()?.aliquotType}
-						</g:if>
-						<g:elseif test="${aliquot}">
+						<td>
 							${dispatchItemInstance?.identifiedSample?.aliquotType}
-						</g:elseif>
-					</td>
+						</td>
 
-					<td>
-						<g:if test="${dna}">
-							<g:if test="${dispatchItemInstance?.identifiedSample?.passFail}">
-								Pass
-							</g:if>
-							<g:else>
-								Fail
-							</g:else>
-						</g:if>
-					</td>
-
-					<td>
-						<g:if test="${dna}">
-							<% def dnaQuantity = (dispatchItemInstance?.identifiedSample?.dNAConcentrationQubit * dispatchItemInstance?.identifiedSample?.dNAAmount)/1000 %>
-							${dnaQuantity.trunc(1)}
-						</g:if>
-					</td>
-
-					<td>
-						<g:if test="${dna}">
-							${dispatchItemInstance?.identifiedSample?.sapphireIdentifier}
-						</g:if>
-					</td>
-
-					<td>
-						<g:if test="${dna}">
-							${dispatchItemInstance?.identifiedSample?.extractionDate?.format('yyyy-MM-dd')}
-						</g:if>
-						<g:elseif test="${aliquot}">
+						<td>
 							${dispatchItemInstance?.identifiedSample?.createdOn?.format('yyyy-MM-dd')}
-						</g:elseif>
-					</td>
+						</td>
 
-					<td>
-						${dispatchItemInstance?.identifiedSample?.barcode}
-					</td>
+						<td>
+							${dispatchItemInstance?.identifiedSample?.barcode}
+						</td>
 
-					<td>
-						<g:if test="${dna}">
-							${dispatchItemInstance?.identifiedSample?.aliquot?.first()?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it.size() ? it : null}}
-						</g:if>
-						<g:elseif test="${aliquot}">
+						<td>
 							${dispatchItemInstance?.identifiedSample?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it.size() ? it : null}}
-						</g:elseif>
-					</td>
+						</td>
 
-				</tr>
+					</tr>
+				</g:if>
 			</g:each>
 			</tbody>
 		</table>

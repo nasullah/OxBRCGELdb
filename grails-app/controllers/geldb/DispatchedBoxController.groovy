@@ -26,7 +26,24 @@ class DispatchedBoxController {
     }
 
     def show(DispatchedBox dispatchedBoxInstance) {
-        respond dispatchedBoxInstance
+        def dispatchItemList = dispatchedBoxInstance?.dispatchItems?.sort{it.positionIfPlated}
+
+        if (params.sort && params.order == "asc") {
+            if (params.sort == 'aliquot.specimen.participant.studySubject.studySubjectIdentifier'){
+                dispatchItemList = dispatchItemList.sort{it.identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier}
+            }else if(params.sort == 'positionIfPlated'){
+                dispatchItemList = dispatchItemList.sort{it.positionIfPlated}
+            }
+        }
+
+        if (params.sort && params.order == "desc"){
+            if (params.sort == 'aliquot.specimen.participant.studySubject.studySubjectIdentifier'){
+                dispatchItemList = dispatchItemList.sort{it.identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier}.reverse()
+            } else if(params.sort == 'positionIfPlated'){
+                dispatchItemList = dispatchItemList.sort{it.positionIfPlated}.reverse()
+            }
+        }
+        [dispatchedBoxInstance: dispatchedBoxInstance, dispatchItemList: dispatchItemList]
     }
 
     def create() {
