@@ -57,6 +57,8 @@
 
 					<g:sortableColumn property="positionIfPlated" title="Position" />
 
+					<g:sortableColumn property="aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
+
 					<th>Sample Type</th>
 
 					<th>Pass/Fail</th>
@@ -69,8 +71,6 @@
 
 					<th>Barcode</th>
 
-					<g:sortableColumn property="aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
-
 				</tr>
 				</thead>
 			</g:if>
@@ -81,6 +81,10 @@
 					<tr>
 						<td>
 							<g:link controller="dispatchItem" action="show" id="${dispatchItemInstance?.id}">${dispatchItemInstance.positionIfPlated}</g:link>
+						</td>
+
+						<td>
+							${dispatchItemInstance?.identifiedSample?.aliquot?.first()?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it.size() ? it : null}}
 						</td>
 
 						<td>
@@ -113,10 +117,6 @@
 							${dispatchItemInstance?.identifiedSample?.barcode}
 						</td>
 
-						<td>
-							${dispatchItemInstance?.identifiedSample?.aliquot?.first()?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it.size() ? it : null}}
-						</td>
-
 					</tr>
 				</g:if>
 			</g:each>
@@ -141,13 +141,13 @@
 
 					<th>Position</th>
 
+					<th>Participant Id</th>
+
 					<th>Sample Type</th>
 
 					<th>Created On</th>
 
 					<th>Barcode</th>
-
-					<th>Participant Id</th>
 
 				</tr>
 				</thead>
@@ -162,6 +162,10 @@
 						</td>
 
 						<td>
+							${dispatchItemInstance?.identifiedSample?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it.size() ? it : null}}
+						</td>
+
+						<td>
 							${dispatchItemInstance?.identifiedSample?.aliquotType}
 						</td>
 
@@ -171,10 +175,6 @@
 
 						<td>
 							${dispatchItemInstance?.identifiedSample?.barcode}
-						</td>
-
-						<td>
-							${dispatchItemInstance?.identifiedSample?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it.size() ? it : null}}
 						</td>
 
 					</tr>
