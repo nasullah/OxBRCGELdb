@@ -35,7 +35,8 @@ class SampleMetadataExportService {
         }
 
         def clinicSampleType  = { domain, value ->
-            if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy Frozen')) {
+            if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy Frozen')
+                    || domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('All Prep Lysate')) {
                 return "DNA " + "FF Tumour"
             }else  if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
                 return "DNA " + "FFPE Tumour"
