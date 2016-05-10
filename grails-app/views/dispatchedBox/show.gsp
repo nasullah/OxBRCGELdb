@@ -84,7 +84,7 @@
 						</td>
 
 						<td>
-							${dispatchItemInstance?.identifiedSample?.aliquot?.first()?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it.size() ? it : null}}
+							${dispatchItemInstance?.identifiedSample?.aliquot?.first()?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}
 						</td>
 
 						<td>
@@ -162,7 +162,7 @@
 						</td>
 
 						<td>
-							${dispatchItemInstance?.identifiedSample?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it.size() ? it : null}}
+							${dispatchItemInstance?.identifiedSample?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}
 						</td>
 
 						<td>
