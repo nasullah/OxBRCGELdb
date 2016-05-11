@@ -383,7 +383,7 @@
             </tr>
             </thead>
             <tbody>
-            <g:each in="${aliquotInstance.dNA_Extract}" var="DNA_ExtractInstance">
+            <g:each in="${aliquotInstance?.dNA_Extract?.sort{it?.extractionType?.extractionTypeName}}" var="DNA_ExtractInstance">
                 <tr>
                     <td><g:link controller="DNA_Extract" action="show" id="${DNA_ExtractInstance?.id}">${fieldValue(bean: DNA_ExtractInstance, field: "extractionType")}</g:link></td>
 
