@@ -369,7 +369,8 @@ class SampleMetadataExportService {
             if (value.toString()?.startsWith('[Fluid Specimen-')) {
                 return ''
             } else {
-                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy')) {
+                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy')
+                        || domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('All Prep Lysate')) {
                     return 'cores'
                 }else if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Section')) {
                     return 'sections'
