@@ -1,5 +1,5 @@
 
-<%@ page import="geldb.AliquotType; groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
+<%@ page import="geldb.DNA_Extract; geldb.ExtractionType; geldb.AliquotType; groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
 <%@ page import="geldb.SolidSpecimen" %>
 <%@ page import="geldb.FluidSpecimen" %>
 <!DOCTYPE html>
@@ -348,26 +348,85 @@
             </tr>
         </g:if>
 
-        <g:if test="${aliquotInstance.dNA_Extract}">
-            <tr class="prop">
-                <td valign="top" class="name"><g:message code="aliquot.dNA_Extract.label" default="DNA Extract" /></td>
-
-                <td valign="top" style="text-align: left;" class="value">
-                    <ul>
-                        <g:each in="${aliquotInstance.dNA_Extract}" var="d">
-                            <li><g:link controller="DNA_Extract" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
-                        </g:each>
-                    </ul>
-                </td>
-
-            </tr>
-        </g:if>
-
         </tbody>
     </table>
 </section>
 
-<hr style="border:1; height:1px" />
+<g:if test="${aliquotInstance.dNA_Extract}">
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>DNA/RNA Extract</center></th>
+        </tr>
+    </table>
+
+    <section id="show-dnaExtract" class="first">
+        <table class="table table-bordered margin-top-medium">
+
+            <thead>
+            <tr>
+                <th>Extraction Type</th>
+
+                <th>Sample Type</th>
+
+                <th>Elution</th>
+
+                <th>Pass Fail</th>
+
+                <th>Barcode</th>
+
+                <th>Extraction Date</th>
+
+                <th>Exhausted</th>
+
+                <th>Participant Id</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <g:each in="${aliquotInstance.dNA_Extract}" var="DNA_ExtractInstance">
+                <tr>
+                    <td><g:link controller="DNA_Extract" action="show" id="${DNA_ExtractInstance?.id}">${fieldValue(bean: DNA_ExtractInstance, field: "extractionType")}</g:link></td>
+
+                    <td>${fieldValue(bean: DNA_ExtractInstance?.aliquot?.first(), field: "aliquotType")}</td>
+
+                    <td>${fieldValue(bean: DNA_ExtractInstance, field: "sapphireIdentifier")}</td>
+
+                    <td>
+                        <g:if test="${DNA_ExtractInstance.passFail}">
+                            <g:formatBoolean true="Pass" false="Fail" boolean="${DNA_ExtractInstance.passFail}" />
+                        </g:if>
+                        <g:else>
+                            <a class="text-danger"><g:formatBoolean boolean="${DNA_ExtractInstance.passFail}" true="Pass" false="Fail" /></a>
+                        </g:else>
+                    </td>
+
+                    <td>${fieldValue(bean: DNA_ExtractInstance, field: "barcode")}</td>
+
+                    <td><g:formatDate format="yyyy-MM-dd" date="${DNA_ExtractInstance?.extractionDate}" /></td>
+
+                    <td>
+                        <g:if test="${DNA_ExtractInstance.exhausted}">
+                            <a class="text-warning"><g:formatBoolean false="No" true="Yes" boolean="${DNA_ExtractInstance.exhausted}" /></a>
+                        </g:if>
+                        <g:else>
+                            <g:formatBoolean false="No" true="Yes" boolean="${DNA_ExtractInstance.exhausted}" />
+                        </g:else>
+                    </td>
+
+                    <% def gelId = DNA_ExtractInstance.aliquot.specimen.participant.studySubject %>
+                    <% gelId = gelId.first()%>
+                    <% gelId = gelId.findResult {it.studySubjectIdentifier ? it : null}%>
+
+                    <td>${fieldValue(bean: gelId, field: "studySubjectIdentifier")}</td>
+
+                </tr>
+            </g:each>
+            </tbody>
+        </table>
+    </section>
+</g:if>
+
+<hr/>
 
 <p class="text-primary">Available Actions</p>
 
@@ -411,7 +470,8 @@
                                                                                            'aliquotType': aliquotInstance?.aliquotType?.id, 'aliquotRanking': aliquotInstance?.aliquotRanking]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate Aliquot')])}</g:link>
 
 </g:if>
-<hr style="border:1; height:1px" />
+
+<hr/>
 
 </body>
 

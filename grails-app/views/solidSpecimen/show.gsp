@@ -194,21 +194,6 @@
                 </tr>
             </g:if>
 
-            <g:if test="${solidSpecimenInstance.aliquot}">
-                <tr class="prop">
-                    <td valign="top" class="name"><g:message code="solidSpecimen.aliquot.label" default="Aliquot" /></td>
-
-                    <td valign="top" style="text-align: left;" class="value">
-                        <ul>
-                        <g:each in="${solidSpecimenInstance.aliquot}" var="a">
-                            <li><g:link controller="aliquot" action="show" id="${a.id.toString().replace('%5B','').replace('%5D','')}">${a?.encodeAsHTML()}</g:link></li>
-                        </g:each>
-                        </ul>
-                    </td>
-
-                </tr>
-            </g:if>
-
             <g:if test="${solidSpecimenInstance.sampleTrackingEvent}">
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="solidSpecimen.sampleTrackingEvent.label" default="Sample Tracking Event" /></td>
@@ -244,6 +229,115 @@
 	</table>
 </section>
 
+<g:if test="${solidSpecimenInstance.aliquot}">
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>Aliquots</center></th>
+        </tr>
+    </table>
+
+    <section id="show-solidSpecimenAliquots" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+
+                <th>Aliquot Type</th>
+
+                <th>Identifier</th>
+
+                <th>Barcode</th>
+
+                <th>Aliq. Rank.</th>
+
+                <th>GeL Suit. Rep.</th>
+
+                <th>Suitable</th>
+
+                <th>Geno. Bl. Fix. Rep.</th>
+
+                <th>Exhausted</th>
+
+                <th>Participant Id</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <g:each in="${solidSpecimenInstance?.aliquot?.sort{it?.aliquotType?.aliquotTypeName}}" var="aliquotInstance">
+                <tr>
+
+                    <td><g:link controller="aliquot" action="show" id="${aliquotInstance.id}">${fieldValue(bean: aliquotInstance, field: "aliquotType")}</g:link></td>
+
+                    <td>
+                        <g:if test="${aliquotInstance.blockNumber != null}">
+                            ${fieldValue(bean: aliquotInstance, field: "blockNumber")}
+                        </g:if>
+                        <g:else>
+                            ${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}
+                        </g:else>
+                    </td>
+
+                    <td>${fieldValue(bean: aliquotInstance, field: "barcode")}</td>
+
+                    <td>${fieldValue(bean: aliquotInstance, field: "aliquotRanking")}</td>
+
+                    <td>
+                        <g:if test="${aliquotInstance.gelSuitabilityReport}">
+                            <g:link controller="gelSuitabilityReport" action="show" id="${aliquotInstance?.gelSuitabilityReport?.first()?.id}">GeL Suit. Rep.</g:link><br/>
+                        </g:if>
+                        <g:elseif test="${(!aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport
+                                && !aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport
+                                && aliquotInstance?.aliquotType?.aliquotTypeName != 'Section'
+                                && aliquotInstance?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
+                            <a class="text-danger">Missing <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Add</g:link><br/>
+                            </a>
+                        </g:elseif>
+                    </td>
+
+                    <td>
+                        <g:if test="${!aliquotInstance?.gelSuitabilityReport?.empty}">
+                            <g:if test="${aliquotInstance?.gelSuitabilityReport?.first()?.suitableForGel == null}">
+                                <a class="text-danger">Not completed</a>
+                            </g:if>
+                            <g:elseif test="${aliquotInstance?.gelSuitabilityReport?.first()?.suitableForGel}">
+                                <a class="text-success">Yes</a>
+                            </g:elseif>
+                            <g:else>
+                                <a class="text-danger">No</a>
+                            </g:else>
+                        </g:if>
+                    </td>
+
+                    <td>
+                        <g:if test="${aliquotInstance.fixationReport}">
+                            <g:link controller="fixationReport" action="show" id="${aliquotInstance?.fixationReport?.first()?.id}">Geno. Bl. Fix. Rep.</g:link><br/>
+                        </g:if>
+                        <g:elseif test="${(!aliquotInstance.fixationReport
+                                && aliquotInstance.createdOn > new Date().parse('yyyy/MM/dd', '2015/11/01')
+                                && (aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF'
+                                || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE'))}">
+                            <a class="text-danger">Missing <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Add</g:link><br/>
+                            </a>
+                        </g:elseif>
+                    </td>
+
+                    <td>
+                        <g:if test="${aliquotInstance.exhausted}">
+                            <a class="text-warning"><g:formatBoolean false="No" true="Yes" boolean="${aliquotInstance.exhausted}" /></a>
+                        </g:if>
+                        <g:else>
+                            <g:formatBoolean false="No" true="Yes" boolean="${aliquotInstance.exhausted}" />
+                        </g:else>
+                    </td>
+
+                    <td>${fieldValue(bean: aliquotInstance.specimen.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+
+                </tr>
+            </g:each>
+            </tbody>
+        </table>
+    </section>
+</g:if>
+
 <hr/>
 
 <p class="text-primary">Available Actions</p>
@@ -257,6 +351,7 @@
 %{--</g:if>--}%
 
 <hr/>
+
 </body>
 
 </html>

@@ -153,21 +153,6 @@
                 </tr>
 		    </g:if>
 
-            <g:if test="${fluidSpecimenInstance.aliquot}">
-                <tr class="prop">
-                    <td valign="top" class="name"><g:message code="fluidSpecimen.aliquot.label" default="Aliquot" /></td>
-
-                    <td valign="top" style="text-align: left;" class="value">
-                        <ul>
-                        <g:each in="${fluidSpecimenInstance.aliquot}" var="a">
-                            <li><g:link controller="aliquot" action="show" id="${a.id.toString().replace('%5B','').replace('%5D','')}">${a?.encodeAsHTML()}</g:link></li>
-                        </g:each>
-                        </ul>
-                    </td>
-
-                </tr>
-            </g:if>
-
             <g:if test="${fluidSpecimenInstance.sampleTrackingEvent}">
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="fluidSpecimen.sampleTrackingEvent.label" default="Sample Tracking Event" /></td>
@@ -203,7 +188,69 @@
 	</table>
 </section>
 
-<hr style="border:1; height:1px" />
+<g:if test="${fluidSpecimenInstance?.aliquot}">
+    <table border="1" width="100%">
+        <tr>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>Aliquots</center></th>
+        </tr>
+    </table>
+
+    <section id="show-fluidSpecimenAliquot" class="first">
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+
+                <th>Aliquot Type</th>
+
+                <th>Identifier</th>
+
+                <th>Barcode</th>
+
+                <th>Created On</th>
+
+                <th>Time Point</th>
+
+                <th>Exhausted</th>
+
+                <th>Participant Id</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <g:each in="${fluidSpecimenInstance?.aliquot?.sort{it?.aliquotType?.aliquotTypeName}}" var="aliquotInstance">
+                    <tr>
+
+                        <td><g:link controller="aliquot" action="show" id="${aliquotInstance.id}">${fieldValue(bean: aliquotInstance, field: "aliquotType")}</g:link></td>
+
+                        <td>${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
+
+                        <td>${fieldValue(bean: aliquotInstance, field: "barcode")}</td>
+
+                        <td><g:formatDate format="yyyy-MM-dd" date="${aliquotInstance.createdOn}" /></td>
+
+                        <td>
+                            ${fieldValue(bean: aliquotInstance?.specimen, field: "timePoint")}
+                        </td>
+
+                        <td>
+                            <g:if test="${aliquotInstance.exhausted}">
+                                <a class="text-warning"><g:formatBoolean false="No" true="Yes" boolean="${aliquotInstance.exhausted}" /></a>
+                            </g:if>
+                            <g:else>
+                                <g:formatBoolean false="No" true="Yes" boolean="${aliquotInstance.exhausted}" />
+                            </g:else>
+                        </td>
+
+                        <td>${fieldValue(bean: aliquotInstance.specimen.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+                    </tr>
+            </g:each>
+            </tbody>
+        </table>
+    </section>
+</g:if>
+
+<hr/>
 
 <p class="text-primary">Available Actions</p>
 
@@ -216,7 +263,8 @@
     %{--<a class='btn btn-primary btn-small' <g:link controller="postmortem" action="create" params="['specimen.id': fluidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'postmortem.label', default: 'Postmortem')])}</g:link>--}%
 %{--</g:if>--}%
 
-<hr style="border:1; height:1px" />
+<hr/>
+
 </body>
 
 </html>

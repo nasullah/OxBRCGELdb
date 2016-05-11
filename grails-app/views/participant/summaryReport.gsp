@@ -483,7 +483,7 @@
     <section id="show-dnaExtract" class="first">
         <table class="table table-bordered margin-top-medium">
             <% def dna_Extracts = DNA_Extract.findAll {aliquot.specimen.participant == participantSummary}
-            dna_Extracts = dna_Extracts.findAll {d -> d.extractionType == ExtractionType.findByExtractionTypeName('DNA Extraction')}?.sort{it?.aliquot?.first().aliquotType.aliquotTypeName}
+            dna_Extracts = dna_Extracts.findAll {d -> d.extractionType == ExtractionType.findByExtractionTypeName('DNA Extraction')}?.sort{it?.aliquot?.first()?.aliquotType?.aliquotTypeName}
             %>
             <g:if test="${!dna_Extracts.empty}">
                 <thead>
@@ -565,7 +565,7 @@
     <section id="show-dnaExtract" class="first">
         <table class="table table-bordered margin-top-medium">
             <% def rna_Extracts = DNA_Extract.findAll {aliquot.specimen.participant == participantSummary}
-            rna_Extracts = rna_Extracts.findAll {r -> r.extractionType == ExtractionType.findByExtractionTypeName('RNA Extraction')}?.sort{it?.aliquot?.first().aliquotType.aliquotTypeName}
+            rna_Extracts = rna_Extracts.findAll {r -> r.extractionType == ExtractionType.findByExtractionTypeName('RNA Extraction')}?.sort{it?.aliquot?.first()?.aliquotType?.aliquotTypeName}
             %>
             <g:if test="${!rna_Extracts.empty}">
                 <thead>
