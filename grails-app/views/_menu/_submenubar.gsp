@@ -248,21 +248,21 @@ This menu is used to show function that can be triggered on the content (an obje
             <g:link action="list"><i class="glyphicon glyphicon-th-list"></i> Sample Tracking Event List</g:link>
         </li>
 
-        <li class="${ params.action == "create" ? 'active' : '' }">
-            <g:link action="create"><i class="glyphicon glyphicon-plus"></i> Dispatch Sample</g:link>
-        </li>
+        %{--<li class="${ params.action == "create" ? 'active' : '' }">--}%
+            %{--<g:link action="create"><i class="glyphicon glyphicon-plus"></i> Dispatch Sample</g:link>--}%
+        %{--</li>--}%
 
-        <li class=${ params.action == "fluidSpecimenInTransit" ? 'active' : '' }>
-            <g:link action="fluidSpecimenInTransit" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Fluid Specimen in Transit</g:link>
-        </li>
+        %{--<li class=${ params.action == "fluidSpecimenInTransit" ? 'active' : '' }>--}%
+            %{--<g:link action="fluidSpecimenInTransit" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Fluid Specimen in Transit</g:link>--}%
+        %{--</li>--}%
 
-        <li class=${ params.action == "solidSpecimenInTransit" ? 'active' : '' }>
-            <g:link action="solidSpecimenInTransit" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Solid Specimen in Transit</g:link>
-        </li>
+        %{--<li class=${ params.action == "solidSpecimenInTransit" ? 'active' : '' }>--}%
+            %{--<g:link action="solidSpecimenInTransit" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Solid Specimen in Transit</g:link>--}%
+        %{--</li>--}%
 
-        <li class="${ params.action == "createReceived" ? 'active' : '' }">
-            <g:link action="createReceived"><i class="glyphicon glyphicon-plus"></i>  Receive Sample</g:link>
-        </li>
+        %{--<li class="${ params.action == "createReceived" ? 'active' : '' }">--}%
+            %{--<g:link action="createReceived"><i class="glyphicon glyphicon-plus"></i>  Receive Sample</g:link>--}%
+        %{--</li>--}%
         <g:if test="${ params.action == 'show' || params.action == 'edit' }">
             <li class="${ params.action == "edit" ? 'active' : '' }">
                 <g:link action="edit" id="${params.id}"><i class="glyphicon glyphicon-pencil"></i> Edit Sample Tracking Event</g:link>

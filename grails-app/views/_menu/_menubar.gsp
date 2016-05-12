@@ -49,9 +49,9 @@
                     <g:link controller="plateOrBox" action="index">Plate/Box</g:link>
                 </li>
 
-                <li>
-                    <g:link controller="SampleTrackingEvent" action="index">Sample Tracking</g:link>
-                </li>
+                %{--<li>--}%
+                    %{--<g:link controller="SampleTrackingEvent" action="index">Sample Tracking</g:link>--}%
+                %{--</li>--}%
 
                 <li>
                     <g:link controller="position" action="index">Position</g:link>

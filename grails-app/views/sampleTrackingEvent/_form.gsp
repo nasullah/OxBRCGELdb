@@ -1,7 +1,7 @@
 <%@ page import="geldb.Aliquot; geldb.SampleTrackingEvent" %>
 <%@ page import="geldb.Specimen" %>
 
-            <p></p>
+            <hr/>
             <p><b>${Aliquot.findById(sampleTrackingEventInstance?.identifiedSample?.id) }</b></p>
             <g:hiddenField name="identifiedSample.id" id="identifiedSample" value="${sampleTrackingEventInstance?.identifiedSample?.id}"/>
 

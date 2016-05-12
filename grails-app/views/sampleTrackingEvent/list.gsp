@@ -19,9 +19,9 @@
         <thead>
         <tr>
 
-            <th><g:message code="sampleTrackingEvent.specimen.label" default="Specimen" /></th>
-
             <th><g:message code="sampleTrackingEvent.sampleTrackingEventType.label" default="Sample Tracking Event Type" /></th>
+
+            <th><g:message code="sampleTrackingEvent.specimen.label" default="Specimen identifier" /></th>
 
             <g:sortableColumn property="date" title="${message(code: 'sampleTrackingEvent.date.label', default: 'Date')}" />
 
@@ -33,9 +33,9 @@
         <g:each in="${sampleTrackingEventInstanceList}" status="i" var="sampleTrackingEventInstance">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-                <td><g:link action="show" id="${sampleTrackingEventInstance.id}">${fieldValue(bean: sampleTrackingEventInstance, field: "identifiedSample")}</g:link></td>
+                <td><g:link action="show" id="${sampleTrackingEventInstance.id}">${fieldValue(bean: sampleTrackingEventInstance, field: "sampleTrackingEventType")}</g:link></td>
 
-                <td>${fieldValue(bean: sampleTrackingEventInstance, field: "sampleTrackingEventType")}</td>
+                <td>${fieldValue(bean: sampleTrackingEventInstance.identifiedSample, field: "sapphireIdentifier")}</td>
 
                 <td><g:formatDate format="yyyy-MM-dd" date="${sampleTrackingEventInstance.date}" /></td>
 
