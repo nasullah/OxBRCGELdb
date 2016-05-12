@@ -157,22 +157,22 @@
 	</table>
 </section>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <p class="text-primary">Available Actions</p>
 
 <g:if test="${!participantInstance.studySubject}">
-    <a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with a consent </g:link>
+    <a class='btn btn-primary btn-xs' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with a consent </g:link>
 </g:if>
 <g:else>
-    <a class='btn btn-primary btn-small' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with another consent </g:link>
+    <a class='btn btn-primary btn-xs' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with another consent </g:link>
 </g:else>
 
-<a class='btn btn-default btn-small' <g:link  action="renderTissueWorksheet" id="${participantInstance?.id}"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet</g:link>
+<a class='btn btn-default btn-xs' <g:link  action="renderTissueWorksheet" id="${participantInstance?.id}"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet</g:link>
 
-<a class='btn btn-default btn-small' <g:link  action="renderTissueWorksheetProstate" id="${participantInstance?.id}"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet (Prostate only)</g:link>
+<a class='btn btn-default btn-xs' <g:link  action="renderTissueWorksheetProstate" id="${participantInstance?.id}"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet (Prostate only)</g:link>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 </body>
 

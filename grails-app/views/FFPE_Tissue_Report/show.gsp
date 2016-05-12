@@ -279,13 +279,13 @@
     </table>
 </section>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <p class="text-primary">Available Action</p>
 
-<a class='btn btn-primary btn-small' <g:link controller="pathologyImage" action="create" params="['solidSpecimenReport.id': FFPE_Tissue_ReportInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'pathologyImage.label', default: 'Pathology Image')])}</g:link>
+<a class='btn btn-primary btn-xs' <g:link controller="pathologyImage" action="create" params="['solidSpecimenReport.id': FFPE_Tissue_ReportInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'pathologyImage.label', default: 'Pathology Image')])}</g:link>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <div class="modal fade" id="deleteFile">
     <div class="modal-dialog" style="position: absolute; left: 0%;">

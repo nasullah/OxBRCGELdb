@@ -1,5 +1,5 @@
 
-<%@ page import="geldb.DNA_Extract; geldb.ExtractionType; geldb.AliquotType; groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
+<%@ page import="geldb.SampleTrackingEventType; geldb.DNA_Extract; geldb.ExtractionType; geldb.AliquotType; groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
 <%@ page import="geldb.SolidSpecimen" %>
 <%@ page import="geldb.FluidSpecimen" %>
 <!DOCTYPE html>
@@ -250,11 +250,11 @@
 
         <g:if test="${aliquotInstance.sampleTrackingEvent}">
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="aliquot.sampleTrackingEvent.label" default="Sample Tracking Event" /></td>
+                <td valign="top" class="name"><g:message code="aliquot.sampleTrackingEvent.label" default="Tracking Event" /></td>
 
                 <td valign="top" style="text-align: left;" class="value">
                     <ul>
-                        <g:each in="${aliquotInstance.sampleTrackingEvent}" var="t">
+                        <g:each in="${aliquotInstance?.sampleTrackingEvent?.sort{it?.date?.toString() + it.time}}" var="t">
                             <li><g:link controller="sampleTrackingEvent" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
                         </g:each>
                     </ul>
@@ -431,28 +431,28 @@
 <p class="text-primary">Available Actions</p>
 
 <g:if test="${aliquotInstance?.position?.id == null && aliquotInstance?.exhausted != true}">
-    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['containedSamples': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
+    <a class='btn btn-primary btn-xs' <g:link controller="position" action="create" params="['containedSamples': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
 </g:if>
 
 <g:if test="${aliquotInstance?.specimen?.instanceOf(SolidSpecimen)}">
-    <a class='btn btn-primary btn-small' <g:link controller="colocation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'colocation.label', default: 'Colocation')])}</g:link>
+    <a class='btn btn-primary btn-xs' <g:link controller="colocation" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'colocation.label', default: 'Colocation')])}</g:link>
 </g:if>
 
 <g:if test="${!aliquotInstance.fixationReport && (aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE')}">
-    <a class='btn btn-primary btn-small' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id, 'fixationStartDateAliquot': aliquotInstance?.specimen?.collectionDate]"><i class="glyphicon glyphicon-plus"></i> Add Genomic Block Fixation Report</g:link>
+    <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id, 'fixationStartDateAliquot': aliquotInstance?.specimen?.collectionDate]"><i class="glyphicon glyphicon-plus"></i> Add Genomic Block Fixation Report</g:link>
 </g:if>
 
 <g:if test="${!aliquotInstance.fixationReport && aliquotInstance.aliquotType.aliquotTypeName == 'Punch biopsy, PAXgene'}">
-    <a class='btn btn-primary btn-small' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id, 'fixationTypeAliquot':'PAXgene']"><i class="glyphicon glyphicon-plus"></i> Add Fixation Report</g:link>
+    <a class='btn btn-primary btn-xs' <g:link controller="fixationReport" action="create" params="['aliquot.id': aliquotInstance?.id, 'fixationTypeAliquot':'PAXgene']"><i class="glyphicon glyphicon-plus"></i> Add Fixation Report</g:link>
 </g:if>
 
 <g:if test="${(aliquotInstance?.aliquotType?.aliquotTypeName == 'Fresh Frozen Tissue' && aliquotInstance?.derivedFrom?.id == null) || (aliquotInstance?.aliquotType?.aliquotTypeName == 'Punch Biopsy Frozen' && aliquotInstance?.derivedFrom?.id == null)}">
-    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'derivationProcess':'FrozenSection', 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('Section')?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (Section)')])}</g:link>
-    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'derivationProcess':'Tissue_disruption', 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('All Prep Lysate')?.id, aliquotVolumeMass:'0.6']"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (All Prep lysate)')])}</g:link>
+    <a class='btn btn-primary btn-xs' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'derivationProcess':'FrozenSection', 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('Section')?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (Section)')])}</g:link>
+    <a class='btn btn-primary btn-xs' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.id, 'derivationProcess':'Tissue_disruption', 'aliquotType':geldb.AliquotType.findAllByAliquotTypeName('All Prep Lysate')?.id, aliquotVolumeMass:'0.6']"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'derivation.label', default: 'Derivation (All Prep lysate)')])}</g:link>
 </g:if>
 
 <g:if test="${aliquotInstance?.aliquotType?.aliquotTypeName == 'All Prep Lysate' && aliquotInstance?.derivedFrom?.id != null}">
-    <a class='btn btn-primary btn-small' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.derivedFrom?.aliquot?.id, 'derivationProcess':aliquotInstance?.derivedFrom?.derivationProcess?.getKey(),
+    <a class='btn btn-primary btn-xs' <g:link controller="derivation" action="create" params="['aliquot.id': aliquotInstance?.derivedFrom?.aliquot?.id, 'derivationProcess':aliquotInstance?.derivedFrom?.derivationProcess?.getKey(),
                                                                                                   'aliquotType':aliquotInstance?.aliquotType?.id, 'derivationDate':aliquotInstance?.derivedFrom?.derivationDate,
                                                                                                   'derivedBy.id':aliquotInstance?.derivedFrom?.derivedBy?.id, aliquotVolumeMass:aliquotInstance?.aliquotVolumeMass]"><i class="glyphicon glyphicon-plus"></i> Add Duplicate Aliquot</g:link>
 </g:if>
@@ -460,15 +460,25 @@
 <g:if test="${(!aliquotInstance?.derivedFrom?.aliquot?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Buffy Coat' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma' && !aliquotInstance?.gelSuitabilityReport && aliquotInstance?.aliquotType?.aliquotTypeName != 'Section'
         && aliquotInstance?.aliquotType?.aliquotTypeName != 'Blood Germline'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma EDTA cfDNA'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma Strek cfDNA'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Plasma PST'
         && aliquotInstance?.aliquotType?.aliquotTypeName != 'Blood PAXgene'&& aliquotInstance?.aliquotType?.aliquotTypeName != 'Serum SST' && aliquotInstance?.aliquotType?.aliquotTypeName != 'Full Blood' && aliquotInstance?.aliquotType?.aliquotTypeName != 'All Prep Lysate')}">
-    <a class='btn btn-primary btn-small' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link>
+    <a class='btn btn-primary btn-xs' <g:link controller="gelSuitabilityReport" action="create" params="['aliquot.id': aliquotInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'gelSuitabilityReport.label', default: 'GeL Suitability Report')])}</g:link>
 </g:if>
 
 <g:if test="${aliquotInstance?.derivedFrom?.id == null && aliquotInstance?.exhausted != true}">
-    <a class='btn btn-primary btn-small' <g:link controller="aliquot" action="create" params="['specimen.id': aliquotInstance?.specimen?.id,'exhausted': aliquotInstance?.exhausted,'passFail': aliquotInstance?.passFail,
+    <a class='btn btn-primary btn-xs' <g:link controller="aliquot" action="create" params="['specimen.id': aliquotInstance?.specimen?.id,'exhausted': aliquotInstance?.exhausted,'passFail': aliquotInstance?.passFail,
                                                                                            'passFailReason': aliquotInstance?.passFailReason,'notes': aliquotInstance?.notes,'createdOn':aliquotInstance?.createdOn,
                                                                                            'aliquotVolumeMass': aliquotInstance?.aliquotVolumeMass,'unit': aliquotInstance?.unit?.id,'blockNumber': aliquotInstance?.blockNumber,
                                                                                            'aliquotType': aliquotInstance?.aliquotType?.id, 'aliquotRanking': aliquotInstance?.aliquotRanking]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'aliquot.label', default: 'Duplicate Aliquot')])}</g:link>
 
+</g:if>
+
+<g:if test="${(aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy Frozen' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE') &&
+        aliquotInstance?.sampleTrackingEvent?.empty}">
+    <a class='btn btn-primary btn-xs' <g:link controller="sampleTrackingEvent" action="create" params="['identifiedSample.id': aliquotInstance?.id, 'sampleTrackingEventType.id':SampleTrackingEventType.findBySampleTrackingEventTypeName('Dispatch to MDC lab').id]"><i class="glyphicon glyphicon-send"></i> Dispatch to MDC</g:link>
+</g:if>
+
+<g:if test="${(aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy Frozen' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE') &&
+        !aliquotInstance?.sampleTrackingEvent?.empty && !geldb.SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at MDC lab'), aliquotInstance)}">
+    <a class='btn btn-primary btn-xs' <g:link controller="sampleTrackingEvent" action="create" params="['identifiedSample.id': aliquotInstance?.id, 'sampleTrackingEventType.id':SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at MDC lab').id]"><i class="glyphicon glyphicon-check"></i> Received at MDC</g:link>
 </g:if>
 
 <hr/>

@@ -1,5 +1,5 @@
 
-<%@ page import="geldb.SampleTrackingEvent" %>
+<%@ page import="geldb.Aliquot; geldb.SampleTrackingEvent" %>
 <%@ page import="geldb.SolidSpecimen" %>
 <%@ page import="geldb.FluidSpecimen" %>
 <!DOCTYPE html>
@@ -21,25 +21,15 @@
         <tr class="prop">
             <td valign="top" class="name"><g:message code="sampleTrackingEvent.identifiedSample.label" default="Specimen" /></td>
         <td valign="top" class="value">
-            <% def fluidSpecimen = FluidSpecimen.listOrderById() %>
-            <% def solidSpecimen = SolidSpecimen.listOrderById() %>
-            <g:each in="${solidSpecimen}" var="item">
-                <g:if test="${item.id == sampleTrackingEventInstance?.identifiedSample?.id}">
-                    <g:link controller="solidSpecimen" action="show" id="${sampleTrackingEventInstance?.identifiedSample?.id}">${sampleTrackingEventInstance?.identifiedSample?.encodeAsHTML()}</g:link>
-                </g:if>
-            </g:each>
-            <g:each in="${fluidSpecimen}" var="item">
-                <g:if test="${item.id == sampleTrackingEventInstance?.identifiedSample?.id}">
-                    <g:link controller="fluidSpecimen" action="show" id="${sampleTrackingEventInstance?.identifiedSample?.id}">${sampleTrackingEventInstance?.identifiedSample?.encodeAsHTML()}</g:link></td>
-                </g:if>
-            </g:each>
-
+			<g:if test="${Aliquot.findById(sampleTrackingEventInstance?.identifiedSample?.id)}">
+				<g:link controller="aliquot" action="show" id="${sampleTrackingEventInstance?.identifiedSample?.id}">${sampleTrackingEventInstance?.identifiedSample?.encodeAsHTML()}</g:link>
+			</g:if>
         </tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="sampleTrackingEvent.sampleTrackingEventType.label" default="Sample Tracking Event Type" /></td>
 				
-				<td valign="top" class="value"><g:link controller="sampleTrackingEventType" action="show" id="${sampleTrackingEventInstance?.sampleTrackingEventType?.id}">${sampleTrackingEventInstance?.sampleTrackingEventType?.encodeAsHTML()}</g:link></td>
+				<td valign="top" class="value">${fieldValue(bean: sampleTrackingEventInstance, field: "sampleTrackingEventType")}</td>
 				
 			</tr>
 		

@@ -47,13 +47,13 @@
 	</table>
 </section>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <p class="text-primary">Available Action</p>
 
-<a class='btn btn-primary btn-small' <g:link controller="plateOrBox" action="create" params="['shelf.id': shelfInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'plateOrBox.label', default: 'Plate Or Box')])}</g:link>
+<a class='btn btn-primary btn-xs' <g:link controller="plateOrBox" action="create" params="['shelf.id': shelfInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'plateOrBox.label', default: 'Plate Or Box')])}</g:link>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 </body>
 

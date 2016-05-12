@@ -163,7 +163,7 @@ class SampleTrackingEventController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'sampleTrackingEventInstance.label', default: 'SampleTrackingEvent'), sampleTrackingEventInstance.id])
-                redirect sampleTrackingEventInstance
+                redirect(controller:'aliquot',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
             }
             '*' { respond sampleTrackingEventInstance, [status: CREATED] }
         }
@@ -190,7 +190,7 @@ class SampleTrackingEventController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'SampleTrackingEvent.label', default: 'SampleTrackingEvent'), sampleTrackingEventInstance.id])
-                redirect sampleTrackingEventInstance
+                redirect(controller:'aliquot',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
             }
             '*' { respond sampleTrackingEventInstance, [status: OK] }
         }
@@ -209,7 +209,7 @@ class SampleTrackingEventController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'SampleTrackingEvent.label', default: 'SampleTrackingEvent'), sampleTrackingEventInstance.id])
-                redirect action: "index", method: "GET"
+                redirect(controller:'aliquot',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
             }
             '*' { render status: NO_CONTENT }
         }

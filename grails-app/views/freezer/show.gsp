@@ -68,13 +68,13 @@
 	</table>
 </section>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <p class="text-primary">Available Action</p>
 
-<a class='btn btn-primary btn-small' <g:link controller="shelf" action="create" params="['freezer.id': freezerInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'shelf.label', default: 'Shelf/Tower')])}</g:link>
+<a class='btn btn-primary btn-xs' <g:link controller="shelf" action="create" params="['freezer.id': freezerInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'shelf.label', default: 'Shelf/Tower')])}</g:link>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 </body>
 

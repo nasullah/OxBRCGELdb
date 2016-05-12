@@ -343,7 +343,7 @@
 <p class="text-primary">Available Actions</p>
 
 <g:if test="${!solidSpecimenInstance.fFPE_Tissue_Report}">
-        <a class='btn btn-primary btn-small' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Main Specimen Report')])}</g:link>
+        <a class='btn btn-primary btn-xs' <g:link controller="FFPE_Tissue_Report" action="create" params="['solidSpecimen.id': solidSpecimenInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fFPE_Tissue_Report.label', default: 'Main Specimen Report')])}</g:link>
 </g:if>
 
 %{--<g:if test="${!solidSpecimenInstance.postmortem}">--}%

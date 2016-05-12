@@ -1,4 +1,4 @@
-<%@ page import="geldb.ExtractionType; geldb.DNA_Library; geldb.DNA_Extract; geldb.FluidSpecimen; geldb.Participant" %>
+<%@ page import="geldb.SampleTrackingEvent; geldb.SampleTrackingEventType; geldb.ExtractionType; geldb.DNA_Library; geldb.DNA_Extract; geldb.FluidSpecimen; geldb.Participant" %>
 <%@ page import="geldb.SolidSpecimen" %>
 <%@ page import="geldb.Aliquot" %>
 <!DOCTYPE html>
@@ -230,7 +230,7 @@
 
     <table border="1" width="100%">
         <tr>
-            <th style="background: rgba(25, 105, 255, 0.33)"><center>Main Specimen Aliquot</center></th>
+            <th style="background: rgba(25, 105, 255, 0.33)"><center>Main Specimen Aliquot (${fieldValue(bean: participantSummary.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")})</center></th>
         </tr>
     </table>
 
@@ -258,7 +258,7 @@
 
                     <th>Exh.</th>
 
-                    <th>Participant Id</th>
+                    <th>Sent to MDC</th>
 
                 </tr>
                 </thead>
@@ -335,7 +335,7 @@
                             </g:else>
                         </td>
 
-                        <td>${fieldValue(bean: aliquotInstance.specimen.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
+                        <td>${SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Dispatch to MDC lab'), aliquotInstance)?.date?.format('yyyy-MM-dd')}</td>
 
                     </tr>
                 </g:if>

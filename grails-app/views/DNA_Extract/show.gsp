@@ -218,7 +218,7 @@
 <p class="text-primary">Available Action</p>
 
 <g:if test="${DNA_ExtractInstance?.position?.id == null}">
-    <a class='btn btn-primary btn-small' <g:link controller="position" action="create" params="['containedSamples': DNA_ExtractInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
+    <a class='btn btn-primary btn-xs' <g:link controller="position" action="create" params="['containedSamples': DNA_ExtractInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'position.label', default: 'Position')])}</g:link>
 </g:if>
 
 <% def elutionParts = DNA_ExtractInstance?.sapphireIdentifier?.toString()?.split('_')
@@ -232,12 +232,12 @@ def elution = null
     }
 %>
 
-<a class='btn btn-primary btn-small' <g:link controller="DNA_Extract" action="create" params="['aliquot': DNA_ExtractInstance?.aliquot?.id,'exhausted': DNA_ExtractInstance?.exhausted,'passFail': DNA_ExtractInstance?.passFail,
+<a class='btn btn-primary btn-xs' <g:link controller="DNA_Extract" action="create" params="['aliquot': DNA_ExtractInstance?.aliquot?.id,'exhausted': DNA_ExtractInstance?.exhausted,'passFail': DNA_ExtractInstance?.passFail,
                                                                                                        'passFailReason': DNA_ExtractInstance?.passFailReason,'notes': DNA_ExtractInstance?.notes,'extractionType':DNA_ExtractInstance?.extractionType?.id,
                                                                                                        'extractionDate': DNA_ExtractInstance?.extractionDate, 'extractedBy': DNA_ExtractInstance?.extractedBy?.id, 'geLSampleIdentifier': DNA_ExtractInstance?.geLSampleIdentifier, 'extractionKit':DNA_ExtractInstance?.extractionKit?.id,
                                                                                                        'experimentName': DNA_ExtractInstance?.experimentName,'delatQC':DNA_ExtractInstance?.delatQC,'sapphireIdentifier':duplicatedElution]"><i class="glyphicon glyphicon-plus"></i> Add Duplicate DNA/RNA Extract</g:link>
 
-<a class='btn btn-primary btn-small' <g:link controller="DNA_Extract" action="create" params="['aliquot': DNA_ExtractInstance?.aliquot?.id,'exhausted': DNA_ExtractInstance?.exhausted,'passFail': DNA_ExtractInstance?.passFail, 'dNAConcentrationNanodrop': DNA_ExtractInstance?.dNAConcentrationNanodrop,
+<a class='btn btn-primary btn-xs' <g:link controller="DNA_Extract" action="create" params="['aliquot': DNA_ExtractInstance?.aliquot?.id,'exhausted': DNA_ExtractInstance?.exhausted,'passFail': DNA_ExtractInstance?.passFail, 'dNAConcentrationNanodrop': DNA_ExtractInstance?.dNAConcentrationNanodrop,
                                                                                                'passFailReason': DNA_ExtractInstance?.passFailReason,'notes': DNA_ExtractInstance?.notes,'extractionType':DNA_ExtractInstance?.extractionType?.id, 'dNAConcentrationQubit':DNA_ExtractInstance?.dNAConcentrationQubit,
                                                                                                'extractionDate': DNA_ExtractInstance?.extractionDate, 'extractedBy': DNA_ExtractInstance?.extractedBy?.id, 'geLSampleIdentifier': DNA_ExtractInstance?.geLSampleIdentifier, 'extractionKit':DNA_ExtractInstance?.extractionKit?.id,
                                                                                                'experimentName': DNA_ExtractInstance?.experimentName,'delatQC':DNA_ExtractInstance?.delatQC,'sapphireIdentifier':elution, 'originalVolume':DNA_ExtractInstance?.dNAAmount, 'a260A280': DNA_ExtractInstance?.a260A280,

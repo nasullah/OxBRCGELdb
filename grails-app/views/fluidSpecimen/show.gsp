@@ -254,7 +254,7 @@
 
 <p class="text-primary">Available Actions</p>
 
-<a class='btn btn-primary btn-small' <g:link controller="fluidSpecimen" action="create" params="['participant': fluidSpecimenInstance?.participant?.id,'exhausted': fluidSpecimenInstance?.exhausted,'fluidSampleType': fluidSpecimenInstance?.fluidSampleType?.getKey(),
+<a class='btn btn-primary btn-xs' <g:link controller="fluidSpecimen" action="create" params="['participant': fluidSpecimenInstance?.participant?.id,'exhausted': fluidSpecimenInstance?.exhausted,'fluidSampleType': fluidSpecimenInstance?.fluidSampleType?.getKey(),
                                                                                                          'primaryContainer': fluidSpecimenInstance?.primaryContainer?.getKey(),'notes': fluidSpecimenInstance?.notes,'collectionLocation': fluidSpecimenInstance?.collectionLocation?.id, 'fluidSpecimenVolume':'0',
                                                                                                          'collectionDate': fluidSpecimenInstance?.collectionDate,'collectionTime': fluidSpecimenInstance?.collectionTime,'collectedBy': fluidSpecimenInstance?.collectedBy?.id, 'timePoint':fluidSpecimenInstance?.timePoint,
                                                                                                          'volumeUnit': fluidSpecimenInstance?.volumeUnit?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'fluidSpecimen.label', default: 'Duplicate Fluid Specimen')])}</g:link>
