@@ -39,12 +39,19 @@
 		</tbody>
 	</table>
 </section>
-<hr style="border:1; height:1px" />
+
+<hr/>
+
+<p class="text-primary">Available Actions</p>
+
 <div class="one-to-many">
-    <div><a class='btn btn-primary btn-small' <g:link controller="studyIdentifier" action="create" params="['study.id': studyInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'studyIdentifier.label', default: 'Study Identifier')])}</g:link>
-    </a></div>
+    <div>
+		<a class='btn btn-primary btn-xs' <g:link controller="studyIdentifier" action="create" params="['study.id': studyInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'studyIdentifier.label', default: 'Study Identifier')])}</g:link></a>
+	</div>
 </div>
-<hr style="border:1; height:1px" />
+
+<hr/>
+
 </body>
 
 </html>
