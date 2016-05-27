@@ -146,6 +146,26 @@ class SampleTrackingEventController {
         }
     }
 
+    def awaitingTobeDispatchedToMDC(){
+        def ffAliquots = Aliquot.findAllByAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+        def ffpeAliquots = Aliquot.findAllByAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'), AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'))
+        def ffAliquotSpecimen = ffAliquots.specimen.unique()
+        ffpeAliquots = ffpeAliquots.findAll {aliquot -> !ffAliquotSpecimen.find {it == aliquot.specimen}}
+        ffAliquots.addAll(ffpeAliquots)
+        ffAliquots = ffAliquots.findAll {aliquot -> aliquot.sampleTrackingEvent.empty}
+        ffAliquots = ffAliquots.findAll {aliquot -> aliquot.createdOn > new Date().parse('yyyy-MM-dd', '2016-05-01')}
+        [aliquotInstanceList: ffAliquots.sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
+    }
+
+    def inTransitToMDC(){
+        def aliquotInstanceList = Aliquot.findAllByAliquotTypeOrAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'),
+                AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'), AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+        aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> !aliquot.sampleTrackingEvent.empty}
+        aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Dispatch to MDC lab'), aliquot)}
+        aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> !SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at MDC lab'), aliquot) }
+        [aliquotInstanceList: aliquotInstanceList.sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
+    }
+
     @Transactional
     def save(SampleTrackingEvent sampleTrackingEventInstance) {
         if (sampleTrackingEventInstance == null) {

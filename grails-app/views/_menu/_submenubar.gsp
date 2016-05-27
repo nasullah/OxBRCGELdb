@@ -244,21 +244,21 @@ This menu is used to show function that can be triggered on the content (an obje
 
         <g:set var="entityName" value="${message(code: params.controller+'.label', default: params.controller.substring(0,1).toUpperCase() + params.controller.substring(1).toLowerCase())}" />
 
-        <li class="${ params.action == "list" ? 'active' : '' }">
-            <g:link action="list"><i class="glyphicon glyphicon-th-list"></i> Sample Tracking Event List</g:link>
-        </li>
+        %{--<li class="${ params.action == "list" ? 'active' : '' }">--}%
+            %{--<g:link action="list"><i class="glyphicon glyphicon-th-list"></i> Sample Tracking Event List</g:link>--}%
+        %{--</li>--}%
 
         %{--<li class="${ params.action == "create" ? 'active' : '' }">--}%
             %{--<g:link action="create"><i class="glyphicon glyphicon-plus"></i> Dispatch Sample</g:link>--}%
         %{--</li>--}%
 
-        %{--<li class=${ params.action == "fluidSpecimenInTransit" ? 'active' : '' }>--}%
-            %{--<g:link action="fluidSpecimenInTransit" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Fluid Specimen in Transit</g:link>--}%
-        %{--</li>--}%
+        <li class=${ params.action == "awaitingTobeDispatchedToMDC" ? 'active' : '' }>
+            <g:link action="awaitingTobeDispatchedToMDC" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Awaiting to be dispatched to MDC</g:link>
+        </li>
 
-        %{--<li class=${ params.action == "solidSpecimenInTransit" ? 'active' : '' }>--}%
-            %{--<g:link action="solidSpecimenInTransit" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Solid Specimen in Transit</g:link>--}%
-        %{--</li>--}%
+        <li class=${ params.action == "inTransitToMDC" ? 'active' : '' }>
+            <g:link action="inTransitToMDC" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Aliquots in transit to MDC</g:link>
+        </li>
 
         %{--<li class="${ params.action == "createReceived" ? 'active' : '' }">--}%
             %{--<g:link action="createReceived"><i class="glyphicon glyphicon-plus"></i>  Receive Sample</g:link>--}%
