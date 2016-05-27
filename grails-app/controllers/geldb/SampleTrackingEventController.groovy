@@ -153,7 +153,11 @@ class SampleTrackingEventController {
         ffpeAliquots = ffpeAliquots.findAll {aliquot -> !ffAliquotSpecimen.find {it == aliquot.specimen}}
         ffAliquots.addAll(ffpeAliquots)
         ffAliquots = ffAliquots.findAll {aliquot -> aliquot.sampleTrackingEvent.empty}
-        ffAliquots = ffAliquots.findAll {aliquot -> aliquot.createdOn > new Date().parse('yyyy-MM-dd', '2016-05-01')}
+        ffAliquots = ffAliquots.findAll {aliquot ->
+            if (aliquot.createdOn){
+                aliquot.createdOn > new Date().parse('yyyy-MM-dd', '2016-05-01')
+            }
+        }
         [aliquotInstanceList: ffAliquots.sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
