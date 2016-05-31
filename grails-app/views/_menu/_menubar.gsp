@@ -50,7 +50,7 @@
                 </li>
 
                 <li>
-                    <g:link controller="SampleTrackingEvent" action="awaitingTobeDispatchedToMDC">Sample Tracking</g:link>
+                    <g:link controller="SampleTrackingEvent" action="awaitingToBeDispatchedToMDC">Sample Tracking</g:link>
                 </li>
 
                 <li>

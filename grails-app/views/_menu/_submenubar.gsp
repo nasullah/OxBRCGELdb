@@ -252,12 +252,12 @@ This menu is used to show function that can be triggered on the content (an obje
             %{--<g:link action="create"><i class="glyphicon glyphicon-plus"></i> Dispatch Sample</g:link>--}%
         %{--</li>--}%
 
-        <li class=${ params.action == "awaitingTobeDispatchedToMDC" ? 'active' : '' }>
-            <g:link action="awaitingTobeDispatchedToMDC" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Awaiting to be dispatched to MDC</g:link>
+        <li class=${ params.action == "awaitingToBeDispatchedToMDC" ? 'active' : '' }>
+            <g:link action="awaitingToBeDispatchedToMDC"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Awaiting to be dispatched to MDC</g:link>
         </li>
 
         <li class=${ params.action == "inTransitToMDC" ? 'active' : '' }>
-            <g:link action="inTransitToMDC" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Aliquots in transit to MDC</g:link>
+            <g:link action="inTransitToMDC"><span style="color:red"><i class="glyphicon glyphicon-list"></i></span> Aliquots in transit to MDC</g:link>
         </li>
 
         %{--<li class="${ params.action == "createReceived" ? 'active' : '' }">--}%

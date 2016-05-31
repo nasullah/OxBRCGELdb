@@ -146,7 +146,7 @@ class SampleTrackingEventController {
         }
     }
 
-    def awaitingTobeDispatchedToMDC(){
+    def awaitingToBeDispatchedToMDC(){
         def ffAliquots = Aliquot.findAllByAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
         def ffpeAliquots = Aliquot.findAllByAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'), AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'))
         def ffAliquotSpecimen = ffAliquots.specimen.unique()
