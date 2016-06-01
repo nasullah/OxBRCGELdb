@@ -35,7 +35,7 @@
         <g:each in="${aliquotInstanceList}" status="i" var="aliquotInstance">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-                <td><g:link action="show" id="${aliquotInstance.id}">${fieldValue(bean: aliquotInstance, field: "aliquotType")}</g:link></td>
+                <td><g:link controller="aliquot" action="show" id="${aliquotInstance.id}">${fieldValue(bean: aliquotInstance, field: "aliquotType")}</g:link></td>
 
                 <td>${fieldValue(bean: aliquotInstance, field: "aliquotRanking")}</td>
 
