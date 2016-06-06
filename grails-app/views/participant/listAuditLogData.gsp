@@ -14,7 +14,7 @@
 
 <body>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <div style="background: rgba(139, 240, 37, 0.14);">
     <div class="container">
@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <div class="row">
     <div class="col-lg-6">
@@ -57,7 +57,7 @@
     </div>
 </div>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <section id="list-participant" class="first">
 

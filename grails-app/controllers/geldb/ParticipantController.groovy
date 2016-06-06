@@ -186,7 +186,8 @@ class ParticipantController {
     }
 
     def show(Participant participantInstance) {
-        respond participantInstance
+        def listAuditLogData = AuditLogEvent.findAllByPersistedObjectId(participantInstance?.id?.toString())
+        respond participantInstance, model: [listAuditLogData: listAuditLogData]
     }
 
     def scanBarcode(){
