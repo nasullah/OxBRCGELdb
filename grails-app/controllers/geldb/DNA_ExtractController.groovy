@@ -1,6 +1,8 @@
 package geldb
 
 import grails.converters.XML
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import org.grails.plugin.filterpane.FilterPaneUtils
@@ -78,7 +80,8 @@ class DNA_ExtractController {
     }
 
     def show(DNA_Extract DNA_ExtractInstance) {
-        respond DNA_ExtractInstance
+        def listDNA_ExtractInstanceAuditLogData = AuditLogEvent.findAllByPersistedObjectId(DNA_ExtractInstance?.id)
+        respond DNA_ExtractInstance, model: [listAuditLogData: listDNA_ExtractInstanceAuditLogData]
     }
 
     def create() {

@@ -1,5 +1,6 @@
 package geldb
 
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -111,7 +112,8 @@ class FluidSpecimenController {
     }
 
     def show(FluidSpecimen fluidSpecimenInstance) {
-        respond fluidSpecimenInstance
+        def listFluidSpecimenAuditLogData = AuditLogEvent.findAllByPersistedObjectId(fluidSpecimenInstance?.id)
+        respond fluidSpecimenInstance, model: [listAuditLogData: listFluidSpecimenAuditLogData]
     }
 
     def create() {

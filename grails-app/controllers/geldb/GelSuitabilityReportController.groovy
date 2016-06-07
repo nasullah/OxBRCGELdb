@@ -92,7 +92,7 @@ class GelSuitabilityReportController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'GelSuitabilityReport.label', default: 'GelSuitabilityReport'), gelSuitabilityReportInstance.id])
-                redirect gelSuitabilityReportInstance
+                redirect(controller:'aliquot',action: 'show', params: [id: gelSuitabilityReportInstance.aliquot.id])
             }
             '*' { respond gelSuitabilityReportInstance, [status: OK] }
         }

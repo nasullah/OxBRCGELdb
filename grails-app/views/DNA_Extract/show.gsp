@@ -1,5 +1,5 @@
 
-<%@ page import="geldb.DNA_Extract" %>
+<%@ page import="geldb.ExtractionType; geldb.DNA_Extract" %>
 <%@ page import="geldb.DispatchItem" %>
 <!DOCTYPE html>
 <html>
@@ -244,6 +244,56 @@ def elution = null
                                                                                                'a260A230': DNA_ExtractInstance?.a260A230, 'rin': DNA_ExtractInstance?.rin, 'originalDnaId': DNA_ExtractInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Add DNA/RNA Extract Remaining Volume Banked</g:link>
 
 <hr/>
+
+<sec:ifAnyGranted roles="ROLE_ADMIN">
+    <h2>Audit</h2>
+    <section id="list-participant" class="first">
+
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <g:sortableColumn property="dateCreated" title="Date & Time" />
+
+                <g:sortableColumn property="actor" title="Username" />
+
+                <g:sortableColumn property="eventName" title="Event" />
+
+                <g:sortableColumn property="persistedObjectId" title="Record" />
+
+                <g:sortableColumn property="oldValue" title="Old Value" />
+
+                <g:sortableColumn property="newValue" title="New Value" />
+
+            </tr>
+            </thead>
+            <tbody>
+            <g:each in="${listAuditLogData}" status="i" var="auditLogInstance">
+                <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+
+                    <td><g:formatDate date="${auditLogInstance.dateCreated}" /></td>
+
+                    <td>${fieldValue(bean: auditLogInstance, field: "actor")}</td>
+
+                    <g:if test="${DNA_ExtractInstance.extractionType == ExtractionType.findByExtractionTypeName('DNA Extraction')}">
+                        <td>${fieldValue(bean: auditLogInstance, field: "eventName")} DNA Extract</td>
+                    </g:if>
+                    <g:elseif test="${DNA_ExtractInstance.extractionType == ExtractionType.findByExtractionTypeName('RNA Extraction')}">
+                        <td>${fieldValue(bean: auditLogInstance, field: "eventName")} RNA Extract</td>
+                    </g:elseif>
+
+                    <td>${DNA_ExtractInstance.id}</td>
+
+                    <td>${fieldValue(bean: auditLogInstance, field: "oldValue")}</td>
+
+                    <td>${fieldValue(bean: auditLogInstance, field: "newValue")}</td>
+
+                </tr>
+            </g:each>
+            </tbody>
+        </table>
+
+    </section>
+</sec:ifAnyGranted>
 
 </body>
 

@@ -1,6 +1,7 @@
 package geldb
 
 import grails.converters.XML
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -152,7 +153,10 @@ class SolidSpecimenController {
     }
 
     def show(SolidSpecimen solidSpecimenInstance) {
-        respond solidSpecimenInstance
+        def listSolidSpecimenAuditLogData = AuditLogEvent.findAllByPersistedObjectId(solidSpecimenInstance?.id)
+        def listFFPE_Tissue_ReportAuditLogData = AuditLogEvent.findAllByPersistedObjectIdInList(solidSpecimenInstance?.fFPE_Tissue_Report?.id)
+        listSolidSpecimenAuditLogData.addAll(listFFPE_Tissue_ReportAuditLogData)
+        respond solidSpecimenInstance, model: [listAuditLogData: listSolidSpecimenAuditLogData]
     }
 
     def create() {

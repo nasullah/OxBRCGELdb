@@ -273,7 +273,7 @@ class FFPE_Tissue_ReportController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'FFPE_Tissue_Report.label', default: 'FFPE_Tissue_Report'), FFPE_Tissue_ReportInstance.id])
-                redirect FFPE_Tissue_ReportInstance
+                redirect(controller:'solidSpecimen',action: 'show', params: [id: FFPE_Tissue_ReportInstance.solidSpecimen.id])
             }
             '*' { respond FFPE_Tissue_ReportInstance, [status: OK] }
         }

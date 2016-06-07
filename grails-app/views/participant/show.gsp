@@ -174,63 +174,60 @@
 
 <hr/>
 
-%{--<sec:ifAnyGranted roles="ROLE_ADMIN">--}%
-    %{--<h2>Audit</h2>--}%
-    %{--<section id="list-participant" class="first">--}%
+<sec:ifAnyGranted roles="ROLE_ADMIN">
+    <h2>Audit</h2>
+    <section id="list-participant" class="first">
 
-        %{--<table class="table table-bordered margin-top-medium">--}%
-            %{--<thead>--}%
-            %{--<tr>--}%
-                %{--<g:sortableColumn property="dateCreated" title="Date & Time" />--}%
+        <table class="table table-bordered margin-top-medium">
+            <thead>
+            <tr>
+                <g:sortableColumn property="dateCreated" title="Date & Time" />
 
-                %{--<g:sortableColumn property="actor" title="Username" />--}%
+                <g:sortableColumn property="actor" title="Username" />
 
-                %{--<g:sortableColumn property="eventName" title="Event Name" />--}%
+                <g:sortableColumn property="eventName" title="Event" />
 
-                %{--<g:sortableColumn property="persistedObjectId" title="Record" />--}%
+                <g:sortableColumn property="persistedObjectId" title="Record" />
 
-                %{--<g:sortableColumn property="oldValue" title="Old Value" />--}%
+                <g:sortableColumn property="oldValue" title="Old Value" />
 
-                %{--<g:sortableColumn property="newValue" title="New Value" />--}%
+                <g:sortableColumn property="newValue" title="New Value" />
 
-            %{--</tr>--}%
-            %{--</thead>--}%
-            %{--<tbody>--}%
-            %{--<g:each in="${listAuditLogData}" status="i" var="auditLogInstance">--}%
-                %{--<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">--}%
+            </tr>
+            </thead>
+            <tbody>
+            <g:each in="${listAuditLogData}" status="i" var="auditLogInstance">
+                <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-                    %{--<td><g:formatDate date="${auditLogInstance.dateCreated}" /></td>--}%
+                    <td><g:formatDate date="${auditLogInstance.dateCreated}" /></td>
 
-                    %{--<td>${fieldValue(bean: auditLogInstance, field: "actor")}</td>--}%
+                    <td>${fieldValue(bean: auditLogInstance, field: "actor")}</td>
 
-                    %{--<g:if test="${auditLogInstance.className == 'Participant' && auditLogInstance.eventName == 'INSERT'}">--}%
-                        %{--<td>CREATE</td>--}%
-                    %{--</g:if>--}%
-                    %{--<g:elseif test="${auditLogInstance.className == 'StudySubject' && auditLogInstance.eventName == 'INSERT'}">--}%
-                        %{--<td>Added Consent</td>--}%
-                    %{--</g:elseif>--}%
-                    %{--<g:else>--}%
-                        %{--<td>${fieldValue(bean: auditLogInstance, field: "eventName")}</td>--}%
-                    %{--</g:else>--}%
+                    <g:if test="${auditLogInstance.className == 'Participant'}">
+                        <td>${fieldValue(bean: auditLogInstance, field: "eventName")} Participant</td>
+                    </g:if>
+                    <g:elseif test="${auditLogInstance.className == 'StudySubject'}">
+                        <td>${fieldValue(bean: auditLogInstance, field: "eventName")} Consent</td>
+                    </g:elseif>
 
-                    %{--<g:if test="${auditLogInstance.className == 'Participant'}">--}%
-                        %{--<td>${participantInstance.hospitalNumber}</td>--}%
-                    %{--</g:if>--}%
-                    %{--<g:elseif test="${auditLogInstance.className == 'StudySubject'}">--}%
-                        %{--<td>${StudySubject.findByParticipant(participantInstance).study}</td>--}%
-                    %{--</g:elseif>--}%
+                    <g:if test="${auditLogInstance.className == 'Participant'}">
+                        <td>${participantInstance.hospitalNumber}</td>
+                    </g:if>
+                    <g:elseif test="${auditLogInstance.className == 'StudySubject'}">
+                        <td>${StudySubject.findByParticipant(participantInstance).study}</td>
+                    </g:elseif>
 
-                    %{--<td>${fieldValue(bean: auditLogInstance, field: "oldValue")}</td>--}%
+                    <td>${fieldValue(bean: auditLogInstance, field: "oldValue")}</td>
 
-                    %{--<td>${fieldValue(bean: auditLogInstance, field: "newValue")}</td>--}%
+                    <td>${fieldValue(bean: auditLogInstance, field: "newValue")}</td>
 
-                %{--</tr>--}%
-            %{--</g:each>--}%
-            %{--</tbody>--}%
-        %{--</table>--}%
+                </tr>
+            </g:each>
+            </tbody>
+        </table>
 
-    %{--</section>--}%
-%{--</sec:ifAnyGranted>--}%
+    </section>
+</sec:ifAnyGranted>
 
 </body>
 

@@ -1,6 +1,7 @@
 package geldb
 
 import grails.converters.*
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 import org.hibernate.SessionFactory
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
@@ -167,7 +168,12 @@ class AliquotController {
     }
 
     def show(Aliquot aliquotInstance) {
-        respond aliquotInstance
+        def listAliquotAuditLogData = AuditLogEvent.findAllByPersistedObjectId(aliquotInstance?.id)
+        def listGelSuitabilityReportAuditLogData = AuditLogEvent.findAllByPersistedObjectIdInList(aliquotInstance?.gelSuitabilityReport?.id)
+        def listFixationReportAuditLogData = AuditLogEvent.findAllByPersistedObjectIdInList(aliquotInstance?.fixationReport?.id)
+        listAliquotAuditLogData.addAll(listGelSuitabilityReportAuditLogData)
+        listAliquotAuditLogData.addAll(listFixationReportAuditLogData)
+        respond aliquotInstance, model: [listAuditLogData: listAliquotAuditLogData]
     }
 
     def create() {
@@ -227,6 +233,19 @@ class AliquotController {
             redirect action: "index", method: "GET"
         }
     }
+
+//    def test (){
+//        def startDate = new Date().parse('yyyy-MM-dd', '2015-08-01')
+//        def endDate = new Date().parse('yyyy-MM-dd', '2016-03-31')
+//        def aliquots = Aliquot.createCriteria().list {
+//            dNA_Extract {
+//                le("extractionDate", endDate)
+//                ge("extractionDate", startDate)
+//                eq("extractionType", ExtractionType.findByExtractionTypeName('DNA Extraction'))
+//            }
+//        }
+//        [count: aliquots.size()]
+//    }
 
     @Transactional
     def save(Aliquot aliquotInstance) {
