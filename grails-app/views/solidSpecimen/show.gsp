@@ -388,12 +388,7 @@
                         <td>${fieldValue(bean: auditLogInstance, field: "eventName")} Main Specimen Report</td>
                     </g:elseif>
 
-                    <g:if test="${auditLogInstance.className == 'SolidSpecimen'}">
-                        <td>${solidSpecimenInstance.histologyNumber}</td>
-                    </g:if>
-                    <g:elseif test="${auditLogInstance.className == 'FFPE_Tissue_Report'}">
-                        <td>${FFPE_Tissue_Report.findBySolidSpecimen(solidSpecimenInstance)?.id}</td>
-                    </g:elseif>
+                    <td>${fieldValue(bean: auditLogInstance, field: "persistedObjectId")}</td>
 
                     <td>${fieldValue(bean: auditLogInstance, field: "oldValue")}</td>
 

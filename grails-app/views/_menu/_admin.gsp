@@ -113,12 +113,12 @@
                 </a>
             </li>
 
-            <li class="">
-                <a href="${createLink(uri: '/DNAExtractionStatus')}">
-                    <i class="glyphicon glyphicon-plus-sign"></i>
-                    Add DNA Extraction Status
-                </a>
-            </li>
+            %{--<li class="">--}%
+                %{--<a href="${createLink(uri: '/DNAExtractionStatus')}">--}%
+                    %{--<i class="glyphicon glyphicon-plus-sign"></i>--}%
+                    %{--Add DNA Extraction Status--}%
+                %{--</a>--}%
+            %{--</li>--}%
 
             <li class="">
                 <a href="${createLink(uri: '/DNAExtractionKit')}">
@@ -141,12 +141,12 @@
                 </a>
             </li>
 
-            <li class="">
-                <a href="${createLink(uri: '/ICD10')}">
-                    <i class="glyphicon glyphicon-plus-sign"></i>
-                    Add ICD10 code
-                </a>
-            </li>
+            %{--<li class="">--}%
+                %{--<a href="${createLink(uri: '/ICD10')}">--}%
+                    %{--<i class="glyphicon glyphicon-plus-sign"></i>--}%
+                    %{--Add ICD10 code--}%
+                %{--</a>--}%
+            %{--</li>--}%
 
             <li class="">
                 <a href="${createLink(uri: '/methodOfTransport')}">

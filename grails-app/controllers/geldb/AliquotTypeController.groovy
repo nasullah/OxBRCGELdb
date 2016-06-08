@@ -1,6 +1,7 @@
 package geldb
 
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -26,7 +27,8 @@ class AliquotTypeController {
     }
 
     def show(AliquotType aliquotTypeInstance) {
-        respond aliquotTypeInstance
+        def listAliquotTypeAuditLogData = AuditLogEvent.findAllByPersistedObjectId(aliquotTypeInstance?.id)
+        respond aliquotTypeInstance, model: [listAuditLogData: listAliquotTypeAuditLogData]
     }
 
     def create() {

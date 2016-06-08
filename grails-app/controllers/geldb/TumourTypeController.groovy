@@ -1,6 +1,7 @@
 package geldb
 
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -26,7 +27,8 @@ class TumourTypeController {
     }
 
     def show(TumourType tumourTypeInstance) {
-        respond tumourTypeInstance
+        def listTumourTypeAuditLogData = AuditLogEvent.findAllByPersistedObjectId(tumourTypeInstance?.id)
+        respond tumourTypeInstance, model: [listAuditLogData: listTumourTypeAuditLogData]
     }
 
     def create() {

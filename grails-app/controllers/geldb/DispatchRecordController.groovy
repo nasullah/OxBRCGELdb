@@ -2,6 +2,7 @@ package geldb
 
 import grails.converters.*
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 import org.grails.plugin.filterpane.FilterPaneUtils
 
 import static org.springframework.http.HttpStatus.*
@@ -82,7 +83,8 @@ class DispatchRecordController {
     }
 
     def show(DispatchRecord dispatchRecordInstance) {
-        respond dispatchRecordInstance
+        def listDispatchRecordAuditLogData = AuditLogEvent.findAllByPersistedObjectId(dispatchRecordInstance?.id)
+        respond dispatchRecordInstance, model: [listAuditLogData: listDispatchRecordAuditLogData]
     }
 
     def create() {

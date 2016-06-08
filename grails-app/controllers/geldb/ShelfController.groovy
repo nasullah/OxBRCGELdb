@@ -1,5 +1,6 @@
 package geldb
 
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -25,7 +26,8 @@ class ShelfController {
     }
 
     def show(Shelf shelfInstance) {
-        respond shelfInstance
+        def listShelfAuditLogData = AuditLogEvent.findAllByPersistedObjectId(shelfInstance?.id)
+        respond shelfInstance, model: [listAuditLogData: listShelfAuditLogData]
     }
 
     def create() {

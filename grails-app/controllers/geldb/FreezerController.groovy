@@ -1,5 +1,6 @@
 package geldb
 
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -25,7 +26,8 @@ class FreezerController {
     }
 
     def show(Freezer freezerInstance) {
-        respond freezerInstance
+        def listFreezerAuditLogData = AuditLogEvent.findAllByPersistedObjectId(freezerInstance?.id)
+        respond freezerInstance, model: [listAuditLogData: listFreezerAuditLogData]
     }
 
     def create() {

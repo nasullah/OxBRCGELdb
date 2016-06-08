@@ -1,6 +1,7 @@
 package geldb
 
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -26,7 +27,8 @@ class StaffMemberController {
     }
 
     def show(StaffMember staffMemberInstance) {
-        respond staffMemberInstance
+        def listStaffMemberAuditLogData = AuditLogEvent.findAllByPersistedObjectId(staffMemberInstance?.id)
+        respond staffMemberInstance, model: [listAuditLogData: listStaffMemberAuditLogData]
     }
 
     def create() {

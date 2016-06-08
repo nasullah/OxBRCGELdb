@@ -1,6 +1,7 @@
 package geldb
 
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -26,7 +27,8 @@ class TissueProcessorController {
     }
 
     def show(TissueProcessor tissueProcessorInstance) {
-        respond tissueProcessorInstance
+        def listTissueProcessorAuditLogData = AuditLogEvent.findAllByPersistedObjectId(tissueProcessorInstance?.id)
+        respond tissueProcessorInstance, model: [listAuditLogData: listTissueProcessorAuditLogData]
     }
 
     def create() {

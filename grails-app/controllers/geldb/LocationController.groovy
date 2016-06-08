@@ -1,5 +1,6 @@
 package geldb
 
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -25,7 +26,8 @@ class LocationController {
     }
 
     def show(Location locationInstance) {
-        respond locationInstance
+        def listLocationAuditLogData = AuditLogEvent.findAllByPersistedObjectId(locationInstance?.id)
+        respond locationInstance, model: [listAuditLogData: listLocationAuditLogData]
     }
 
     def create() {

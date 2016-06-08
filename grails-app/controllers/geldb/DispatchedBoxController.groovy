@@ -1,6 +1,7 @@
 package geldb
 
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -43,7 +44,11 @@ class DispatchedBoxController {
                 dispatchItemList = dispatchItemList.sort{it.positionIfPlated}.reverse()
             }
         }
-        [dispatchedBoxInstance: dispatchedBoxInstance, dispatchItemList: dispatchItemList]
+
+        def listDispatchedBoxAuditLogData = AuditLogEvent.findAllByPersistedObjectId(dispatchedBoxInstance?.id)
+        def listDispatchItemAuditLogData = AuditLogEvent.findAllByPersistedObjectIdInList(dispatchedBoxInstance?.dispatchItems?.id)
+        listDispatchedBoxAuditLogData.addAll(listDispatchItemAuditLogData)
+        [dispatchedBoxInstance: dispatchedBoxInstance, dispatchItemList: dispatchItemList, listAuditLogData: listDispatchedBoxAuditLogData]
     }
 
     def create() {

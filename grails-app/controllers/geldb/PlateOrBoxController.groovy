@@ -3,6 +3,7 @@ package geldb
 import grails.plugins.springsecurity.Secured
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.ss.usermodel.WorkbookFactory
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 import org.grails.plugin.filterpane.FilterPaneUtils
 import org.grails.plugins.excelimport.ExcelImportService
 import org.springframework.web.multipart.MultipartHttpServletRequest
@@ -45,7 +46,10 @@ class PlateOrBoxController {
     }
 
     def show(PlateOrBox plateOrBoxInstance) {
-        respond plateOrBoxInstance
+        def listPlateOrBoxAuditLogData = AuditLogEvent.findAllByPersistedObjectId(plateOrBoxInstance?.id)
+        def listPositionAuditLogData = AuditLogEvent.findAllByPersistedObjectIdInList(plateOrBoxInstance?.well?.id)
+        listPlateOrBoxAuditLogData.addAll(listPositionAuditLogData)
+        respond plateOrBoxInstance, model: [listAuditLogData: listPlateOrBoxAuditLogData]
     }
 
     def create() {

@@ -522,15 +522,7 @@
                         <td>${fieldValue(bean: auditLogInstance, field: "eventName")} Fixation Report</td>
                     </g:elseif>
 
-                    <g:if test="${auditLogInstance.className == 'Aliquot'}">
-                        <td>${aliquotInstance.id}</td>
-                    </g:if>
-                    <g:elseif test="${auditLogInstance.className == 'GelSuitabilityReport'}">
-                        <td>${GelSuitabilityReport.findByAliquot(aliquotInstance)?.id}</td>
-                    </g:elseif>
-                    <g:elseif test="${auditLogInstance.className == 'FixationReport'}">
-                        <td>${FixationReport.findByAliquot(aliquotInstance)?.id}</td>
-                    </g:elseif>
+                    <td>${fieldValue(bean: auditLogInstance, field: "persistedObjectId")}</td>
 
                     <td>${fieldValue(bean: auditLogInstance, field: "oldValue")}</td>
 

@@ -1,6 +1,7 @@
 package geldb
 
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -26,7 +27,8 @@ class CentreController {
     }
 
     def show(Centre centreInstance) {
-        respond centreInstance
+        def listCentreAuditLogData = AuditLogEvent.findAllByPersistedObjectId(centreInstance?.id)
+        respond centreInstance, model: [listAuditLogData: listCentreAuditLogData]
     }
 
     def create() {

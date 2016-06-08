@@ -1,6 +1,7 @@
 package geldb
 
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -26,7 +27,8 @@ class PeriodController {
     }
 
     def show(Period periodInstance) {
-        respond periodInstance
+        def listPeriodAuditLogData = AuditLogEvent.findAllByPersistedObjectId(periodInstance?.id)
+        respond periodInstance, model: [listAuditLogData: listPeriodAuditLogData]
     }
 
     def create() {

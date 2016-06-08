@@ -1,5 +1,6 @@
 package geldb
 
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -25,7 +26,8 @@ class MethodOfTransportController {
     }
 
     def show(MethodOfTransport methodOfTransportInstance) {
-        respond methodOfTransportInstance
+        def listMethodOfTransportAuditLogData = AuditLogEvent.findAllByPersistedObjectId(methodOfTransportInstance?.id)
+        respond methodOfTransportInstance, model: [listAuditLogData: listMethodOfTransportAuditLogData]
     }
 
     def create() {

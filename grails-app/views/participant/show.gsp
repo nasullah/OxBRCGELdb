@@ -210,12 +210,7 @@
                         <td>${fieldValue(bean: auditLogInstance, field: "eventName")} Consent</td>
                     </g:elseif>
 
-                    <g:if test="${auditLogInstance.className == 'Participant'}">
-                        <td>${participantInstance.hospitalNumber}</td>
-                    </g:if>
-                    <g:elseif test="${auditLogInstance.className == 'StudySubject'}">
-                        <td>${StudySubject.findByParticipant(participantInstance).study}</td>
-                    </g:elseif>
+                    <td>${fieldValue(bean: auditLogInstance, field: "persistedObjectId")}</td>
 
                     <td>${fieldValue(bean: auditLogInstance, field: "oldValue")}</td>
 

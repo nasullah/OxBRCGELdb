@@ -1,6 +1,7 @@
 package geldb
 
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -26,7 +27,8 @@ class ExtractionTypeController {
     }
 
     def show(ExtractionType extractionTypeInstance) {
-        respond extractionTypeInstance
+        def listExtractionTypeAuditLogData = AuditLogEvent.findAllByPersistedObjectId(extractionTypeInstance?.id)
+        respond extractionTypeInstance, model: [listAuditLogData: listExtractionTypeAuditLogData]
     }
 
     def create() {

@@ -1,5 +1,6 @@
 package geldb
 
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -25,7 +26,8 @@ class SampleTrackingEventTypeController {
     }
 
     def show(SampleTrackingEventType sampleTrackingEventTypeInstance) {
-        respond sampleTrackingEventTypeInstance
+        def listSampleTrackingEventTypeAuditLogData = AuditLogEvent.findAllByPersistedObjectId(sampleTrackingEventTypeInstance?.id)
+        respond sampleTrackingEventTypeInstance, model: [listAuditLogData: listSampleTrackingEventTypeAuditLogData]
     }
 
     def create() {

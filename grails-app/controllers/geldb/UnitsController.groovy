@@ -1,5 +1,6 @@
 package geldb
 
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -26,7 +27,8 @@ class UnitsController {
     }
 
     def show(Units unitsInstance) {
-        respond unitsInstance
+        def listUnitsAuditLogData = AuditLogEvent.findAllByPersistedObjectId(unitsInstance?.id)
+        respond unitsInstance, model: [listAuditLogData: listUnitsAuditLogData]
     }
 
     def create() {

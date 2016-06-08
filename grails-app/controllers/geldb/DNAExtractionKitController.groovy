@@ -1,6 +1,7 @@
 package geldb
 
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -26,7 +27,8 @@ class DNAExtractionKitController {
     }
 
     def show(DNAExtractionKit DNAExtractionKitInstance) {
-        respond DNAExtractionKitInstance
+        def listDNAExtractionKitAuditLogData = AuditLogEvent.findAllByPersistedObjectId(DNAExtractionKitInstance?.id)
+        respond DNAExtractionKitInstance, model: [listAuditLogData: listDNAExtractionKitAuditLogData]
     }
 
     def create() {

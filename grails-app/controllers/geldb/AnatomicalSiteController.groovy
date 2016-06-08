@@ -1,5 +1,6 @@
 package geldb
 
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -25,7 +26,8 @@ class AnatomicalSiteController {
     }
 
     def show(AnatomicalSite anatomicalSiteInstance) {
-        respond anatomicalSiteInstance
+        def listAnatomicalSiteAuditLogData = AuditLogEvent.findAllByPersistedObjectId(anatomicalSiteInstance?.id)
+        respond anatomicalSiteInstance, model: [listAuditLogData: listAnatomicalSiteAuditLogData]
     }
 
     def create() {

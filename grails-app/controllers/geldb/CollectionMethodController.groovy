@@ -1,5 +1,6 @@
 package geldb
 
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -25,7 +26,8 @@ class CollectionMethodController {
     }
 
     def show(CollectionMethod collectionMethodInstance) {
-        respond collectionMethodInstance
+        def listCollectionMethodAuditLogData = AuditLogEvent.findAllByPersistedObjectId(collectionMethodInstance?.id)
+        respond collectionMethodInstance, model: [listAuditLogData: listCollectionMethodAuditLogData]
     }
 
     def create() {

@@ -2,6 +2,7 @@ package geldb
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -27,7 +28,8 @@ class DestinationController {
     }
 
     def show(Destination destinationInstance) {
-        respond destinationInstance
+        def listDestinationAuditLogData = AuditLogEvent.findAllByPersistedObjectId(destinationInstance?.id)
+        respond destinationInstance, model: [listAuditLogData: listDestinationAuditLogData]
     }
 
     def create() {
