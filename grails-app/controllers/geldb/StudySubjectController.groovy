@@ -124,7 +124,7 @@ class StudySubjectController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'StudySubject.label', default: 'StudySubject'), studySubjectInstance.id])
-                redirect action: "index", method: "GET"
+                redirect(controller:'participant',action: 'show', params: [id:studySubjectInstance.participant.id])
             }
             '*' { render status: NO_CONTENT }
         }

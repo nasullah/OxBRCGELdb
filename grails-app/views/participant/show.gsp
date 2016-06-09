@@ -43,7 +43,7 @@
                     <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "gender")}</td>
                 </g:if>
                 <g:else>
-                    <td valign="top" class="value"><p class="text-danger">Please enter gender by clicking the Edit Participant link</p></td>
+                    <td valign="top" class="value"><a class="text-danger">Please enter gender by clicking the Edit Participant link</a></td>
                 </g:else>
 				
 			</tr>
@@ -69,7 +69,7 @@
                     <td valign="top" class="value">${fieldValue(bean: participantInstance, field: "diagnosis")}</td>
                 </g:if>
                 <g:else>
-                    <td valign="top" class="value"><p class="text-danger">Please enter diagnosis by clicking the Edit Participant link</p></td>
+                    <td valign="top" class="value"><a class="text-danger">Please enter diagnosis by clicking the Edit Participant link</a></td>
                 </g:else>
 
 			</tr>
@@ -109,7 +109,7 @@
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="participant.label" default="GeL Study ID/Participant ID" /></td>
 
-                    <td valign="top" class="value"><p class="text-danger">Please enter GeL STUDY ID by clicking the Edit Participant link</p></td>
+                    <td valign="top" class="value"><a class="text-danger">Please enter GeL STUDY ID by clicking the Edit Participant link</a></td>
 
                 </tr>
             </g:if>
