@@ -171,8 +171,10 @@ class AliquotController {
         def listAliquotAuditLogData = AuditLogEvent.findAllByPersistedObjectId(aliquotInstance?.id)
         def listGelSuitabilityReportAuditLogData = AuditLogEvent.findAllByPersistedObjectIdInList(aliquotInstance?.gelSuitabilityReport?.id)
         def listFixationReportAuditLogData = AuditLogEvent.findAllByPersistedObjectIdInList(aliquotInstance?.fixationReport?.id)
+        def listSampleTrackingEventAuditLogData = AuditLogEvent.findAllByPersistedObjectIdInList(aliquotInstance?.sampleTrackingEvent?.id)
         listAliquotAuditLogData.addAll(listGelSuitabilityReportAuditLogData)
         listAliquotAuditLogData.addAll(listFixationReportAuditLogData)
+        listAliquotAuditLogData.addAll(listSampleTrackingEventAuditLogData)
         respond aliquotInstance, model: [listAuditLogData: listAliquotAuditLogData]
     }
 

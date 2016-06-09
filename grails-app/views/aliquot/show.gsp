@@ -1,5 +1,5 @@
 
-<%@ page import="geldb.FixationReport; geldb.GelSuitabilityReport; geldb.SampleTrackingEventType; geldb.DNA_Extract; geldb.ExtractionType; geldb.AliquotType; groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
+<%@ page import="geldb.SampleTrackingEvent; geldb.FixationReport; geldb.GelSuitabilityReport; geldb.SampleTrackingEventType; geldb.DNA_Extract; geldb.ExtractionType; geldb.AliquotType; groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
 <%@ page import="geldb.SolidSpecimen" %>
 <%@ page import="geldb.FluidSpecimen" %>
 <!DOCTYPE html>
@@ -520,6 +520,9 @@
                     </g:elseif>
                     <g:elseif test="${auditLogInstance.className == 'FixationReport'}">
                         <td>${fieldValue(bean: auditLogInstance, field: "eventName")} Fixation Report</td>
+                    </g:elseif>
+                    <g:elseif test="${auditLogInstance.className == 'SampleTrackingEvent'}">
+                        <td>${fieldValue(bean: auditLogInstance, field: "eventName")} ${SampleTrackingEvent.findById(auditLogInstance?.persistedObjectId)?.sampleTrackingEventType}</td>
                     </g:elseif>
 
                     <td>${fieldValue(bean: auditLogInstance, field: "persistedObjectId")}</td>
