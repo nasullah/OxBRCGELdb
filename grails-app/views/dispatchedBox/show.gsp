@@ -189,7 +189,7 @@
 
 <p class="text-primary">Available Action</p>
 
-<a class='btn btn-primary btn-small' <g:link controller="dispatchItem" action="create" params="['dispatchedBox.id': dispatchedBoxInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'dispatchItem.label', default: 'Dispatch Item')])}</g:link>
+<a class='btn btn-primary btn-xs' <g:link controller="dispatchItem" action="create" params="['dispatchedBox.id': dispatchedBoxInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'dispatchItem.label', default: 'Dispatch Item')])}</g:link>
 
 <g:form action="uploadFile" method="post" enctype="multipart/form-data">
 	<p>

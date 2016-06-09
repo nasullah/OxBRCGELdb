@@ -100,11 +100,16 @@
 
 <p class="text-primary">Available Action</p>
 
-<a class='btn btn-primary btn-small' <g:link controller="dispatchedBox" action="create" params="['dispatchRecord.id': dispatchRecordInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'dispatchBox.label', default: 'Dispatch Box')])}</g:link>
+<g:if test="${!dispatchRecordInstance.dispatchedBoxs}">
+	<a class='btn btn-primary btn-xs' <g:link controller="dispatchedBox" action="create" params="['dispatchRecord.id': dispatchRecordInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'dispatchBox.label', default: 'Dispatch Box')])}</g:link>
+</g:if>
+<g:else>
+	<a class='btn btn-primary btn-xs' <g:link controller="dispatchedBox" action="create" params="['dispatchRecord.id': dispatchRecordInstance?.id]"><i class="glyphicon glyphicon-plus"></i> ${message(code: 'default.add.label', args: [message(code: 'dispatchBox.label', default: 'Another Dispatch Box')])}</g:link>
+</g:else>
 
 <g:if test="${dispatchRecordInstance.dispatchedBoxs.dispatchItems}">
-	<a class='btn btn-success btn-small' <g:link controller="dispatchRecord" action="qcTestExport" params="['dispatchRecord': dispatchRecordInstance?.id, 'format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> Test Results CSV Export</g:link>
-	<a class='btn btn-success btn-small' <g:link controller="dispatchRecord" action="sampleMetadataExport" params="['dispatchRecord': dispatchRecordInstance?.id, 'format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> Sample Metadata CSV Export</g:link>
+	<a class='btn btn-success btn-xs' <g:link controller="dispatchRecord" action="qcTestExport" params="['dispatchRecord': dispatchRecordInstance?.id, 'format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> Test Results CSV Export</g:link>
+	<a class='btn btn-success btn-xs' <g:link controller="dispatchRecord" action="sampleMetadataExport" params="['dispatchRecord': dispatchRecordInstance?.id, 'format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> Sample Metadata CSV Export</g:link>
 </g:if>
 
 <hr/>
