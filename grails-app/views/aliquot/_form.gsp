@@ -1,7 +1,7 @@
 <%@ page import="geldb.UnitType; geldb.Aliquot" %>
 
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <g:if test="${aliquotInstance?.derivedFrom?.id != null}">
 

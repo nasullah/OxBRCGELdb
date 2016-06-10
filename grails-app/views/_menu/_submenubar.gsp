@@ -43,13 +43,13 @@ This menu is used to show function that can be triggered on the content (an obje
             </g:if>
             <g:if test="${ params.controller == 'DNA_Extract'}">
                 <li class=${ params.action == "reservedDNASampleList" ? 'active' : '' }>
-                    <g:link action="reservedDNASampleList"><span><i class="glyphicon glyphicon-list-alt"></i></span> Reserved DNA Samples</g:link>
+                    <g:link action="reservedDNASampleList"><span><i class="glyphicon glyphicon-list-alt"></i></span> Reserved DNA</g:link>
                 </li>
                 <li class=${ params.action == "workLists" ? 'active' : '' }>
                     <g:link action="workLists" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Worklists</g:link>
                 </li>
                 <li class=${ params.action == "failedDNASampleList" ? 'active' : '' }>
-                    <g:link action="failedDNASampleList" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-thumbs-down"></i></span> Failed DNA Samples</g:link>
+                    <g:link action="failedDNASampleList" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-thumbs-down"></i></span> Failed DNA</g:link>
                 </li>
                 <li class=${ params.action == "readyToDispatch" ? 'active' : '' }>
                     <g:link action="readyToDispatch" style="color:green"><span style="color:green"><i class="glyphicon glyphicon-send"></i></span> Ready to dispatch</g:link>
