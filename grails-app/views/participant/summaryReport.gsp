@@ -122,7 +122,12 @@
             <g:each in="${studySubjectList}" status="i" var="studySubjectInstance">
                 <tr>
 
-                    <td><g:link controller="studySubject" action="show" id="${studySubjectInstance.id}">${fieldValue(bean: studySubjectInstance, field: "study")}</g:link></td>
+                    <g:if test="${studySubjectInstance.study.studyName == 'HICF2'}">
+                        <td><g:link class="text-danger" controller="studySubject" action="show" id="${studySubjectInstance.id}">${fieldValue(bean: studySubjectInstance, field: "study")}</g:link></td>
+                    </g:if>
+                    <g:else>
+                        <td><g:link controller="studySubject" action="show" id="${studySubjectInstance.id}">${fieldValue(bean: studySubjectInstance, field: "study")}</g:link></td>
+                    </g:else>
 
                     <td><g:formatBoolean false="No" true="Yes" boolean="${studySubjectInstance.consentStatus}" /></td>
 

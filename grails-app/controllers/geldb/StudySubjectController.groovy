@@ -55,6 +55,9 @@ class StudySubjectController {
             }else if (consentType.studyName == '100K Genomes Main Project') {
                 def listConsentVersionForm = ["Version 2.0 dated 20.01.2015", "Version 2.1 dated 24.09.2015"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
+            }else if (consentType.studyName == 'HICF2') {
+                def listConsentVersionForm = ["HICF2"]
+                render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             }
         }
     }
