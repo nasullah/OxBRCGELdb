@@ -21,10 +21,10 @@ This menu is used to show function that can be triggered on the content (an obje
             </li>
             <g:if test="${ params.controller == 'aliquot'}">
                 <li class=${ params.action == "awaitingFFaliquots" ? 'active' : '' }>
-                    <g:link action="awaitingFFaliquots" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting FF Aliquots</g:link>
+                    <g:link action="awaitingFFaliquots"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting FF Aliquots</g:link>
                 </li>
                 <li class=${ params.action == "awaitingFFPEaliquots" ? 'active' : '' }>
-                    <g:link action="awaitingFFPEaliquots" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting FFPE Aliquots</g:link>
+                    <g:link action="awaitingFFPEaliquots"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting FFPE Aliquots</g:link>
                 </li>
                 <li class=${ params.action == "createMultiple" ? 'active' : '' }>
                     <g:link action="createMultiple"><span style="color:#28fff8"><i class="glyphicon glyphicon-th-large"></i></span> Create Multiple Aliquots</g:link>
@@ -32,10 +32,10 @@ This menu is used to show function that can be triggered on the content (an obje
             </g:if>
             <g:if test="${ params.controller == 'fluidSpecimen'}">
                 <li class=${ params.action == "awaitingBlood" ? 'active' : '' }>
-                    <g:link action="awaitingBlood" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Blood</g:link>
+                    <g:link action="awaitingBlood"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Blood</g:link>
                 </li>
                 <li class=${ params.action == "listBloodFollowUp" ? 'active' : '' }>
-                    <g:link action="listBloodFollowUp" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Follow up Blood</g:link>
+                    <g:link action="listBloodFollowUp"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Follow up Blood</g:link>
                 </li>
                 <li class=${ params.action == "createMultiple" ? 'active' : '' }>
                     <g:link action="createMultiple"><span style="color:#28fff8"><i class="glyphicon glyphicon-th-large"></i></span> Create Multiple Fluid Specimen</g:link>
@@ -46,13 +46,13 @@ This menu is used to show function that can be triggered on the content (an obje
                     <g:link action="reservedDNASampleList"><span><i class="glyphicon glyphicon-list-alt"></i></span> Reserved DNA</g:link>
                 </li>
                 <li class=${ params.action == "workLists" ? 'active' : '' }>
-                    <g:link action="workLists" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Worklists</g:link>
+                    <g:link action="workLists"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Worklists</g:link>
                 </li>
                 <li class=${ params.action == "failedDNASampleList" ? 'active' : '' }>
-                    <g:link action="failedDNASampleList" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-thumbs-down"></i></span> Failed DNA</g:link>
+                    <g:link action="failedDNASampleList"><span style="color:red"><i class="glyphicon glyphicon-thumbs-down"></i></span> Failed DNA</g:link>
                 </li>
                 <li class=${ params.action == "readyToDispatch" ? 'active' : '' }>
-                    <g:link action="readyToDispatch" style="color:green"><span style="color:green"><i class="glyphicon glyphicon-send"></i></span> Ready to dispatch</g:link>
+                    <g:link action="readyToDispatch"><span style="color:green"><i class="glyphicon glyphicon-send"></i></span> Ready to dispatch</g:link>
                 </li>
             </g:if>
             <g:if test="${ params.action == 'show' || params.action == 'edit'}">
