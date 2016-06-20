@@ -145,6 +145,12 @@ class SolidSpecimenController {
         [participantList: results.sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
+    def awaitingMainSpecimenReport(){
+        def solidSpecimenInstanceList = SolidSpecimen.createCriteria().list {
+            isEmpty("fFPE_Tissue_Report")
+        }
+        [solidSpecimenInstanceList:solidSpecimenInstanceList]
+    }
     def collectionMethodType() {
         def collectionMethod = CollectionMethod.get(params.long('collectionMethod'))
         if (collectionMethod?.collectionMethodName == "Biopsy"){

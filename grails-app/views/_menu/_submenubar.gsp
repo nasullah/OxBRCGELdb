@@ -280,7 +280,11 @@ This menu is used to show function that can be triggered on the content (an obje
             <g:link action="list"><i class="glyphicon glyphicon-th-list"></i> List Main Specimen</g:link>
         </li>
         <li class=${ params.action == "awaitingMainSpecimen" ? 'active' : '' }>
-            <g:link action="awaitingMainSpecimen" style="color:red"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Main Specimen</g:link>
+            <g:link action="awaitingMainSpecimen"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Main Specimen</g:link>
+        </li>
+
+        <li class=${ params.action == "awaitingMainSpecimenReport" ? 'active' : '' }>
+            <g:link action="awaitingMainSpecimenReport"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Main Specimen Reports</g:link>
         </li>
         <li class="${ params.action == "create" ? 'active' : '' }">
             <g:link action="create"><i class="glyphicon glyphicon-plus"></i> New Main Specimen</g:link>
