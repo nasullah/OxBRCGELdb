@@ -5,7 +5,7 @@
 
 <head>
     <meta name="layout" content="kickstart" />
-    <title>Awaiting MainSpecimen Reports</title>
+    <title>Awaiting Main Specimen Reports</title>
 </head>
 
 <body>
