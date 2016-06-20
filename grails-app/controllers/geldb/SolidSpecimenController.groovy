@@ -149,7 +149,7 @@ class SolidSpecimenController {
         def solidSpecimenInstanceList = SolidSpecimen.createCriteria().list {
             isEmpty("fFPE_Tissue_Report")
         }
-        [solidSpecimenInstanceList:solidSpecimenInstanceList]
+        [solidSpecimenInstanceList:solidSpecimenInstanceList.sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
     def collectionMethodType() {
         def collectionMethod = CollectionMethod.get(params.long('collectionMethod'))
