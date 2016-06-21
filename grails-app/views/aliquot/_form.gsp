@@ -213,17 +213,19 @@
         </div>
     </g:if>
 
-    <g:if test="${aliquotInstance?.derivedFrom?.id ==null}">
+    <g:if test="${aliquotInstance?.aliquotType?.aliquotTypeName != "Section" }">
         <div class="col-lg-6">
-            <div class="${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')} ">
-                <label for="sapphireIdentifier" class="control-label"><g:message code="aliquot.sapphireIdentifier.label" default="Biobanking Identifier (Sapphire number, ORB Sample Bank number, Study ID)" /></label>
+            <div class="${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')} ">
+                <label for="barcode" class="control-label"><g:message code="aliquot.barcode.label" default="Barcode" /></label>
                 <div>
-                    <g:textField class="form-control" id="sapphireIdentifier" name="sapphireIdentifier" value="${aliquotInstance?.sapphireIdentifier}"/>
-                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')}</span>
+                    <g:textField class="form-control" name="barcode" value="${aliquotInstance?.barcode}"/>
+                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')}</span>
                 </div>
             </div>
         </div>
+    </g:if>
 
+    <g:if test="${aliquotInstance?.derivedFrom?.id ==null}">
         <div class="col-lg-6">
             <div class="${hasErrors(bean: aliquotInstance, field: 'exhausted', 'error')} ">
                 <label for="exhausted" class="control-label"><g:message code="aliquot.exhausted.label" default="Exhausted" /><span class="required-indicator">*</span></label>
@@ -237,15 +239,13 @@
                 </div>
             </div>
         </div>
-    </g:if>
 
-    <g:if test="${aliquotInstance?.aliquotType?.aliquotTypeName != "Section" }">
         <div class="col-lg-6">
-            <div class="${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')} ">
-                <label for="barcode" class="control-label"><g:message code="aliquot.barcode.label" default="Barcode (where available)" /></label>
+            <div class="${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')} ">
+                <label for="sapphireIdentifier" class="control-label"><g:message code="aliquot.sapphireIdentifier.label" default="Biobanking Identifier (Sapphire number, ORB Sample Bank number, Study ID)" /></label>
                 <div>
-                    <g:textField class="form-control" name="barcode" value="${aliquotInstance?.barcode}"/>
-                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'barcode', 'error')}</span>
+                    <g:textField class="form-control" id="sapphireIdentifier" name="sapphireIdentifier" value="${aliquotInstance?.sapphireIdentifier}"/>
+                    <span class="help-inline">${hasErrors(bean: aliquotInstance, field: 'sapphireIdentifier', 'error')}</span>
                 </div>
             </div>
         </div>
