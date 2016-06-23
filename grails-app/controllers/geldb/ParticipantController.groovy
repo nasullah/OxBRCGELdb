@@ -204,7 +204,7 @@ class ParticipantController {
             }
         }else{
             def barcodeVersionDate = barcode?.toString()?.split('~')?.last()
-            if (barcode && (barcodeVersionDate =='01/07/2015' ||  barcodeVersionDate == '01/09/2015')){
+            if (barcode && (barcodeVersionDate =='01/07/2015' ||  barcodeVersionDate == '01/09/2015' || barcodeVersionDate == '09/11/2015')){
                 def barcodeParts = barcode.toString().split('~')
                 def nHSNumber = barcodeParts[0].substring(11,21)
                 def barcodePart0Parts= barcodeParts[0].split("[^\\x20-\\x7e]")
@@ -224,7 +224,7 @@ class ParticipantController {
                     render(view : "createFromBarcode", model:[participantInstance:participantInstance, studySubjectIdentifier: participantId, consentFormVersion:consentFormVersion, study: study]);
                 }
             }else{
-                flash.message = "Please scan the barcode version (1.0.0, 01/07/2015) or (1.0.1, 01/09/2015)"
+                flash.message = "Please scan the barcode version (1.0.0, 01/07/2015) or (1.0.1, 01/09/2015) or (0.2, 09/11/2015)"
                 redirect(uri: '/scanbarcode')
             }
         }

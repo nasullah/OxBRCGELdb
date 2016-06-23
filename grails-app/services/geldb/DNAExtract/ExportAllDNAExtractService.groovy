@@ -77,7 +77,7 @@ class ExportAllDNAExtractService {
 
     def getFields(){
         List fields = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier","aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation", "aliquot.aliquotType", "id", "passFail", "extractionDate",
-                       "dNAConcentrationQubit", "dNAAmount", "delatQC", "aliquot.gelSuitabilityReport.percentageTumourContent", "aliquot.gelSuitabilityReport.percentageNecrosis",
+                       "dNAConcentrationQubit", "dNAAmount", "a260A280", "delatQC", "aliquot.gelSuitabilityReport.percentageTumourContent", "aliquot.gelSuitabilityReport.percentageNecrosis",
                        "aliquot.gelSuitabilityReport.cellularity", "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements"]
         return fields
     }
@@ -86,12 +86,13 @@ class ExportAllDNAExtractService {
         Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":"GEL Study/Participant ID", "passFail": "Pass/Fail", "dNAConcentrationQubit": "DNA/RNA Concentration (Qubit)",
                       "dNAAmount": "DNA/RNA Volume", "delatQC":"Delta QC", "aliquot.gelSuitabilityReport.percentageTumourContent":"Percentage Tumour Content", "aliquot.gelSuitabilityReport.percentageNecrosis":
                       "Percentage Necrosis", "aliquot.gelSuitabilityReport.cellularity": "Cellularity", "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements": "Dysplastic Non Invasive Elements",
-                      "aliquot.aliquotType":"Aliquot Type", "id": "Dispatched", "aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":"Cancer Type", "extractionDate":"Extraction Date"]
+                      "aliquot.aliquotType":"Aliquot Type", "id": "Dispatched", "aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":"Cancer Type", "extractionDate":"Extraction Date",
+                      "a260A280":"260/280 Ratio"]
         return labels
     }
 
     def getParameters(){
-        Map parameters = [title: "All DNA Extracts", "column.widths": [0.2, 0.15, 0.25, 0.1, 0.1, 0.15, 0.3, 0.17, 0.1, 0.25, 0.25, 0.1, 0.3]]
+        Map parameters = [title: "All DNA Extracts", "column.widths": [0.2, 0.15, 0.25, 0.1, 0.1, 0.15, 0.3, 0.17, 0.15, 0.1, 0.25, 0.25, 0.1, 0.3]]
         return parameters
     }
 }
