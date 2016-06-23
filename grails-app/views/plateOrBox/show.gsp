@@ -115,45 +115,47 @@
 			</g:if>
 			<tbody>
 			<g:each in="${plateOrBoxInstance.well.sort{it.letter+it.number}}" var="positionInstance">
-				<tr>
+				<g:if test="${!positionInstance?.containedSamples?.empty}">
+					<tr>
 
-					<td>
-						<g:if test="${FluidSpecimen.findById(positionInstance?.containedSamples?.first()?.id)}">
-							<g:link controller="position" action="show" id="${positionInstance.id}">${FluidSpecimen.findById(positionInstance?.containedSamples?.first()?.id)?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}</g:link>
-						</g:if>
-						<g:elseif test="${SolidSpecimen.findById(positionInstance.containedSamples?.first()?.id)}">
-							<g:link controller="position" action="show" id="${positionInstance.id}">${SolidSpecimen.findById(positionInstance?.containedSamples?.first()?.id)?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}</g:link>
-						</g:elseif>
-						<g:elseif test="${Aliquot.findById(positionInstance.containedSamples?.first()?.id)}">
-							<g:link controller="position" action="show" id="${positionInstance.id}">${Aliquot.findById(positionInstance?.containedSamples?.first()?.id)?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}</g:link>
-						</g:elseif>
-						<g:elseif test="${DNA_Extract.findById(positionInstance.containedSamples?.first()?.id)}">
-							<g:link controller="position" action="show" id="${positionInstance.id}">${DNA_Extract.findById(positionInstance?.containedSamples?.first()?.id)?.aliquot?.first()?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}</g:link>
-						</g:elseif>
-					</td>
+						<td>
+							<g:if test="${FluidSpecimen.findById(positionInstance?.containedSamples?.first()?.id)}">
+								<g:link controller="position" action="show" id="${positionInstance.id}">${FluidSpecimen.findById(positionInstance?.containedSamples?.first()?.id)?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}</g:link>
+							</g:if>
+							<g:elseif test="${SolidSpecimen.findById(positionInstance.containedSamples?.first()?.id)}">
+								<g:link controller="position" action="show" id="${positionInstance.id}">${SolidSpecimen.findById(positionInstance?.containedSamples?.first()?.id)?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}</g:link>
+							</g:elseif>
+							<g:elseif test="${Aliquot.findById(positionInstance.containedSamples?.first()?.id)}">
+								<g:link controller="position" action="show" id="${positionInstance.id}">${Aliquot.findById(positionInstance?.containedSamples?.first()?.id)?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}</g:link>
+							</g:elseif>
+							<g:elseif test="${DNA_Extract.findById(positionInstance.containedSamples?.first()?.id)}">
+								<g:link controller="position" action="show" id="${positionInstance.id}">${DNA_Extract.findById(positionInstance?.containedSamples?.first()?.id)?.aliquot?.first()?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}}</g:link>
+							</g:elseif>
+						</td>
 
-					<td>${fieldValue(bean: positionInstance, field: "letter")}</td>
+						<td>${fieldValue(bean: positionInstance, field: "letter")}</td>
 
-					<td>${fieldValue(bean: positionInstance, field: "number")}</td>
+						<td>${fieldValue(bean: positionInstance, field: "number")}</td>
 
-					<td>
-						<g:if test="${FluidSpecimen.findById(positionInstance?.containedSamples?.first()?.id)}">
-							Fluid Specimen
-						</g:if>
-						<g:elseif test="${SolidSpecimen.findById(positionInstance.containedSamples?.first()?.id)}">
-							Main Specimen
-						</g:elseif>
-						<g:elseif test="${Aliquot.findById(positionInstance.containedSamples?.first()?.id)}">
-							${Aliquot.findById(positionInstance.containedSamples?.first()?.id)?.aliquotType}
-						</g:elseif>
-						<g:elseif test="${DNA_Extract.findById(positionInstance.containedSamples?.first()?.id)}">
-							${DNA_Extract.findById(positionInstance.containedSamples?.first()?.id)?.aliquot?.first()?.aliquotType}
-						</g:elseif>
-					</td>
+						<td>
+							<g:if test="${FluidSpecimen.findById(positionInstance?.containedSamples?.first()?.id)}">
+								Fluid Specimen
+							</g:if>
+							<g:elseif test="${SolidSpecimen.findById(positionInstance.containedSamples?.first()?.id)}">
+								Main Specimen
+							</g:elseif>
+							<g:elseif test="${Aliquot.findById(positionInstance.containedSamples?.first()?.id)}">
+								${Aliquot.findById(positionInstance.containedSamples?.first()?.id)?.aliquotType}
+							</g:elseif>
+							<g:elseif test="${DNA_Extract.findById(positionInstance.containedSamples?.first()?.id)}">
+								${DNA_Extract.findById(positionInstance.containedSamples?.first()?.id)?.aliquot?.first()?.aliquotType}
+							</g:elseif>
+						</td>
 
-					<td>${fieldValue(bean: positionInstance?.containedSamples?.first(), field: "barcode")}</td>
+						<td>${fieldValue(bean: positionInstance?.containedSamples?.first(), field: "barcode")}</td>
 
-				</tr>
+					</tr>
+				</g:if>
 			</g:each>
 			</tbody>
 		</table>
