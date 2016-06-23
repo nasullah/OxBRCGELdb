@@ -224,7 +224,7 @@ class ParticipantController {
                     render(view : "createFromBarcode", model:[participantInstance:participantInstance, studySubjectIdentifier: participantId, consentFormVersion:consentFormVersion, study: study]);
                 }
             }else{
-                flash.message = "Please scan the barcode version (1.0.0, 01/07/2015) or (1.0.1, 01/09/2015) or (0.2, 09/11/2015)"
+                flash.message = "Please scan the barcode version (1.0.0, 01/07/2015) or (1.0.1, 01/09/2015) or (1.0.2, 09/11/2015)"
                 redirect(uri: '/scanbarcode')
             }
         }
