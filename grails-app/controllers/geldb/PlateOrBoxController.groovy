@@ -46,10 +46,44 @@ class PlateOrBoxController {
     }
 
     def show(PlateOrBox plateOrBoxInstance) {
+        def positionList = plateOrBoxInstance.well
+
+        if (params.sort && params.order == "asc") {
+            if (params.sort == 'studySubjectIdentifier') {
+                if (DNA_Extract.findById(IdentifiedSample.findByPositionInListAndExhausted(positionList, false).id)){
+                    positionList = positionList.sort {
+                        it.containedSamples.aliquot.specimen.participant.studySubject.studySubjectIdentifier
+                    }
+                }else {
+                    positionList = positionList.sort {
+                        it.containedSamples.specimen.participant.studySubject.studySubjectIdentifier
+                    }
+                }
+            }else {
+                positionList = positionList.sort{it.letter+it.number}
+            }
+        }
+
+        if (params.sort && params.order == "desc"){
+            if (params.sort == 'studySubjectIdentifier') {
+                if (DNA_Extract.findById(IdentifiedSample.findByPositionInListAndExhausted(positionList, false).id)){
+                    positionList = positionList.sort {
+                        it.containedSamples.aliquot.specimen.participant.studySubject.studySubjectIdentifier
+                    }.reverse()
+                }else {
+                    positionList = positionList.sort {
+                        it.containedSamples.specimen.participant.studySubject.studySubjectIdentifier
+                    }.reverse()
+                }
+
+            }else {
+                positionList = positionList.sort{it.letter+it.number}
+            }
+        }
         def listPlateOrBoxAuditLogData = AuditLogEvent.findAllByPersistedObjectId(plateOrBoxInstance?.id)
         def listPositionAuditLogData = AuditLogEvent.findAllByPersistedObjectIdInList(plateOrBoxInstance?.well?.id)
         listPlateOrBoxAuditLogData.addAll(listPositionAuditLogData)
-        respond plateOrBoxInstance, model: [listAuditLogData: listPlateOrBoxAuditLogData]
+        respond plateOrBoxInstance, model: [listAuditLogData: listPlateOrBoxAuditLogData, positionList:positionList]
     }
 
     def create() {
