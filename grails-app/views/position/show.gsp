@@ -44,7 +44,7 @@
 			</tr>
 
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="position.containedSamples.label" default="Contained Samples" /></td>
+                <td valign="top" class="name"><g:message code="position.containedSamples.label" default="Contained Sample" /></td>
 
                 <td valign="top" style="text-align: left;" class="value">
                     <ul>
