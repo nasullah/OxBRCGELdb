@@ -52,11 +52,11 @@ class PlateOrBoxController {
             if (params.sort == 'studySubjectIdentifier') {
                 if (DNA_Extract.findById(IdentifiedSample.findByPositionInListAndExhausted(positionList, false).id)){
                     positionList = positionList.sort {
-                        it.containedSamples.aliquot.specimen.participant.studySubject.studySubjectIdentifier
+                        it.containedSamples.aliquot.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}
                     }
                 }else {
                     positionList = positionList.sort {
-                        it.containedSamples.specimen.participant.studySubject.studySubjectIdentifier
+                        it.containedSamples.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}
                     }
                 }
             }else {
@@ -68,11 +68,11 @@ class PlateOrBoxController {
             if (params.sort == 'studySubjectIdentifier') {
                 if (DNA_Extract.findById(IdentifiedSample.findByPositionInListAndExhausted(positionList, false).id)){
                     positionList = positionList.sort {
-                        it.containedSamples.aliquot.specimen.participant.studySubject.studySubjectIdentifier
+                        it.containedSamples.aliquot.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}
                     }.reverse()
                 }else {
                     positionList = positionList.sort {
-                        it.containedSamples.specimen.participant.studySubject.studySubjectIdentifier
+                        it.containedSamples.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}
                     }.reverse()
                 }
 
