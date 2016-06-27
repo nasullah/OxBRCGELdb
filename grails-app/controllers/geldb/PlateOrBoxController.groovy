@@ -47,16 +47,16 @@ class PlateOrBoxController {
 
     def show(PlateOrBox plateOrBoxInstance) {
         def positionList = plateOrBoxInstance.well
-
+        positionList = positionList.sort{it.letter+it.number}
         if (params.sort && params.order == "asc") {
             if (params.sort == 'studySubjectIdentifier') {
                 if (DNA_Extract.findById(IdentifiedSample.findByPositionInListAndExhausted(positionList, false).id)){
                     positionList = positionList.sort {
-                        it.containedSamples.aliquot.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}
+                        it.containedSamples.aliquot.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}?.toString() +it.containedSamples.aliquot.aliquotType.aliquotTypeName?.toString()
                     }
                 }else {
                     positionList = positionList.sort {
-                        it.containedSamples.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}
+                        it.containedSamples.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}?.toString() +it.containedSamples.aliquotType.aliquotTypeName?.toString()
                     }
                 }
             }else {
@@ -68,11 +68,11 @@ class PlateOrBoxController {
             if (params.sort == 'studySubjectIdentifier') {
                 if (DNA_Extract.findById(IdentifiedSample.findByPositionInListAndExhausted(positionList, false).id)){
                     positionList = positionList.sort {
-                        it.containedSamples.aliquot.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}
+                        it.containedSamples.aliquot.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}?.toString() +it.containedSamples.aliquot.aliquotType.aliquotTypeName?.toString()
                     }.reverse()
                 }else {
                     positionList = positionList.sort {
-                        it.containedSamples.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}
+                        it.containedSamples.specimen.participant.studySubject.studySubjectIdentifier?.findResult {it?.size() ? it : null}?.toString()  +it.containedSamples.aliquotType.aliquotTypeName?.toString()
                     }.reverse()
                 }
 
