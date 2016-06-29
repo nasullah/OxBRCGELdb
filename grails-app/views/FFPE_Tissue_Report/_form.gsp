@@ -516,22 +516,19 @@
     </div>
 </fieldset>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <button type="button" id="addcode" class="btn btn-primary btn-xs" value="add" onClick= 'addSnomed()'><span class="glyphicon glyphicon-plus"></span> Add More Snomed Code</button>
-<button type="button" id="fixedButton" class="btn btn-primary btn-xs" value="fixed" onClick= 'showFixed()'><span class="glyphicon glyphicon-plus"></span> Add Fixation details</button>
 <button type="button" id="coldIschaemiaButton" class="btn btn-primary btn-xs" value="showColdIschaemia" onClick= 'showColdIschaemia()'><span class="glyphicon glyphicon-plus"></span> Add Cold Ischaemia</button>
 <button type="button"  id="warmIschaemiaButton" class="btn btn-primary btn-xs" value="showWarmIschaemia" onClick= 'showWarmIschaemia()'><span class="glyphicon glyphicon-plus"></span> Add Warm Ischaemia</button>
 
 <g:javascript plugin="jquery" library="jquery" />
 <script>
 
-    if ( $("#fixationType").val() != '' || $("#processingSchedule").val() != '' || $("#fixationStartDate").val() != '' ||
-            $("#fixationEndDate").val() != '' || $("#fixationPeriod").val() != '' ) {
-        showFixed()
+    if ( $("#fixationType").val() != '' || $("#fixationStartDate").val() != '' || $("#fixationEndDate").val() != '' || $("#fixationPeriod").val() != '' ) {
+        $("#fixed").show();
     } else{
         $("#fixed").hide();
-        $("#fixedButton").show();
     }
 
     if ($("#warm_ischaemia input#warm_ischaemia_reportedBy").val() != '' || $("#warm_ischaemia input#warm_ischaemia_startDate").val() != '' || $("#warm_ischaemia input#warm_ischaemia_endDate").val() != '' ){
@@ -558,11 +555,6 @@
         autoFillWarmIschaemiaDates();
         $("#warm_ischaemia").show();
         $("#warmIschaemiaButton").hide();
-    }
-
-    function showFixed(){
-        $("#fixed").show();
-        $("#fixedButton").hide();
     }
 
     function autoFillColdIschaemiaDates(){
