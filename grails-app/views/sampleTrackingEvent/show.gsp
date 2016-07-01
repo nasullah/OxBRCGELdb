@@ -18,14 +18,22 @@
 	<table class="table">
 		<tbody>
 
-        <tr class="prop">
-            <td valign="top" class="name"><g:message code="sampleTrackingEvent.identifiedSample.label" default="Specimen" /></td>
-        <td valign="top" class="value">
-			<g:if test="${Aliquot.findById(sampleTrackingEventInstance?.identifiedSample?.id)}">
-				<g:link controller="aliquot" action="show" id="${sampleTrackingEventInstance?.identifiedSample?.id}">${sampleTrackingEventInstance?.identifiedSample?.encodeAsHTML()}</g:link>
-			</g:if>
-        </tr>
-		
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="sampleTrackingEvent.identifiedSample.label" default="Specimen" /></td>
+
+				<td valign="top" class="value">
+					<g:if test="${FluidSpecimen.findById(sampleTrackingEventInstance?.identifiedSample?.id)}">
+						<g:link controller="aliquot" action="show" id="${sampleTrackingEventInstance?.identifiedSample?.id}">${sampleTrackingEventInstance?.identifiedSample?.encodeAsHTML()}</g:link>
+					</g:if>
+					<g:elseif test="${SolidSpecimen.findById(sampleTrackingEventInstance?.identifiedSample?.id)}">
+						<g:link controller="aliquot" action="show" id="${sampleTrackingEventInstance?.identifiedSample?.id}">${sampleTrackingEventInstance?.identifiedSample?.encodeAsHTML()}</g:link>
+					</g:elseif>
+					<g:elseif test="${Aliquot.findById(sampleTrackingEventInstance?.identifiedSample?.id)}">
+						<g:link controller="aliquot" action="show" id="${sampleTrackingEventInstance?.identifiedSample?.id}">${sampleTrackingEventInstance?.identifiedSample?.encodeAsHTML()}</g:link>
+					</g:elseif>
+				</td>
+			</tr>
+
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="sampleTrackingEvent.sampleTrackingEventType.label" default="Sample Tracking Event Type" /></td>
 				

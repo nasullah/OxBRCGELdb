@@ -159,7 +159,7 @@
 
                     <td valign="top" style="text-align: left;" class="value">
                         <ul>
-                        <g:each in="${fluidSpecimenInstance.sampleTrackingEvent}" var="t">
+                        <g:each in="${fluidSpecimenInstance.sampleTrackingEvent?.sort{it?.date?.toString() + it.time}}" var="t">
                             <li><g:link controller="sampleTrackingEvent" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
                         </g:each>
                         </ul>

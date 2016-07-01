@@ -25,19 +25,6 @@ class SampleTrackingEventController {
         respond SampleTrackingEvent.list(params), model: [sampleTrackingEventInstanceCount: SampleTrackingEvent.count()]
     }
 
-//    def list() {
-//        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-//        [sampleTrackingEventnstanceList: SampleTrackingEvent.list(params), sampleTrackingEventnstanceTotal: Aliquot.count()]
-//    }
-//    def filterPaneService
-//
-//    def filter = {
-//        if(!params.max) params.max = 10
-//        render( view:'list', model:[ aliquotInstanceList: filterPaneService.filter( params, Aliquot ),
-//                                     aliquotInstanceTotal: filterPaneService.count( params, Aliquot ),
-//                                     filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
-//    }
-
     def show(SampleTrackingEvent sampleTrackingEventInstance) {
         respond sampleTrackingEventInstance
     }
@@ -46,104 +33,22 @@ class SampleTrackingEventController {
         respond new SampleTrackingEvent(params)
     }
 
-    def createReceived() {
-        respond new SampleTrackingEvent(params)
-        render(view: "createReceived")
-    }
-
-    def findSpecimenToDispatchByGeLId() {
-        def gelId= params.search
-        def participantId = null
-        if (gelId) {
-            def participantByGeLId = Participant.createCriteria().get {
-                studySubject {
-                    eq('studySubjectIdentifier', gelId)
-                }
-            }
-            if(participantByGeLId){
-                participantId = participantByGeLId.id
-            }
-        }
-        if (gelId && participantId) {
-            def listSpecimenByGeLId = Specimen.where {
-                participant.id == participantId
-            }.findAllByExhausted(false)
-            listSpecimenByGeLId = listSpecimenByGeLId.findAll {s -> s.sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName != 'Despatched to Oxford' }
-            if(listSpecimenByGeLId){
-                render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
-            }
-        }
-
-    }
-
-    def findReceivedSpecimenByGeLId() {
-        def gelId= params.search
-        def participantId = null
-        if (gelId) {
-            def participantByGeLId = Participant.createCriteria().get {
-                studySubject {
-                    eq('studySubjectIdentifier', gelId)
-                }
-            }
-            if(participantByGeLId){
-                participantId = participantByGeLId.id
-            }
-        }
-        if (gelId && participantId) {
-            def listSpecimenByGeLId = Specimen.where {
-                participant.id == participantId
-            }.findAllByExhausted(false)
-            listSpecimenByGeLId = listSpecimenByGeLId.findAll {s -> s.sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName != 'Received at Oxford' }
-            if(listSpecimenByGeLId){
-                render(template: "specimenList",  model: [listSpecimenByGeLId: listSpecimenByGeLId])
-            }
-        }
+    def awaitingFluidSpecimenToBeDispatched() {
+        def waitingFluidSpecimenDispatchList = FluidSpecimen.where{
+            participant == Participant.findByCentre(Centre.findByCentreName('Bristol'))
+        }.list()
+        waitingFluidSpecimenDispatchList = waitingFluidSpecimenDispatchList.findAll {s -> s.sampleTrackingEvent.empty}
+        [waitingFluidSpecimenDispatchList:waitingFluidSpecimenDispatchList]
     }
 
     def fluidSpecimenInTransit() {
-
-        def dispatchList = FluidSpecimen.where {
-            sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName == 'Despatched to Oxford'
-        }.findAll()
-
-        def receivedList = FluidSpecimen.where {
-            sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName == 'Received at Oxford'
-        }.findAll()
-
-        if(receivedList){
-            def results= dispatchList.intersect(receivedList)
-            if (results){
-                def remainingList = dispatchList.removeAll(results)
-                if (remainingList){
-                    render(view: "fluidSpecimenInTransit",  model: [fluidSpecimenInTransit: dispatchList])
-                }
-            }
-        } else {
-            render(view: "fluidSpecimenInTransit",  model: [fluidSpecimenInTransit: dispatchList])
-        }
-    }
-
-    def solidSpecimenInTransit() {
-
-        List <SolidSpecimen> dispatchList = SolidSpecimen.where {
-            sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName == 'Despatched to Oxford'
-        }.findAll()
-
-        List <SolidSpecimen> receivedList = SolidSpecimen.where {
-            sampleTrackingEvent.sampleTrackingEventType.sampleTrackingEventTypeName == 'Received at Oxford'
-        }.findAll()
-
-        if(receivedList){
-            def results= dispatchList.intersect(receivedList)
-            if (results){
-                def remainingList = dispatchList.removeAll(results)
-                if (remainingList) {
-                    render(view: "solidSpecimenInTransit", model: [solidSpecimenInTransit: dispatchList])
-                }
-            }
-        } else {
-            render(view: "solidSpecimenInTransit",  model: [solidSpecimenInTransit: dispatchList])
-        }
+        def fluidSpecimenList = FluidSpecimen.where{
+            participant == Participant.findByCentre(Centre.findByCentreName('Bristol'))
+        }.list()
+        fluidSpecimenList = fluidSpecimenList.findAll {fluidSpecimen -> !fluidSpecimen.sampleTrackingEvent.empty}
+        fluidSpecimenList = fluidSpecimenList.findAll {fluidSpecimen -> SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Despatched to Oxford'), fluidSpecimen)}
+        fluidSpecimenList = fluidSpecimenList.findAll {fluidSpecimen -> !SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at Oxford'), fluidSpecimen)}
+        [fluidSpecimenList:fluidSpecimenList]
     }
 
     def awaitingToBeDispatchedToMDC(){
@@ -184,12 +89,14 @@ class SampleTrackingEventController {
 
         sampleTrackingEventInstance.save flush: true
 
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'sampleTrackingEventInstance.label', default: 'SampleTrackingEvent'), sampleTrackingEventInstance.id])
-                redirect(controller:'aliquot',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
-            }
-            '*' { respond sampleTrackingEventInstance, [status: CREATED] }
+        def identifiedSample = sampleTrackingEventInstance.identifiedSample
+        flash.message = "Sample Tracking Event ${sampleTrackingEventInstance.id} is created"
+        if (identifiedSample.instanceOf(FluidSpecimen)){
+            redirect(controller:'fluidSpecimen',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
+        }else if (identifiedSample.instanceOf(SolidSpecimen)){
+            redirect(controller:'solidSpecimen',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
+        }else if (identifiedSample.instanceOf(Aliquot)){
+            redirect(controller:'aliquot',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
         }
     }
 
@@ -211,12 +118,14 @@ class SampleTrackingEventController {
 
         sampleTrackingEventInstance.save flush: true
 
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'SampleTrackingEvent.label', default: 'SampleTrackingEvent'), sampleTrackingEventInstance.id])
-                redirect(controller:'aliquot',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
-            }
-            '*' { respond sampleTrackingEventInstance, [status: OK] }
+        def identifiedSample = sampleTrackingEventInstance.identifiedSample
+        flash.message = "Sample Tracking Event ${sampleTrackingEventInstance.id} is created"
+        if (identifiedSample.instanceOf(FluidSpecimen)){
+            redirect(controller:'fluidSpecimen',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
+        }else if (identifiedSample.instanceOf(SolidSpecimen)){
+            redirect(controller:'solidSpecimen',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
+        }else if (identifiedSample.instanceOf(Aliquot)){
+            redirect(controller:'aliquot',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
         }
     }
 
@@ -230,12 +139,14 @@ class SampleTrackingEventController {
 
         sampleTrackingEventInstance.delete flush: true
 
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'SampleTrackingEvent.label', default: 'SampleTrackingEvent'), sampleTrackingEventInstance.id])
-                redirect(controller:'aliquot',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
-            }
-            '*' { render status: NO_CONTENT }
+        def identifiedSample = sampleTrackingEventInstance.identifiedSample
+        flash.message = "Sample Tracking Event ${sampleTrackingEventInstance.id} is created"
+        if (identifiedSample.instanceOf(FluidSpecimen)){
+            redirect(controller:'fluidSpecimen',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
+        }else if (identifiedSample.instanceOf(SolidSpecimen)){
+            redirect(controller:'solidSpecimen',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
+        }else if (identifiedSample.instanceOf(Aliquot)){
+            redirect(controller:'aliquot',action: 'show', params: [id: sampleTrackingEventInstance.identifiedSample.id])
         }
     }
 

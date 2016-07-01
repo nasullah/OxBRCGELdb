@@ -1,6 +1,9 @@
-<%@ page import="geldb.Aliquot; geldb.SampleTrackingEvent" %>
+<%@ page import="geldb.SolidSpecimen; geldb.FluidSpecimen; geldb.Aliquot; geldb.SampleTrackingEvent" %>
 <%@ page import="geldb.Specimen" %>
 
+            <br/>
+            <p><b>${FluidSpecimen.findById(sampleTrackingEventInstance?.identifiedSample?.id) }</b></p>
+            <p><b>${SolidSpecimen.findById(sampleTrackingEventInstance?.identifiedSample?.id) }</b></p>
             <p><b>${Aliquot.findById(sampleTrackingEventInstance?.identifiedSample?.id) }</b></p>
             <g:hiddenField name="identifiedSample.id" id="identifiedSample" value="${sampleTrackingEventInstance?.identifiedSample?.id}"/>
 
@@ -38,38 +41,4 @@
                     </div>
                 </div>
             </div>
-
-            %{--<div class="modal fade" id="notFound">--}%
-                %{--<div class="modal-dialog" style="position: absolute; left: 0%;">--}%
-                    %{--<div class="modal-content">--}%
-                        %{--<div class="modal-header">--}%
-                            %{--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>--}%
-                            %{--<h4 class="modal-title">Not Found!</h4>--}%
-                        %{--</div>--}%
-                        %{--<div class="modal-body">--}%
-                            %{--<p>No specimen found with the Gel Id you entered</p>--}%
-                        %{--</div>--}%
-                        %{--<div class="modal-footer">--}%
-                            %{--<button type="button" class="btn" data-dismiss="modal">Close</button>--}%
-                        %{--</div>--}%
-                    %{--</div>--}%
-                %{--</div>--}%
-            %{--</div>--}%
-
-%{--<g:javascript plugin="jquery" library="jquery" />--}%
-%{--<script>--}%
-    %{--function getSpecimen(){--}%
-        %{--${remoteFunction (controller: 'sampleTrackingEvent',--}%
-                        %{--action: 'findSpecimenToDispatchByGeLId',--}%
-                        %{--params: '"search=" + $("#search").val()',--}%
-                        %{--update: 'selectSpecimen',--}%
-                        %{--onFailure:'error()'--}%
-                %{--)}--}%
-    %{--}--}%
-
-    %{--function error(){--}%
-        %{--$('#notFound').modal()--}%
-    %{--}--}%
-%{--</script>--}%
-
 

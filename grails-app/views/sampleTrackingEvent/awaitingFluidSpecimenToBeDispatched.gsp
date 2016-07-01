@@ -5,7 +5,7 @@
 
 <head>
     <meta name="layout" content="kickstart" />
-    <title>Fluid Specimen in Transit</title>
+    <title>List Fluid Specimen Waiting To Be Dispatched</title>
 </head>
 
 <body>
@@ -29,18 +29,19 @@
         </tr>
         </thead>
         <tbody>
-        <g:each in="${fluidSpecimenList}" status="i" var="fluidSpecimenInstance">
+        <g:each in="${waitingFluidSpecimenDispatchList}" status="i" var="fluidSpecimenInstance">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
                 <td><g:link controller="fluidSpecimen" action="show" id="${fluidSpecimenInstance.id}">${fieldValue(bean: fluidSpecimenInstance, field: "fluidSampleType")}</g:link></td>
 
                 <td><g:formatDate format="yyyy-MM-dd" date="${fluidSpecimenInstance?.collectionDate}" /></td>
 
-                <td>${fieldValue(bean: fluidSpecimenInstance?.collectionLocation?.centre, field: "centreName").toString().replace('[', '').replace(']','')}</td>
+                <td>${fieldValue(bean: fluidSpecimenInstance?.collectionLocation?.centre, field: "centreName")}</td>
 
                 <td>${fieldValue(bean: fluidSpecimenInstance?.participant?.studySubject, field: "studySubjectIdentifier").toString().replace('[', '').replace(']','')}</td>
 
-                <td><a class='btn btn-primary btn-xs' <g:link controller="sampleTrackingEvent" action="create" params="['identifiedSample.id': fluidSpecimenInstance?.id, 'sampleTrackingEventType.id':SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at Oxford')?.id]"><i class="glyphicon glyphicon-send"></i> Dispatch to Oxford</g:link></td>
+                <td><a class='btn btn-primary btn-xs' <g:link controller="sampleTrackingEvent" action="create" params="['identifiedSample.id': fluidSpecimenInstance?.id, 'sampleTrackingEventType.id':SampleTrackingEventType.findBySampleTrackingEventTypeName('Despatched to Oxford')?.id]"><i class="glyphicon glyphicon-send"></i> Dispatch to Oxford</g:link></td>
+
 
             </tr>
         </g:each>
@@ -51,4 +52,4 @@
 
 </body>
 
-</html>
+</html>ml>
