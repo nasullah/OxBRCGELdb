@@ -1,5 +1,7 @@
 <header id="Header" >
 	<div class="container">
-		<h1 class="title"><g:layoutTitle default="${meta(name:'app.name')}" /></h1>
+		<br/>
+		<br/>
+		<h2 class="title"><g:layoutTitle default="${meta(name:'app.name')}" /></h2>
 	</div>
 </header>
