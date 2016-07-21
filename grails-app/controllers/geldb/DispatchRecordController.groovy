@@ -26,7 +26,8 @@ class DispatchRecordController {
     def allDispatchedItemsService
     def filterPaneService
 
-    def index() {
+    def index(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
         respond DispatchRecord.list(max: params.max, offset: params.offset, sort: "sentOn", order: "desc"), model: [dispatchRecordInstanceCount: DispatchRecord.count()]
     }
 
@@ -69,7 +70,8 @@ class DispatchRecordController {
         }
     }
 
-    def list() {
+    def list(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
         [dispatchRecordInstanceList: DispatchRecord.list(max: params.max, offset: params.offset, sort: "sentOn", order: "desc"), dispatchRecordInstanceTotal: DispatchRecord.count()]
     }
 
