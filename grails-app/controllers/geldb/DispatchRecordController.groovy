@@ -26,9 +26,8 @@ class DispatchRecordController {
     def allDispatchedItemsService
     def filterPaneService
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond DispatchRecord.list(params).sort {it.sentOn}?.reverse(), model: [dispatchRecordInstanceCount: DispatchRecord.count()]
+    def index() {
+        respond DispatchRecord.list(max: params.max, offset: params.offset, sort: "sentOn", order: "desc"), model: [dispatchRecordInstanceCount: DispatchRecord.count()]
     }
 
     def qcTestExport (){
@@ -71,8 +70,7 @@ class DispatchRecordController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [dispatchRecordInstanceList: DispatchRecord.list(params).sort {it.sentOn}?.reverse(), dispatchRecordInstanceTotal: DispatchRecord.count()]
+        [dispatchRecordInstanceList: DispatchRecord.list(max: params.max, offset: params.offset, sort: "sentOn", order: "desc"), dispatchRecordInstanceTotal: DispatchRecord.count()]
     }
 
     def filter = {
