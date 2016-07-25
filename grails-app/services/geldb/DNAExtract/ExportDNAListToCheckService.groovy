@@ -12,9 +12,6 @@ import grails.transaction.Transactional
 class ExportDNAListToCheckService {
 
     def getFormatters(){
-        def gelID = { domain, value ->
-            return value?.toString()?.replace('[','')?.replace(']','')?.replace(' ','')?.replace(',','')?.replace('null','')
-        }
 
         def clean = { domain, value ->
             return value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
@@ -28,6 +25,12 @@ class ExportDNAListToCheckService {
             }
         }
 
+        def exhausted = { domain, value ->
+            if (value.toString() == "true") {
+                return 'Yes'
+            } else return "No"
+        }
+
         def tumourStatus = { domain, value ->
             if (value.toString()?.startsWith('[Fluid Specimen-')) {
                 return ""
@@ -36,26 +39,26 @@ class ExportDNAListToCheckService {
             }
         }
 
-        Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": gelID, "aliquot.aliquotType": clean, "aliquot.barcode": clean,
-                          "extractionDate": dateFormat, "aliquot.specimen.fFPE_Tissue_Report.tumourStatus":tumourStatus]
+        Map formatters = ["aliquot.aliquotType": clean, "aliquot.barcode": clean,
+                          "extractionDate": dateFormat, "aliquot.specimen.fFPE_Tissue_Report.tumourStatus":tumourStatus, "exhausted":exhausted]
         return formatters
     }
 
     def getFields(){
-        List fields = ["Checked By", "aliquot.specimen.participant.studySubject.studySubjectIdentifier", "aliquot.aliquotType", "aliquot.barcode", "barcode",
-                       "dNAConcentrationQubit", "aliquot.specimen.fFPE_Tissue_Report.tumourStatus", "extractionDate", "extractedBy.staffName"]
+        List fields = ["Checked By", "sapphireIdentifier", "aliquot.aliquotType", "aliquot.barcode", "barcode",
+                       "dNAConcentrationQubit", "exhausted", "aliquot.specimen.fFPE_Tissue_Report.tumourStatus", "extractionDate", "extractedBy.staffName"]
         return fields
     }
 
     def getLabels(){
-        Map labels = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier": "Participant Id ", "aliquot.aliquotType": "Sample Type",
-                      "aliquot.barcode": "Original Aliquot Barcode", "barcode":"DNA Extract Barcode", "dNAConcentrationQubit":"Qubit Concentration",
-                      "extractionDate":"Extraction Date", "extractedBy.staffName":"Extracted By", "aliquot.specimen.fFPE_Tissue_Report.tumourStatus":"Tumour Status"]
+        Map labels = ["aliquot.aliquotType": "Sample Type", "exhausted": "Exhausted", "aliquot.barcode": "Original Aliquot Barcode", "barcode":"DNA Extract Barcode",
+                      "dNAConcentrationQubit":"Qubit Concentration", "sapphireIdentifier": "Elution", "extractionDate":"Extraction Date", "extractedBy.staffName":"Extracted By",
+                      "aliquot.specimen.fFPE_Tissue_Report.tumourStatus":"Tumour Status"]
         return labels
     }
 
     def getParameters(){
-        Map parameters = [title: "DNA Extract Check List", "column.widths": [0.3, 0.3, 0.3, 0.3, 0.3, 0.25, 0.2, 0.2, 0.25]]
+        Map parameters = [title: "DNA Extract Check List", "column.widths": [0.12, 0.5, 0.32, 0.2, 0.2, 0.2, 0.15, 0.2, 0.2, 0.26]]
         return parameters
     }
 }
