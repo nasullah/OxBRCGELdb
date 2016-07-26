@@ -471,12 +471,12 @@
 
 </g:if>
 
-<g:if test="${(aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy Frozen' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE') &&
+<g:if test="${(aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy Frozen' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE') || aliquotInstance.aliquotType.aliquotTypeName == 'Section' &&
         aliquotInstance?.sampleTrackingEvent?.empty}">
     <a class='btn btn-primary btn-xs' <g:link controller="sampleTrackingEvent" action="create" params="['identifiedSample.id': aliquotInstance?.id, 'sampleTrackingEventType.id':SampleTrackingEventType.findBySampleTrackingEventTypeName('Dispatch to MDC lab')?.id]"><i class="glyphicon glyphicon-send"></i> Dispatch to MDC</g:link>
 </g:if>
 
-<g:if test="${(aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy Frozen' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE') &&
+<g:if test="${(aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy Frozen' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF' || aliquotInstance.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE') || aliquotInstance.aliquotType.aliquotTypeName == 'Section' &&
         !aliquotInstance?.sampleTrackingEvent?.empty && !geldb.SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at MDC lab'), aliquotInstance)}">
     <a class='btn btn-primary btn-xs' <g:link controller="sampleTrackingEvent" action="create" params="['identifiedSample.id': aliquotInstance?.id, 'sampleTrackingEventType.id':SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at MDC lab')?.id]"><i class="glyphicon glyphicon-check"></i> Received at MDC</g:link>
 </g:if>
