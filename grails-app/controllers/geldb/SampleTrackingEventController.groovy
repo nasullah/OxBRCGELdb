@@ -52,7 +52,7 @@ class SampleTrackingEventController {
     }
 
     def awaitingToBeDispatchedToMDC(){
-        def ffAliquots = Aliquot.findAllByAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+        def ffAliquots = Aliquot.findAllByAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'), AliquotType.findByAliquotTypeName('Section'))
         def ffpeAliquots = Aliquot.findAllByAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'), AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'))
         def ffAliquotSpecimen = ffAliquots.specimen.unique()
         ffpeAliquots = ffpeAliquots.findAll {aliquot -> !ffAliquotSpecimen.find {it == aliquot.specimen}}
@@ -61,14 +61,16 @@ class SampleTrackingEventController {
         ffAliquots = ffAliquots.findAll {aliquot ->
             if (aliquot.createdOn){
                 aliquot.createdOn > new Date().parse('yyyy-MM-dd', '2016-05-01')
+            }else if(aliquot?.derivedFrom){
+                aliquot?.derivedFrom?.aliquot?.createdOn > new Date().parse('yyyy-MM-dd', '2016-05-01')
             }
         }
         [aliquotInstanceList: ffAliquots.sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
     def inTransitToMDC(){
-        def aliquotInstanceList = Aliquot.findAllByAliquotTypeOrAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'),
-                AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'), AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+        def aliquotInstanceList = Aliquot.findAllByAliquotTypeOrAliquotTypeOrAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'),
+                AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'), AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'), AliquotType.findByAliquotTypeName('Section'))
         aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> !aliquot.sampleTrackingEvent.empty}
         aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Dispatch to MDC lab'), aliquot)}
         aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> !SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at MDC lab'), aliquot) }
