@@ -34,7 +34,7 @@
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'extractionType', 'error')} ">
                         <label for="extractionType" class="control-label"><g:message code="DNA_Extract.extractionType.label" default="Extraction Type" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="extractionType" name="extractionType.id" from="${geldb.ExtractionType.list().sort {it.extractionTypeName}}" optionKey="id" required="" value="${DNA_ExtractInstance?.extractionType?.id}" noSelection="['':'- Choose -']" onchange="hiderRinOrDeltaCQ()"/>
+                            <g:select class="form-control" id="extractionType" name="extractionType.id" from="${geldb.ExtractionType.list().sort {it.extractionTypeName}}" optionKey="id" required="" value="${DNA_ExtractInstance?.extractionType?.id}" noSelection="['':'- Choose -']"  onchange="getElution()"/>
                             <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'extractionType', 'error')}</span>
                         </div>
                     </div>
@@ -143,16 +143,6 @@
                         </div>
                     </div>
                 </div>
-
-                %{--<div class="col-lg-6">--}%
-                    %{--<div class="${hasErrors(bean: DNA_ExtractInstance, field: 'geLSampleIdentifier', 'error')} required">--}%
-                        %{--<label for="geLSampleIdentifier" class="control-label"><g:message code="DNA_Extract.geLSampleIdentifier.label" default="GeL Sample Identifier/DNA Elution" /><span class="required-indicator">*</span></label>--}%
-                        %{--<div>--}%
-                            %{--<g:textField class="form-control" name="geLSampleIdentifier" maxlength="50" required="" value="${DNA_ExtractInstance?.geLSampleIdentifier}"/>--}%
-                            %{--<span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'geLSampleIdentifier', 'error')}</span>--}%
-                        %{--</div>--}%
-                    %{--</div>--}%
-                %{--</div>--}%
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'sapphireIdentifier', 'error')} ">
@@ -303,10 +293,10 @@
     }
 
     function getElution(){
-
         var baseUrl = "${createLink(controller:'DNA_Extract', action:'getElution')}";
+        var selectExtractionType = $("#extractionType").val();
         var selectAliquot = $('#aliquot').val();
-        var url = baseUrl + "?selectAliquot="+selectAliquot;
+        var url = baseUrl + "?selectAliquot=" + selectAliquot + "&selectExtractionType=" + selectExtractionType;
         $.ajax({
             url:url,
             type: 'POST',
@@ -324,6 +314,7 @@
 
             }
         });
+        hiderRinOrDeltaCQ();
     }
 </script>
 
