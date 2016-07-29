@@ -139,9 +139,9 @@
 				<thead>
 				<tr>
 
-					<th>Position</th>
+					<g:sortableColumn property="positionIfPlated" title="Position" />
 
-					<th>Participant Id</th>
+					<g:sortableColumn property="specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'specimen.participant.studySubject.studySubjectIdentifier.label', default: "Participant Id")}" />
 
 					<th>Sample Type</th>
 
