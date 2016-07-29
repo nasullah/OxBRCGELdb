@@ -32,7 +32,9 @@ class DispatchedBoxController {
         if (params.sort && params.order == "asc") {
             if (params.sort == 'aliquot.specimen.participant.studySubject.studySubjectIdentifier'){
                 dispatchItemList = dispatchItemList.sort{it.identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier}
-            }else if(params.sort == 'positionIfPlated'){
+            } else if (params.sort == 'specimen.participant.studySubject.studySubjectIdentifier'){
+                dispatchItemList = dispatchItemList.sort{it.identifiedSample.specimen.participant.studySubject.studySubjectIdentifier}
+            } else if(params.sort == 'positionIfPlated'){
                 dispatchItemList = dispatchItemList.sort{it.positionIfPlated}
             }
         }
@@ -40,6 +42,8 @@ class DispatchedBoxController {
         if (params.sort && params.order == "desc"){
             if (params.sort == 'aliquot.specimen.participant.studySubject.studySubjectIdentifier'){
                 dispatchItemList = dispatchItemList.sort{it.identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier}.reverse()
+            } else if (params.sort == 'specimen.participant.studySubject.studySubjectIdentifier'){
+                dispatchItemList = dispatchItemList.sort{it.identifiedSample.specimen.participant.studySubject.studySubjectIdentifier}.reverse()
             } else if(params.sort == 'positionIfPlated'){
                 dispatchItemList = dispatchItemList.sort{it.positionIfPlated}.reverse()
             }
