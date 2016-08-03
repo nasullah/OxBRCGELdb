@@ -35,7 +35,7 @@ class DispatchRecordController {
         if(params?.format && params.format != "html"){
             def dispatchRecord = DispatchRecord.findById(params.long('dispatchRecord'))
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
-            response.setHeader("Content-disposition", "attachment; filename=Oxford_GMC_to_GEL_QC_test_${dispatchRecord?.sentOn?.format('yyyy-MM-dd')?.toString()?.replace('-','_')}.${params.extension}")
+            response.setHeader("Content-disposition", "attachment; filename=Oxford_GMC_to_GEL_QC_Test_Cancer_${dispatchRecord?.sentOn?.format('yyyy-MM-dd')?.toString()?.replace('-','_')}.${params.extension}")
             def dispatchItems = DispatchItem.findAll {dispatchedBox.dispatchRecord == dispatchRecord}
             dispatchItems = dispatchItems.findAll {DNA_Extract.findById(it.identifiedSample.id)}
             exportService.export(params.format, response.outputStream, dispatchItems, qcTestExportService.summaryQCFields, qcTestExportService.summaryQCLabels, qcTestExportService.summaryQCFormatters, qcTestExportService.summaryQCParameters )
