@@ -20,6 +20,10 @@ class AllDispatchedItemsService {
             return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
         }
 
+        def aliquotBarcode = { domain, value ->
+            return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+        }
+
         def dNAConcentrationQubit = { domain, value ->
             if (DNA_Extract.findById(domain.identifiedSample.id)){
                 return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
@@ -76,15 +80,15 @@ class AllDispatchedItemsService {
 
         Map formatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier": formatParticipantID,
                           "identifiedSample.aliquot.aliquotType.aliquotTypeName":aliquotType, "dispatchedBox.dispatchRecord.sentOn": dispatchDate,
-                          "identifiedSample.dNAConcentrationQubit": dNAConcentrationQubit, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":tumourType]
+                          "identifiedSample.dNAConcentrationQubit": dNAConcentrationQubit, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":tumourType,
+                          "identifiedSample.aliquot.barcode":aliquotBarcode]
         return formatters
     }
 
     def getFields(){
         List fields = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation",
-                       "identifiedSample.barcode", "dispatchedBox.dispatchRecord.consignmentNumber", "identifiedSample.aliquot.aliquotType.aliquotTypeName", "dispatchedBox.dispatchRecord.sentOn",
-                       "identifiedSample.dNAConcentrationQubit"
-                       ]
+                       "identifiedSample.barcode", "dispatchedBox.dispatchRecord.consignmentNumber", "identifiedSample.aliquot.aliquotType.aliquotTypeName", "identifiedSample.aliquot.barcode",
+                       "dispatchedBox.dispatchRecord.sentOn", "identifiedSample.dNAConcentrationQubit"]
         return fields
     }
 
@@ -92,12 +96,12 @@ class AllDispatchedItemsService {
         Map labels = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier": "Participant ID", "identifiedSample.barcode": "Sample ID",
                       "dispatchedBox.dispatchRecord.consignmentNumber": "Consignment Number", "identifiedSample.dNAConcentrationQubit": "DNA Concentration (Qubit)",
                       "dispatchedBox.dispatchRecord.sentOn": "Date Dispatched", "identifiedSample.aliquot.aliquotType.aliquotTypeName": "Aliquot Type",
-                      "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":"Cancer Type"]
+                      "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":"Cancer Type", "identifiedSample.aliquot.barcode":"Aliquot Barcode"]
         return labels
     }
 
     def getParameters(){
-        Map parameters = [title: "Dispatched Items", "column.widths": [0.2, 0.15, 0.2, 0.2, 0.3, 0.2, 0.25]]
+        Map parameters = [title: "Dispatched Items", "column.widths": [0.2, 0.15, 0.2, 0.2, 0.3, 0.2, 0.2, 0.25]]
         return parameters
     }
 }
