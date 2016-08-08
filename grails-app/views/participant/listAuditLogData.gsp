@@ -23,14 +23,14 @@
         <p>
         <div class="row">
             <div class="col-lg-4">
-                <div class="fieldcontain">
-                    <label style="color: #ec2707" for="delete"><small>Delete After Export ?</small></label>
-                    <input type="checkbox" id="delete" />
-                </div>
-                <a class='btn btn-success btn-xs' id="withDelete" onclick="getExcelWithDelete()"  <g:link controller="participant" action="listAuditLogData" params="['format': 'excel', 'extension': 'xls', 'delete': 'true']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
-                <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
-                    <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
-                </div>
+                %{--<div class="fieldcontain">--}%
+                    %{--<label style="color: #ec2707" for="delete"><small>Delete After Export ?</small></label>--}%
+                    %{--<input type="checkbox" id="delete" />--}%
+                %{--</div>--}%
+                %{--<a class='btn btn-success btn-xs' id="withDelete" onclick="getExcelWithDelete()"  <g:link controller="participant" action="listAuditLogData" params="['format': 'excel', 'extension': 'xls', 'delete': 'true']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>--}%
+                %{--<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>--}%
+                    %{--<img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />--}%
+                %{--</div>--}%
                 <a class='btn btn-success btn-xs' id="withoutDelete" onclick="getExcelWithoutDelete()" <g:link controller="participant" action="listAuditLogData" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format </g:link>
                 <div id="spinnerWithoutDelete" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                     <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
@@ -106,34 +106,34 @@
 </section>
 <g:javascript plugin="jquery" library="jquery" />
 <script>
-    $('#withDelete').hide();
-    $('#delete').on('change', function() {
-        if (this.checked) {
-            $('#withDelete').show();
-            $('#withoutDelete').hide();
-        } else{
-            $('#withDelete').hide();
-            $('#withoutDelete').show();
-        }
-    });
+//    $('#withDelete').hide();
+//    $('#delete').on('change', function() {
+//        if (this.checked) {
+//            $('#withDelete').show();
+//            $('#withoutDelete').hide();
+//        } else{
+//            $('#withDelete').hide();
+//            $('#withoutDelete').show();
+//        }
+//    });
 
-    function showSpinner() {
-        $('#spinner').show();
-    }
-    function hideSpinner() {
-        $('#spinner').hide();
-    }
+//    function showSpinner() {
+//        $('#spinner').show();
+//    }
+//    function hideSpinner() {
+//        $('#spinner').hide();
+//    }
     function hideSpinnerWithoutDelete() {
         $('#spinnerWithoutDelete').hide();
     }
-    function getExcelWithDelete(){
-        showSpinner();
-        ${remoteFunction (controller: 'participant',
-                        action: 'listAuditLogData',
-                        params:[format:'excel',extension:'xls', delete: 'true'],
-                        onSuccess:'hideSpinner()'
-                )}
-    }
+    %{--function getExcelWithDelete(){--}%
+        %{--showSpinner();--}%
+        %{--${remoteFunction (controller: 'participant',--}%
+                        %{--action: 'listAuditLogData',--}%
+                        %{--params:[format:'excel',extension:'xls', delete: 'true'],--}%
+                        %{--onSuccess:'hideSpinner()'--}%
+                %{--)}--}%
+    %{--}--}%
     function getExcelWithoutDelete(){
         $('#spinnerWithoutDelete').show();
         ${remoteFunction (controller: 'participant',
