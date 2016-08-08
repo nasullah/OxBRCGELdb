@@ -158,9 +158,9 @@ class ParticipantController {
             def auditLogExport = AuditLogEvent.list().sort {it.actor}
             auditLogExport = auditLogExport.reverse()
             exportService.export(params.format, response.outputStream, auditLogExport, listAuditLogDataService.fields, listAuditLogDataService.labels, [:], listAuditLogDataService.parameters )
-            if (params.delete){
-                AuditLogEvent.executeUpdate('delete from AuditLogEvent')
-            }
+//            if (params.delete){
+//                AuditLogEvent.executeUpdate('delete from AuditLogEvent')
+//            }
         }
         [listAuditLogData: listAuditLogData]
     }
