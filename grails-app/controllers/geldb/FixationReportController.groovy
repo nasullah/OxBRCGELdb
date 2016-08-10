@@ -112,7 +112,7 @@ class FixationReportController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'FixationReport.label', default: 'FixationReport'), fixationReportInstance.id])
-                redirect action: "index", method: "GET"
+                redirect(controller:'aliquot',action: 'show', params: [id: fixationReportInstance.aliquot.id])
             }
             '*' { render status: NO_CONTENT }
         }
