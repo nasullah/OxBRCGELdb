@@ -157,17 +157,32 @@ class PathologyImageController {
                 boolean fileDeletedSuccessfully = new File(pathologyImageInstance.samplePointer).delete()
                 if (fileDeletedSuccessfully){
                     pathologyImageInstance.delete flush: true
-                    flash.message = "Pathology Image Instance has been deleted"
-                    redirect action: "index", method: "GET"
+                    if (pathologyImageInstance?.gelSuitabilityReport?.id){
+                        flash.message = "Pathology Image Instance has been deleted"
+                        redirect(controller:'gelSuitabilityReport',action: 'show', params: [id: pathologyImageInstance.gelSuitabilityReport.id])
+                    }else if (pathologyImageInstance?.solidSpecimenReport?.id){
+                        flash.message = "Pathology Image Instance has been deleted"
+                        redirect(controller:'FFPE_Tissue_Report',action: 'show', params: [id: pathologyImageInstance.solidSpecimenReport.id])
+                    }
                 } else{
-                    flash.message = "Could not delete the image file"
-                    redirect action: "index", method: "GET"
+                    if (pathologyImageInstance?.gelSuitabilityReport?.id){
+                        flash.message = "Could not delete the image file"
+                        redirect(controller:'gelSuitabilityReport',action: 'show', params: [id: pathologyImageInstance.gelSuitabilityReport.id])
+                    }else if (pathologyImageInstance?.solidSpecimenReport?.id){
+                        flash.message = "Could not delete the image file"
+                        redirect(controller:'FFPE_Tissue_Report',action: 'show', params: [id: pathologyImageInstance.solidSpecimenReport.id])
+                    }
                 }
             }
         }else {
             pathologyImageInstance.delete flush: true
-            flash.message = "Pathology Image Instance has been deleted"
-            redirect action: "index", method: "GET"
+            if (pathologyImageInstance?.gelSuitabilityReport?.id){
+                flash.message = "Pathology Image Instance has been deleted"
+                redirect(controller:'gelSuitabilityReport',action: 'show', params: [id: pathologyImageInstance.gelSuitabilityReport.id])
+            }else if (pathologyImageInstance?.solidSpecimenReport?.id){
+                flash.message = "Pathology Image Instance has been deleted"
+                redirect(controller:'FFPE_Tissue_Report',action: 'show', params: [id: pathologyImageInstance.solidSpecimenReport.id])
+            }
         }
     }
 
