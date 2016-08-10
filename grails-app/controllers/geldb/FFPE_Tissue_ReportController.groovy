@@ -294,17 +294,17 @@ class FFPE_Tissue_ReportController {
                 if (fileDeletedSuccessfully){
                     FFPE_Tissue_ReportInstance.delete flush: true
                     flash.message = "Main Specimen Report Instance has been deleted"
-                    redirect action: "index", method: "GET"
+                    redirect(controller:'solidSpecimen',action: 'show', params: [id: FFPE_Tissue_ReportInstance.solidSpecimen.id])
                 } else{
                     flash.message = "Could not delete the Tissue Worksheet file"
-                    redirect action: "index", method: "GET"
+                    redirect(controller:'solidSpecimen',action: 'show', params: [id: FFPE_Tissue_ReportInstance.solidSpecimen.id])
                 }
             }
 
         }else {
             FFPE_Tissue_ReportInstance.delete flush: true
             flash.message = "Main Specimen Report Instance has been deleted"
-            redirect action: "index", method: "GET"
+            redirect(controller:'solidSpecimen',action: 'show', params: [id: FFPE_Tissue_ReportInstance.solidSpecimen.id])
         }
     }
 
