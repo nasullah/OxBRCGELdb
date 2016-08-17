@@ -72,13 +72,14 @@ class FluidSpecimenController {
     }
 
     def createMultiple(){
-        respond new FluidSpecimen(params)
+        List primaryContainerTypes = ["EDTA_GL", "EDTA_cfDNA", "Strek_cfDNA", "Strek_cfDNA", "Vacutainer_potassium_EDTA_or_equivalent_PED", "Other_ZZZ"]
+        respond new FluidSpecimen(params), model: [primaryContainerTypes: primaryContainerTypes]
     }
 
     @Transactional
     def saveMultiple() {
         def counter = 0
-        for (int i=0; i < PrimaryContainerType?.values()?.size(); i++){
+        for (int i = 0; i < PrimaryContainerType?.values()?.size(); i++){
             if (params.find{it.key.equals('primaryContainer_'+ i)}?.value && params.find{it.key.equals('fluidSpecimenVolume_'+ i)}?.value
                     && params.participant && params.collectionDate && params.collectedBy && params.collectionLocation && params.volumeUnit
                     && params.fluidSampleType){
