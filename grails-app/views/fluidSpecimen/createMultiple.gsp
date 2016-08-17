@@ -47,11 +47,9 @@
             </div>
         </div>
 
-        <p></p>
-
-        <label class="control-label">Primary Container<span class="required-indicator">*</span></label>
-
         <hr/>
+
+        <h3>Primary Container<span class="required-indicator">*</span></h3>
 
         <g:each var="primaryContainer" in="${primaryContainerTypes}" status="i">
             <div class="row">
@@ -71,6 +69,8 @@
                 </div>
             </div>
         </g:each>
+
+        <hr/>
 
         <div class="row">
             <div class="col-lg-6">
