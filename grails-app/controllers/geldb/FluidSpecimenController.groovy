@@ -72,7 +72,7 @@ class FluidSpecimenController {
     }
 
     def createMultiple(){
-        List primaryContainerTypes = ["EDTA_GL", "EDTA_cfDNA", "Strek_cfDNA", "Strek_cfDNA", "Vacutainer_potassium_EDTA_or_equivalent_PED", "Other_ZZZ"]
+        List primaryContainerTypes = ["EDTA_GL", "EDTA_cfDNA", "Strek_cfDNA", "Strek_cfDNA", "Vacutainer_potassium_EDTA_or_equivalent_PED"]
         respond new FluidSpecimen(params), model: [primaryContainerTypes: primaryContainerTypes]
     }
 
