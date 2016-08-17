@@ -1,4 +1,4 @@
-<%@ page import="geldb.UnitType; geldb.FluidSpecimen" %>
+<%@ page import="geldb.PrimaryContainerType; geldb.UnitType; geldb.FluidSpecimen" %>
 <!DOCTYPE html>
 <html>
 
@@ -20,7 +20,7 @@
     <g:form action="saveMultiple" class="form-horizontal" role="form" >
 
         <g:if test="${fluidSpecimenInstance?.participant?.id == null}">
-            <hr style="border:1; height:1px" />
+            <hr/>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="input-group">
@@ -51,15 +51,15 @@
 
         <label class="control-label">Primary Container<span class="required-indicator">*</span></label>
 
-        <hr style="border:1; height:1px" />
+        <hr/>
 
-        <g:each var="primaryContainer" in="${geldb.PrimaryContainerType?.values()}" status="i">
+        <g:each var="primaryContainer" in="${primaryContainerTypes}" status="i">
             <div class="row">
                 <div class="col-lg-12">
-                    <label class="control-label">${primaryContainer}</label>
+                    <label class="control-label">${PrimaryContainerType.valueOf(primaryContainer?.toString())}</label>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <input type="checkbox" name="primaryContainer_${i}" value="${geldb.PrimaryContainerType?.values()[i].name()}"/>
+                            <input type="checkbox" name="primaryContainer_${i}" value="${primaryContainerTypes?.get(i)}"/>
                         </span>
                         <label class="control-label">Barcode</label>
                         <g:field type="text" class="form-control" name="barcode_${i}" placeholder="Barcode"/>
@@ -173,7 +173,7 @@
     </g:form>
 
 </section>
-<hr style="border:1; height:1px" />
+<hr/>
 
 <g:javascript plugin="jquery" library="jquery" />
 <script>
