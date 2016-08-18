@@ -69,6 +69,8 @@
 
 				<g:sortableColumn property="fluidSampleType" title="${message(code: 'fluidSpecimen.fluidSampleType.label', default: 'Fluid Sample Type')}" />
 
+                <g:sortableColumn property="primaryContainer" title="${message(code: 'fluidSpecimen.primaryContainer.label', default: 'Primary Container')}" />
+
                 <g:sortableColumn property="collectionDate" title="${message(code: 'fluidSpecimen.collectionDate.label', default: 'Collection Date')}" />
 
 				<g:sortableColumn property="timePoint" title="${message(code: 'fluidSpecimen.timePoint.label', default: 'Time Point')}" />
@@ -84,6 +86,8 @@
 			<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
 				<td><g:link action="show" id="${fluidSpecimenInstance.id}">${fieldValue(bean: fluidSpecimenInstance, field: "fluidSampleType")}</g:link></td>
+
+                <td>${fieldValue(bean: fluidSpecimenInstance, field: "primaryContainer")}</td>
 
                 <td><g:formatDate format="yyyy-MM-dd" date="${fluidSpecimenInstance.collectionDate}" /></td>
 
