@@ -51,7 +51,7 @@ class DispatchRecordController {
         if(params?.format && params.format != "html"){
             def dispatchRecord = DispatchRecord.findById(params.long('dispatchRecord'))
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
-            response.setHeader("Content-disposition", "attachment; filename=Oxford_GMC_GEL_Sample_Metadata_Cancer_${dispatchRecord?.sentOn?.format('yyyy-MM-dd')?.toString()?.replace('-','_')}.${params.extension}")
+            response.setHeader("Content-disposition", "attachment; filename=Oxford_GMC_to_GEL_Sample_Metadata_Cancer_${dispatchRecord?.sentOn?.format('yyyy-MM-dd')?.toString()?.replace('-','_')}.${params.extension}")
             def dnaSamples = DispatchItem.findAll {dispatchedBox.dispatchRecord == dispatchRecord}
             dnaSamples = dnaSamples.findAll {DNA_Extract.findById(it.identifiedSample.id)}
             def omicsSamples = DispatchItem.findAll {dispatchedBox.dispatchRecord == dispatchRecord}
