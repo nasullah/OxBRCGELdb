@@ -85,6 +85,47 @@ class QcTestExportService {
         }
     }
 
+    def testResultTypeTumourContent = { domain, value ->
+        return "Tumour Content"
+    }
+
+    def gelIdTumourContent = { domain, value ->
+        return cleanString(value?.toString())
+    }
+
+    def laboratoryIDTumourContent  = { domain, value ->
+        return "698D0"
+    }
+
+    def sampleIDTumourContent  = { domain, value ->
+        return value
+    }
+
+    def sideMarkedDateTumourContent  = { domain, value ->
+        def sideMarkedDate = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+        if (sideMarkedDate){
+            return sideMarkedDate?.replace(' ', 'T')
+        } else{
+            return ""
+        }
+    }
+
+    def tumourContent = { domain, value ->
+        def content = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+        if (content){
+            content = content?.toInteger()
+            if(content < 40){
+                return "Low"
+            }else if(content >= 40 && content <= 60 ){
+                return "Medium"
+            }else if(content > 60 ){
+                return "High"
+            }else {
+                return ""
+            }
+        }
+    }
+
     def getSummaryQCFields(){
         List SummaryQCFields = ["identifiedSample.barcode","testResultTypeSummaryQC","identifiedSample.extractionDate","identifiedSample.passFail","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
                                 "laboratoryID"]
@@ -194,5 +235,27 @@ class QcTestExportService {
         Map deltaCqFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdDeltaCq,'dNADeltaCq':testResultTypeDeltaCq,'laboratoryID':laboratoryIDDeltaCq, "identifiedSample.extractionDate":extractionDateDeltaCq,
                                  "identifiedSample.barcode":sampleIDDeltaCq, "identifiedSample.delatQC":deltaQC]
         return deltaCqFormatters
+    }
+
+    def getTumourContentFields(){
+        List tumourContentFields = ["identifiedSample.barcode","tumourContent","identifiedSample.aliquot.gelSuitabilityReport.sideMarkedDate","identifiedSample.aliquot.gelSuitabilityReport.percentageTumourContent","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
+                              "laboratoryID"]
+        return tumourContentFields
+    }
+
+    def getTumourContentLabels(){
+        Map tumourContentLabels = [:]
+        return tumourContentLabels
+    }
+
+    def getTumourContentParameters(){
+        Map tumourContentParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n", "quoteCharacter": "\u0000"]
+        return tumourContentParameters
+    }
+
+    def getTumourContentFormatters(){
+        Map tumourContentFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdTumourContent,'tumourContent':testResultTypeTumourContent,'laboratoryID':laboratoryIDTumourContent, "identifiedSample.aliquot.gelSuitabilityReport.sideMarkedDate":sideMarkedDateTumourContent,
+                                 "identifiedSample.barcode":sampleIDTumourContent, "identifiedSample.aliquot.gelSuitabilityReport.percentageTumourContent":tumourContent]
+        return tumourContentFormatters
     }
 }
