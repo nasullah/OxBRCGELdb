@@ -35,7 +35,7 @@ class DispatchRecordController {
         if(params?.format && params.format != "html"){
             def dispatchRecord = DispatchRecord.findById(params.long('dispatchRecord'))
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
-            response.setHeader("Content-disposition", "attachment; filename=Oxford_GMC_to_GEL_QC_Test_Cancer_${dispatchRecord?.sentOn?.format('yyyy-MM-dd')?.toString()?.replace('-','_')}.${params.extension}")
+            response.setHeader("Content-disposition", "attachment; filename=Oxford_GMC_to_GEL_Test_Results_Cancer_${dispatchRecord?.sentOn?.format('yyyy-MM-dd')?.toString()?.replace('-','_')}.${params.extension}")
             def dispatchItems = DispatchItem.findAll {dispatchedBox.dispatchRecord == dispatchRecord}
             dispatchItems = dispatchItems.findAll {DNA_Extract.findById(it.identifiedSample.id)}
             exportService.export(params.format, response.outputStream, dispatchItems, qcTestExportService.summaryQCFields, qcTestExportService.summaryQCLabels, qcTestExportService.summaryQCFormatters, qcTestExportService.summaryQCParameters )
@@ -44,6 +44,8 @@ class DispatchRecordController {
             exportService.export(params.format, response.outputStream, dispatchItems, qcTestExportService.qubitFields, qcTestExportService.qubitLabels, qcTestExportService.qubitFormatters,qcTestExportService.qubitParameters )
             def ffpeSamples = dispatchItems.findAll {ffpe -> ffpe.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')}
             exportService.export(params.format, response.outputStream, ffpeSamples, qcTestExportService.deltaCqFields, qcTestExportService.deltaCqLabels, qcTestExportService.deltaCqFormatters,qcTestExportService.deltaCqParameters )
+            def tumourSamples = dispatchItems.findAll {tumour -> tumour?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(SolidSpecimen)}
+            exportService.export(params.format, response.outputStream, tumourSamples, qcTestExportService.tumourContentFields, qcTestExportService.tumourContentLabels, qcTestExportService.tumourContentFormatters,qcTestExportService.tumourContentParameters )
         }
     }
 
