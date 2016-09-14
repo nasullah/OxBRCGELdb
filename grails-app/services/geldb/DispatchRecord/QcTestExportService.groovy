@@ -101,28 +101,44 @@ class QcTestExportService {
         return value
     }
 
-    def sideMarkedDateTumourContent  = { domain, value ->
-        def sideMarkedDate = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-        if (sideMarkedDate){
-            return sideMarkedDate?.replace(' ', 'T')
+    def dateTumourContent  = { domain, value ->
+        def tumourDate
+        if(domain?.identifiedSample?.aliquot?.first()?.derivedFrom?.id != null){
+            tumourDate = domain?.identifiedSample?.aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport?.reportDate
+            tumourDate = tumourDate?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+        }else {
+            tumourDate = domain?.identifiedSample?.aliquot?.gelSuitabilityReport?.reportDate
+            tumourDate = tumourDate?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+        }
+        if (tumourDate){
+            return tumourDate?.replace(' ', 'T')
         } else{
             return ""
         }
     }
 
-    def tumourContent = { domain, value ->
-        def content = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-        if (content){
-            content = content?.toInteger()
-            if(content < 40){
+    def percentageTumourContent = { domain, value ->
+        def tumour
+        if(domain?.identifiedSample?.aliquot?.first()?.derivedFrom?.id != null){
+            tumour = domain?.identifiedSample?.aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport?.percentageTumourContent
+            tumour = tumour?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+        }else {
+            tumour = domain?.identifiedSample?.aliquot?.first()?.gelSuitabilityReport?.percentageTumourContent
+            tumour = tumour?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+        }
+        if (tumour){
+            tumour = tumour?.toInteger()
+            if(tumour < 40){
                 return "Low"
-            }else if(content >= 40 && content <= 60 ){
+            }else if(tumour >= 40 && tumour <= 60 ){
                 return "Medium"
-            }else if(content > 60 ){
+            }else if(tumour > 60 ){
                 return "High"
             }else {
                 return ""
             }
+        }else {
+            return ""
         }
     }
 
@@ -238,7 +254,7 @@ class QcTestExportService {
     }
 
     def getTumourContentFields(){
-        List tumourContentFields = ["identifiedSample.barcode","tumourContent","identifiedSample.aliquot.gelSuitabilityReport.sideMarkedDate","identifiedSample.aliquot.gelSuitabilityReport.percentageTumourContent","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
+        List tumourContentFields = ["identifiedSample.barcode","testResultTypeTumourContent", "tumourContentDate", "percentageTumourContent","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
                               "laboratoryID"]
         return tumourContentFields
     }
@@ -254,8 +270,8 @@ class QcTestExportService {
     }
 
     def getTumourContentFormatters(){
-        Map tumourContentFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdTumourContent,'tumourContent':testResultTypeTumourContent,'laboratoryID':laboratoryIDTumourContent, "identifiedSample.aliquot.gelSuitabilityReport.sideMarkedDate":sideMarkedDateTumourContent,
-                                 "identifiedSample.barcode":sampleIDTumourContent, "identifiedSample.aliquot.gelSuitabilityReport.percentageTumourContent":tumourContent]
+        Map tumourContentFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdTumourContent,'testResultTypeTumourContent':testResultTypeTumourContent,'laboratoryID':laboratoryIDTumourContent, "tumourContentDate":dateTumourContent,
+                                 "identifiedSample.barcode":sampleIDTumourContent, "percentageTumourContent":percentageTumourContent]
         return tumourContentFormatters
     }
 }
