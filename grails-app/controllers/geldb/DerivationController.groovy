@@ -10,7 +10,7 @@ import grails.plugins.springsecurity.*
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
 
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class DerivationController {
 
@@ -30,6 +30,7 @@ class DerivationController {
         respond derivationInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
 		respond new Derivation(params), model: [aliquotType: params.aliquotType, aliquotVolumeMass: params.aliquotVolumeMass]
     }
@@ -126,6 +127,7 @@ class DerivationController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(Derivation derivationInstance) {
         respond derivationInstance
     }
@@ -154,6 +156,7 @@ class DerivationController {
     }
 
     @Transactional
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def delete(Derivation derivationInstance) {
 
         if (derivationInstance == null) {
