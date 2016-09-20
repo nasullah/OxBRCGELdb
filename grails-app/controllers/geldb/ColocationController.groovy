@@ -9,7 +9,7 @@ import grails.plugins.springsecurity.*
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
 
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class ColocationController {
 
@@ -29,6 +29,7 @@ class ColocationController {
         respond colocationInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new Colocation(params)
     }
@@ -57,6 +58,7 @@ class ColocationController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(Colocation colocationInstance) {
         respond colocationInstance
     }
@@ -91,6 +93,7 @@ class ColocationController {
     }
 
     @Transactional
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def delete(Colocation colocationInstance) {
 
         if (colocationInstance == null) {
