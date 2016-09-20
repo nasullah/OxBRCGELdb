@@ -52,7 +52,7 @@
 
                 <div class="col-md-3">
                     <label class="control-label"><small>Number of FF Aliquots Per Participant</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getNumberOfFFAliquots()" <g:link controller="aliquot" action="exportFFPEList" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <a class='btn btn-success btn-sm' onclick="getNumberOfFFAliquots()" <g:link controller="aliquot" action="exportFFAliquotsNumbersList" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     <div id="spinnerFFList" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
