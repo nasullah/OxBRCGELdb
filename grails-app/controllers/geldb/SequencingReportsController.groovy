@@ -8,7 +8,7 @@ import grails.plugins.springsecurity.*
  * SequencingReportsController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class SequencingReportsController {
 
@@ -28,6 +28,7 @@ class SequencingReportsController {
         respond sequencingReportsInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new SequencingReports(params)
     }
@@ -56,6 +57,7 @@ class SequencingReportsController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(SequencingReports sequencingReportsInstance) {
         respond sequencingReportsInstance
     }
@@ -83,6 +85,7 @@ class SequencingReportsController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(SequencingReports sequencingReportsInstance) {
 

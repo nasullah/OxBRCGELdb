@@ -16,7 +16,7 @@ import grails.transaction.Transactional
  * PlateOrBoxController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class PlateOrBoxController {
 
@@ -86,15 +86,18 @@ class PlateOrBoxController {
         respond plateOrBoxInstance, model: [listAuditLogData: listPlateOrBoxAuditLogData, positionList:positionList]
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new PlateOrBox(params)
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def getExcelImportService() {
         ExcelImportService.getService()
     }
 
     @Transactional
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def uploadScannerFile(){
         def boxInstance = PlateOrBox.findById(params.long('box'))
         if (!request.getFile('file').originalFilename) {
@@ -147,6 +150,7 @@ class PlateOrBoxController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(PlateOrBox plateOrBoxInstance) {
         respond plateOrBoxInstance
     }
@@ -174,6 +178,7 @@ class PlateOrBoxController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(PlateOrBox plateOrBoxInstance) {
 

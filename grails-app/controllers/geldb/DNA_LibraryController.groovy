@@ -9,7 +9,7 @@ import grails.plugins.springsecurity.*
  * DNA_LibraryController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class DNA_LibraryController {
 
@@ -64,6 +64,7 @@ class DNA_LibraryController {
         respond DNA_LibraryInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new DNA_Library(params)
     }
@@ -95,6 +96,7 @@ class DNA_LibraryController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(DNA_Library DNA_LibraryInstance) {
         respond DNA_LibraryInstance
     }
@@ -126,6 +128,7 @@ class DNA_LibraryController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(DNA_Library DNA_LibraryInstance) {
 

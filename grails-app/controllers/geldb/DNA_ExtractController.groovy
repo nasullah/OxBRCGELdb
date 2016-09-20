@@ -13,7 +13,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
  * DNA_ExtractController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class DNA_ExtractController {
 
@@ -84,6 +84,7 @@ class DNA_ExtractController {
         respond DNA_ExtractInstance, model: [listAuditLogData: listDNA_ExtractInstanceAuditLogData]
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new DNA_Extract(params), model: [originalVolume: params.originalVolume, originalDnaId: params.originalDnaId]
     }
@@ -178,6 +179,7 @@ class DNA_ExtractController {
     }
 
     @Transactional
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def uploadFile() {
         MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request;
         CommonsMultipartFile file = (CommonsMultipartFile) mpr.getFile("file");
@@ -387,6 +389,7 @@ class DNA_ExtractController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(DNA_Extract DNA_ExtractInstance) {
         respond DNA_ExtractInstance
     }
@@ -425,6 +428,7 @@ class DNA_ExtractController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(DNA_Extract DNA_ExtractInstance) {
 

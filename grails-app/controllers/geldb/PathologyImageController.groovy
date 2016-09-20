@@ -9,7 +9,7 @@ import grails.transaction.Transactional
  * PathologyImageController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class PathologyImageController {
 
@@ -29,10 +29,12 @@ class PathologyImageController {
         respond pathologyImageInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new PathologyImage(params)
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def download(long id) {
         PathologyImage pathologyImageInstance = PathologyImage.get(id)
         if ( pathologyImageInstance == null) {
@@ -116,6 +118,7 @@ class PathologyImageController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(PathologyImage pathologyImageInstance) {
         respond pathologyImageInstance
     }
@@ -143,6 +146,7 @@ class PathologyImageController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(PathologyImage pathologyImageInstance) {
 

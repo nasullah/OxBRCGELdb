@@ -8,7 +8,7 @@ import grails.plugins.springsecurity.*
  * StudySubjectController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class StudySubjectController {
 
@@ -28,6 +28,7 @@ class StudySubjectController {
         respond studySubjectInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new StudySubject(params)
     }
@@ -86,6 +87,7 @@ class StudySubjectController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(StudySubject studySubjectInstance) {
         respond studySubjectInstance
     }
@@ -114,6 +116,7 @@ class StudySubjectController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(StudySubject studySubjectInstance) {
 

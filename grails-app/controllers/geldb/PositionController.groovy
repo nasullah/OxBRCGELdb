@@ -9,7 +9,7 @@ import grails.plugins.springsecurity.*
  * PositionController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class PositionController {
 
@@ -42,12 +42,13 @@ class PositionController {
         respond positionInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new Position(params)
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def filterPlateOrBox() {
-
         def freezer = Freezer.get(params.long('freezer'))
         if (freezer){
             def listPlateOrBox = PlateOrBox.where {
@@ -93,6 +94,7 @@ class PositionController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(Position positionInstance) {
         respond positionInstance
     }
@@ -110,9 +112,6 @@ class PositionController {
         }
 
         positionInstance.save flush: true
-//        Integer paramValue = params.int('identifiedSample.id')
-//        def sample =IdentifiedSample.findById(paramValue)
-//        positionInstance.addToContainedSamples(sample).save flush: true
 
         request.withFormat {
             form {
@@ -123,6 +122,7 @@ class PositionController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(Position positionInstance) {
 

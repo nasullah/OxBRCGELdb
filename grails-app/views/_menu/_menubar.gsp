@@ -1,7 +1,7 @@
-<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_USER, ROLE_CAN_SEE_DEMOGRAPHICS">
+<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_USER, ROLE_CAN_SEE_DEMOGRAPHICS, ROLE_READ_ONLY">
     <ul class="nav nav-tabs">
 
-        <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_CAN_SEE_DEMOGRAPHICS">
+        <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_CAN_SEE_DEMOGRAPHICS, ROLE_READ_ONLY">
             <li>
                 <g:link controller="Participant" action="index">Participant</g:link>
             </li>

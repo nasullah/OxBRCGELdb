@@ -22,7 +22,7 @@ import groovy.json.JsonSlurper
  * ParticipantController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class ParticipantController {
 
@@ -54,6 +54,7 @@ class ParticipantController {
         }
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def getJson () {
         params.nhsOrHospitalNumberId
         //call Greenlight service here
@@ -192,6 +193,7 @@ class ParticipantController {
         respond participantInstance, model: [listAuditLogData: listParticipantAuditLogData]
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def scanBarcode(){
         def barcode = params.barcode
         if (!barcode.toString().contains('~')){
@@ -230,6 +232,7 @@ class ParticipantController {
         }
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def createFromBarcode() {
         respond new Participant(params)
     }
@@ -292,7 +295,7 @@ class ParticipantController {
         file.delete()
     }
 
-    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
     def summaryReport() {
         def gelID = params.gelStudyId
         if (gelID) {
@@ -346,6 +349,7 @@ class ParticipantController {
         }
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new Participant(params)
     }
@@ -373,6 +377,7 @@ class ParticipantController {
         }
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(Participant participantInstance) {
         respond participantInstance
     }
@@ -413,6 +418,7 @@ class ParticipantController {
     }
 
     @Transactional
+    @Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def delete(Participant participantInstance) {
         if (participantInstance == null) {
             notFound()

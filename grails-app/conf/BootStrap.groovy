@@ -48,6 +48,7 @@ class BootStrap {
     def createRoles(){
         Role.findByAuthority('ROLE_ADMIN') ?: new Role(authority: 'ROLE_ADMIN').save(failOnError: true)
         Role.findByAuthority('ROLE_USER') ?: new Role(authority: 'ROLE_USER').save(failOnError: true)
+        Role.findByAuthority('ROLE_READ_ONLY') ?: new Role(authority: 'ROLE_READ_ONLY').save(failOnError: true)
         Role.findByAuthority('ROLE_CAN_SEE_DEMOGRAPHICS') ?: new Role(authority: 'ROLE_CAN_SEE_DEMOGRAPHICS').save(failOnError: true)
     }
 

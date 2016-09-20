@@ -10,7 +10,7 @@ import grails.transaction.Transactional
  * FixationReportController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class FixationReportController {
 
@@ -43,6 +43,7 @@ class FixationReportController {
         respond fixationReportInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new FixationReport(params)
     }
@@ -71,6 +72,7 @@ class FixationReportController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(FixationReport fixationReportInstance) {
         respond fixationReportInstance
     }
@@ -99,6 +101,7 @@ class FixationReportController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(FixationReport fixationReportInstance) {
 

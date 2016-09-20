@@ -9,7 +9,7 @@ import grails.transaction.Transactional
  * PostmortemController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class PostmortemController {
 
@@ -29,6 +29,7 @@ class PostmortemController {
         respond postmortemInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new Postmortem(params)
     }
@@ -56,6 +57,7 @@ class PostmortemController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(Postmortem postmortemInstance) {
         respond postmortemInstance
     }
@@ -83,6 +85,7 @@ class PostmortemController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(Postmortem postmortemInstance) {
 

@@ -9,7 +9,7 @@ import grails.plugins.springsecurity.*
  * ShelfController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class ShelfController {
 
@@ -30,6 +30,7 @@ class ShelfController {
         respond shelfInstance, model: [listAuditLogData: listShelfAuditLogData]
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new Shelf(params)
     }
@@ -58,6 +59,7 @@ class ShelfController {
         }
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(Shelf shelfInstance) {
         respond shelfInstance
     }
@@ -85,6 +87,7 @@ class ShelfController {
         }
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(Shelf shelfInstance) {
 

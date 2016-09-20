@@ -10,7 +10,7 @@ import grails.plugins.springsecurity.*
  * FluidSpecimenController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class FluidSpecimenController {
 
@@ -71,6 +71,7 @@ class FluidSpecimenController {
         [participantList: results.sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def createMultiple(){
         List primaryContainerTypes = ["EDTA_GL", "EDTA_cfDNA", "Strek_cfDNA", "Strek_cfDNA", "Vacutainer_potassium_EDTA_or_equivalent_PED"]
         respond new FluidSpecimen(params), model: [primaryContainerTypes: primaryContainerTypes]
@@ -117,6 +118,7 @@ class FluidSpecimenController {
         respond fluidSpecimenInstance, model: [listAuditLogData: listFluidSpecimenAuditLogData]
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new FluidSpecimen(params)
     }
@@ -154,6 +156,7 @@ class FluidSpecimenController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(FluidSpecimen fluidSpecimenInstance) {
         respond fluidSpecimenInstance
     }
@@ -181,6 +184,7 @@ class FluidSpecimenController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(FluidSpecimen fluidSpecimenInstance) {
 

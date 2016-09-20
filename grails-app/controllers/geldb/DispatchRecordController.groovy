@@ -12,7 +12,7 @@ import grails.transaction.Transactional
  * DispatchRecordController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class DispatchRecordController {
 
@@ -89,6 +89,7 @@ class DispatchRecordController {
         respond dispatchRecordInstance, model: [listAuditLogData: listDispatchRecordAuditLogData]
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new DispatchRecord(params)
     }
@@ -123,6 +124,7 @@ class DispatchRecordController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(DispatchRecord dispatchRecordInstance) {
         respond dispatchRecordInstance
     }
@@ -150,6 +152,7 @@ class DispatchRecordController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(DispatchRecord dispatchRecordInstance) {
 

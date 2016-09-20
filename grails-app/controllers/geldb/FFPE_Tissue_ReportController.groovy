@@ -11,7 +11,7 @@ import grails.transaction.Transactional
  * FFPE_Tissue_ReportController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class FFPE_Tissue_ReportController {
 
@@ -44,10 +44,12 @@ class FFPE_Tissue_ReportController {
         respond FFPE_Tissue_ReportInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new FFPE_Tissue_Report(params)
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def download(long id) {
         FFPE_Tissue_Report FFPE_Tissue_ReportInstance = FFPE_Tissue_Report.get(id)
         if ( FFPE_Tissue_ReportInstance == null) {
@@ -81,6 +83,7 @@ class FFPE_Tissue_ReportController {
     }
 
     @Transactional
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def deleteTissueWorksheet(long id){
         FFPE_Tissue_Report FFPE_Tissue_ReportInstance = FFPE_Tissue_Report.get(id)
         def file = new File(FFPE_Tissue_ReportInstance.tissueWorksheet)
@@ -101,6 +104,7 @@ class FFPE_Tissue_ReportController {
     }
 
     @Transactional
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def upLoadTissueWorkSheet(){
         long id = params.long('id')
         FFPE_Tissue_Report FFPE_Tissue_ReportInstance = FFPE_Tissue_Report.get(id)
@@ -214,6 +218,7 @@ class FFPE_Tissue_ReportController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(FFPE_Tissue_Report FFPE_Tissue_ReportInstance) {
         respond FFPE_Tissue_ReportInstance
     }
@@ -279,6 +284,7 @@ class FFPE_Tissue_ReportController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(FFPE_Tissue_Report FFPE_Tissue_ReportInstance) {
 

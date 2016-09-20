@@ -9,7 +9,7 @@ import grails.plugins.springsecurity.*
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
 
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class VCFpathController {
 
@@ -29,6 +29,7 @@ class VCFpathController {
         respond VCFpathInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new VCFpath(params)
     }
@@ -57,6 +58,7 @@ class VCFpathController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(VCFpath VCFpathInstance) {
         respond VCFpathInstance
     }
@@ -84,6 +86,7 @@ class VCFpathController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(VCFpath VCFpathInstance) {
 
