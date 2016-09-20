@@ -15,7 +15,7 @@ import grails.plugins.springsecurity.*
  * AliquotController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class AliquotController {
 
@@ -25,6 +25,7 @@ class AliquotController {
     def exportListOfMaterialSuppliedService
     def FFPETissueHandlingService
     def exportFFPEListService
+    def exportFFAliquotListService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -114,6 +115,16 @@ class AliquotController {
     }
 
     @Secured(['ROLE_ADMIN'])
+    def exportFFAliquotsNumbersList(){
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= FF Aliquot Numbers List File.${params.extension}")
+            def soidSpecimenList = SolidSpecimen.list().sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+            exportService.export(params.format, response.outputStream, soidSpecimenList, exportFFAliquotListService.fields, exportFFAliquotListService.labels, exportFFAliquotListService.formatters, exportFFAliquotListService.parameters )
+        }
+    }
+
+    @Secured(['ROLE_ADMIN'])
     def exportListOfMaterialSupplied(){
         def paramsStartDate = params.startDate
         def paramsEndDate = params.endDate
@@ -146,6 +157,7 @@ class AliquotController {
     }
 
     @Transactional
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def awaitingFFaliquots(){
         def solidSpecimen = SolidSpecimen.findById(params.long('solidSpecimen'))
         if (solidSpecimen){
@@ -159,6 +171,7 @@ class AliquotController {
         [solidSpecimenInstanceList: results.sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def awaitingFFPEaliquots(){
         def results = SolidSpecimen.list()
         results = results.findAll{specimen -> !Aliquot.findByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Punch Biopsy FFPE, NBF"), specimen)}
@@ -178,10 +191,12 @@ class AliquotController {
         respond aliquotInstance, model: [listAuditLogData: listAliquotAuditLogData]
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new Aliquot(params)
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def createMultiple() {
         respond new Aliquot(params)
     }
@@ -236,19 +251,6 @@ class AliquotController {
         }
     }
 
-//    def test (){
-//        def startDate = new Date().parse('yyyy-MM-dd', '2015-08-01')
-//        def endDate = new Date().parse('yyyy-MM-dd', '2016-03-31')
-//        def aliquots = Aliquot.createCriteria().list {
-//            dNA_Extract {
-//                le("extractionDate", endDate)
-//                ge("extractionDate", startDate)
-//                eq("extractionType", ExtractionType.findByExtractionTypeName('DNA Extraction'))
-//            }
-//        }
-//        [count: aliquots.size()]
-//    }
-
     @Transactional
     def save(Aliquot aliquotInstance) {
 
@@ -279,6 +281,7 @@ class AliquotController {
         redirect aliquotInstance
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(Aliquot aliquotInstance) {
         respond aliquotInstance
     }
@@ -332,6 +335,7 @@ class AliquotController {
     }
 
     @Transactional
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def delete(Aliquot aliquotInstance) {
 
         if (aliquotInstance == null) {
