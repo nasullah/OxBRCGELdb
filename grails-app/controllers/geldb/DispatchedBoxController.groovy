@@ -10,7 +10,7 @@ import grails.transaction.Transactional
  * DispatchedBoxController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
-@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
+@Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS', 'ROLE_READ_ONLY'])
 @Transactional(readOnly = true)
 class DispatchedBoxController {
 
@@ -55,10 +55,12 @@ class DispatchedBoxController {
         [dispatchedBoxInstance: dispatchedBoxInstance, dispatchItemList: dispatchItemList, listAuditLogData: listDispatchedBoxAuditLogData]
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def create() {
         respond new DispatchedBox(params)
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def uploadFile = {
         def dispatchedBox = DispatchedBox.findById(params.long('dispatchedBox'))
         if (!request.getFile('file').originalFilename) {
@@ -116,6 +118,7 @@ class DispatchedBoxController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def edit(DispatchedBox dispatchedBoxInstance) {
         respond dispatchedBoxInstance
     }
@@ -143,6 +146,7 @@ class DispatchedBoxController {
         }
     }
 
+    @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     @Transactional
     def delete(DispatchedBox dispatchedBoxInstance) {
 
