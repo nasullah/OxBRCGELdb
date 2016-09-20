@@ -18,34 +18,42 @@
             <h5 class="text-center">Export Options</h5>
             <p>
             <div class="row">
-                <div class="col-md-3">
-                    <label class="control-label"><small>Export GEL IDs/Participant IDs</small></label>
+                <div class="col-md-2">
+                    <label class="control-label"><small>GEL IDs/Participant IDs</small></label>
                     <a class='btn btn-success btn-sm' onclick="getExcelGeLID()" <g:link controller="participant" action="exportSummaryReport" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     <div id="spinnerGELID" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <label class="control-label"><small>Export FFPE Tissue Handling File</small></label>
+                <div class="col-md-2">
+                    <label class="control-label"><small>FFPE Tissue Handling File</small></label>
                     <a class='btn btn-success btn-sm' onclick="getExcelFFPETissueHandling()" <g:link controller="aliquot" action="exportFFPETissueHandling" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     <div id="spinnerFFPETissueHandling" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <label class="control-label"><small>Export All Dispatched Items</small></label>
+                <div class="col-md-2">
+                    <label class="control-label"><small>All Dispatched Items</small></label>
                     <a class='btn btn-success btn-sm' onclick="getCSVAllDispatchedItems()" <g:link controller="dispatchRecord" action="exportAllDispatchedItems" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     <div id="spinnerAllDispatchedItems" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <label class="control-label"><small>Export FFPE, NBF & Fixation Period</small></label>
+                <div class="col-md-2">
+                    <label class="control-label"><small>FFPE, NBF & Fixation Period</small></label>
                     <a class='btn btn-success btn-sm' onclick="getExcelFFPEList()" <g:link controller="aliquot" action="exportFFPEList" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     <div id="spinnerFFPEList" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                        <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="control-label"><small>Number of FF Aliquots Per Participant</small></label>
+                    <a class='btn btn-success btn-sm' onclick="getNumberOfFFAliquots()" <g:link controller="aliquot" action="exportFFPEList" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div id="spinnerFFList" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
@@ -201,6 +209,15 @@
                         action: 'exportFFPEList',
                         params:[format:'excel',extension:'xls'],
                         onSuccess:'$("#spinnerFFPEList").hide()'
+                )}
+    }
+
+    function getNumberOfFFAliquots(){
+        $('#spinnerFFList').show();
+        ${remoteFunction (controller: 'aliquot',
+                        action: 'exportFFAliquotsNumbersList',
+                        params:[format:'excel',extension:'xls'],
+                        onSuccess:'$("#spinnerFFList").hide()'
                 )}
     }
 </script>
