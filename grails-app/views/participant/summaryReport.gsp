@@ -19,7 +19,7 @@
                 <g:form controller="participant" action="summaryReport">
                     <label for="gelStudyId" class="control-label"><small>Enter GeL Id/Participant Id</small></label>
                     <div class="input-group">
-                    <g:textField type="text" name="gelStudyId" class="form-control input-sm" ></g:textField>
+                    <g:textField type="text" name="gelStudyId" class="form-control input-sm" value="${params.gelStudyId}" ></g:textField>
                     <div class="input-group-btn">
                         <button type="submit" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-search"></span> Find</button>
                     </div>
