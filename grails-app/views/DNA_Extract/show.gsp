@@ -223,7 +223,7 @@
 
 <% def elutionParts = DNA_ExtractInstance?.sapphireIdentifier?.toString()?.split('_')
 def duplicatedElution = null
-if(elutionParts?.length > 1){
+if(elutionParts?.length == 2){
     duplicatedElution = elutionParts[0] + '_' + elutionParts[1] +'_' + elutionParts[2] +'_'
 }
 def elution = null
