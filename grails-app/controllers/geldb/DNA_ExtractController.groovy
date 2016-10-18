@@ -178,6 +178,52 @@ class DNA_ExtractController {
         }
     }
 
+    def addBarcode(){
+        def aliquotType = params.long('aliquotTypeDNA')
+        def paramsStartDate = params.startDateDNA
+        def paramsEndDate = params.endDateDNA
+        def startDate = new Date()
+        def endDate =new Date()
+        if (paramsStartDate){
+            startDate = startDate.parse("yyyy-MM-dd", paramsStartDate.toString())
+        }
+        if (paramsEndDate){
+            endDate = endDate.parse("yyyy-MM-dd", paramsEndDate.toString())
+        }
+
+        if (paramsEndDate && paramsStartDate && aliquotType) {
+            def listDNA = DNA_Extract.createCriteria().list {
+                and {
+                    le("extractionDate", endDate)
+                    ge("extractionDate", startDate)
+                    aliquot {
+                        eq("aliquotType", AliquotType.findById(aliquotType))
+                    }
+                }
+            }?.sort {
+                it.aliquot.specimen.participant.studySubject.studySubjectIdentifier.findResult {
+                    it?.size() ? it : null
+                }
+            }
+            [listDNA:listDNA]
+        }
+    }
+
+    @Transactional
+    def updateBarcode(){
+        if (params.barcode){
+            def DNA_ExtractInstance = DNA_Extract.findById(params.long('DNA_ExtractInstance'))
+            if (DNA_ExtractInstance){
+                DNA_ExtractInstance.barcode = params.barcode
+                DNA_ExtractInstance.save flush: true
+                redirect(action: "addBarcode", params:[startDateDNA:params.startDateDNA, endDateDNA: params.endDateDNA, aliquotTypeDNA:params.aliquotTypeDNA])
+            }
+        }else {
+            flash.message = "Please enter barcode"
+            redirect(action: "addBarcode", params:[startDateDNA:params.startDateDNA, endDateDNA: params.endDateDNA, aliquotTypeDNA:params.aliquotTypeDNA])
+        }
+    }
+
     @Transactional
     @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def uploadFile() {
