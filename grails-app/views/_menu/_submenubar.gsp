@@ -20,39 +20,57 @@ This menu is used to show function that can be triggered on the content (an obje
                 <g:link action="list"><i class="glyphicon glyphicon-th-list"></i> <g:message code="default.list.label" args="[entityName]"/></g:link>
             </li>
             <g:if test="${ params.controller == 'aliquot'}">
-                <li class=${ params.action == "awaitingFFaliquots" ? 'active' : '' }>
-                    <g:link action="awaitingFFaliquots"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting FF Aliquots</g:link>
-                </li>
-                <li class=${ params.action == "awaitingFFPEaliquots" ? 'active' : '' }>
-                    <g:link action="awaitingFFPEaliquots"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting FFPE Aliquots</g:link>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-warning-sign" style="color: red"></i> Worklists <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <g:link action="awaitingFFaliquots">Awaiting FF Aliquots</g:link>
+                        </li>
+                        <li>
+                            <g:link action="awaitingFFPEaliquots">Awaiting FFPE Aliquots</g:link>
+                        </li>
+                    </ul>
                 </li>
                 <li class=${ params.action == "createMultiple" ? 'active' : '' }>
                     <g:link action="createMultiple"><span style="color:#28fff8"><i class="glyphicon glyphicon-th-large"></i></span> Create Multiple Aliquots</g:link>
                 </li>
             </g:if>
             <g:if test="${ params.controller == 'fluidSpecimen'}">
-                <li class=${ params.action == "awaitingBlood" ? 'active' : '' }>
-                    <g:link action="awaitingBlood"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Blood</g:link>
-                </li>
-                <li class=${ params.action == "listBloodFollowUp" ? 'active' : '' }>
-                    <g:link action="listBloodFollowUp"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Follow up Blood</g:link>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-warning-sign" style="color: red"></i> Worklists <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <g:link action="awaitingBlood">Awaiting Blood</g:link>
+                        </li>
+                        <li>
+                            <g:link action="listBloodFollowUp">Follow up Blood</g:link>
+                        </li>
+                    </ul>
                 </li>
                 <li class=${ params.action == "createMultiple" ? 'active' : '' }>
                     <g:link action="createMultiple"><span style="color:#28fff8"><i class="glyphicon glyphicon-th-large"></i></span> Create Multiple Fluid Specimen</g:link>
                 </li>
             </g:if>
             <g:if test="${ params.controller == 'DNA_Extract'}">
-                <li class=${ params.action == "reservedDNASampleList" ? 'active' : '' }>
-                    <g:link action="reservedDNASampleList"><span><i class="glyphicon glyphicon-list-alt"></i></span> Reserved DNA</g:link>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-warning-sign" style="color: red"></i> Worklists <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <g:link action="workLists">Aliquots awaiting extaction</g:link>
+                        </li>
+                        <li>
+                            <g:link action="readyToDispatch">Ready to dispatch list</g:link>
+                        </li>
+                        <li>
+                            <g:link action="reservedDNASampleList">Reserved DNA list</g:link>
+                        </li>
+                        <li>
+                            <g:link action="failedDNASampleList">Failed DNA list</g:link>
+                        </li>
+                    </ul>
                 </li>
-                <li class=${ params.action == "workLists" ? 'active' : '' }>
-                    <g:link action="workLists"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Worklists</g:link>
-                </li>
-                <li class=${ params.action == "failedDNASampleList" ? 'active' : '' }>
-                    <g:link action="failedDNASampleList"><span style="color:red"><i class="glyphicon glyphicon-thumbs-down"></i></span> Failed DNA</g:link>
-                </li>
-                <li class=${ params.action == "readyToDispatch" ? 'active' : '' }>
-                    <g:link action="readyToDispatch"><span style="color:green"><i class="glyphicon glyphicon-send"></i></span> Ready to dispatch</g:link>
+                <li class=${ params.action == "addBarcode" ? 'active' : '' }>
+                    <g:link action="addBarcode"><span style="color:rgba(6, 6, 12, 0.97)"><i class="glyphicon glyphicon-barcode"></i></span> Add Barcode</g:link>
                 </li>
             </g:if>
             <g:if test="${ params.action == 'show' || params.action == 'edit'}">
@@ -279,12 +297,16 @@ This menu is used to show function that can be triggered on the content (an obje
         <li class="${ params.action == "list" ? 'active' : '' }">
             <g:link action="list"><i class="glyphicon glyphicon-th-list"></i> List Main Specimen</g:link>
         </li>
-        <li class=${ params.action == "awaitingMainSpecimen" ? 'active' : '' }>
-            <g:link action="awaitingMainSpecimen"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Main Specimen</g:link>
-        </li>
-
-        <li class=${ params.action == "awaitingMainSpecimenReport" ? 'active' : '' }>
-            <g:link action="awaitingMainSpecimenReport"><span style="color:red"><i class="glyphicon glyphicon-warning-sign"></i></span> Awaiting Main Specimen Reports</g:link>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-warning-sign" style="color: red"></i> Worklists <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>
+                    <g:link action="awaitingMainSpecimen">Awaiting Main Specimen</g:link>
+                </li>
+                <li>
+                    <g:link action="awaitingMainSpecimenReport">Awaiting Main Specimen Reports</g:link>
+                </li>
+            </ul>
         </li>
         <li class="${ params.action == "create" ? 'active' : '' }">
             <g:link action="create"><i class="glyphicon glyphicon-plus"></i> New Main Specimen</g:link>
