@@ -61,7 +61,7 @@
 
                 <td><g:formatDate format="yyyy-MM-dd" date="${DNA_ExtractInstance?.extractionDate}" /></td>
 
-                <td>${fieldValue(bean: DNA_ExtractInstance, field: "extractedBy")}</td>
+                <td>${DNA_ExtractInstance?.extractedBy?.staffName}</td>
 
                 <td>${fieldValue(bean: DNA_ExtractInstance, field: "dNAConcentrationQubit")}</td>
 
