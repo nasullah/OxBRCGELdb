@@ -5,7 +5,7 @@
 
 <head>
     <meta name="layout" content="kickstart" />
-    <title>Add Barcode</title>
+    <title>Add DNA Extract Barcode</title>
 </head>
 
 <body>
@@ -35,19 +35,17 @@
         <thead>
         <tr>
 
-            <g:sortableColumn property="extractionType" title="${message(code: 'DNA_Extract.extractionType.label', default: 'Extraction Type')}" />
+            <th>Extraction Type</th>
 
-            <g:sortableColumn property="sapphireIdentifier" title="${message(code: 'DNA_Extract.sapphireIdentifier.label', default: 'DNA/RNA Elution')}" />
+            <th>Extr. Date</th>
 
-            <g:sortableColumn property="extractionDate" title="${message(code: 'DNA_Extract.extractionDate.label', default: 'Extraction Date')}" />
+            <th>Extracted By</th>
 
-            <g:sortableColumn property="extractedBy" title="${message(code: 'DNA_Extract.extractedBy.label', default: 'Extracted By')}" />
+            <th>Conc. (Qubit)</th>
 
-            <g:sortableColumn property="dNAConcentrationQubit" title="${message(code: 'DNA_Extract.dNAConcentrationQubit.label', default: 'Conc. (Qubit)')}" />
+            <th>DNA/RNA Elution</th>
 
-            <g:sortableColumn property="aliquot.specimen.participant.studySubject.studySubjectIdentifier" title="${message(code: 'aliquot.specimen.participant.studySubject.studySubjectIdentifier.label', default: "GeL Id/Participant Id")}" />
-
-            <g:sortableColumn property="barcode" title="${message(code: 'DNA_Extract.barcode.label', default: "Barcode")}" />
+            <th>Barcode</th>
 
         </tr>
         </thead>
@@ -57,19 +55,13 @@
 
                 <td><g:link action="show" id="${DNA_ExtractInstance.id}">${fieldValue(bean: DNA_ExtractInstance, field: "extractionType")}</g:link></td>
 
-                <td>${fieldValue(bean: DNA_ExtractInstance, field: "sapphireIdentifier")}</td>
-
                 <td><g:formatDate format="yyyy-MM-dd" date="${DNA_ExtractInstance?.extractionDate}" /></td>
 
                 <td>${DNA_ExtractInstance?.extractedBy?.staffName}</td>
 
                 <td>${fieldValue(bean: DNA_ExtractInstance, field: "dNAConcentrationQubit")}</td>
 
-                <% def gelId = DNA_ExtractInstance.aliquot.specimen.participant.studySubject %>
-                <% gelId = gelId.first()%>
-                <% gelId =gelId.findResult {it.studySubjectIdentifier ? it : null}%>
-
-                <td>${fieldValue(bean: gelId, field: "studySubjectIdentifier")}</td>
+                <td>${fieldValue(bean: DNA_ExtractInstance, field: "sapphireIdentifier")}</td>
 
                 <td style="padding:0">
                     <g:form action="updateBarcode" params="[startDateDNA:params.startDateDNA, endDateDNA: params.endDateDNA, aliquotTypeDNA:params.aliquotTypeDNA]" role="form" >
