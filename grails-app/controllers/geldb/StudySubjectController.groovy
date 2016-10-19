@@ -59,6 +59,9 @@ class StudySubjectController {
             }else if (consentType.studyName == 'HICF2') {
                 def listConsentVersionForm = ["HICF2"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
+            }else if (consentType.studyName == 'ORB paediatrics') {
+                def listConsentVersionForm = ["Version/date: 2/April 2014"]
+                render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             }
         }
     }
