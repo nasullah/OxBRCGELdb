@@ -70,7 +70,7 @@
                             <g:textField class="form-control" name="barcode" value="${DNA_ExtractInstance?.barcode}" readonly="" />
                         </g:if>
                         <g:else>
-                            <g:textField class="form-control" name="barcode" value="${DNA_ExtractInstance?.barcode}" />
+                            <g:textField class="form-control" name="barcode" value="${DNA_ExtractInstance?.barcode}" placeholder="Scan barcode" />
                         </g:else>
                     </g:form>
                 </td>
