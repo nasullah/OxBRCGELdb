@@ -35,7 +35,7 @@
 				<div id="remember_me_holder" class="form-group">
 					<label for='remember_me' class="control-label"><g:message code="springSecurity.login.remember.me.label"/></label>
 					<div class="controls">
-						<bs:checkBox class="form-control col-md-4" name="${rememberMeParameter}" value="${hasCookie}" />
+						<bs:checkBox class="form-control col-md-4" onLabel="Yes" offLabel="No" name="${rememberMeParameter}" value="${hasCookie}" />
 					</div>
 				</div>
 				
