@@ -35,7 +35,7 @@
 
         </p>
 
-        <hr>
+        <br/>
 
         <p>
             Coding: Nasullah Khalid Alham
@@ -53,14 +53,8 @@
         </p>
 
         <p>
-            © University of Oxford 2016
-        </p>
-
-        <p>
         <p>
     </div>
-
-<hr>
 
 </body>
 

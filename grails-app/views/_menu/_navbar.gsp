@@ -1,34 +1,32 @@
-<nav id="Navbar" class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-	<div class="container">
-	
-	    <div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-        		<span class="sr-only">Toggle navigation</span>
-        		<span class="icon-bar"></span>
-	           	<span class="icon-bar"></span>
-	           	<span class="icon-bar"></span>
+<nav id="Navbar" class="navbar navbar-nhs navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<sec:ifNotLoggedIn>
+			<a class="navbar-brand navbar-right" style="margin-right: 0" href="${createLink(uri: '/')}"><img src="${resource(plugin: 'kickstart', dir:'images', file:'OUH-FT-logo-white.png')}" height="30px" alt="OUH FT Logo" /></a>
+		</sec:ifNotLoggedIn>
+		<sec:ifLoggedIn>
+			<a class="navbar-brand navbar-right" style="margin-right: 0" href="${createLink(uri: '/index/index')}"><img src="${resource(plugin: 'kickstart', dir:'images', file:'OUH-FT-logo-white.png')}" height="30px" alt="OUH FT Logo" /></a>
+		</sec:ifLoggedIn>
+		<div class="navbar-header" style="color: #ffffff">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
 			</button>
-
-			<a class="navbar-brand" href="${createLink(uri: '/')}" style="color: #ffffff">
-                <img class="logo" src="${resource(dir:'images', file:'logo.jpg')}" width="35px" height="35px"/>
-                OMDC NGS-LIMS
-			</a>
 		</div>
 
-		<div class="collapse navbar-collapse navbar-ex1-collapse" role="navigation">
+		<div class="collapse navbar-collapse" role="navigation">
+			<ul class="nav navbar-nav">
+				<g:render template="/_menu/controller"/>
+			</ul>
 
-		<ul class="nav navbar-nav">
-			<g:render template="/_menu/controller"/>
-		</ul>
-
-    	<ul class="nav navbar-nav navbar-right">
- 			<g:render template="/_menu/search"/> 
-			<g:render template="/_menu/admin"/>														
-			<g:render template="/_menu/info"/>														
-			<g:render template="/_menu/user"/><!-- NOTE: the renderDialog for the "Register" modal dialog MUST be placed outside the NavBar (at least for Bootstrap 2.1.1): see bottom of main.gsp -->
-			<g:render template="/_menu/language"/>														
-	    </ul>			
-
+			<ul class="nav navbar-nav">
+				<g:render template="/_menu/search"/>
+				<g:render template="/_menu/admin"/>
+				<g:render template="/_menu/info"/>
+				<g:render template="/_menu/user"/><!-- NOTE: the renderDialog for the "Register" modal dialog MUST be placed outside the NavBar (at least for Bootstrap 2.1.1): see bottom of main.gsp -->
+				<g:render template="/_menu/language"/>
+			</ul>
 		</div>
 	</div>
 </nav>

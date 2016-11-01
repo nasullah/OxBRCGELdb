@@ -1,24 +1,23 @@
-
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 <sec:ifNotLoggedIn>
-<g:form controller="login" class="navbar-form navbar-left" >
-    <ul class="nav nav-pills nav-stacked">
-        <li class="active">
-        <g:link controller="login" action="auth"><span class="glyphicon glyphicon-log-in"></span>   Login</g:link>
-        </li>
+	<g:form controller="login" class="navbar-form navbar-left" >
+		<ul class="nav">
+			<li class="active">
+				<g:link controller="login" action="auth"><span class="glyphicon glyphicon-log-in"></span>   Login</g:link>
+			</li>
 
-    </ul>
-</g:form>
+		</ul>
+	</g:form>
 </sec:ifNotLoggedIn>
 
 <sec:ifLoggedIn>
- <g:form controller="logout" action="index" class="navbar-form navbar-left" >
-    <ul class="nav nav-pills nav-stacked">
-        <li class="active">
-            <g:link controller="logout" action="index"><span class="glyphicon glyphicon-log-out"></span>   Log out</g:link>
-        </li>
-    </ul>
-</g:form>
+	<g:form controller="logout" action="index" class="navbar-form navbar-left" >
+		<ul class="nav">
+			<li class="active">
+				<g:link controller="logout" action="index"><span class="glyphicon glyphicon-log-out"></span>   Log out</g:link>
+			</li>
+		</ul>
+	</g:form>
 </sec:ifLoggedIn>
 
 

@@ -2,7 +2,8 @@
 
 <head>
 	<meta name='layout' content='springSecurityUI'/>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 	<style>
 
 	#navbar {
@@ -23,9 +24,8 @@
 <center><h3 style="font-size: xx-large">Create User</h3></center>
 
 <div id='navbar'>
-	<g:render template="/_menu/navbar"/>
 
-	<g:render template="/_menu/menubar"/>
+	<a class='btn btn-primary btn-s' <g:link controller="home" action="index" style="color: white"><i class="glyphicon glyphicon-home"></i> Back to Home Page</g:link>
 
 	<p>
 
