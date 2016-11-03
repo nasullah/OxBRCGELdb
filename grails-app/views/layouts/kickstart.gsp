@@ -26,7 +26,7 @@
 	<g:layoutHead />
 	<link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" type="text/css">
 	<link rel="stylesheet" href="${resource(dir: 'css', file: 'main2.css')}" type="text/css">
-	<g:javascript library="bootstrap3"/>
+	%{--<g:javascript library="bootstrap3"/>--}%
 
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 	<!--[if lt IE 9]>
