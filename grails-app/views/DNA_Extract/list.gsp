@@ -41,6 +41,8 @@
     </div>
 </div>
 
+<a>Number of records: ${DNA_ExtractInstanceTotal == null ? DNA_ExtractInstanceCount: DNA_ExtractInstanceTotal}</a>
+
 <section id="list-DNA_Extract" class="first">
 
 	<table class="table table-bordered margin-top-medium">
@@ -91,8 +93,7 @@
         </tbody>
 	</table>
     <div class="pagination">
-        <g:paginate total="${DNA_ExtractInstanceTotal == null ? DNA_ExtractInstanceCount: DNA_ExtractInstanceTotal}" params="${filterParams}" />
-        <a>Number of records: ${DNA_ExtractInstanceTotal == null ? DNA_ExtractInstanceCount: DNA_ExtractInstanceTotal}</a>
+        <bs:paginate total="${DNA_ExtractInstanceTotal == null ? DNA_ExtractInstanceCount: DNA_ExtractInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 
