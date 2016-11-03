@@ -61,6 +61,8 @@
     </div>
 </div>
 
+<p>Number of records: ${aliquotInstanceTotal == null ? aliquotInstanceCount: aliquotInstanceTotal}</p>
+
 <section id="list-aliquot" class="first">
 
     <table class="table table-bordered margin-top-medium">
@@ -123,8 +125,7 @@
         </tbody>
     </table>
     <div class="pagination">
-        <g:paginate total="${aliquotInstanceTotal == null ? Aliquot.count(): aliquotInstanceTotal}" params="${filterParams}" />
-        <a>Number of records: ${aliquotInstanceTotal == null ? aliquotInstanceCount: aliquotInstanceTotal}</a>
+        <bs:paginate total="${aliquotInstanceTotal == null ? Aliquot.count(): aliquotInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 
