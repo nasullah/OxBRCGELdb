@@ -31,6 +31,8 @@
 
 <hr/>
 
+<p>Number of records: ${dispatchRecordInstanceTotal == null ? DispatchRecord.count(): dispatchRecordInstanceTotal}</p>
+
 <section id="list-dispatchRecord" class="first">
 
 	<table class="table table-bordered margin-top-medium">
@@ -60,8 +62,7 @@
         </tbody>
 	</table>
     <div class="pagination">
-        <g:paginate total="${dispatchRecordInstanceTotal == null ? DispatchRecord.count(): dispatchRecordInstanceTotal}" params="${filterParams}" />
-        <a>Number of records: ${dispatchRecordInstanceTotal == null ? DispatchRecord.count(): dispatchRecordInstanceTotal}</a>
+        <bs:paginate total="${dispatchRecordInstanceTotal == null ? DispatchRecord.count(): dispatchRecordInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 
