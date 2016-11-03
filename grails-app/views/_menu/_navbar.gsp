@@ -4,7 +4,7 @@
 			<a class="navbar-brand navbar-right" style="margin-right: 0" href="${createLink(uri: '/')}"><img src="${resource(plugin: 'kickstart', dir:'images', file:'OUH-FT-logo-white.png')}" height="30px" alt="OUH FT Logo" /></a>
 		</sec:ifNotLoggedIn>
 		<sec:ifLoggedIn>
-			<a class="navbar-brand navbar-right" style="margin-right: 0" href="${createLink(uri: '/index/index')}"><img src="${resource(plugin: 'kickstart', dir:'images', file:'OUH-FT-logo-white.png')}" height="30px" alt="OUH FT Logo" /></a>
+			<a class="navbar-brand navbar-right" style="margin-right: 0" href="${createLink(uri: '/')}"><img src="${resource(plugin: 'kickstart', dir:'images', file:'OUH-FT-logo-white.png')}" height="30px" alt="OUH FT Logo" /></a>
 		</sec:ifLoggedIn>
 		<div class="navbar-header" style="color: #ffffff">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
