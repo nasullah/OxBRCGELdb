@@ -41,6 +41,8 @@
 	</div>
 </div>
 
+<p>Number of records: ${fixationReportInstanceTotal == null ? FixationReport.count(): fixationReportInstanceTotal}</p>
+
 <section id="list-fixationReport" class="first">
 
 	<table class="table table-bordered margin-top-medium">
@@ -74,8 +76,7 @@
 		</tbody>
 	</table>
 	<div class="pagination">
-		<g:paginate total="${fixationReportInstanceTotal == null ? FixationReport.count(): fixationReportInstanceTotal}" params="${filterParams}" />
-		<a>Number of records: ${fixationReportInstanceTotal == null ? FixationReport.count(): fixationReportInstanceTotal}</a>
+		<bs:paginate total="${fixationReportInstanceTotal == null ? FixationReport.count(): fixationReportInstanceTotal}" params="${filterParams}" />
 	</div>
 </section>
 
