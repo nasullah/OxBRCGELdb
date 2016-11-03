@@ -95,7 +95,7 @@ environments {
 //    }
     production {
 //        grails.logging.jul.usebridge = false
-        grails.serverURL = "http://OXNETBRC06:8080/GELdb"
+        grails.serverURL = "http://oxnetbrc06.oxnet.nhs.uk:8080/GELdb"
 //        grails.app.context = "/GELdb"
     }
 }
