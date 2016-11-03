@@ -61,6 +61,8 @@
     </div>
 </div>
 
+<p>Number of records: ${DNA_ExtractInstanceTotal == null ? DNA_ExtractInstanceCount: DNA_ExtractInstanceTotal}</p>
+
 <section id="index-DNA_Extract" class="first">
 
 	<table class="table table-bordered margin-top-medium">
@@ -111,12 +113,11 @@
 		</tbody>
 	</table>
     <div class="pagination">
-        <g:paginate total="${DNA_ExtractInstanceTotal == null ? DNA_ExtractInstanceCount: DNA_ExtractInstanceTotal}" params="${filterParams}" />
-        <a>Number of records: ${DNA_ExtractInstanceTotal == null ? DNA_ExtractInstanceCount: DNA_ExtractInstanceTotal}</a>
+        <bs:paginate total="${DNA_ExtractInstanceTotal == null ? DNA_ExtractInstanceCount: DNA_ExtractInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <g:form action="uploadFile" method="post" enctype="multipart/form-data">
     <p>
@@ -128,7 +129,7 @@
     <button type="submit" class="btn btn-success btn-xs" value="Upload"><span class="glyphicon glyphicon-upload"></span> Upload</button>
 </g:form>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <g:javascript plugin="jquery" library="jquery" />
 <script>
