@@ -60,7 +60,7 @@
     </div>
 </div>
 
-<a>Number of records: ${participantInstanceTotal == null ? Participant.count(): participantInstanceTotal}</a>
+<p>Number of records: ${participantInstanceTotal == null ? Participant.count(): participantInstanceTotal}</p>
 
 <section id="index-participant" class="first">
 
