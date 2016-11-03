@@ -60,6 +60,8 @@
     </div>
 </div>
 
+<p>Number of records: ${participantInstanceTotal}</p>
+
 <section id="list-participant" class="first">
 
 	<table class="table table-bordered margin-top-medium">
@@ -106,8 +108,7 @@
 		</tbody>
 	</table>
     <div class="pagination">
-        <g:paginate total="${participantInstanceTotal == null ? Participant.count(): participantInstanceTotal}" params="${filterParams}" />
-        <a>Number of records: ${participantInstanceTotal}</a>
+        <bs:paginate total="${participantInstanceTotal == null ? Participant.count(): participantInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 

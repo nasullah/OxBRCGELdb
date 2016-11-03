@@ -37,6 +37,8 @@
     </div>
 </div>
 
+<p>Number of records: ${plateOrBoxInstanceTotal}</p>
+
 <section id="list-plateOrBox" class="first">
 
 	<table class="table table-bordered margin-top-medium">
@@ -73,8 +75,7 @@
 		</tbody>
 	</table>
     <div class="pagination">
-        <g:paginate total="${plateOrBoxInstanceTotal == null ? PlateOrBox.count(): plateOrBoxInstanceTotal}" params="${filterParams}" />
-        <a>Number of records: ${plateOrBoxInstanceTotal}</a>
+        <bs:paginate total="${plateOrBoxInstanceTotal == null ? PlateOrBox.count(): plateOrBoxInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 

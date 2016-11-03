@@ -61,6 +61,8 @@
     </div>
 </div>
 
+<p>Number of records: ${solidSpecimenInstanceTotal == null ? solidSpecimenInstanceCount: solidSpecimenInstanceTotal}</p>
+
 <section id="index-solidSpecimen" class="first">
 
 	<table class="table table-bordered margin-top-medium">
@@ -104,8 +106,7 @@
         </tbody>
 	</table>
     <div class="pagination">
-        <g:paginate total="${solidSpecimenInstanceTotal == null ? solidSpecimenInstanceCount: solidSpecimenInstanceTotal}" params="${filterParams}" />
-        <a>Number of records: ${solidSpecimenInstanceTotal == null ? solidSpecimenInstanceCount: solidSpecimenInstanceTotal}</a>
+        <bs:paginate total="${solidSpecimenInstanceTotal == null ? solidSpecimenInstanceCount: solidSpecimenInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 

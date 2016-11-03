@@ -61,6 +61,8 @@
     </div>
 </div>
 
+<p>Number of records: ${fluidSpecimenInstanceTotal == null ? fluidSpecimenInstanceCount: fluidSpecimenInstanceTotal}</p>
+
 <section id="list-fluidSpecimen" class="first">
 
 	<table class="table table-bordered margin-top-medium">
@@ -108,8 +110,7 @@
 		</tbody>
 	</table>
     <div class="pagination">
-        <g:paginate total="${fluidSpecimenInstanceTotal == null ? fluidSpecimenInstanceCount: fluidSpecimenInstanceTotal}" params="${filterParams}" />
-        <a>Number of records: ${fluidSpecimenInstanceTotal == null ? fluidSpecimenInstanceCount: fluidSpecimenInstanceTotal}</a>
+        <bs:paginate total="${fluidSpecimenInstanceTotal == null ? fluidSpecimenInstanceCount: fluidSpecimenInstanceTotal}" params="${filterParams}" />
     </div>
 </section>
 

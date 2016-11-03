@@ -30,7 +30,9 @@
     </div>
 </div>
 
-<hr style="border:1; height:1px" />
+<hr/>
+
+<a>Number of records: ${gelSuitabilityReportInstanceTotal == null ? GelSuitabilityReport.count(): gelSuitabilityReportInstanceTotal}</a>
 
 <section id="index-gelSuitabilityReport" class="first">
 
@@ -69,8 +71,7 @@
 		</tbody>
 	</table>
 	<div class="pagination">
-		<g:paginate total="${gelSuitabilityReportInstanceTotal == null ? GelSuitabilityReport.count(): gelSuitabilityReportInstanceTotal}" params="${filterParams}" />
-		<a>Number of records: ${gelSuitabilityReportInstanceTotal == null ? GelSuitabilityReport.count(): gelSuitabilityReportInstanceTotal}</a>
+		<bs:paginate total="${gelSuitabilityReportInstanceTotal == null ? GelSuitabilityReport.count(): gelSuitabilityReportInstanceTotal}" params="${filterParams}" />
 	</div>
 </section>
 

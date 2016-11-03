@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 <section id="list-position" class="first">
 
