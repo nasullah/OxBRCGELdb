@@ -428,8 +428,6 @@
 
                     <th>Aliquot Type</th>
 
-                    <th>Identifier</th>
-
                     <th>Barcode</th>
 
                     <th>Created On</th>
@@ -437,6 +435,8 @@
                     <th>Time Point</th>
 
                     <th>Exhausted</th>
+
+                    <th>Notes</th>
 
                     <th>Participant Id</th>
 
@@ -451,8 +451,6 @@
                     <tr>
 
                     <td><g:link controller="aliquot" action="show" id="${aliquotInstance.id}">${fieldValue(bean: aliquotInstance, field: "aliquotType")}</g:link></td>
-
-                    <td>${fieldValue(bean: aliquotInstance, field: "sapphireIdentifier")}</td>
 
                     <td>${fieldValue(bean: aliquotInstance, field: "barcode")}</td>
 
@@ -470,6 +468,8 @@
                             <g:formatBoolean false="No" true="Yes" boolean="${aliquotInstance.exhausted}" />
                         </g:else>
                     </td>
+
+                    <td>${fieldValue(bean: aliquotInstance, field: "notes")}</td>
 
                     <td>${fieldValue(bean: aliquotInstance.specimen.participant.studySubject.findResult {it.studySubjectIdentifier ? it : null}, field: "studySubjectIdentifier")}</td>
                     </tr>
