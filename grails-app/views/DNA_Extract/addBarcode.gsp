@@ -13,21 +13,21 @@
 <hr/>
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-12">
         <g:form controller="DNA_Extract" action="addBarcode">
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <label class="control-label"><small>Start Date </small></label>
-                    <bs:datePicker name="startDateDNA" precision="day" value="${Date.parse("yyyy-MM-dd", params.startDateDNA ?: new Date().format('yyy-MM-dd').toString() )}"/>
-                    <label class="control-label"><small>End Date </small></label>
-                    <bs:datePicker name="endDateDNA" precision="day" value="${Date.parse("yyyy-MM-dd", params.endDateDNA ?: new Date().format('yyy-MM-dd').toString())}"/>
-                    <g:select class="form-control" id="aliquotTypeDNA" name="aliquotTypeDNA" from="${AliquotType.list().sort{it.aliquotTypeName}}" required="" value="${params.aliquotTypeDNA}" optionKey="id" noSelection="['':'- Choose Sample Type -']"/>
-                    <button type="submit" class="btn btn-primary btn" ><span class="glyphicon glyphicon-search"></span> Find</button>
-                </div>
+            <div class="form-inline">
+                <label class="control-label"><small>Start Date </small></label>
+                <bs:datePicker name="startDateDNA" precision="day" value="${Date.parse("yyyy-MM-dd", params.startDateDNA ?: new Date().format('yyy-MM-dd').toString() )}"/>
+                <label class="control-label"><small>End Date </small></label>
+                <bs:datePicker name="endDateDNA" precision="day" value="${Date.parse("yyyy-MM-dd", params.endDateDNA ?: new Date().format('yyy-MM-dd').toString())}"/>
+                <g:select class="form-control" id="aliquotTypeDNA" name="aliquotTypeDNA" from="${AliquotType.list().sort{it.aliquotTypeName}}" required="" value="${params.aliquotTypeDNA}" optionKey="id" noSelection="['':'- Choose Sample Type -']"/>
+                <button type="submit" class="btn btn-primary btn" ><span class="glyphicon glyphicon-search"></span> Find</button>
             </div>
         </g:form>
     </div>
 </div>
+
+<hr/>
 
 <section id="list-DNA_Extract" class="first">
 

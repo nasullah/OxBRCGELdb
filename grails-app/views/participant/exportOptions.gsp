@@ -97,18 +97,16 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <g:form controller="aliquot" action="exportListOfMaterialSupplied" params="['format': 'excel', 'extension': 'xls']">
                         <label class="control-label"><small>Export List of Material Supplied</small></label>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <label class="control-label"><small>Start Date </small></label>
-                                <bs:datePicker id="startDate" name="startDate" precision="day" value="${params.startDate}"/>
-                                <label class="control-label"><small>End Date </small></label>
-                                <bs:datePicker id="endDate" name="endDate" precision="day" value="${params.endDate}" />
-                                <g:select class="form-control" id="aliquotType" name="aliquotType" from="${AliquotType.list().sort{it.aliquotTypeName}}" required="" value="${params.aliquotType}" optionKey="id" noSelection="['':'- Choose Aliquot Type -']"/>
-                                <button type="submit"  class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-export"></span> Excel Format</button>
-                            </div>
+                        <div class="form-inline">
+                            <label class="control-label"><small>Start Date </small></label>
+                            <bs:datePicker id="startDate" name="startDate" precision="day" value="${params.startDate}"/>
+                            <label class="control-label"><small>End Date </small></label>
+                            <bs:datePicker id="endDate" name="endDate" precision="day" value="${params.endDate}" />
+                            <g:select class="form-control" id="aliquotType" name="aliquotType" from="${AliquotType.list().sort{it.aliquotTypeName}}" required="" value="${params.aliquotType}" optionKey="id" noSelection="['':'- Choose Aliquot Type -']"/>
+                            <button type="submit"  class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-export"></span> Excel Format</button>
                         </div>
                     </g:form>
                 </div>
@@ -122,18 +120,16 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <g:form controller="DNA_Extract" action="exportDNAExportListToCheck" params="['format': 'pdf', 'extension': 'pdf']">
                     <label class="control-label"><small>Export DNA list to check </small></label>
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <label class="control-label"><small>Start Date </small></label>
-                            <bs:datePicker id="startDateDNA" name="startDateDNA" precision="day" value="${params.startDateDNA}" />
-                            <label class="control-label"><small>End Date </small></label>
-                            <bs:datePicker id="endDateDNA" name="endDateDNA" precision="day" value="${params.endDateDNA}" />
-                            <g:select class="form-control" id="aliquotTypeDNA" name="aliquotTypeDNA" from="${AliquotType.list().sort{it.aliquotTypeName}}" required="" value="${params.aliquotTypeDNA}" optionKey="id" noSelection="['':'- Choose Sample Type -']"/>
-                            <button type="submit"  class="btn btn btn-sm" ><span class="glyphicon glyphicon-export"></span> PDF Format</button>
-                        </div>
+                    <div class="form-inline">
+                        <label class="control-label"><small>Start Date </small></label>
+                        <bs:datePicker id="startDateDNA" name="startDateDNA" precision="day" value="${params.startDateDNA}" />
+                        <label class="control-label"><small>End Date </small></label>
+                        <bs:datePicker id="endDateDNA" name="endDateDNA" precision="day" value="${params.endDateDNA}" />
+                        <g:select class="form-control" id="aliquotTypeDNA" name="aliquotTypeDNA" from="${AliquotType.list().sort{it.aliquotTypeName}}" required="" value="${params.aliquotTypeDNA}" optionKey="id" noSelection="['':'- Choose Sample Type -']"/>
+                        <button type="submit"  class="btn btn btn-sm" ><span class="glyphicon glyphicon-export"></span> PDF Format</button>
                     </div>
                 </g:form>
             </div>
