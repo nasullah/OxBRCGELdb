@@ -341,7 +341,7 @@ class DNA_ExtractController {
     }
 
     def getElution() {
-        def aliquot = Aliquot.findById(params.selectAliquot)
+        def aliquot = Aliquot.findById(params.long('selectAliquot'))
         if(aliquot){
             def aliquotType = aliquot.getAliquotType()
             def selectExtractionType = ExtractionType.findById(params.long('selectExtractionType'))?.extractionTypeName
@@ -354,12 +354,11 @@ class DNA_ExtractController {
             }
             def gelId = aliquot?.specimen?.participant?.studySubject?.studySubjectIdentifier?.findResult {it?.size() ? it : null}
             if (aliquotType && gelId && selectExtractionType){
-                def elution = ""
                 if (aliquotType.aliquotTypeName == 'Buffy Coat'){
-                    elution = gelId.toString() + "_" + selectExtractionType + "_GL_"
+                    def elution = gelId.toString() + "_" + selectExtractionType + "_GL_"
                     render([elution: elution] as XML)
                 }else {
-                    elution = gelId.toString() + "_" + selectExtractionType + "_" + aliquotType.toString().replace(" ","") + "_"
+                    def elution = gelId.toString() + "_" + selectExtractionType + "_" + aliquotType.toString().replace(" ","") + "_"
                     render([elution: elution] as XML)
                 }
             }
