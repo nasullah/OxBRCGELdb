@@ -21,6 +21,18 @@
 		<g:form action="save" class="form-horizontal" role="form" >
 			<g:render template="form"/>
 
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="">
+						<label class="control-label">Exhaust Original Aliquot ?</label>
+						<div>
+							<label class="radio-inline"><input type="radio" name="exhaustAliquot"  value="True" checked="checked">Yes</label>
+							<label class="radio-inline"><input type="radio" name="exhaustAliquot"  value="False" >No</label>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="form-actions margin-top-medium">
 				<g:submitButton name="create" class="btn btn-primary" value="${message(code: 'save', default: 'Save')}" />
 	            <button class="btn" type="reset"><g:message code="default.button.reset.label" default="Reset" /></button>
@@ -28,7 +40,7 @@
 		</g:form>
 
 	</section>
-<hr style="border:1; height:1px" />
+<hr/>
 </body>
 
 </html>

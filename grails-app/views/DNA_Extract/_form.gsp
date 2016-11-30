@@ -223,17 +223,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-6">
-                    <div class="">
-                        <label for="exhaustAliquot" class="control-label"><g:message code="DNA_Extract.exhaustAliquot.label" default="Exhaust Original Aliquot ?" /></label>
-                        <div>
-                            %{--<bs:checkBox name="exhaustAliquot" id="exhaustAliquot" offLabel="No" onLabel="Yes"/>--}%
-                            <label class="radio-inline"><input type="radio" name="exhaustAliquot"  value="True">Yes</label>
-                            <label class="radio-inline"><input type="radio" name="exhaustAliquot"  value="False" >No</label>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <g:hiddenField name="originalVolume" value="${originalVolume}" />
