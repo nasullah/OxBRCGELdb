@@ -73,7 +73,23 @@ class DNA_ExtractController {
                     a.specimen.participant.id == participantByGeLId
                 }
                 if (!listAliquotsByGeLId.empty) {
-                    render(template: "aliquotList", model: [listAliquotsByGeLId: listAliquotsByGeLId])
+                    def listAliquots = []
+                    listAliquotsByGeLId.each {aliquot ->
+                        if (aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy Frozen'
+                            || aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE, NBF'
+                            || aliquot.aliquotType.aliquotTypeName == 'Punch Biopsy FFPE'){
+                            if (!aliquot.sampleTrackingEvent.empty){
+                                if (aliquot?.sampleTrackingEvent?.flatten()?.toString()?.contains('Received')){
+                                    listAliquots.add(aliquot)
+                                }
+                            }
+                        }else {
+                            listAliquots.add(aliquot)
+                        }
+                    }
+                    if (!listAliquots.empty){
+                        render(template: "aliquotList", model: [listAliquotsByGeLId: listAliquots])
+                    }
                 }
             }
         }
