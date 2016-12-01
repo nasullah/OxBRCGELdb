@@ -71,12 +71,12 @@ class ExportAllDNAExtractService {
 
         Map formatters = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier":gelId, "passFail": passFail, "aliquot.gelSuitabilityReport.percentageTumourContent": clean, "aliquot.aliquotType": clean,
                           "aliquot.gelSuitabilityReport.percentageNecrosis":clean, "aliquot.gelSuitabilityReport.cellularity": clean, "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements":dysplasticNonInvasiveElements,
-                          "id":dispatched, "aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":tumourType]
+                          "id":dispatched, "aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":tumourType, "aliquot.barcode":clean]
         return formatters
     }
 
     def getFields(){
-        List fields = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier","aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation", "barcode", "aliquot.aliquotType", "id", "passFail", "extractionDate",
+        List fields = ["aliquot.specimen.participant.studySubject.studySubjectIdentifier","aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation", "barcode", "aliquot.aliquotType", "aliquot.barcode", "id", "passFail", "extractionDate",
                        "dNAConcentrationQubit", "dNAAmount", "a260A280", "delatQC", "aliquot.gelSuitabilityReport.percentageTumourContent", "aliquot.gelSuitabilityReport.percentageNecrosis",
                        "aliquot.gelSuitabilityReport.cellularity", "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements"]
         return fields
@@ -87,12 +87,12 @@ class ExportAllDNAExtractService {
                       "dNAAmount": "DNA/RNA Volume", "delatQC":"Delta QC", "aliquot.gelSuitabilityReport.percentageTumourContent":"Percentage Tumour Content", "aliquot.gelSuitabilityReport.percentageNecrosis":
                       "Percentage Necrosis", "aliquot.gelSuitabilityReport.cellularity": "Cellularity", "aliquot.gelSuitabilityReport.dysplasticNonInvasiveElements": "Dysplastic Non Invasive Elements",
                       "aliquot.aliquotType":"Aliquot Type", "id": "Dispatched", "aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":"Cancer Type", "extractionDate":"Extraction Date",
-                      "a260A280":"260/280 Ratio", "barcode":"DNA Extract Barcode"]
+                      "a260A280":"260/280 Ratio", "barcode":"DNA Extract Barcode", "aliquot.barcode":"Aliquot Barcode"]
         return labels
     }
 
     def getParameters(){
-        Map parameters = [title: "All DNA Extracts", "column.widths": [0.2, 0.15, 0.2, 0.25, 0.1, 0.1, 0.15, 0.3, 0.17, 0.15, 0.1, 0.25, 0.25, 0.1, 0.3]]
+        Map parameters = [title: "All DNA Extracts", "column.widths": [0.2, 0.15, 0.2, 0.25, 0.15, 0.11, 0.1, 0.15, 0.3, 0.17, 0.15, 0.1, 0.25, 0.25, 0.1, 0.3]]
         return parameters
     }
 }
