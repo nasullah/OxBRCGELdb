@@ -94,7 +94,7 @@
                                               values="[true, false, '']"
                                               labels="['Yes', 'No', 'Not completed']"
                                               value="${solidSpecimenInstance?.exhausted}">
-                                    ${it.label}  ${it.radio}
+                                    ${it.label}  ${it.radio} &nbsp; &nbsp;
                                 </g:radioGroup>
                             </div>
                         </div>

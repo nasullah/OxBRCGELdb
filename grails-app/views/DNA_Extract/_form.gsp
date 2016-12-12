@@ -44,13 +44,13 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'exhausted', 'error')} ">
-                        <label for="exhausted" class="control-label"><g:message code="DNA_Extract.exhausted.label" default="Exhausted DNA Extract" /></label>
+                        <label for="exhausted" class="control-label"><g:message code="DNA_Extract.exhausted.label" default="Exhausted DNA Extract" /><span class="required-indicator">*</span></label>
                         <div>
                             <g:radioGroup name="exhausted"
                                           values="[true, false]"
                                           labels="['Yes', 'No']"
                                           value="${DNA_ExtractInstance?.exhausted}">
-                                ${it.label}  ${it.radio}
+                                ${it.label}  ${it.radio} &nbsp; &nbsp;
                             </g:radioGroup>
                         </div>
                     </div>
@@ -58,13 +58,17 @@
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'passFail', 'error')} ">
-                        <label for="passFail" class="control-label"><g:message code="DNA_Extract.passFail.label" default="Pass/Fail" /></label>
+                        <label for="passFail" class="control-label"><g:message code="DNA_Extract.passFail.label" default="Pass/Fail" /><span class="required-indicator">*</span></label>
                         <div>
+                            <g:if test="${DNA_ExtractInstance?.id}">
+                                <g:set var="passFail" value="${DNA_ExtractInstance.passFail}" />
+                            </g:if>
                             <g:radioGroup name="passFail"
                                           values="[true, false]"
                                           labels="['Yes', 'No']"
-                                          value="${DNA_ExtractInstance?.passFail}">
-                                ${it.label}  ${it.radio}
+                                          value="${passFail}"
+                                          required="">
+                                ${it.label}  ${it.radio} &nbsp; &nbsp;
                             </g:radioGroup>
                         </div>
                     </div>

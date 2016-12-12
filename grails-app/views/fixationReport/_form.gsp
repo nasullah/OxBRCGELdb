@@ -105,7 +105,7 @@
 											  values="[true, false]"
 											  labels="['Yes', 'No']"
 											  value="${fixationReportInstance?.fixationTimeUnknownAliquot}">
-									${it.label}  ${it.radio}
+									${it.label}  ${it.radio} &nbsp; &nbsp;
 								</g:radioGroup>
 							</div>
 						</div>

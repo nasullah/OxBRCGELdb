@@ -52,7 +52,7 @@
                               values="[true, false, '']"
                               labels="['Yes', 'No', 'Not completed']"
                               value="${gelSuitabilityReportInstance?.handE_pathreview}">
-                    ${it.label}  ${it.radio}
+                    ${it.label}  ${it.radio} &nbsp; &nbsp;
                 </g:radioGroup>
             </div>
         </div>
@@ -120,7 +120,7 @@
                               values="[true, false, '']"
                               labels="['Yes', 'No', 'Not completed']"
                               value="${gelSuitabilityReportInstance?.microdissection}">
-                    ${it.label}  ${it.radio}
+                    ${it.label}  ${it.radio} &nbsp; &nbsp;
                 </g:radioGroup>
             </div>
         </div>
@@ -164,7 +164,7 @@
                               values="[true, false, '']"
                               labels="['Yes', 'No', 'Not completed']"
                               value="${gelSuitabilityReportInstance?.dysplasticNonInvasiveElements}">
-                    ${it.label}  ${it.radio}
+                    ${it.label}  ${it.radio} &nbsp; &nbsp;
                 </g:radioGroup>
             </div>
         </div>
@@ -198,7 +198,7 @@
                               values="[true, false, '']"
                               labels="['Yes', 'No', 'Not completed']"
                               value="${gelSuitabilityReportInstance?.suitableForGel}">
-                    ${it.label}  ${it.radio}
+                    ${it.label}  ${it.radio} &nbsp; &nbsp;
                 </g:radioGroup>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <%@ page import="geldb.UnitType; geldb.FluidSpecimen" %>
 
             <g:if test="${fluidSpecimenInstance?.participant?.id == null}">
-                <hr style="border:1; height:1px" />
+                <hr/>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="input-group">
@@ -81,7 +81,7 @@
                                           values="[true, false, '']"
                                           labels="['Yes', 'No', 'Not completed']"
                                           value="${fluidSpecimenInstance?.exhausted}">
-                                ${it.label}  ${it.radio}
+                                ${it.label}  ${it.radio} &nbsp; &nbsp;
                             </g:radioGroup>
                         </div>
                     </div>

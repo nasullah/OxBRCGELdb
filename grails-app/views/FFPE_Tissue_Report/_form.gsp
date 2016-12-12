@@ -370,7 +370,7 @@
                                   values="[true, false]"
                                   labels="['Yes', 'No']"
                                   value="${FFPE_Tissue_ReportInstance?.fixationTimeUnknown}">
-                        ${it.label}  ${it.radio}
+                        ${it.label}  ${it.radio} &nbsp; &nbsp;
                     </g:radioGroup>
                 </div>
             </div>
