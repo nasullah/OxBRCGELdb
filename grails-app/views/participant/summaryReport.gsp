@@ -66,7 +66,12 @@
 
                 <td>${fieldValue(bean: participantSummary, field: "diagnosis")}</td>
 
-                <td>${tumourType}</td>
+                <g:if test="${tumourType?.toString()?.startsWith('Other')}">
+                    <td><mark>${tumourType}</mark></td>
+                </g:if>
+                <g:else>
+                    <td>${tumourType}</td>
+                </g:else>
 
             </tr>
             </tbody>
