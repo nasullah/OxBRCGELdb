@@ -56,7 +56,7 @@ This menu is used to show function that can be triggered on the content (an obje
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-warning-sign" style="color: red"></i> Worklists <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <g:link action="workLists">Aliquots awaiting extaction</g:link>
+                            <g:link action="aliquotsPendingForExtraction">Pending to be extracted</g:link>
                         </li>
                         <li>
                             <g:link action="readyToDispatch">Ready to dispatch list</g:link>

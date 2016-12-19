@@ -109,6 +109,15 @@ class DNA_ExtractController {
         workListService.workLists(params.sampleType)
     }
 
+    def aliquotsPendingForExtraction(){
+        def aliquotInstanceList = Aliquot.findAllByAliquotTypeOrAliquotTypeOrAliquotTypeOrAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'), AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'),
+                AliquotType.findByAliquotTypeName('Punch biopsy, PAXgene'), AliquotType.findByAliquotTypeName('Section'), AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+        aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> !aliquot.sampleTrackingEvent.empty}
+        aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at MDC lab'), aliquot) }
+        aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> !aliquot.exhausted}
+        [aliquotInstanceList: aliquotInstanceList.sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
+    }
+
     @Transactional
     def readyToDispatch(){
         def dna = DNA_Extract.findById(params.long('dnaExtractId'))
