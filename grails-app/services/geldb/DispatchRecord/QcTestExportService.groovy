@@ -159,20 +159,40 @@ class QcTestExportService {
     }
 
     def dateCellularity  = { domain, value ->
-        def cellularityDate = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-        if (cellularityDate){
-            return cellularityDate?.replace(' ', 'T')
-        } else{
-            return ""
+        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('All Prep Lysate')){
+            def cellularityDate = domain?.identifiedSample?.aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport?.reportDate
+            cellularityDate = cellularityDate?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            if (cellularityDate){
+                return cellularityDate?.replace(' ', 'T')
+            } else{
+                return ""
+            }
+        }else {
+            def cellularityDate = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            if (cellularityDate){
+                return cellularityDate?.replace(' ', 'T')
+            } else{
+                return ""
+            }
         }
     }
 
     def cellularity = { domain, value ->
-        def cellularityResult = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-        if (cellularityResult){
-            return cellularityResult
+        if (domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('All Prep Lysate')){
+            def cellularityResult = domain?.identifiedSample?.aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport?.cellularity
+            cellularityResult = cellularityResult?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            if (cellularityResult){
+                return cellularityResult
+            }else {
+                return ""
+            }
         }else {
-            return ""
+            def cellularityResult = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            if (cellularityResult){
+                return cellularityResult
+            }else {
+                return ""
+            }
         }
     }
 
@@ -193,20 +213,40 @@ class QcTestExportService {
     }
 
     def dateNecrosisPercentage  = { domain, value ->
-        def necrosisPercentageDate = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-        if (necrosisPercentageDate){
-            return necrosisPercentageDate?.replace(' ', 'T')
-        } else{
-            return ""
+        if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('All Prep Lysate')){
+            def necrosisPercentageDate = domain?.identifiedSample?.aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport?.reportDate
+            necrosisPercentageDate = necrosisPercentageDate?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            if (necrosisPercentageDate){
+                return necrosisPercentageDate?.replace(' ', 'T')
+            } else{
+                return ""
+            }
+        }else {
+            def necrosisPercentageDate = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            if (necrosisPercentageDate){
+                return necrosisPercentageDate?.replace(' ', 'T')
+            } else{
+                return ""
+            }
         }
     }
 
     def necrosisPercentage = { domain, value ->
-        def necrosisResult = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
-        if (necrosisResult){
-            return necrosisResult
-        }else {
-            return ""
+        if (domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('All Prep Lysate')){
+            def necrosisResult = domain?.identifiedSample?.aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport?.percentageNecrosis
+            necrosisResult = necrosisResult?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            if (necrosisResult){
+                return necrosisResult
+            }else {
+                return ""
+            }
+        }else{
+            def necrosisResult = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+            if (necrosisResult){
+                return necrosisResult
+            }else {
+                return ""
+            }
         }
     }
 
