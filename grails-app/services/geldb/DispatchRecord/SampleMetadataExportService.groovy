@@ -387,7 +387,7 @@ class SampleMetadataExportService {
             if (value.toString()?.startsWith('[Fluid Specimen-')) {
                 return ""
             } else {
-                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy')
+                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy Frozen')
                         || domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('All Prep Lysate')) {
                     def collectionDate = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                     def collectionTime = domain?.identifiedSample?.aliquot?.specimen?.collectionTime
