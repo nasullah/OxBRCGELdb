@@ -182,14 +182,26 @@ class QcTestExportService {
             def cellularityResult = domain?.identifiedSample?.aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport?.cellularity
             cellularityResult = cellularityResult?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
             if (cellularityResult){
-                return cellularityResult
+                if (cellularityResult == 'Very High'){
+                    return 'VeryHigh'
+                }else if(cellularityResult == 'Very Low'){
+                    return 'VeryLow'
+                }else {
+                    return cellularityResult
+                }
             }else {
                 return ""
             }
         }else {
             def cellularityResult = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
             if (cellularityResult){
-                return cellularityResult
+                if (cellularityResult == 'Very High'){
+                    return 'VeryHigh'
+                }else if(cellularityResult == 'Very Low'){
+                    return 'VeryLow'
+                }else {
+                    return cellularityResult
+                }
             }else {
                 return ""
             }
