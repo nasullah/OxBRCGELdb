@@ -383,6 +383,28 @@ class SampleMetadataExportService {
             }
         }
 
+        def snapFreezingStartDateTime = { domain, value ->
+            if (value.toString()?.startsWith('[Fluid Specimen-')) {
+                return ""
+            } else {
+                if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy')
+                        || domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('All Prep Lysate')) {
+                    def collectionDate = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+                    def collectionTime = domain?.identifiedSample?.aliquot?.specimen?.collectionTime
+                    collectionTime = collectionTime?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+                    if (collectionDate && collectionTime) {
+                        return collectionDate?.substring(0, 10) + "T" + collectionTime+ ":00"
+                    } else if (collectionDate && !collectionTime) {
+                        return collectionDate?.substring(0, 10) + "T00:00:00"
+                    }else {
+                        return ""
+                    }
+                }else{
+                    return ""
+                }
+            }
+        }
+
         Map formatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'clinicID':clinicID,"identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourStatus":tumourType,
                           "identifiedSample.extractionDate":extractionDate,"identifiedSample.aliquot.aliquotType": clinicSampleType, "identifiedSample.barcode":aliquotBarcode, "laboratoryID":laboratoryID,
                           "Laboratory Method":laboratoryMethod, "laboratoryRemainingVolumeBanked":laboratoryRemainingVolumeBanked, "dispatchedBox.dispatchRecord.sentOn":dispatchDate,
@@ -393,7 +415,7 @@ class SampleMetadataExportService {
                           "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":processingSchedule, "volume_ul":volumeUl, "laboratorySampleID":laboratorySampleID, "Excision Margin":excisionMargin,
                           "identifiedSample.aliquot.specimen.numberOfBiopsies":numberOfBiopsies, "identifiedSample.aliquot.fixationReport.timeInProcessor": timeInProcessor, "identifiedSample.aliquot.unit":coreDiameter,
                           "identifiedSample.aliquot.aliquotVolumeMass":coresNumber, "identifiedSample.extractionKit":extractionProtocol, "Tumour Sample Type":tumourSampleType,
-                          "identifiedSample.aliquot.gelSuitabilityReport.microdissection":macrodissection, "identifiedSample.aliquot.specimen.specimenWeight":gaugeOfBiopsies
+                          "identifiedSample.aliquot.gelSuitabilityReport.microdissection":macrodissection, "identifiedSample.aliquot.specimen.specimenWeight":gaugeOfBiopsies, "identifiedSample.aliquot.specimen.collectionDate":snapFreezingStartDateTime
         ]
 
         return formatters
@@ -407,7 +429,7 @@ class SampleMetadataExportService {
                        "Morphology (ICD)", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed.snomedCode", "Morphology (SnomedCT)",
                        "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.sampleType","Pre-invasive Elements", "Topography (ICD)", "Topography (SnomedCT)",
                        "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed", "identifiedSample.aliquot.gelSuitabilityReport.microdissection", "identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails",
-                       "Snap Freezing Start DateTime", "identifiedSample.aliquot.fixationReport.fixationTypeAliquot", "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot",
+                       "identifiedSample.aliquot.specimen.collectionDate", "identifiedSample.aliquot.fixationReport.fixationTypeAliquot", "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot",
                        "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot", "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot", "identifiedSample.aliquot.fixationReport.processingScheduleAliquot",
                        "identifiedSample.aliquot.fixationReport.timeInProcessor", "identifiedSample.aliquot.specimen.numberOfBiopsies", "identifiedSample.aliquot.specimen.specimenWeight", "identifiedSample.extractionKit",
                        "Prolonged Sample Storage", "Reason Sample Not Sent", "Tumour Sample Type", "Scroll Thickness", "Number of Scrolls", "Number of Sections", "Section Thickness", "Number of Blocks",
@@ -429,7 +451,7 @@ class SampleMetadataExportService {
                      "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot":"Fixation Start DateTime", "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot":"Fixation Comments",
                      "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":"Processing Schedule", "identifiedSample.aliquot.specimen.numberOfBiopsies":"Number of Biopsies",
                      "identifiedSample.aliquot.fixationReport.timeInProcessor":"Time in formalin on processor", "identifiedSample.aliquot.unit":"Core Diameter", "identifiedSample.aliquot.aliquotVolumeMass":"Number of Cores",
-                     "identifiedSample.extractionKit":"DNA Extraction Protocol", "identifiedSample.aliquot.specimen.specimenWeight":"Gauge of Biopsies"
+                     "identifiedSample.extractionKit":"DNA Extraction Protocol", "identifiedSample.aliquot.specimen.specimenWeight":"Gauge of Biopsies", "identifiedSample.aliquot.specimen.collectionDate":"Snap Freezing Start DateTime"
         ]
 
         return labels
