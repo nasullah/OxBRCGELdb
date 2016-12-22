@@ -46,6 +46,8 @@ class DispatchRecordController {
             exportService.export(params.format, response.outputStream, ffpeSamples, qcTestExportService.deltaCqFields, qcTestExportService.deltaCqLabels, qcTestExportService.deltaCqFormatters,qcTestExportService.deltaCqParameters )
             def tumourSamples = dispatchItems.findAll {tumour -> tumour?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(SolidSpecimen)}
             exportService.export(params.format, response.outputStream, tumourSamples, qcTestExportService.tumourContentFields, qcTestExportService.tumourContentLabels, qcTestExportService.tumourContentFormatters,qcTestExportService.tumourContentParameters )
+            exportService.export(params.format, response.outputStream, tumourSamples, qcTestExportService.cellularityFields, qcTestExportService.cellularityLabels, qcTestExportService.cellularityFormatters,qcTestExportService.cellularityParameters )
+            exportService.export(params.format, response.outputStream, tumourSamples, qcTestExportService.necrosisPercentageFields, qcTestExportService.necrosisPercentageLabels, qcTestExportService.necrosisPercentageFormatters,qcTestExportService.necrosisPercentageParameters )
         }
     }
 

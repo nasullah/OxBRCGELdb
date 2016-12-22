@@ -142,6 +142,74 @@ class QcTestExportService {
         }
     }
 
+    def testResultTypeCellularity = { domain, value ->
+        return "Cellularity"
+    }
+
+    def gelIdCellularity = { domain, value ->
+        return cleanString(value?.toString())
+    }
+
+    def laboratoryIDCellularity  = { domain, value ->
+        return "698D0"
+    }
+
+    def sampleIDCellularity  = { domain, value ->
+        return value
+    }
+
+    def dateCellularity  = { domain, value ->
+        def cellularityDate = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+        if (cellularityDate){
+            return cellularityDate?.replace(' ', 'T')
+        } else{
+            return ""
+        }
+    }
+
+    def cellularity = { domain, value ->
+        def cellularityResult = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+        if (cellularityResult){
+            return cellularityResult
+        }else {
+            return ""
+        }
+    }
+
+    def testResultTypeNecrosisPercentage = { domain, value ->
+        return "Percent Necrosis"
+    }
+
+    def gelIdNecrosisPercentage = { domain, value ->
+        return cleanString(value?.toString())
+    }
+
+    def laboratoryIDNecrosisPercentage  = { domain, value ->
+        return "698D0"
+    }
+
+    def sampleIDNecrosisPercentage = { domain, value ->
+        return value
+    }
+
+    def dateNecrosisPercentage  = { domain, value ->
+        def necrosisPercentageDate = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+        if (necrosisPercentageDate){
+            return necrosisPercentageDate?.replace(' ', 'T')
+        } else{
+            return ""
+        }
+    }
+
+    def necrosisPercentage = { domain, value ->
+        def necrosisResult = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+        if (necrosisResult){
+            return necrosisResult
+        }else {
+            return ""
+        }
+    }
+
     def getSummaryQCFields(){
         List SummaryQCFields = ["identifiedSample.barcode","testResultTypeSummaryQC","identifiedSample.extractionDate","identifiedSample.passFail","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
                                 "laboratoryID"]
@@ -273,5 +341,49 @@ class QcTestExportService {
         Map tumourContentFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdTumourContent,'testResultTypeTumourContent':testResultTypeTumourContent,'laboratoryID':laboratoryIDTumourContent, "tumourContentDate":dateTumourContent,
                                  "identifiedSample.barcode":sampleIDTumourContent, "percentageTumourContent":percentageTumourContent]
         return tumourContentFormatters
+    }
+
+    def getCellularityFields(){
+        List cellularityFields = ["identifiedSample.barcode","testResultTypeCellularity", "identifiedSample.aliquot.gelSuitabilityReport.reportDate", "identifiedSample.aliquot.gelSuitabilityReport.cellularity","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
+                                    "laboratoryID"]
+        return cellularityFields
+    }
+
+    def getCellularityLabels(){
+        Map cellularityLabels = [:]
+        return cellularityLabels
+    }
+
+    def getCellularityParameters(){
+        Map cellularityParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n", "quoteCharacter": "\u0000"]
+        return cellularityParameters
+    }
+
+    def getCellularityFormatters(){
+        Map cellularityFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdCellularity,'testResultTypeCellularity':testResultTypeCellularity,'laboratoryID':laboratoryIDCellularity,
+                                     "identifiedSample.aliquot.gelSuitabilityReport.reportDate":dateCellularity, "identifiedSample.barcode":sampleIDCellularity, "identifiedSample.aliquot.gelSuitabilityReport.cellularity":cellularity]
+        return cellularityFormatters
+    }
+
+    def getNecrosisPercentageFields(){
+        List necrosisPercentageFields = ["identifiedSample.barcode","testResultTypeNecrosisPercentage", "identifiedSample.aliquot.gelSuitabilityReport.reportDate", "identifiedSample.aliquot.gelSuitabilityReport.percentageNecrosis","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
+                                  "laboratoryID"]
+        return necrosisPercentageFields
+    }
+
+    def getNecrosisPercentageLabels(){
+        Map necrosisPercentageLabels = [:]
+        return necrosisPercentageLabels
+    }
+
+    def getNecrosisPercentageParameters(){
+        Map necrosisPercentageParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n", "quoteCharacter": "\u0000"]
+        return necrosisPercentageParameters
+    }
+
+    def getNecrosisPercentageFormatters(){
+        Map necrosisPercentageFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdNecrosisPercentage,'testResultTypeNecrosisPercentage':testResultTypeNecrosisPercentage,'laboratoryID':laboratoryIDNecrosisPercentage,
+                                     "identifiedSample.aliquot.gelSuitabilityReport.reportDate":dateNecrosisPercentage, "identifiedSample.barcode":sampleIDNecrosisPercentage, "identifiedSample.aliquot.gelSuitabilityReport.percentageNecrosis":necrosisPercentage]
+        return necrosisPercentageFormatters
     }
 }
