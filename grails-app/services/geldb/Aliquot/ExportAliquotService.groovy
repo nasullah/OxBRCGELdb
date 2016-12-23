@@ -1,5 +1,6 @@
 package geldb.Aliquot
 
+import geldb.SolidSpecimen
 import grails.transaction.Transactional
 
 /**
@@ -25,6 +26,31 @@ class ExportAliquotService {
                 return value.toString().replace('[','').replace(']','').replace('null','').trim()
             }
         }
+
+        def tumourType = { domain, value ->
+            if (value.toString()?.startsWith('Fluid Specimen-')) {
+                def patient = domain?.specimen?.participant
+                if (patient){
+                    def tumour = SolidSpecimen?.findByParticipant(patient)?.fFPE_Tissue_Report
+                    if (!tumour?.empty){
+                        return tumour?.first()?.tumourType?.tumourLocation
+                    }else{
+                        return ""
+                    }
+                }
+                else{
+                    return ""
+                }
+            } else {
+                def tumour = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
+                if (tumour){
+                    return tumour
+                }else{
+                    return ""
+                }
+            }
+        }
+
         Map formatters = ["gelSuitabilityReport.reportDate":clean, "gelSuitabilityReport.reportStaff":clean, "gelSuitabilityReport.comments":clean, "gelSuitabilityReport.handE_pathreview":clean,
                           "gelSuitabilityReport.slideMarkedBy":clean, "gelSuitabilityReport.sideMarkedDate":clean, "gelSuitabilityReport.percentageTumourContent":clean,
                           "gelSuitabilityReport.tumourContentVerifiedBy":clean, "gelSuitabilityReport.tumourContentVerificationOther":clean,
@@ -34,12 +60,13 @@ class ExportAliquotService {
                           "gelSuitabilityReport.suitableForGel":clean, "gelSuitabilityReport.failureReason":clean, "gelSuitabilityReport.slideScannedOn":clean,
                           "gelSuitabilityReport.slideScannedBy":clean, "gelSuitabilityReport.handEcarriedOutOn":clean, "gelSuitabilityReport.handEcarriedOutBy":clean,
                           "specimen.participant.studySubject.studySubjectIdentifier":cleanGelID, "fixationReport.processingScheduleAliquot":clean,
-                          "specimen.fFPE_Tissue_Report.processingSchedule":processingSchedule]
+                          "specimen.fFPE_Tissue_Report.processingSchedule":processingSchedule, "specimen.fFPE_Tissue_Report.tumourType.tumourLocation":tumourType]
         return formatters
     }
 
     def getFields(){
-        List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "specimen", "derivedFrom.aliquot", "derivedFrom.derivationDate", "derivedFrom.derivedBy", "derivedFrom.derivationProcess", "sapphireIdentifier",
+        List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "specimen.fFPE_Tissue_Report.tumourType.tumourLocation", "specimen", "derivedFrom.aliquot",
+                       "derivedFrom.derivationDate", "derivedFrom.derivedBy", "derivedFrom.derivationProcess", "sapphireIdentifier",
                        "blockNumber", "aliquotType", "barcode", "exhausted", "notes","aliquotRanking","createdOn","frozenBy","aliquotVolumeMass","unit", "position",
                        "gelSuitabilityReport.reportDate", "gelSuitabilityReport.reportStaff", "gelSuitabilityReport.comments", "gelSuitabilityReport.handE_pathreview",
                        "gelSuitabilityReport.slideMarkedBy", "gelSuitabilityReport.sideMarkedDate", "gelSuitabilityReport.percentageTumourContent",
@@ -64,12 +91,12 @@ class ExportAliquotService {
                       "gelSuitabilityReport.suitableForGel":"Suitable For Gel", "gelSuitabilityReport.failureReason":"Failure Reason", "gelSuitabilityReport.slideScannedOn":"Slide Scanned On",
                       "gelSuitabilityReport.slideScannedBy":"Slide Scanned By", "gelSuitabilityReport.handEcarriedOutOn":"H & E Carried Out On", "gelSuitabilityReport.handEcarriedOutBy":"H & E carried Out By",
                       "specimen.participant.studySubject.studySubjectIdentifier":"GeL Study ID", "fixationReport.processingScheduleAliquot":"Genomic block processing schedule",
-                      "specimen.fFPE_Tissue_Report.processingSchedule":"Main specimen processing schedule"]
+                      "specimen.fFPE_Tissue_Report.processingSchedule":"Main specimen processing schedule", "specimen.fFPE_Tissue_Report.tumourType.tumourLocation":"Cancer Type"]
         return labels
     }
 
     def getParameters(){
-        Map parameters = [title: "Aliquots", "column.widths": [0.15, 0.5, 0.5, 0.15, 0.15, 0.2, 0.2, 0.15, 0.25, 0.25, 0.2, 0.15, 0.2, 0.15, 0.2, 0.25, 0.15, 0.3, 0.15, 0.15, 0.25, 0.15, 0.25, 0.15, 0.15, 0.25, 0.25, 0.15, 0.25, 0.15,
+        Map parameters = [title: "Aliquots", "column.widths": [0.15, 0.17, 0.6, 0.6, 0.15, 0.15, 0.2, 0.2, 0.15, 0.25, 0.25, 0.2, 0.15, 0.2, 0.15, 0.2, 0.25, 0.15, 0.3, 0.15, 0.15, 0.25, 0.15, 0.25, 0.15, 0.15, 0.25, 0.25, 0.15, 0.25, 0.15,
                                                                0.15, 0.15, 0.25, 0.25, 0.15, 0.25, 0.2, 0.2, 0.2, 0.2, 0.35, 0.35]]
         return parameters
     }
