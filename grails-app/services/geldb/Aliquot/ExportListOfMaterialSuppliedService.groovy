@@ -49,7 +49,7 @@ class ExportListOfMaterialSuppliedService {
     }
 
     def getFields(){
-        List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "specimen.anatomicalSite", "aliquotType", "blockNumber", "aliquotRanking",
+        List fields = ["specimen.participant.studySubject.studySubjectIdentifier", "specimen.participant.nHSNumber", "specimen.anatomicalSite", "aliquotType", "blockNumber", "aliquotRanking",
                        "aliquotVolumeMass", "unit", "exhausted", "createdOn", "gelSuitabilityReport.suitableForGel"]
         return fields
     }
@@ -57,12 +57,12 @@ class ExportListOfMaterialSuppliedService {
     def getLabels(){
         Map labels = ["specimen.participant.studySubject.studySubjectIdentifier": "GEL Study ID", "specimen.anatomicalSite": "Anatomical Site", "aliquotType": "Aliquot Type", "blockNumber": "Block Number",
                       "aliquotRanking": "Aliquot Ranking", "aliquotVolumeMass": "Mass", "unit": "Unit","exhausted":"Exhausted", "gelSuitabilityReport.suitableForGel":"Suitable for GEL",
-                      "createdOn":"Created on"]
+                      "createdOn":"Created on", "specimen.participant.nHSNumber":"NHS Number"]
         return labels
     }
 
     def getParameters(){
-        Map parameters = [title: "Exported Material Supplied", "column.widths": [0.2, 0.15, 0.25, 0.15, 0.15, 0.1, 0.1, 0.1, 0.1, 0.2]]
+        Map parameters = [title: "Exported Material Supplied", "column.widths": [0.2, 0.2, 0.15, 0.25, 0.15, 0.15, 0.1, 0.1, 0.1, 0.1, 0.2]]
         return parameters
     }
 }
