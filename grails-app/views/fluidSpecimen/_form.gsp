@@ -88,6 +88,20 @@
                 </div>
 
                 <div class="col-lg-6">
+                    <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'reference', 'error')} ">
+                        <label for="exhausted" class="control-label">Reference<span class="required-indicator">*</span></label>
+                        <div>
+                            <g:radioGroup name="reference"
+                                          values="['Yes', 'No']"
+                                          labels="['Yes', 'No']"
+                                          value="${fluidSpecimenInstance?.reference}">
+                                ${it.label}  ${it.radio} &nbsp; &nbsp;
+                            </g:radioGroup>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
                     <div class="${hasErrors(bean: fluidSpecimenInstance, field: 'notes', 'error')} ">
                         <label for="notes" class="control-label"><g:message code="fluidSpecimen.notes.label" default="Notes" /></label>
                         <div>
