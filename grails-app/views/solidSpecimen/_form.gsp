@@ -98,8 +98,28 @@
                                 </g:radioGroup>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'reference', 'error')} ">
+                        <label for="exhausted" class="control-label">Reference<span class="required-indicator">*</span></label>
+                        <div>
+                            <g:if test="${solidSpecimenInstance?.reference}">
+                                <g:set var="reference" value="${solidSpecimenInstance?.reference}" />
+                            </g:if>
+                            <g:else>
+                                <g:set var="reference" value="No" />
+                            </g:else>
+                            <g:radioGroup name="reference"
+                                          values="['Yes', 'No']"
+                                          labels="['Yes', 'No']"
+                                          value="${reference}">
+                                ${it.label}  ${it.radio} &nbsp; &nbsp;
+                            </g:radioGroup>
                         </div>
                     </div>
+                </div>
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'notes', 'error')} ">

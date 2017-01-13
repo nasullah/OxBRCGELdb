@@ -62,20 +62,13 @@
                     <td valign="top" class="value"><g:formatBoolean boolean="${fluidSpecimenInstance?.exhausted}" true="Yes" false="No"/></td>
                 </g:else>
 			</tr>
-		
-			%{--<tr class="prop">--}%
-				%{--<td valign="top" class="name"><g:message code="fluidSpecimen.passFail.label" default="Pass/Fail" /></td>--}%
-				%{----}%
-				%{--<td valign="top" class="value"><g:formatBoolean boolean="${fluidSpecimenInstance?.passFail}" true="Pass" false="Fail"/></td>--}%
-				%{----}%
-			%{--</tr>--}%
-		%{----}%
-			%{--<tr class="prop">--}%
-				%{--<td valign="top" class="name"><g:message code="fluidSpecimen.passFailReason.label" default="Pass Fail Reason" /></td>--}%
-				%{----}%
-				%{--<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "passFailReason")}</td>--}%
-				%{----}%
-			%{--</tr>--}%
+
+			<tr class="prop">
+				<td valign="top" class="name"><g:message code="fluidSpecimen.passFailReason.label" default="Reference" /></td>
+
+				<td valign="top" class="value">${fieldValue(bean: fluidSpecimenInstance, field: "reference")}</td>
+
+			</tr>
 		
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="fluidSpecimen.notes.label" default="Notes" /></td>
