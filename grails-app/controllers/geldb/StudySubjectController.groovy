@@ -54,7 +54,7 @@ class StudySubjectController {
                 def listConsentVersionForm = ["Version 2.0 April 2010"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             }else if (consentType.studyName == '100K Genomes Main Project') {
-                def listConsentVersionForm = ["Version 2.0 dated 20.01.2015", "Version 2.1 dated 24.09.2015"]
+                def listConsentVersionForm = ["Version 2.0 dated 20.01.2015", "Version 2.1 dated 24.09.2015", "Version 2.2 dated 01.07.2016"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             }else if (consentType.studyName == 'HICF2') {
                 def listConsentVersionForm = ["HICF2"]
