@@ -3,13 +3,24 @@
 
 
             <g:if test="${DNA_ExtractInstance?.aliquot*.id == null}">
-                <hr style="border:1; height:1px" />
+                <hr/>
                 <div class="row">
                     <div class="col-lg-6">
+                        <label class="control-label"> Enter Participant/GEL ID</label>
                         <div class="input-group">
                             <g:textField type="text" id="search" name="search" class="form-control"  placeholder="GEL000" required="" ></g:textField>
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-success" value="Find" onClick= 'getAliquots()'><span class="glyphicon glyphicon-search"></span> Find Aliquot</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="control-label"> Or scan/enter aliquot barcode</label>
+                        <div class="input-group">
+                            <g:textField type="text" id="aliquotBarcode" name="aliquotBarcode" class="form-control"  placeholder="1234567890" ></g:textField>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-success" value="Find" onClick= 'getAliquotByBarcode()'><span class="glyphicon glyphicon-search"></span> Find Aliquot</button>
                             </div>
                         </div>
                     </div>
@@ -262,6 +273,21 @@
     }
 
     function error(){
+        var select = $("#selectAliquot");
+        select.empty().append("Not found");
+        $('#notFound').modal()
+    }
+
+    function getAliquotByBarcode(){
+        ${remoteFunction (controller: 'DNA_Extract',
+                        action: 'findAliquotByBarcode',
+                        params: '"aliquotBarcode=" + $("#aliquotBarcode").val()',
+                        update: 'selectAliquot',
+                        onFailure:'errorBarcode()'
+                )}
+    }
+
+    function errorBarcode(){
         var select = $("#selectAliquot");
         select.empty().append("Not found");
         $('#notFound').modal()

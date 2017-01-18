@@ -95,6 +95,16 @@ class DNA_ExtractController {
         }
     }
 
+    def findAliquotByBarcode() {
+        def aliquotBarcode= params.aliquotBarcode
+        if (aliquotBarcode) {
+            def aliquotList = Aliquot.findAllByBarcodeAndExhausted(aliquotBarcode?.toString(), false)
+            if (!aliquotList.empty) {
+                render(template: "aliquotList", model: [listAliquotsByGeLId: aliquotList])
+            }
+        }
+    }
+
     def show(DNA_Extract DNA_ExtractInstance) {
         def listDNA_ExtractInstanceAuditLogData = AuditLogEvent.findAllByPersistedObjectId(DNA_ExtractInstance?.id)
         respond DNA_ExtractInstance, model: [listAuditLogData: listDNA_ExtractInstanceAuditLogData]
