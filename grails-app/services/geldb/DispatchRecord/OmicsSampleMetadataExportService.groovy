@@ -32,6 +32,8 @@ class OmicsSampleMetadataExportService {
                 return "LiHep Plasma"
             }else if(value?.toString()?.contains('Blood PAXgene')) {
                 return "RNA Blood"
+            }else if(value?.toString()?.contains('Plasma Strek cfDNA')) {
+                return "Streck Plasma"
             }
         }
 
