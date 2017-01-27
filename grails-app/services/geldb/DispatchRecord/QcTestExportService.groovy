@@ -248,14 +248,22 @@ class QcTestExportService {
             def necrosisResult = domain?.identifiedSample?.aliquot?.derivedFrom?.aliquot?.gelSuitabilityReport?.percentageNecrosis
             necrosisResult = necrosisResult?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
             if (necrosisResult){
-                return necrosisResult
+                if (necrosisResult == '0'){
+                    return '1'
+                }else {
+                    return necrosisResult
+                }
             }else {
                 return ""
             }
         }else{
             def necrosisResult = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
             if (necrosisResult){
-                return necrosisResult
+                if (necrosisResult == '0'){
+                    return '1'
+                }else {
+                    return necrosisResult
+                }
             }else {
                 return ""
             }
