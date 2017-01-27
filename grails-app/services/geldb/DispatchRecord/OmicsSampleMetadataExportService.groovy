@@ -27,13 +27,15 @@ class OmicsSampleMetadataExportService {
 
         def clinicSampleType  = { domain, value ->
             if(value?.toString()?.contains('Serum SST')) {
-                return "Serum"
+                return "serum"
             }else if(value?.toString()?.contains('Plasma PST')) {
-                return "LiHep Plasma"
+                return "lihep_plasma"
             }else if(value?.toString()?.contains('Blood PAXgene')) {
-                return "RNA Blood"
+                return "rna_blood"
             }else if(value?.toString()?.contains('Plasma Strek cfDNA')) {
-                return "Streck Plasma"
+                return "streck_plasma"
+            }else if(value?.toString()?.contains('Plasma EDTA cfDNA')) {
+                return "edta_plasma"
             }
         }
 
