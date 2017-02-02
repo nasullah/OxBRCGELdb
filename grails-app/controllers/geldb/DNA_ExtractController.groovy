@@ -259,6 +259,27 @@ class DNA_ExtractController {
         }
     }
 
+    def controlChart(){
+        def controlDNAList = Specimen.findAllByReference('Yes')?.aliquot?.dNA_Extract
+        controlDNAList = controlDNAList?.flatten()
+        controlDNAList = controlDNAList?.sort {it?.extractionDate}
+        def dataList = []
+        if (!controlDNAList.empty){
+            for (int i = 0; i < controlDNAList.size(); i++){
+                def item = []
+                def day = controlDNAList?.get(i)?.extractionDate[Calendar.DAY_OF_MONTH]
+                def month = controlDNAList?.get(i)?.extractionDate[Calendar.MONTH]
+                def year = controlDNAList?.get(i)?.extractionDate[Calendar.YEAR]
+                def qubit = controlDNAList?.get(i)?.dNAConcentrationQubit
+                item << 'Date.UTC(' + year + ',' + month + ',' + day + ')' << qubit
+                if(!item.empty){
+                    dataList << item
+                }
+            }
+        }
+        [dataList:dataList]
+    }
+
     @Transactional
     @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def uploadFile() {
