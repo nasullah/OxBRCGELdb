@@ -263,21 +263,26 @@ class DNA_ExtractController {
         def controlDNAList = Specimen.findAllByReference('Yes')?.aliquot?.dNA_Extract
         controlDNAList = controlDNAList?.flatten()
         controlDNAList = controlDNAList?.sort {it?.extractionDate}
-        def dataList = []
+        def qubitDataList = []
+        def deltaCQDataList = []
         if (!controlDNAList.empty){
             for (int i = 0; i < controlDNAList.size(); i++){
-                def item = []
+                def qubitItems = []
+                def deltaCQItems = []
                 def day = controlDNAList?.get(i)?.extractionDate[Calendar.DAY_OF_MONTH]
                 def month = controlDNAList?.get(i)?.extractionDate[Calendar.MONTH]
                 def year = controlDNAList?.get(i)?.extractionDate[Calendar.YEAR]
                 def qubit = controlDNAList?.get(i)?.dNAConcentrationQubit
-                item << 'Date.UTC(' + year + ',' + month + ',' + day + ')' << qubit
-                if(!item.empty){
-                    dataList << item
+                def deltaCQ = controlDNAList?.get(i)?.delatQC
+                qubitItems << 'Date.UTC(' + year + ',' + month + ',' + day + ')' << qubit
+                qubitDataList << qubitItems
+                if (deltaCQ){
+                    deltaCQItems << 'Date.UTC(' + year + ',' + month + ',' + day + ')' << deltaCQ
+                    deltaCQDataList << deltaCQItems
                 }
             }
         }
-        [dataList:dataList]
+        [qubitDataList:qubitDataList, deltaCQDataList:deltaCQDataList]
     }
 
     @Transactional
