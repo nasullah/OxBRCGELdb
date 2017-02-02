@@ -73,7 +73,7 @@ class FluidSpecimenController {
 
     @Secured(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CAN_SEE_DEMOGRAPHICS'])
     def createMultiple(){
-        List primaryContainerTypes = ["EDTA_GL", "EDTA_cfDNA", "Strek_cfDNA", "Strek_cfDNA", "Vacutainer_potassium_EDTA_or_equivalent_PED"]
+        List primaryContainerTypes = ["EDTA_GL", "EDTA_cfDNA", "Strek_cfDNA", "Strek_cfDNA", "Strek_cfDNA", "Oragene_kit_SALIVA_GL", "Vacutainer_potassium_EDTA_or_equivalent_PED"]
         respond new FluidSpecimen(params), model: [primaryContainerTypes: primaryContainerTypes]
     }
 
