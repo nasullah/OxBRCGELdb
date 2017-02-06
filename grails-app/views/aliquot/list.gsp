@@ -20,9 +20,16 @@
             <p>
             <div class="row">
                 <div class="col-md-6">
-                    <label class="control-label"><small>Export Aliquots & GEL Suitability Reports</small></label>
+                    <label class="control-label"><small>Export All Aliquots & GEL Suitability Reports</small></label>
                     <a class='btn btn-success btn-sm' onclick="getExcel()"  <g:link controller="aliquot" action="exportAliquots" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                        <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label"><small>Export FF Aliquots & GEL Suitability Reports</small></label>
+                    <a class='btn btn-success btn-sm' onclick="getExcelFF()"  <g:link controller="aliquot" action="exportFFAliquotAndGeLSuit" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div id="spinnerFF" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
@@ -137,12 +144,26 @@
     function hideSpinner() {
         $('#spinner').hide();
     }
+    function showSpinnerFF() {
+        $('#spinnerFF').show();
+    }
+    function hideSpinnerFF() {
+        $('#spinnerFF').hide();
+    }
     function getExcel(){
         showSpinner();
         ${remoteFunction (controller: 'aliquot',
                         action: 'exportAliquots',
                         params:[format:'excel',extension:'xls'],
                         onSuccess:'hideSpinner()'
+                )}
+    }
+    function getExcelFF(){
+        showSpinnerFF();
+        ${remoteFunction (controller: 'aliquot',
+                        action: 'exportFFAliquotAndGeLSuit',
+                        params:[format:'excel',extension:'xls'],
+                        onSuccess:'hideSpinnerFF()'
                 )}
     }
 </script>

@@ -26,6 +26,7 @@ class AliquotController {
     def FFPETissueHandlingService
     def exportFFPEListService
     def exportFFAliquotListService
+    def exportFFAliquotAndGelSuitService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -121,6 +122,16 @@ class AliquotController {
             response.setHeader("Content-disposition", "attachment; filename= FF Aliquot Numbers List File.${params.extension}")
             def soidSpecimenList = SolidSpecimen.list().sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
             exportService.export(params.format, response.outputStream, soidSpecimenList, exportFFAliquotListService.fields, exportFFAliquotListService.labels, exportFFAliquotListService.formatters, exportFFAliquotListService.parameters )
+        }
+    }
+
+    @Secured(['ROLE_ADMIN'])
+    def exportFFAliquotAndGeLSuit(){
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= FF Aliquots File.${params.extension}")
+            def ffAliquotList = Aliquot.findAllByAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy Frozen')).sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+            exportService.export(params.format, response.outputStream, ffAliquotList, exportFFAliquotAndGelSuitService.fields, exportFFAliquotAndGelSuitService.labels, exportFFAliquotAndGelSuitService.formatters, exportFFAliquotAndGelSuitService.parameters )
         }
     }
 
