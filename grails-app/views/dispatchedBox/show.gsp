@@ -199,7 +199,7 @@
 	<g:hiddenField name="dispatchedBox" value="${dispatchedBoxInstance.id}" />
 	<p>
 	</p>
-	<button type="submit" class="btn btn-success btn-xs" value="Upload"><span class="glyphicon glyphicon-upload"></span> Upload</button>
+	<input type="submit" class="btn btn-success btn-xs" value="Upload CSV File" onclick="this.disabled=true;this.value='CSV file is uploading, please wait...';this.form.submit();">
 </g:form>
 
 <hr/>
