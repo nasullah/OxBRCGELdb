@@ -206,7 +206,7 @@ class ParticipantController {
             }
         }else{
             def barcodeVersionDate = barcode?.toString()?.split('~')?.last()
-            if (barcode && (barcodeVersionDate =='01/07/2015' ||  barcodeVersionDate == '01/09/2015' || barcodeVersionDate == '09/11/2015')){
+            if (barcode && (barcodeVersionDate =='01/07/2015' ||  barcodeVersionDate == '01/09/2015' || barcodeVersionDate == '09/11/2015' || barcodeVersionDate.contains('12/01/2017'))){
                 def barcodeParts = barcode.toString().split('~')
                 def nHSNumber = barcodeParts[0].substring(11,21)
                 def barcodePart0Parts= barcodeParts[0].split("[^\\x20-\\x7e]")
@@ -214,7 +214,7 @@ class ParticipantController {
                 def hospitalNumber = barcodeParts[1]
                 def familyName = barcodeParts[3]
                 def givenName = barcodeParts[2]
-                def consentFormVersion = "Version 2.1 dated 24.09.2015"
+                def consentFormVersion = "Version 2.2 dated 01.07.2016"
                 def dateOfBirth = new Date().parse('d/M/yyyy',barcodeParts[4].substring(0,10))
                 def existingParticipant = Participant.findByNHSNumber(nHSNumber)
                 def study = Study.findByStudyName('100K Genomes Main Project')
