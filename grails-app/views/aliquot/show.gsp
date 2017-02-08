@@ -1,5 +1,5 @@
 
-<%@ page import="geldb.SampleTrackingEvent; geldb.FixationReport; geldb.GelSuitabilityReport; geldb.SampleTrackingEventType; geldb.DNA_Extract; geldb.ExtractionType; geldb.AliquotType; groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
+<%@ page import="geldb.DispatchItem; geldb.SampleTrackingEvent; geldb.FixationReport; geldb.GelSuitabilityReport; geldb.SampleTrackingEventType; geldb.DNA_Extract; geldb.ExtractionType; geldb.AliquotType; groovy.time.TimeCategory; groovy.time.TimeDuration; geldb.Aliquot" %>
 <%@ page import="geldb.SolidSpecimen" %>
 <%@ page import="geldb.FluidSpecimen" %>
 <!DOCTYPE html>
@@ -297,22 +297,6 @@
             </tr>
         </g:if>
 
-        %{--<tr class="prop">--}%
-            %{--<td valign="top" class="name"> Dispatched</td>--}%
-
-            %{--<td valign="top" style="text-align: left;" class="value">--}%
-                %{--<% def dispatchItem = DispatchItem?.listOrderById() %>--}%
-                %{--<ul>--}%
-                    %{--<g:each in="${dispatchItem}" var="item">--}%
-                        %{--<g:if test="${item.identifiedSample.id == aliquotInstance.id}">--}%
-                            %{--<li><g:link controller="dispatchItem" action="show" id="${item.id}">${item?.encodeAsHTML()}</g:link></li>--}%
-                        %{--</g:if>--}%
-                    %{--</g:each>--}%
-                %{--</ul>--}%
-            %{--</td>--}%
-
-        %{--</tr>--}%
-
         <g:if test="${aliquotInstance.gelSuitabilityReport}">
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.gelSuitabilityReport.label" default="GeL Suitability Report" /></td>
@@ -347,6 +331,20 @@
 
             </tr>
         </g:if>
+
+        <tr class="prop">
+            <td valign="top" class="name"> Dispatched</td>
+
+            <td valign="top" style="text-align: left;" class="value">
+                <% def dispatchItem = DispatchItem?.listOrderById() %>
+                <g:each in="${dispatchItem}" var="item">
+                    <g:if test="${item?.identifiedSample?.id == aliquotInstance?.id}">
+                        <g:link controller="dispatchRecord" action="show" id="${item?.dispatchedBox?.dispatchRecord?.id}">${item?.dispatchedBox?.dispatchRecord}</g:link>
+                    </g:if>
+                </g:each>
+            </td>
+
+        </tr>
 
         </tbody>
     </table>
