@@ -29,7 +29,7 @@
 
 	</section>
 
-<hr style="border:1; height:1px" />
+<hr/>
 
 </body>
 

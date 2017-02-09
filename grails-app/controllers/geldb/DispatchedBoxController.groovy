@@ -67,8 +67,11 @@ class DispatchedBoxController {
             flash.message = "Please choose a file"
             redirect(controller:'dispatchedBox',action: 'show', params: [id: dispatchedBox.id])
         } else{
+            def passedList = []
+            def failedList = []
             request.getFile('file').inputStream.splitEachLine(',')
                     { fields ->
+                        def row = 'Position: ' + fields[0].trim()  + '--------------------' +'Barcode: ' + fields[1].trim()
                         def identifiedSample = IdentifiedSample.findByBarcodeAndExhausted(fields[1].trim(), false)
                         if (identifiedSample) {
                             def dispatchItemInstance = new DispatchItem()
@@ -82,16 +85,21 @@ class DispatchedBoxController {
                             dispatchItemInstance.dispatchedBox = dispatchedBox
                             if (dispatchItemInstance.volume_ul){
                                 dispatchItemInstance.save flush: true
+                                passedList.add(row)
                                 for (item in IdentifiedSample.listOrderById()) {
                                     if (item.id == dispatchItemInstance.identifiedSample.id) {
                                         item.exhausted = true
                                         item.save flush: true
                                     }
                                 }
+                            }else{
+                                failedList.add(row)
                             }
+                        }else{
+                            failedList.add(row)
                         }
                     }
-            redirect(controller:'dispatchedBox',action: 'show', params: [id: dispatchedBox.id])
+            [dispatchedBox: dispatchedBox.id, failedList:failedList, passedList:passedList]
         }
     }
 
