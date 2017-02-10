@@ -36,20 +36,28 @@
                 </div>
 
                 <div class="col-md-2">
-                    <label class="control-label"><small>All Dispatched Items</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getCSVAllDispatchedItems()" <g:link controller="dispatchRecord" action="exportAllDispatchedItems" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
-                    <div id="spinnerAllDispatchedItems" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                    <label class="control-label"><small>All Dispatched DNA</small></label>
+                    <a class='btn btn-success btn-sm' onclick="getAllDispatchedDNASamples()" <g:link controller="dispatchRecord" action="exportAllDispatchedDNASamples" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div id="spinnerAllDispatchedDNASamples" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
 
                 <div class="col-md-2">
-                    <label class="control-label"><small>Dispatched Items Data</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getCSVDispatchedItemsData()" <g:link controller="dispatchRecord" action="exportAllDispatchedItemsData" params="['format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>
-                    <div id="spinnerDispatchedItemsData" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                    <label class="control-label"><small>All Dispatched Omics</small></label>
+                    <a class='btn btn-success btn-sm' onclick="getAllDispatchedOmicsSamples()" <g:link controller="dispatchRecord" action="exportAllDispatchedOmicsSamples" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div id="spinnerAllDispatchedOmicsSamples" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
+
+                %{--<div class="col-md-2">--}%
+                    %{--<label class="control-label"><small>Dispatched Items Data</small></label>--}%
+                    %{--<a class='btn btn-success btn-sm' onclick="getCSVDispatchedItemsData()" <g:link controller="dispatchRecord" action="exportAllDispatchedItemsData" params="['format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>--}%
+                    %{--<div id="spinnerDispatchedItemsData" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>--}%
+                        %{--<img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />--}%
+                    %{--</div>--}%
+                %{--</div>--}%
 
                 <div class="col-md-2">
                     <label class="control-label"><small>FFPE, NBF & Fixation Period</small></label>
@@ -199,12 +207,21 @@
                 )}
     }
 
-    function getCSVAllDispatchedItems(){
-        $('#spinnerAllDispatchedItems').show();
+    function getAllDispatchedDNASamples(){
+        $('#spinnerAllDispatchedDNASamples').show();
         ${remoteFunction (controller: 'dispatchRecord',
-                        action: 'exportAllDispatchedItems',
+                        action: 'exportAllDispatchedDNASamples',
                         params:[format:'csv',extension:'csv'],
-                        onSuccess:'$("#spinnerAllDispatchedItems").hide()'
+                        onSuccess:'$("#spinnerAllDispatchedDNASamples").hide()'
+                )}
+    }
+
+    function getAllDispatchedOmicsSamples(){
+        $('#spinnerAllDispatchedOmicsSamples').show();
+        ${remoteFunction (controller: 'dispatchRecord',
+                        action: 'exportAllDispatchedOmicsSamples',
+                        params:[format:'csv',extension:'csv'],
+                        onSuccess:'$("#spinnerAllDispatchedOmicsSamples").hide()'
                 )}
     }
 

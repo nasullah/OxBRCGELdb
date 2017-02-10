@@ -6,8 +6,8 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(AllDispatchedItemsService)
-class AllDispatchedItemsServiceSpec extends Specification {
+@TestFor(AllDispatchedSamplesDataService)
+class AllDispatchedSamplesDataServiceSpec extends Specification {
 
     def setup() {
     }

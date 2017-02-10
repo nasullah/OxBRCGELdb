@@ -23,7 +23,8 @@ class DispatchRecordController {
     def sampleMetadataExportService
     def qcTestExportService
     def omicsSampleMetadataExportService
-    def allDispatchedItemsService
+    def allDispatchedDNASamplesService
+    def allDispatchedOmicsSamplesService
     def filterPaneService
     def allDispatchedSamplesDataService
 
@@ -75,12 +76,23 @@ class DispatchRecordController {
         }
     }
 
-    def exportAllDispatchedItems(){
+    def exportAllDispatchedDNASamples(){
         if(params?.format && params.format != "html"){
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
-            response.setHeader("Content-disposition", "attachment; filename= All Dispatched Item.${params.extension}")
+            response.setHeader("Content-disposition", "attachment; filename= All Dispatched DNA Samples.${params.extension}")
             def allDispatchedItems = DispatchItem.list()
-            exportService.export(params.format, response.outputStream, allDispatchedItems, allDispatchedItemsService.fields, allDispatchedItemsService.labels, allDispatchedItemsService.formatters, allDispatchedItemsService.parameters )
+            def dnaSamples = allDispatchedItems.findAll {DNA_Extract.findById(it.identifiedSample.id)}
+            exportService.export(params.format, response.outputStream, dnaSamples, allDispatchedDNASamplesService.fields, allDispatchedDNASamplesService.labels, allDispatchedDNASamplesService.formatters, allDispatchedDNASamplesService.parameters )
+        }
+    }
+
+    def exportAllDispatchedOmicsSamples(){
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= All Dispatched Omics Samples.${params.extension}")
+            def allDispatchedItems = DispatchItem.list()
+            def omicsSamples = allDispatchedItems.findAll {Aliquot.findById(it.identifiedSample.id)}
+            exportService.export(params.format, response.outputStream, omicsSamples, allDispatchedOmicsSamplesService.fields, allDispatchedOmicsSamplesService.labels, allDispatchedOmicsSamplesService.formatters, allDispatchedOmicsSamplesService.parameters )
         }
     }
 

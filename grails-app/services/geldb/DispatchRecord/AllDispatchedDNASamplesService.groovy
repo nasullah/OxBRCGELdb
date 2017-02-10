@@ -5,11 +5,11 @@ import geldb.SolidSpecimen
 import grails.transaction.Transactional
 
 /**
- * AllDispatchedItemsService
+ * AllDispatchedDNASamplesService
  * A service class encapsulates the core business logic of a Grails application
  */
 @Transactional
-class AllDispatchedItemsService {
+class AllDispatchedDNASamplesService {
 
     def getFormatters() {
         def formatParticipantID = { domain, value ->
