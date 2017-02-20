@@ -13,17 +13,21 @@
 
     <p>
     <p>
-    <div style="background: rgba(255, 78, 65, 0.75);">
+    <div>
         <div class="container">
             <p>
             <h5 class="text-center">Remove Participant from NGS-LIMS</h5>
             <p>
             <div class="row">
                 <div class="col-lg-6">
-                    <g:form controller="participant" action="test">
+                    <g:form controller="participant" action="deleteParticipantAndSamples">
                         <label class="control-label"><small>Enter Participant's NHS Number (without spaces)</small></label>
-                        <richui:autoComplete class="form-control" name="personName" action="${createLinkTo('dir': 'participant/searchParticipant')}" onItemSelect="callPerson(id)"  />
-                        <g:hiddenField id ="personId" name ="personId" value=""/>
+                        <div class="input-group">
+                            <g:textField type="text" name="nhsNumber" class="form-control"  placeholder="1234567890" ></g:textField>
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-danger" ><span class="glyphicon glyphicon-trash"></span> Remove</button>
+                            </div>
+                        </div>
                     </g:form>
                 </div>
             </div>

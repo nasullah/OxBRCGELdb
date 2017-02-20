@@ -176,6 +176,32 @@ class ParticipantController {
         }
     }
 
+//    @Secured(['ROLE_ADMIN'])
+//    @Transactional
+//    def deleteParticipantAndSamples(){
+//        def nhsNumber = params.nhsNumber
+//        if (nhsNumber){
+//            def participant = Participant.findByNHSNumber(nhsNumber)
+//            if (participant){
+//                def dispatchedItem = DispatchItem.list().identifiedSample
+//                def dispatchedOmicsSamples = dispatchedItem.findAll {identifiedSample -> identifiedSample.instanceOf(Aliquot)}
+//                def dispatchedDNASamples = dispatchedItem.findAll {identifiedSample -> identifiedSample.instanceOf(DNA_Extract)}
+//                def dispatchedOmicsParticipants = dispatchedOmicsSamples.specimen.participant
+//                def dispatchedDNAParticipants = dispatchedDNASamples.aliquot.specimen.participant.flatten()
+//                if (dispatchedOmicsParticipants.contains(participant) || dispatchedDNAParticipants.contains(participant)){
+//                    flash.message = "You cannot delete participant with NHS Number ${nhsNumber}, the particiant has dispatched items"
+//                    redirect(uri: '/removeparticipant')
+//                }else {
+//                    participant.delete flush: true
+//                    flash.message = "Participant with NHS Number ${nhsNumber} has been deleted."
+//                    redirect(uri: '/removeparticipant')
+//                }
+//            }
+//        }else {
+//            flash.message = "Please enter participant's NHS Number"
+//            redirect(uri: '/removeparticipant')
+//        }
+//    }
     @Secured(['ROLE_ADMIN'])
     def exportParticipants(){
         if(params?.format && params.format != "html"){
