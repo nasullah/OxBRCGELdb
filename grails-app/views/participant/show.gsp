@@ -105,6 +105,21 @@
                 </tr>
             </g:if>
 
+            <g:if test="${participantInstance.diseaseTypes}">
+                <tr class="prop">
+                    <td valign="top" class="name">Disease Type</td>
+
+                    <td valign="top" style="text-align: left;" class="value">
+                        <ul>
+                            <g:each in="${participantInstance?.diseaseTypes.sort{it.recordedDate}}" var="diseaseType">
+                                <li><g:link controller="diseaseType" action="show" id="${diseaseType.id}">${diseaseType?.encodeAsHTML()}</g:link></li>
+                            </g:each>
+                        </ul>
+                    </td>
+
+                </tr>
+            </g:if>
+
             <g:if test="${participantInstance.studySubject && participantInstance.studySubject.findResult("Null") {it.studySubjectIdentifier ? it : null} == "Null"}">
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="participant.label" default="GeL Study ID/Participant ID" /></td>
@@ -167,6 +182,8 @@
 <g:else>
     <a class='btn btn-primary btn-xs' <g:link controller="studySubject" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Associate Participant with another consent </g:link>
 </g:else>
+
+<a class='btn btn-primary btn-xs' <g:link controller="diseaseType" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Add Disease Type </g:link>
 
 <a class='btn btn-default btn-xs' <g:link  action="renderTissueWorksheet" id="${participantInstance?.id}"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet</g:link>
 
