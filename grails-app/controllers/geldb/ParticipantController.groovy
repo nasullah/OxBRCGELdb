@@ -176,6 +176,43 @@ class ParticipantController {
         }
     }
 
+    def exportParticipantsBySites(){
+        def paramsStartDate = params.startDateAnatomicalSite
+        def paramsEndDate = params.endDateAnatomicalSite
+        def anatomicalSite = params.long('anatomicalSite')
+        def startDate = new Date()
+        def endDate =new Date()
+        if (paramsStartDate){
+            startDate = startDate.parse("yyyy-MM-dd", paramsStartDate.toString())
+        }
+        if (paramsEndDate){
+            endDate = endDate.parse("yyyy-MM-dd", paramsEndDate.toString())
+        }
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= Exported Participant.${params.extension}")
+            def anatomicalSitesList = DiseaseType.createCriteria().list{
+                and {
+                    le("recordedDate", endDate)
+                    ge("recordedDate", startDate)
+                    eq("expectedDiseaseType", AnatomicalSite.findById(anatomicalSite))
+                }
+            }?.sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+            List fields = ["participant.studySubject.studySubjectIdentifier", "participant.hospitalNumber", "expectedDiseaseType", "recordedDate"]
+            Map labels = ["participant.studySubject.studySubjectIdentifier": "Participant Id", "participant.hospitalNumber": "Hospital Number",
+                          "expectedDiseaseType":"Disease Type", "recordedDate":"Date"]
+
+            // Formatter closure
+            def gelID = { domain, value ->
+                return value.toString().replace('[','').replace(']','').replace('null','').replace(',','').trim()
+            }
+
+            Map formatters = ["participant.studySubject.studySubjectIdentifier": gelID]
+            Map parameters = [title: "Participants", "column.widths": [0.2, 0.2, 0.2, 0.1]]
+            exportService.export(params.format, response.outputStream, anatomicalSitesList, fields, labels, formatters, parameters )
+        }
+    }
+
 //    @Secured(['ROLE_ADMIN'])
 //    @Transactional
 //    def deleteParticipantAndSamples(){
