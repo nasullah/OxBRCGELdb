@@ -159,6 +159,19 @@ class SolidSpecimenController {
         }
     }
 
+    def anatomicSite() {
+        def participant = Participant.get(params.long('participantId'))
+        if (participant){
+            if(!participant.diseaseTypes.empty){
+                def recentDate = participant?.diseaseTypes?.recordedDate?.max()
+                def recentDiseaseType = participant?.diseaseTypes?.find {it?.recordedDate == recentDate}
+                if (recentDiseaseType){
+                    render recentDiseaseType.expectedDiseaseType as XML
+                }
+            }
+        }
+    }
+
     def show(SolidSpecimen solidSpecimenInstance) {
         def listSolidSpecimenAuditLogData = AuditLogEvent.findAllByPersistedObjectId(solidSpecimenInstance?.id)
         def listFFPE_Tissue_ReportAuditLogData = AuditLogEvent.findAllByPersistedObjectIdInList(solidSpecimenInstance?.fFPE_Tissue_Report?.id)
