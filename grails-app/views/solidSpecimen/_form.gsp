@@ -6,7 +6,7 @@
                     <div class="col-lg-6">
                         <label class="control-label"> Enter Participant/GEL ID</label>
                         <div class="input-group">
-                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="GEL000" ></g:textField>
+                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="GEL000" />
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-success" value="Find" onClick= 'getParticipant()'><span class="glyphicon glyphicon-search"></span> Find Participant</button>
                             </div>
@@ -15,7 +15,7 @@
                     <div class="col-lg-6">
                         <label class="control-label"> Or scan the tissue worksheet barcode</label>
                         <div class="input-group">
-                            <g:textField type="text" id="worksheetBarcode" name="worksheetBarcode" class="form-control"  placeholder="Scan barcode" ></g:textField>
+                            <g:textField type="text" id="worksheetBarcode" name="worksheetBarcode" class="form-control"  placeholder="Scan barcode" />
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-success" value="Find" onClick= 'getParticipantByBarcode()'><span class="glyphicon glyphicon-search"></span> Find Participant</button>
                             </div>
@@ -287,6 +287,7 @@
                         action: 'findParticipantByGeLId',
                         params: '"search=" + $("#search").val()',
                         update: 'selectParticipant',
+                        onComplete: 'fillAnatomicalSite()',
                         onFailure: 'error()'
                 )}
     }
@@ -302,6 +303,7 @@
                         action: 'findParticipantByBarcode',
                         params: '"worksheetBarcode=" + $("#worksheetBarcode").val()',
                         update: 'selectParticipant',
+                        onComplete: 'fillAnatomicalSite()',
                         onFailure: 'errorBarcode()'
                 )}
     }
@@ -342,6 +344,25 @@
                 $("#specimenWeightLabelId").show();
                 $("#massUnitRow").show()
             }
+        });
+    }
+
+    function fillAnatomicalSite(){
+        var baseUrl = "${createLink(controller:'solidSpecimen', action:'anatomicSite')}";
+        var participantId = $( "#participant option:selected" ).val();
+        var url = baseUrl + "?participantId=" + participantId;
+        $.ajax({
+            url:url,
+            type: 'POST',
+            dataType: 'xml',
+            async:true,
+            success: function(res) {
+                if (res){
+                    var site = $(res).find('anatomicalSite').attr('id');
+                    $('#anatomicalSite').val(site)
+                }
+            },
+            error:$('#anatomicalSite').val("")
         });
     }
 </script>
