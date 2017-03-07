@@ -100,7 +100,8 @@ class SnomedController {
         request.withFormat {
             form {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'Snomed.label', default: 'Snomed'), snomedInstance.id])
-                redirect action: "index", method: "GET"
+//                redirect action: "index", method: "GET"
+                redirect(controller:'FFPE_Tissue_Report',action: 'show', params: [id: snomedInstance.fFPE_Tissue_Report.id])
             }
             '*' { render status: NO_CONTENT }
         }
