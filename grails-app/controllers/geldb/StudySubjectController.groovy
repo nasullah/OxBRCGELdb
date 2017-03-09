@@ -62,6 +62,9 @@ class StudySubjectController {
             }else if (consentType.studyName == 'ORB paediatrics') {
                 def listConsentVersionForm = ["Version/date: 2/April 2014"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
+            }else if (consentType.studyName == 'GI consent') {
+                def listConsentVersionForm = ["11/YH/0020", "16/YH/0247"]
+                render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             }
         }
     }
