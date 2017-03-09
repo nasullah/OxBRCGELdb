@@ -259,11 +259,7 @@ class QcTestExportService {
         }else{
             def necrosisResult = value?.toString()?.replace('[','')?.replace(']','')?.replace('null','')
             if (necrosisResult){
-                if (necrosisResult == '0'){
-                    return '1'
-                }else {
-                    return necrosisResult
-                }
+                return necrosisResult
             }else {
                 return ""
             }
