@@ -185,9 +185,9 @@
 
 <a class='btn btn-primary btn-xs' <g:link controller="diseaseType" action="create" params="['participant.id': participantInstance?.id]"><i class="glyphicon glyphicon-plus"></i> Add Disease Type </g:link>
 
-<a class='btn btn-default btn-xs' <g:link  action="renderTissueWorksheet" id="${participantInstance?.id}"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet</g:link>
+<a class='btn btn-default btn-xs' <g:link  action="renderTissueWorksheet" id="${participantInstance?.id}" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet</g:link>
 
-<a class='btn btn-default btn-xs' <g:link  action="renderTissueWorksheetProstate" id="${participantInstance?.id}"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet (Prostate only)</g:link>
+<a class='btn btn-default btn-xs' <g:link  action="renderTissueWorksheetProstate" id="${participantInstance?.id}" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Tissue Worksheet (Prostate only)</g:link>
 
 <hr/>
 
