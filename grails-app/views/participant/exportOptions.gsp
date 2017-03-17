@@ -166,7 +166,7 @@
                         <bs:datePicker id="startDateAnatomicalSite" name="startDateAnatomicalSite" precision="day" value="${params.startDateAnatomicalSite}"/>
                         <label class="control-label"><small>End Date </small></label>
                         <bs:datePicker id="endDateAnatomicalSite" name="endDateAnatomicalSite" precision="day" value="${params.endDateAnatomicalSite}" />
-                        <g:select class="form-control" id="anatomicalSite" name="anatomicalSite" from="${geldb.AnatomicalSite.list().sort {it.anatomicalSiteName}}" optionKey="id" value="${solidSpecimenInstance?.anatomicalSite?.id}" noSelection="['':'- Choose Anatomical Site-']"/>
+                        <g:select class="form-control" id="anatomicalSite" name="anatomicalSite" from="${geldb.AnatomicalSite.list().sort {it.anatomicalSiteName}}" optionKey="id" value="${params.anatomicalSite}" noSelection="['':'- All Anatomical Sites -']"/>
                         <button type="submit"  class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-export"></span> Excel Format</button>
                     </div>
                 </g:form>

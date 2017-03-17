@@ -180,6 +180,7 @@ class ParticipantController {
         def paramsStartDate = params.startDateAnatomicalSite
         def paramsEndDate = params.endDateAnatomicalSite
         def anatomicalSite = params.long('anatomicalSite')
+        def anatomicalSitesList
         def startDate = new Date()
         def endDate =new Date()
         if (paramsStartDate){
@@ -191,13 +192,22 @@ class ParticipantController {
         if(params?.format && params.format != "html"){
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
             response.setHeader("Content-disposition", "attachment; filename= Exported Participant.${params.extension}")
-            def anatomicalSitesList = DiseaseType.createCriteria().list{
-                and {
-                    le("recordedDate", endDate)
-                    ge("recordedDate", startDate)
-                    eq("expectedDiseaseType", AnatomicalSite.findById(anatomicalSite))
-                }
-            }?.sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+            if(anatomicalSite){
+                anatomicalSitesList = DiseaseType.createCriteria().list{
+                    and {
+                        le("recordedDate", endDate)
+                        ge("recordedDate", startDate)
+                        eq("expectedDiseaseType", AnatomicalSite.findById(anatomicalSite))
+                    }
+                }?.sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+            }else {
+                anatomicalSitesList = DiseaseType.createCriteria().list{
+                    and {
+                        le("recordedDate", endDate)
+                        ge("recordedDate", startDate)
+                    }
+                }?.sort {it.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+            }
             List fields = ["participant.studySubject.studySubjectIdentifier", "participant.hospitalNumber", "expectedDiseaseType", "recordedDate"]
             Map labels = ["participant.studySubject.studySubjectIdentifier": "Participant Id", "participant.hospitalNumber": "Hospital Number",
                           "expectedDiseaseType":"Disease Type", "recordedDate":"Date"]
