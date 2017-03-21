@@ -32,23 +32,15 @@
         </div>
     </div>
 </sec:ifAnyGranted>
-<p>
-<p>
-<div style="background: rgba(80, 110, 56, 0.04);">
-    <div class="container">
-        <p>
-        <h5 class="text-center">Search Options</h5>
-        <p>
-            <filterpane:filterButton text="Filter This List" />
-            <filterpane:filterPane domain="geldb.SolidSpecimen"
-                                   excludeProperties="vasculerClampingTimeAtSurgery, collectionDate, sapphireIdentifier"
-                                   associatedProperties="participant.familyName,participant.givenName, participant.nHSNumber,
-                                             participant.hospitalNumber, fFPE_Tissue_Report.tumourType.tumourType,
-                                             participant.diagnosis, participant.studySubject.studySubjectIdentifier"/>
-        <p>
-        <p>
-    </div>
-</div>
+
+<hr/>
+
+<filterpane:filterButton text="Filter This List" />
+<filterpane:filterPane domain="geldb.SolidSpecimen"
+                       excludeProperties="vasculerClampingTimeAtSurgery, collectionDate, sapphireIdentifier"
+                       associatedProperties="participant.familyName,participant.givenName, participant.nHSNumber,
+                                 participant.hospitalNumber, fFPE_Tissue_Report.tumourType.tumourType,
+                                 participant.diagnosis, participant.studySubject.studySubjectIdentifier"/>
 
 <hr/>
 

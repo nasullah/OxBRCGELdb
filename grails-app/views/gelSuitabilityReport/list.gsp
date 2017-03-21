@@ -12,23 +12,14 @@
 
 <body>
 
-<p>
-<p>
-<div style="background: rgba(80, 110, 56, 0.04);">
-    <div class="container">
-        <p>
-        <h5 class="text-center">Search Options</h5>
-        <p>
-            <filterpane:filterButton text="Filter This List" />
-            <filterpane:filterPane domain="geldb.GelSuitabilityReport"
-                                   excludeProperties="reportDate, sideMarkedDate, slideScannedOn, handEcarriedOutOn"
-                                   associatedProperties="aliquot.specimen.participant.familyName, aliquot.specimen.participant.givenName,
-                                             aliquot.specimen.participant.nHSNumber, aliquot.specimen.participant.hospitalNumber,
-                                             aliquot.specimen.participant.diagnosis, aliquot.specimen.participant.studySubject.studySubjectIdentifier"/>
-        <p>
-        <p>
-    </div>
-</div>
+<hr/>
+
+<filterpane:filterButton text="Filter This List" />
+<filterpane:filterPane domain="geldb.GelSuitabilityReport"
+                       excludeProperties="reportDate, sideMarkedDate, slideScannedOn, handEcarriedOutOn"
+                       associatedProperties="aliquot.specimen.participant.familyName, aliquot.specimen.participant.givenName,
+                                 aliquot.specimen.participant.nHSNumber, aliquot.specimen.participant.hospitalNumber,
+                                 aliquot.specimen.participant.diagnosis, aliquot.specimen.participant.studySubject.studySubjectIdentifier"/>
 
 <hr/>
 

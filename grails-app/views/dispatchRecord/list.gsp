@@ -12,22 +12,13 @@
 
 <body>
 
-<p>
-<p>
-<div style="background: rgba(80, 110, 56, 0.04);">
-    <div class="container">
-        <p>
-        <h5 class="text-center">Search Options</h5>
-        <p>
+<hr/>
+
             <filterpane:filterButton text="Filter This List" />
             <filterpane:filterPane domain="geldb.DispatchRecord"
                                    excludeProperties="sentOn, receivedOn"
                                    associatedProperties="dispatchedBoxs.barcode, dispatchedBoxs.dispatchItems.identifiedSample.barcode, dispatchedBoxs.dispatchItems.volume_ul,
 								   						 dispatchedBoxs.dispatchItems.positionIfPlated"/>
-        <p>
-        <p>
-    </div>
-</div>
 
 <hr/>
 

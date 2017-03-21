@@ -7,9 +7,21 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'fixationReport.label', default: 'Genomic Block Fixation Report')}" />
 	<title><g:message code="default.index.label" args="[entityName]" /></title>
+	<r:require module="filterpane" />
 </head>
 
 <body>
+
+<hr/>
+
+<filterpane:filterButton text="Filter This List" />
+<filterpane:filterPane domain="geldb.FixationReport"
+					   excludeProperties="reportDate, fixationStartDateAliquot, fixationStartTimeAliquot, fixationEndDateAliquot, fixationEndTimeAliquot"
+					   associatedProperties="aliquot.specimen.participant.familyName, aliquot.specimen.participant.givenName,
+								 aliquot.specimen.participant.nHSNumber, aliquot.specimen.participant.hospitalNumber,
+								 aliquot.specimen.participant.diagnosis, aliquot.specimen.participant.studySubject.studySubjectIdentifier"/>
+
+<hr/>
 
 <p>Number of records: ${fixationReportInstanceTotal == null ? FixationReport.count(): fixationReportInstanceTotal}</p>
 

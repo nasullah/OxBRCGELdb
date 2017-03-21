@@ -12,23 +12,14 @@
 
 <body>
 
-<p>
-<p>
-<div style="background: rgba(80, 110, 56, 0.04);">
-    <div class="container">
-        <p>
-        <h5 class="text-center">Search Options</h5>
-        <p>
-            <filterpane:filterButton text="Filter This List" />
-            <filterpane:filterPane domain="geldb.FFPE_Tissue_Report"
-                                   excludeProperties="reportDate, fixationStartDate, fixationStartTime, fixationEndDate, fixationEndTime, morphologySnomed, topographySnomed"
-                                   associatedProperties="solidSpecimen.participant.familyName, solidSpecimen.participant.givenName,
-                                             solidSpecimen.participant.nHSNumber, solidSpecimen.participant.hospitalNumber,
-                                             solidSpecimen.participant.diagnosis, solidSpecimen.participant.studySubject.studySubjectIdentifier, snomed.snomedCode"/>
-        <p>
-        <p>
-    </div>
-</div>
+<hr/>
+
+<filterpane:filterButton text="Filter This List" />
+<filterpane:filterPane domain="geldb.FFPE_Tissue_Report"
+                       excludeProperties="reportDate, fixationStartDate, fixationStartTime, fixationEndDate, fixationEndTime, morphologySnomed, topographySnomed"
+                       associatedProperties="solidSpecimen.participant.familyName, solidSpecimen.participant.givenName,
+                                 solidSpecimen.participant.nHSNumber, solidSpecimen.participant.hospitalNumber,
+                                 solidSpecimen.participant.diagnosis, solidSpecimen.participant.studySubject.studySubjectIdentifier, snomed.snomedCode"/>
 
 <hr/>
 
