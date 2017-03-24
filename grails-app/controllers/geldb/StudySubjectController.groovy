@@ -65,6 +65,9 @@ class StudySubjectController {
             }else if (consentType.studyName == 'GI consent') {
                 def listConsentVersionForm = ["11/YH/0020", "16/YH/0247"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
+            }else if (consentType.studyName == 'ORB_ specific programme clinically relevant genomics for adults') {
+                def listConsentVersionForm = ["Version 1 dated October 2013"]
+                render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             }
         }
     }
