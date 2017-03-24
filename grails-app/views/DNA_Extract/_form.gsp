@@ -2,13 +2,20 @@
 <%@ page import="geldb.ExtractionType" %>
 
 
-            <g:if test="${DNA_ExtractInstance?.aliquot*.id == null}">
-                <hr/>
+            <g:if test="${DNA_ExtractInstance?.aliquot}">
+                <br/>
+                <g:each in="${DNA_ExtractInstance.aliquot}" var="a">
+                    <p><b>${a}</b></p>
+                    <g:hiddenField name="aliquot" value="${a.id}" />
+                </g:each>
+            </g:if>
+            <g:else>
+                <br/>
                 <div class="row">
                     <div class="col-lg-6">
                         <label class="control-label"> Enter Participant/GEL ID</label>
                         <div class="input-group">
-                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="GEL000" required="" ></g:textField>
+                            <g:textField type="text" id="search" name="search" class="form-control"  placeholder="GEL000" required="" />
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-success" value="Find" onClick= 'getAliquots()'><span class="glyphicon glyphicon-search"></span> Find Aliquot</button>
                             </div>
@@ -18,7 +25,7 @@
                     <div class="col-lg-6">
                         <label class="control-label"> Or scan/enter aliquot barcode</label>
                         <div class="input-group">
-                            <g:textField type="text" id="aliquotBarcode" name="aliquotBarcode" class="form-control"  placeholder="1234567890" ></g:textField>
+                            <g:textField type="text" id="aliquotBarcode" name="aliquotBarcode" class="form-control"  placeholder="1234567890" />
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-success" value="Find" onClick= 'getAliquotByBarcode()'><span class="glyphicon glyphicon-search"></span> Find Aliquot</button>
                             </div>
@@ -27,18 +34,7 @@
                 </div>
                 <p>
                 <div id="selectAliquot"></div>
-            </g:if>
-
-            <g:if test="${DNA_ExtractInstance?.aliquot*.id != null}">
-                <div class="${hasErrors(bean: DNA_ExtractInstance, field: 'aliquot', 'error')} ">
-                    <label for="aliquot" class="control-label"><g:message code="DNA_Extract.aliquot.label" default="Aliquot" /><span class="required-indicator">*</span></label>
-                    <div>
-                        <g:select class="form-control" name="aliquot" id="aliquot" from="${geldb.Aliquot.list()}"
-                                  multiple="multiple" size="1" optionKey="id" value="${DNA_ExtractInstance?.aliquot*.id}" required="" class="many-to-many"/>
-                        <span class="help-inline">${hasErrors(bean: DNA_ExtractInstance, field: 'aliquot', 'error')}</span>
-                    </div>
-                </div>
-            </g:if>
+            </g:else>
 
             <div class="row">
                 <div class="col-lg-6">
