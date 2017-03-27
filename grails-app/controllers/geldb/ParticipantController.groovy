@@ -18,6 +18,8 @@ import org.grails.plugin.filterpane.FilterPaneUtils
 import grails.plugins.springsecurity.*
 import grails.converters.JSON
 import groovy.json.JsonSlurper
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 /**
  * ParticipantController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
@@ -174,6 +176,54 @@ class ParticipantController {
             def exportSummaryReportData = Participant.list().sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
             exportService.export(params.format, response.outputStream, exportSummaryReportData, exportSummaryReportService.fields, exportSummaryReportService.labels, exportSummaryReportService.formatters, exportSummaryReportService.parameters )
         }
+    }
+
+    def validNHSNum(){
+        def nhsNum = params.nhsNum
+        String NHSNO_PATTERN = '^[0-9]{10}$'
+        Pattern pattern = Pattern.compile(NHSNO_PATTERN);
+        Matcher matcher = pattern.matcher(nhsNum);
+
+        if(nhsNum.equals(""))
+        {
+            render(template: "nhsNumberValidation", model: [valid: false])
+            return
+        }
+
+        if(!nhsNum.equals("") && !matcher.matches())
+        {
+            render(template: "nhsNumberValidation", model: [valid: false])
+            return
+        }
+
+        int[] digits = new int[10];
+        int[] values = new int[10];
+        int sum = 0;
+        for(int i=0;i<9;i++)
+        {
+            digits[i] = Integer.parseInt(nhsNum.substring(i, i+1));
+            values[i] = digits[i] * (10-i);
+            sum += values[i];
+        }
+        //System.out.println("Sum : " + sum);
+        digits[9] = Integer.parseInt(nhsNum.substring(9, 10));
+        int rem = 11 - (sum % 11);
+        //System.out.println("Rem : " + rem);
+        if(rem == 11)
+        {
+            rem = 0;
+        }
+        else if(rem == 10)
+        {
+            render(template: "nhsNumberValidation", model: [valid: false])
+            return
+        }
+        if(digits[9] != rem)
+        {
+            render(template: "nhsNumberValidation", model: [valid: false])
+            return
+        }
+        render(template: "nhsNumberValidation", model: [valid: true])
     }
 
     def exportParticipantsBySites(){

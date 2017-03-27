@@ -44,10 +44,10 @@
 
     <div class="col-lg-6">
         <div class="${hasErrors(bean: participantInstance, field: 'nHSNumber', 'error')} ">
-            <label for="nHSNumber" class="control-label"><g:message code="participant.nHSNumber.label" default="NHS Number" /></label>
+            <label for="nHSNumber" class="control-label"><g:message code="participant.nHSNumber.label" default="NHS Number (Please enter without spaces)" /></label>
             <div>
-                <g:textField class="form-control" name="nHSNumber" value="${participantInstance?.nHSNumber}" />
-                <span class="help-inline">${hasErrors(bean: participantInstance, field: 'nHSNumber', 'error')}</span>
+                <g:textField class="form-control" name="nHSNumber" value="${participantInstance?.nHSNumber}" onblur="validateNHSNumber()" />
+                <div id="nhsNumberValidationError"></div>
             </div>
         </div>
     </div>
@@ -61,7 +61,9 @@
             </div>
         </div>
     </div>
+</div>
 
+<div class="row">
     <div class="col-lg-6">
         <div class="${hasErrors(bean: participantInstance, field: 'centre', 'error')} required">
             <label for="centre" class="control-label"><g:message code="participant.centre.label" default="Centre" /><span class="required-indicator">*</span></label>
@@ -111,5 +113,18 @@
 <script>
     function callICD10(diagnosis){
         document.getElementById('diagnosis').value = diagnosis;
+    }
+
+    function validateNHSNumber(){
+        if($("#nHSNumber").val() != ''){
+            ${remoteFunction (controller: 'participant',
+                        action: 'validNHSNum',
+                        params: '"nhsNum=" + $("#nHSNumber").val()',
+                        update: 'nhsNumberValidationError',
+
+                )}
+        }else{
+            $("#nhsNumberValidationError").empty()
+        }
     }
 </script>
