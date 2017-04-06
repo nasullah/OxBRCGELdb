@@ -37,6 +37,7 @@ class ParticipantController {
     def exportParticipantService
     def exportSummaryReportService
     def listAuditLogDataService
+    def exportLysatesPerParticipantService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -270,6 +271,16 @@ class ParticipantController {
             Map formatters = ["participant.studySubject.studySubjectIdentifier": gelID]
             Map parameters = [title: "Participants", "column.widths": [0.2, 0.2, 0.2, 0.1]]
             exportService.export(params.format, response.outputStream, anatomicalSitesList, fields, labels, formatters, parameters )
+        }
+    }
+
+    @Secured(['ROLE_ADMIN'])
+    def exportLysatesPerParticipant(){
+        if(params?.format && params.format != "html"){
+            response.contentType = grailsApplication.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename= Lysates per participant.${params.extension}")
+            def participantList = Participant.list().sort {it.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}
+            exportService.export(params.format, response.outputStream, participantList, exportLysatesPerParticipantService.fields, exportLysatesPerParticipantService.labels, exportLysatesPerParticipantService.formatters, exportLysatesPerParticipantService.parameters )
         }
     }
 

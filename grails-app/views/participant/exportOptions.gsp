@@ -5,104 +5,107 @@
 
 <head>
     <meta name="layout" content="kickstart" />
-    <title>Export Options</title>
+    <title>Export Data</title>
 </head>
 
 <body>
 
-<p></p>
-
-<div style="background: rgba(139, 240, 37, 0.14);">
+<div>
     <div class="container">
         <sec:ifAnyGranted roles="ROLE_ADMIN">
-            <p>
-            <h5 class="text-center">Export Options</h5>
-            <p>
+            <br/>
+
+            <h4 class="text-center">Export Options</h4>
+
+            <br/>
+
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label class="control-label"><small>GEL/Participant IDs</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getExcelGeLID()" <g:link controller="participant" action="exportSummaryReport" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div>
+                        <a class='btn btn-success btn-sm' onclick="getExcelGeLID()" <g:link controller="participant" action="exportSummaryReport" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    </div>
                     <div id="spinnerGELID" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label class="control-label"><small>FFPE Tissue Handling</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getExcelFFPETissueHandling()" <g:link controller="aliquot" action="exportFFPETissueHandling" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div>
+                        <a class='btn btn-success btn-sm' onclick="getExcelFFPETissueHandling()" <g:link controller="aliquot" action="exportFFPETissueHandling" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    </div>
                     <div id="spinnerFFPETissueHandling" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label class="control-label"><small>All Dispatched DNA</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getAllDispatchedDNASamples()" <g:link controller="dispatchRecord" action="exportAllDispatchedDNASamples" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div>
+                        <a class='btn btn-success btn-sm' onclick="getAllDispatchedDNASamples()" <g:link controller="dispatchRecord" action="exportAllDispatchedDNASamples" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    </div>
                     <div id="spinnerAllDispatchedDNASamples" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label class="control-label"><small>All Dispatched Omics</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getAllDispatchedOmicsSamples()" <g:link controller="dispatchRecord" action="exportAllDispatchedOmicsSamples" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div>
+                        <a class='btn btn-success btn-sm' onclick="getAllDispatchedOmicsSamples()" <g:link controller="dispatchRecord" action="exportAllDispatchedOmicsSamples" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    </div>
                     <div id="spinnerAllDispatchedOmicsSamples" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
+            </div>
 
-                %{--<div class="col-md-2">--}%
-                    %{--<label class="control-label"><small>Dispatched Items Data</small></label>--}%
-                    %{--<a class='btn btn-success btn-sm' onclick="getCSVDispatchedItemsData()" <g:link controller="dispatchRecord" action="exportAllDispatchedItemsData" params="['format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>--}%
-                    %{--<div id="spinnerDispatchedItemsData" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>--}%
-                        %{--<img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />--}%
-                    %{--</div>--}%
-                %{--</div>--}%
+            <div class="row">
+                <div class="col-md-11">
+                    <hr>
+                </div>
+            </div>
 
-                <div class="col-md-2">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="control-label"><small>Dispatched Items Data</small></label>
+                    <div>
+                        <a class='btn btn-success btn-sm' onclick="getCSVDispatchedItemsData()" <g:link controller="dispatchRecord" action="exportAllDispatchedItemsData" params="['format': 'csv', 'extension': 'csv']"><i class="glyphicon glyphicon-export"></i> CSV Format</g:link>
+                    </div>
+                    <div id="spinnerDispatchedItemsData" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                        <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
+                    </div>
+                </div>
+
+                <div class="col-md-3">
                     <label class="control-label"><small>FFPE, NBF & Fixation Period</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getExcelFFPEList()" <g:link controller="aliquot" action="exportFFPEList" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    <div>
+                        <a class='btn btn-success btn-sm' onclick="getExcelFFPEList()" <g:link controller="aliquot" action="exportFFPEList" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    </div>
                     <div id="spinnerFFPEList" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
 
-                <div class="col-md-2">
-                    <label class="control-label"><small>FF Aliquots Per Part.</small></label>
-                    <a class='btn btn-success btn-sm' onclick="getNumberOfFFAliquots()" <g:link controller="aliquot" action="exportFFAliquotsNumbersList" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                <div class="col-md-3">
+                    <label class="control-label"><small>FF Aliquots Per Participant</small></label>
+                    <div>
+                        <a class='btn btn-success btn-sm' onclick="getNumberOfFFAliquots()" <g:link controller="aliquot" action="exportFFAliquotsNumbersList" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
+                    </div>
                     <div id="spinnerFFList" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
                         <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-11">
-                        <hr>
+                <div class="col-md-3">
+                    <label class="control-label"><small>Lysate Aliquots Per Participant</small></label>
+                    <div>
+                    <a class='btn btn-success btn-sm' onclick="getNumberOfLysateAliquots()" <g:link controller="participant" action="exportLysatesPerParticipant" params="['format': 'excel', 'extension': 'xls']"><i class="glyphicon glyphicon-export"></i> Excel Format</g:link>
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="control-label"><small>Export barcode file (upload the csv file generated by the box scanner)</small></label>
-                    <g:uploadForm class="form-inline" controller="solidSpecimen" action="renderBarcode" role="form">
-                        <div class="form-group">
-                            <input type="file" id="csvFile" name="csvFile" />
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" name="upload" class="btn btn-success  btn-sm"><i class="glyphicon glyphicon-upload"></i> Upload</button>
-                        </div>
-                    </g:uploadForm>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="control-label"><small>Export barcode file with sample type(upload the csv file generated by the box scanner)</small></label>
-                    <g:uploadForm class="form-inline" controller="solidSpecimen" action="renderBarcodeAndSampleType" role="form">
-                        <div class="form-group">
-                            <input type="file" id="csvFileWithSampleType" name="csvFileWithSampleType" />
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" name="upload" class="btn btn-success  btn-sm"><i class="glyphicon glyphicon-upload"></i> Upload</button>
-                        </div>
-                    </g:uploadForm>
+                    <div id="spinnerLysateList" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Processing&hellip;"/>
+                        <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="spinner" />
+                    </div>
                 </div>
             </div>
 
@@ -192,11 +195,46 @@
                 </g:uploadForm>
             </div>
         </div>
-        <p>
+
+        <div class="row">
+            <div class="col-md-11">
+                <hr>
+            </div>
+        </div>
+
+        <sec:ifAnyGranted roles="ROLE_ADMIN">
+            <h4 class="text-center">Generate Barcode</h4>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="control-label"><small>Export barcode file (upload the csv file generated by the box scanner)</small></label>
+                    <g:uploadForm class="form-inline" controller="solidSpecimen" action="renderBarcode" role="form">
+                        <div class="form-group">
+                            <input type="file" id="csvFile" name="csvFile" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" name="upload" class="btn btn-success  btn-sm"><i class="glyphicon glyphicon-upload"></i> Upload</button>
+                        </div>
+                    </g:uploadForm>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="control-label"><small>Export barcode file with sample type(upload the csv file generated by the box scanner)</small></label>
+                    <g:uploadForm class="form-inline" controller="solidSpecimen" action="renderBarcodeAndSampleType" role="form">
+                        <div class="form-group">
+                            <input type="file" id="csvFileWithSampleType" name="csvFileWithSampleType" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" name="upload" class="btn btn-success  btn-sm"><i class="glyphicon glyphicon-upload"></i> Upload</button>
+                        </div>
+                    </g:uploadForm>
+                </div>
+            </div>
+        </sec:ifAnyGranted>
     </div>
 </div>
-
-<hr/>
 
 <g:javascript plugin="jquery" library="jquery" />
 <script>
@@ -271,6 +309,15 @@
                         action: 'exportFFAliquotsNumbersList',
                         params:[format:'excel',extension:'xls'],
                         onSuccess:'$("#spinnerFFList").hide()'
+                )}
+    }
+
+    function getNumberOfLysateAliquots(){
+        $('#spinnerLysateList').show();
+        ${remoteFunction (controller: 'participant',
+                        action: 'exportLysatesPerParticipant',
+                        params:[format:'excel',extension:'xls'],
+                        onSuccess:'$("#spinnerLysateList").hide()'
                 )}
     }
 </script>
