@@ -40,13 +40,23 @@ class SampleMetadataExportService {
                 return "DNA " + "FF Tumour"
             }else  if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
                 return "DNA " + "FFPE Tumour"
+            }else  if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('dna_blood_tumour')){
+                return "dna_blood_tumour"
+            }else  if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('dna_bone_marrow_aspirate_tumour_sorted_cells')){
+                return "dna_bone_marrow_aspirate_tumour_sorted_cells"
             }else{
                 return "DNA "+ value?.toString()?.replace('[','')?.replace(']','')
             }
         }
 
         def clinicID  = { domain, value ->
-            return "RTH"
+            def centre = domain?.identifiedSample?.aliquot?.specimen?.participant?.centre
+            centre = centre?.toString()?.replace('[','')?.replace(']','')?.replace('null','')?.replace(',','')?.trim()
+            if(centre =='Oxford'){
+                return "RTH"
+            }else if(centre =='Milton Keynes'){
+                return "RD8"
+            }
         }
 
         def extractionDate  = { domain, value ->

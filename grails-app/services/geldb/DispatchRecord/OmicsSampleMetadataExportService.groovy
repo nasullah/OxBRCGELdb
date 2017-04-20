@@ -40,7 +40,13 @@ class OmicsSampleMetadataExportService {
         }
 
         def clinicID  = { domain, value ->
-            return "RTH"
+            def centre = domain?.identifiedSample?.specimen?.participant?.centre
+            centre = centre?.toString()?.replace('[','')?.replace(']','')?.replace('null','')?.replace(',','')?.trim()
+            if(centre =='Oxford'){
+                return "RTH"
+            }else if(centre =='Milton Keynes'){
+                return "RD8"
+            }
         }
 
         def createdOn  = { domain, value ->

@@ -68,7 +68,7 @@
         <div class="${hasErrors(bean: participantInstance, field: 'centre', 'error')} required">
             <label for="centre" class="control-label"><g:message code="participant.centre.label" default="Centre" /><span class="required-indicator">*</span></label>
             <div>
-                <g:select class="form-control" id="centre" name="centre.id" from="${geldb.Centre.list().sort()}" optionKey="id" required="" value="${participantInstance?.centre?.id}" />
+                <g:select class="form-control" id="centre" name="centre.id" from="${geldb.Centre.list()?.sort{it?.id}}" optionKey="id" required="" value="${participantInstance?.centre?.id}" />
                 <span class="help-inline">${hasErrors(bean: participantInstance, field: 'centre', 'error')}</span>
             </div>
         </div>
