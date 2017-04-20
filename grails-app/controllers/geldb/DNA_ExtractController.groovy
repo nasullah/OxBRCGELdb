@@ -120,10 +120,15 @@ class DNA_ExtractController {
     }
 
     def aliquotsPendingForExtraction(){
-        def aliquotInstanceList = Aliquot.findAllByAliquotTypeOrAliquotTypeOrAliquotTypeOrAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'), AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'),
-                AliquotType.findByAliquotTypeName('Punch biopsy, PAXgene'), AliquotType.findByAliquotTypeName('Section'), AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'))
+        def aliquotInstanceList = Aliquot.findAllByAliquotTypeOrAliquotTypeOrAliquotTypeOrAliquotTypeOrAliquotTypeOrAliquotTypeOrAliquotType(AliquotType.findByAliquotTypeName('Punch Biopsy FFPE, NBF'),
+                AliquotType.findByAliquotTypeName('Punch Biopsy FFPE'), AliquotType.findByAliquotTypeName('Punch biopsy, PAXgene'), AliquotType.findByAliquotTypeName('Section'),
+                AliquotType.findByAliquotTypeName('Punch Biopsy Frozen'), AliquotType.findByAliquotTypeName('Needle biopsy'), AliquotType.findByAliquotTypeName('FNA'))
         aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> !aliquot.sampleTrackingEvent.empty}
         aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at MDC lab'), aliquot) }
+        def salivaAliquotList = Aliquot.findAllByAliquotTypeAndExhausted(AliquotType.findByAliquotTypeName('Saliva'), false)
+        if (!salivaAliquotList.empty){
+            aliquotInstanceList.addAll(salivaAliquotList)
+        }
         aliquotInstanceList = aliquotInstanceList.findAll {aliquot -> !aliquot.exhausted}
         [aliquotInstanceList: aliquotInstanceList.sort {it.specimen.participant.studySubject.studySubjectIdentifier.findResult {it?.size() ? it : null}}]
     }
