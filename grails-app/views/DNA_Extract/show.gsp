@@ -160,7 +160,12 @@
                 <tr class="prop">
                     <td valign="top" class="name"><g:message code="DNA_Extract.position.label" default="Position" /></td>
 
-                    <td valign="top" class="value"><g:link controller="position" action="show" id="${DNA_ExtractInstance?.position?.id}">${DNA_ExtractInstance?.position?.encodeAsHTML()}</g:link></td>
+                    <g:if test="${DNA_ExtractInstance?.exhausted}">
+                        <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "position")} <mark>(This position was occupied by the DNA Extract prior to exhaustion)</mark></td>
+                    </g:if>
+                    <g:else>
+                        <td valign="top" class="value">${fieldValue(bean: DNA_ExtractInstance, field: "position")}</td>
+                    </g:else>
 
                 </tr>
             </g:if>

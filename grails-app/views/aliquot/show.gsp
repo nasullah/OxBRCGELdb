@@ -243,7 +243,12 @@
             <tr class="prop">
                 <td valign="top" class="name"><g:message code="aliquot.position.label" default="Position" /></td>
 
-                <td valign="top" class="value"><g:link controller="position" action="show" id="${aliquotInstance?.position?.id}">${aliquotInstance?.position?.encodeAsHTML()}</g:link></td>
+                <g:if test="${aliquotInstance?.exhausted}">
+                    <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "position")} <mark>(This position was occupied by the aliquot prior to exhaustion)</mark></td>
+                </g:if>
+                <g:else>
+                    <td valign="top" class="value">${fieldValue(bean: aliquotInstance, field: "position")}</td>
+                </g:else>
 
             </tr>
         </g:if>
