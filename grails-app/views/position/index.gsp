@@ -19,8 +19,7 @@
 
 <filterpane:filterButton text="Filter This List" />
 <filterpane:filterPane domain="geldb.Position"
-                       associatedProperties="plateOrBox.identifier, plateOrBox.shelf.shelfName,
-                                     plateOrBox.shelf.shelfName, plateOrBox.shelf.freezer.freezerName"/>
+                       associatedProperties="plateOrBox.identifier, plateOrBox.shelf.shelfName, plateOrBox.shelf.freezer.freezerName"/>
 
 <hr/>
 

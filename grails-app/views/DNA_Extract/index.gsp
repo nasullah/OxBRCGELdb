@@ -40,7 +40,7 @@
                        excludeProperties="extractionDate"
                        associatedProperties="aliquot.specimen.participant.familyName, aliquot.specimen.participant.givenName, aliquot.specimen.participant.diagnosis,
                                  aliquot.specimen.participant.nHSNumber, aliquot.specimen.participant.hospitalNumber, extractionKit.extractionKitName,
-                                 aliquot.specimen.participant.studySubject.studySubjectIdentifier"/>
+                                 aliquot.specimen.participant.studySubject.studySubjectIdentifier, aliquot.specimen.participant.centre.centreName"/>
 
 <hr/>
 

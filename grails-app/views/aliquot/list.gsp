@@ -47,7 +47,7 @@
                        excludeProperties="createdOn, aliquotPhotograph, createdTime"
                        associatedProperties="specimen.participant.familyName, specimen.participant.familyName, specimen.participant.diagnosis,
                                  specimen.participant.hospitalNumber, specimen.participant.nHSNumber, aliquotType.aliquotTypeName,
-                                 specimen.participant.studySubject.studySubjectIdentifier"/>
+                                 specimen.participant.studySubject.studySubjectIdentifier, specimen.participant.centre.centreName"/>
 
 
 <hr/>

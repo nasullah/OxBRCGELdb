@@ -19,7 +19,8 @@
                        excludeProperties="reportDate, fixationStartDate, fixationStartTime, fixationEndDate, fixationEndTime, morphologySnomed, topographySnomed"
                        associatedProperties="solidSpecimen.participant.familyName, solidSpecimen.participant.givenName,
                                  solidSpecimen.participant.nHSNumber, solidSpecimen.participant.hospitalNumber,
-                                 solidSpecimen.participant.diagnosis, solidSpecimen.participant.studySubject.studySubjectIdentifier, snomed.snomedCode"/>
+                                 solidSpecimen.participant.diagnosis, solidSpecimen.participant.studySubject.studySubjectIdentifier,
+                                 snomed.snomedCode, solidSpecimen.participant.centre.centreName"/>
 
 <hr/>
 

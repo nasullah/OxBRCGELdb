@@ -40,7 +40,8 @@
                        excludeProperties="collectionDate, sapphireIdentifier"
                        associatedProperties="participant.familyName, participant.givenName,
                                  participant.nHSNumber,participant.hospitalNumber,
-                                 participant.studySubject.studySubjectIdentifier"/>
+                                 participant.studySubject.studySubjectIdentifier,
+                                 participant.centre.centreName"/>
 
 <hr/>
 

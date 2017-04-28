@@ -40,7 +40,8 @@
                        excludeProperties="vasculerClampingTimeAtSurgery, collectionDate, sapphireIdentifier"
                        associatedProperties="participant.familyName,participant.givenName, participant.nHSNumber,
                                  participant.hospitalNumber, fFPE_Tissue_Report.tumourType.tumourType,
-                                 participant.diagnosis, participant.studySubject.studySubjectIdentifier"/>
+                                 participant.diagnosis, participant.studySubject.studySubjectIdentifier,
+                                 participant.centre.centreName"/>
 
 <hr/>
 

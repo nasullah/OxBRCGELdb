@@ -19,7 +19,8 @@
 					   excludeProperties="reportDate, sideMarkedDate, slideScannedOn, handEcarriedOutOn"
 					   associatedProperties="aliquot.specimen.participant.familyName, aliquot.specimen.participant.givenName,
                                  aliquot.specimen.participant.nHSNumber, aliquot.specimen.participant.hospitalNumber,
-                                 aliquot.specimen.participant.diagnosis, aliquot.specimen.participant.studySubject.studySubjectIdentifier"/>
+                                 aliquot.specimen.participant.diagnosis, aliquot.specimen.participant.studySubject.studySubjectIdentifier,
+                                 aliquot.specimen.participant.centre.centreName"/>
 
 <hr/>
 

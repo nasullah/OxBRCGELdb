@@ -39,7 +39,7 @@
 <filterpane:filterPane domain="geldb.Participant"
                        excludeProperties="dateOfBirth"
                        associatedProperties="studySubject.studySubjectIdentifier, studySubject.consentFormNumber, studySubject.consentFormVersion,
-                       studySubject.recruitedBy, studySubject.study.studyName"/>
+                       studySubject.recruitedBy, studySubject.study.studyName, centre.centreName"/>
 
 <hr/>
 
