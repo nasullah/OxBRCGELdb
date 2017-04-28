@@ -30,7 +30,11 @@ class ExportFFAliquotAndGelSuitService {
         }
 
         def position = { domain, value ->
-            return domain?.position?.letter  + domain?.position?.number
+            if(domain?.position){
+                return domain?.position?.letter  + domain?.position?.number
+            }else {
+                return ""
+            }
         }
 
         Map formatters = ["specimen.participant.studySubject.studySubjectIdentifier": gelID, "gelSuitabilityReport.percentageTumourContent":clean,
@@ -53,7 +57,7 @@ class ExportFFAliquotAndGelSuitService {
     }
 
     def getParameters(){
-        Map parameters = [title: "FF Aliquots List", "column.widths": [0.2, 0.2, 0.25, 0.25, 0.2, 0.1, 0.1, 0.15, 0.15, 0.15]]
+        Map parameters = [title: "FF Aliquots List", "column.widths": [0.2, 0.2, 0.25, 0.25, 0.2, 0.1, 0.1, 0.1, 0.15, 0.15]]
         return parameters
     }
 }
