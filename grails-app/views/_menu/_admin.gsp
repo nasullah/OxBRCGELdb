@@ -218,6 +218,13 @@
                 </a>
             </li>
 
+            <li class="">
+                <a href="${createLink(uri: '/aliquotType/enumerationsExport?extension=csv&format=csv')}">
+                    <i class="glyphicon glyphicon-export"></i>
+                    Export Enumerations
+                </a>
+            </li>
+
         </ul>
 
     </li>
