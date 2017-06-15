@@ -62,12 +62,19 @@
 			</tr>
 
             <tr class="prop">
-                <td valign="top" class="name"><g:message code="fluidSpecimen.passFailReason.label" default="Reference" /></td>
+                <td valign="top" class="name"><g:message code="solidSpecimen.reference.label" default="Reference" /></td>
 
                 <td valign="top" class="value">${fieldValue(bean: solidSpecimenInstance, field: "reference")}</td>
 
             </tr>
-		
+
+            <tr class="prop">
+                <td valign="top" class="name"><g:message code="solidSpecimen.retrospectiveSample.label" default="Retrospective Sample" /></td>
+
+                <td valign="top" class="value"><g:formatBoolean boolean="${solidSpecimenInstance?.retrospectiveSample}" true="Yes" false="No"/></td>
+
+            </tr>
+
 			<tr class="prop">
 				<td valign="top" class="name"><g:message code="solidSpecimen.notes.label" default="Notes" /></td>
 				

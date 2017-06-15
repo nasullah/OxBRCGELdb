@@ -100,6 +100,18 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'notes', 'error')} ">
+                        <label for="notes" class="control-label"><g:message code="solidSpecimen.notes.label" default="Notes" /></label>
+                        <div>
+                            <g:textArea class="form-control" name="notes" cols="40" rows="3" value="${solidSpecimenInstance?.notes}"/>
+                            <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'notes', 'error')}</span>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-lg-6">
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'reference', 'error')} ">
@@ -122,11 +134,17 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'notes', 'error')} ">
-                        <label for="notes" class="control-label"><g:message code="solidSpecimen.notes.label" default="Notes" /></label>
+                    <div class="${hasErrors(bean: solidSpecimenInstance, field: 'retrospectiveSample', 'error')} ">
+                        <label for="retrospectiveSample" class="control-label">Retrospective Sample<span class="required-indicator">*</span></label>
                         <div>
-                            <g:textArea class="form-control" name="notes" cols="40" rows="5" value="${solidSpecimenInstance?.notes}"/>
-                            <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'notes', 'error')}</span>
+                            <div>
+                                <g:radioGroup name="retrospectiveSample"
+                                              values="[true, false]"
+                                              labels="['Yes', 'No']"
+                                              value="${solidSpecimenInstance?.retrospectiveSample}">
+                                    ${it.label}  ${it.radio} &nbsp; &nbsp;
+                                </g:radioGroup>
+                            </div>
                         </div>
                     </div>
                 </div>
