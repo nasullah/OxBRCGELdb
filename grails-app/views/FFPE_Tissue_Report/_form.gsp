@@ -176,9 +176,9 @@
 
     <div class="col-lg-6">
         <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance?.snomed, field: 'snomedCode', 'error')}" id="snomed1">
-            <label for="snomedCode1" class="control-label"><g:message code="snomed.snomedCode.label" default="Snomed Code (use prefix T for Topography and M for Morphology)" /><span class="required-indicator">*</span></label>
+            <label for="snomedCode1" class="control-label"><g:message code="snomed.snomedCode.label" default="Snomed Code (use prefix T for Topography and M for Morphology)" /></label>
             <div>
-                <g:textField class="form-control" id="snomedCode1" name="snomedCode1" value="${FFPE_Tissue_ReportInstance?.snomed?.getAt(1)?.snomedCode}" required=""/>
+                <g:textField class="form-control" id="snomedCode1" name="snomedCode1" value="${FFPE_Tissue_ReportInstance?.snomed?.getAt(1)?.snomedCode}"/>
                 <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance?.snomed, field: 'snomedCode', 'error')}</span>
             </div>
         </div>
