@@ -2,6 +2,7 @@ package geldb
 
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
+import org.grails.plugin.filterpane.FilterPaneUtils
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -21,9 +22,22 @@ class TumourTypeController {
         respond TumourType.list(params), model: [tumourTypeInstanceCount: TumourType.count()]
     }
 
-    def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond TumourType.list(params), model: [tumourTypeInstanceCount: TumourType.count()]
+//    def list(Integer max) {
+//        params.max = Math.min(max ?: 10, 100)
+//        respond TumourType.list(params), model: [tumourTypeInstanceCount: TumourType.count()]
+//    }
+
+    def list() {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        [tumourTypeInstanceList: TumourType.list(params), tumourTypeInstanceTotal: TumourType.count()]
+    }
+
+    def filterPaneService
+    def filter = {
+        if(!params.max) params.max = 10
+        render( view:'list', model:[ tumourTypeInstanceList: filterPaneService.filter( params, TumourType ),
+                                     tumourTypeInstanceTotal: filterPaneService.count( params, TumourType ),
+                                     filterParams: FilterPaneUtils.extractFilterParams(params), params:params ] )
     }
 
     def show(TumourType tumourTypeInstance) {

@@ -7,9 +7,20 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'tumourType.label', default: 'Tumour Type')}" />
 	<title><g:message code="default.index.label" args="[entityName]" /></title>
+	<r:require module="filterpane" />
 </head>
 
 <body>
+
+<hr/>
+
+<filterpane:filterButton text="Filter This List" />
+<filterpane:filterPane domain="geldb.TumourType"
+					   associatedProperties="tumourLocation.tumourLocation"/>
+
+<hr/>
+
+<p>Number of records: ${tumourTypeInstanceTotal == null ? TumourType.count(): tumourTypeInstanceTotal}</p>
 
 <section id="index-tumourType" class="first">
 
@@ -36,7 +47,7 @@
 		</tbody>
 	</table>
 	<div>
-		<bs:paginate total="${tumourTypeInstanceCount}" />
+		<bs:paginate total="${tumourTypeInstanceTotal == null ? TumourType.count(): tumourTypeInstanceTotal}" params="${filterParams}" />
 	</div>
 </section>
 
