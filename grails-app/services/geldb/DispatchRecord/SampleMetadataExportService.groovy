@@ -25,7 +25,7 @@ class SampleMetadataExportService {
         }
 
         def tumourType = { domain, value ->
-            if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ''
             } else return cleanString(value?.toString())
         }
@@ -37,15 +37,15 @@ class SampleMetadataExportService {
         def clinicSampleType  = { domain, value ->
             if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy Frozen')
                     || domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('All Prep Lysate')) {
-                return "DNA " + "FF Tumour"
+                return "dna_ff_tumour"
             }else  if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
-                return "DNA " + "FFPE Tumour"
+                return "dna_ffpe_tumour"
             }else  if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('dna_blood_tumour')){
                 return "dna_blood_tumour"
-            }else  if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('dna_bone_marrow_aspirate_tumour_sorted_cells')){
-                return "dna_bone_marrow_aspirate_tumour_sorted_cells"
+            }else  if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('dna_bone_marrow_aspirate_tumour_cells')){
+                return "dna_bone_marrow_aspirate_tumour_cells"
             }else{
-                return "DNA "+ value?.toString()?.replace('[','')?.replace(']','')
+                return "dna_"+ value?.toString()?.replace('[','')?.replace(']','')
             }
         }
 
@@ -72,10 +72,6 @@ class SampleMetadataExportService {
             return barcode?.toString()?.replace(']', '')?.replace('[', '')
         }
 
-        def laboratoryMethod  = { domain, value ->
-            return "v2"
-        }
-
         def dispatchDate  = { domain, value ->
             def date = value?.toString()
             if(date){
@@ -86,7 +82,7 @@ class SampleMetadataExportService {
         }
 
         def morphology = { domain, value ->
-            if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ''
             } else {
                 def code = value?.findResult {it?.size() ? it : null}
@@ -100,8 +96,25 @@ class SampleMetadataExportService {
             }
         }
 
+        def morphologyICD = { domain, value ->
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
+                return ""
+            } else {
+                def code = domain?.identifiedSample?.aliquot?.specimen?.fFPE_Tissue_Report?.snomed
+                code = code?.findResult {it?.size() ? it : null}
+                if(code){
+                    code = code?.toString()?.replace('[','')?.replace(']','')?.replace(' ','')
+                    def list = code?.toString()?.split(',')
+                    list = list?.findAll {s -> !s?.startsWith('M')}
+                    list = list?.findAll {s -> !s?.startsWith('T')}
+                    return list?.toString()?.replace('[','')?.replace(']','')
+                }
+                return ''
+            }
+        }
+
         def provenance = { domain, value ->
-            if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ''
             } else {
                 return cleanString(value?.toString())
@@ -109,7 +122,7 @@ class SampleMetadataExportService {
         }
 
         def topography = { domain, value ->
-            if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ''
             } else {
                 def code = value?.findResult {it?.size() ? it : null}
@@ -157,7 +170,7 @@ class SampleMetadataExportService {
         }
 
         def fixationStartDate = { domain, value ->
-            if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ''
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
@@ -178,7 +191,7 @@ class SampleMetadataExportService {
         }
 
         def fixationEndDate = { domain, value ->
-            if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ''
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
@@ -199,17 +212,17 @@ class SampleMetadataExportService {
         }
 
         def fixationType = { domain, value ->
-            if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ''
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
                     def type = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
                     if (type == 'Nonbuffered formalin FOR') {
-                        return "Formal saline"
+                        return "formal_saline"
                     } else if (type == 'Neutral buffered formalin NBF') {
-                        return "Neutral buffered Formalin"
+                        return "neutral_buffered_formalin"
                     }else if (type == 'Other ZZZ') {
-                        return "Other"
+                        return "other"
                     }
                 }else{
                     return ""
@@ -218,7 +231,7 @@ class SampleMetadataExportService {
         }
 
         def fixationComments = { domain, value ->
-            if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ''
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
@@ -235,7 +248,7 @@ class SampleMetadataExportService {
         }
 
         def excisionMargin = { domain, value ->
-            if(domain?.identifiedSample?.aliquot?.specimen?.toString()?.contains('[Fluid Specimen-')){
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)){
                 return ''
             } else {
                 return '99'
@@ -243,7 +256,7 @@ class SampleMetadataExportService {
         }
 
         def processingSchedule = { domain, value ->
-            if (value.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ''
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
@@ -264,7 +277,7 @@ class SampleMetadataExportService {
         }
 
         def laboratoryRemainingVolumeBanked  = { domain, value ->
-            if (domain?.identifiedSample?.aliquot?.specimen?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return "0"
             }else{
                 def elution = DNA_Extract?.findById(domain?.identifiedSample?.id)?.sapphireIdentifier
@@ -281,7 +294,7 @@ class SampleMetadataExportService {
         }
 
         def numberOfBiopsies = { domain, value ->
-            if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ""
             } else if(domain?.identifiedSample?.aliquot?.specimen?.collectionMethod?.toString()?.contains('Biopsy')){
                 def number = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
@@ -296,7 +309,7 @@ class SampleMetadataExportService {
         }
 
         def gaugeOfBiopsies = { domain, value ->
-            if (value?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ""
             } else if(domain?.identifiedSample?.aliquot?.specimen?.collectionMethod?.toString()?.contains('Biopsy')) {
                 def number = value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
@@ -311,7 +324,7 @@ class SampleMetadataExportService {
         }
 
         def timeInProcessor = { domain, value ->
-            if (value.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ""
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
@@ -328,7 +341,7 @@ class SampleMetadataExportService {
         }
 
         def coreDiameter = { domain, value ->
-            if (value.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ""
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
@@ -350,7 +363,7 @@ class SampleMetadataExportService {
         }
 
         def coresNumber = { domain, value ->
-            if (value.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ""
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')){
@@ -367,19 +380,19 @@ class SampleMetadataExportService {
         }
 
         def extractionProtocol = { domain, value ->
-            if (domain?.identifiedSample?.aliquot?.specimen?.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ""
             }else if(domain?.identifiedSample?.extractionKit?.toString()?.contains('QIAmp DNA FFPE Tissue Kit, Qiagen')){
-                return "Qiagen_80"
+                return "qiagen_80"
             }else if(domain?.identifiedSample?.extractionKit?.toString()?.contains('truXTRAC FFPE DNA Kit, Covaris')){
-                return "Covaris"
+                return "covaris"
             }else if(domain?.identifiedSample?.extractionKit?.toString()?.contains('All Prep DNA/RNA Mini Kit, Qiagen')){
-                return "Fresh_Frozen"
+                return "fresh_frozen"
             }
         }
 
         def tumourSampleType = { domain, value ->
-            if (value.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ''
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy')
@@ -397,7 +410,7 @@ class SampleMetadataExportService {
         }
 
         def snapFreezingStartDateTime = { domain, value ->
-            if (value.toString()?.startsWith('[Fluid Specimen-')) {
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)){
                 return ""
             } else {
                 if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy Frozen')
@@ -418,9 +431,49 @@ class SampleMetadataExportService {
             }
         }
 
+        def tumourID = { domain, value ->
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
+                return ""
+            } else {
+                return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')?.replace('/','_')
+            }
+        }
+
+        def diseaseType = { domain, value ->
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
+                return ""
+            } else {
+                return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+            }
+        }
+
+        def diseaseSubtype = { domain, value ->
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
+                return ""
+            } else {
+                return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+            }
+        }
+
+        def retrospectiveSample = { domain, value ->
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
+                return ""
+            } else {
+                return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+            }
+        }
+
+        def previousTreatment = { domain, value ->
+            if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
+                return ""
+            } else {
+                return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+            }
+        }
+
         Map formatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'clinicID':clinicID,"identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourStatus":tumourType,
                           "identifiedSample.extractionDate":extractionDate,"identifiedSample.aliquot.aliquotType": clinicSampleType, "identifiedSample.barcode":aliquotBarcode, "laboratoryID":laboratoryID,
-                          "Laboratory Method":laboratoryMethod, "laboratoryRemainingVolumeBanked":laboratoryRemainingVolumeBanked, "dispatchedBox.dispatchRecord.sentOn":dispatchDate,
+                          "laboratoryRemainingVolumeBanked":laboratoryRemainingVolumeBanked, "dispatchedBox.dispatchRecord.sentOn":dispatchDate,
                           "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed.snomedCode" :morphology, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.sampleType":provenance,
                           "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed" :topography, "identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails":macrodissectionDetails,
                           "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot":fixationStartDate, "identifiedSample.aliquot.fixationReport.fixationTypeAliquot":fixationType,
@@ -428,7 +481,10 @@ class SampleMetadataExportService {
                           "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":processingSchedule, "volume_ul":volumeUl, "laboratorySampleID":laboratorySampleID, "Excision Margin":excisionMargin,
                           "identifiedSample.aliquot.specimen.numberOfBiopsies":numberOfBiopsies, "identifiedSample.aliquot.fixationReport.timeInProcessor": timeInProcessor, "identifiedSample.aliquot.unit":coreDiameter,
                           "identifiedSample.aliquot.aliquotVolumeMass":coresNumber, "identifiedSample.extractionKit":extractionProtocol, "Tumour Sample Type":tumourSampleType,
-                          "identifiedSample.aliquot.gelSuitabilityReport.microdissection":macrodissection, "identifiedSample.aliquot.specimen.specimenWeight":gaugeOfBiopsies, "identifiedSample.aliquot.specimen.collectionDate":snapFreezingStartDateTime
+                          "identifiedSample.aliquot.gelSuitabilityReport.microdissection":macrodissection, "identifiedSample.aliquot.specimen.specimenWeight":gaugeOfBiopsies, "identifiedSample.aliquot.specimen.collectionDate":snapFreezingStartDateTime,
+                          "identifiedSample.aliquot.specimen.histologyNumber":tumourID, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":diseaseType,
+                          "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourType":diseaseSubtype, "identifiedSample.aliquot.specimen.retrospectiveSample":retrospectiveSample,
+                          "identifiedSample.aliquot.specimen.participant.previousTreatments.previousTreatmentName":previousTreatment, "Morphology (ICD)": morphologyICD
         ]
 
         return formatters
@@ -436,17 +492,19 @@ class SampleMetadataExportService {
 
     def getFields(){
         List fields = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier","clinicID","identifiedSample.barcode",
-                       "identifiedSample.aliquot.aliquotType", "identifiedSample.extractionDate","laboratoryID", "laboratorySampleID", "Laboratory Method",
+                       "identifiedSample.aliquot.aliquotType", "identifiedSample.extractionDate","laboratoryID", "laboratorySampleID",
                        "volume_ul", "laboratoryRemainingVolumeBanked","dispatchedBox.dispatchRecord.sentOn", "dispatchedBox.dispatchRecord.consignmentNumber",
                        "positionIfPlated", "dispatchedBox.barcode","identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourStatus", "Excision Margin", "Tumour Size",
-                       "Morphology (ICD)", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed.snomedCode", "Morphology (SnomedCT)",
-                       "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.sampleType","Pre-invasive Elements", "Topography (ICD)", "Topography (SnomedCT)",
+                       "Morphology (ICD)", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed.snomedCode", "Morphology (SNOMEDCT)",
+                       "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.sampleType","Pre-invasive Elements", "Topography (ICD)", "Topography (SNOMEDCT)",
                        "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed", "identifiedSample.aliquot.gelSuitabilityReport.microdissection", "identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails",
                        "identifiedSample.aliquot.specimen.collectionDate", "identifiedSample.aliquot.fixationReport.fixationTypeAliquot", "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot",
                        "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot", "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot", "identifiedSample.aliquot.fixationReport.processingScheduleAliquot",
                        "identifiedSample.aliquot.fixationReport.timeInProcessor", "identifiedSample.aliquot.specimen.numberOfBiopsies", "identifiedSample.aliquot.specimen.specimenWeight", "identifiedSample.extractionKit",
-                       "Prolonged Sample Storage", "Reason Sample Not Sent", "Tumour Sample Type", "Scroll Thickness", "Number of Scrolls", "Number of Sections", "Section Thickness", "Number of Blocks",
-                       "identifiedSample.aliquot.unit", "identifiedSample.aliquot.aliquotVolumeMass"
+                       "Prolonged Sample Storage", "Tumour Sample Type", "Scroll Thickness", "Number of Scrolls", "Number of Sections", "Section Thickness", "Number of Blocks",
+                       "identifiedSample.aliquot.unit", "identifiedSample.aliquot.aliquotVolumeMass", "identifiedSample.aliquot.specimen.histologyNumber", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation",
+                       "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourType", "identifiedSample.aliquot.specimen.retrospectiveSample",
+                       "identifiedSample.aliquot.specimen.participant.previousTreatments.previousTreatmentName"
         ]
 
         return fields
@@ -457,14 +515,17 @@ class SampleMetadataExportService {
                      "identifiedSample.extractionDate":"Clinic Sample DateTime", "identifiedSample.passFail":"Test Result Value","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : "Participant ID",
                      "clinicID" : "Clinic ID", "laboratoryID":"Laboratory ID", "laboratorySampleID":"Laboratory Sample ID", "volume_ul":"Laboratory Sample Volume", "laboratoryRemainingVolumeBanked":"Laboratory Remaining Volume Banked",
                      "dispatchedBox.dispatchRecord.sentOn":"GMC Sample Dispatch Date", "dispatchedBox.dispatchRecord.consignmentNumber":"GMC Sample Consignment Number","positionIfPlated":"GMC Rack Well", "dispatchedBox.barcode":"GMC Rack ID",
-                     "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourStatus":"Tumour Type", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed.snomedCode":"Morphology (Snomed RT)",
-                     "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.sampleType":"Tissue Source", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed":"Topography (SnomedRT)",
+                     "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourStatus":"Tumour Type", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed.snomedCode":"Morphology (SNOMEDRT)",
+                     "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.sampleType":"Tissue Source", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.snomed":"Topography (SNOMEDRT)",
                      "identifiedSample.aliquot.gelSuitabilityReport.microdissectionDetails":"Macrodissection Details", "identifiedSample.aliquot.gelSuitabilityReport.microdissection":"Macrodissected",
                      "identifiedSample.aliquot.fixationReport.fixationEndDateAliquot":"Fixation End DateTime", "identifiedSample.aliquot.fixationReport.fixationTypeAliquot":"Type of Fixative",
                      "identifiedSample.aliquot.fixationReport.fixationStartDateAliquot":"Fixation Start DateTime", "identifiedSample.aliquot.fixationReport.fixationCommentsAliquot":"Fixation Comments",
                      "identifiedSample.aliquot.fixationReport.processingScheduleAliquot":"Processing Schedule", "identifiedSample.aliquot.specimen.numberOfBiopsies":"Number of Biopsies",
                      "identifiedSample.aliquot.fixationReport.timeInProcessor":"Time in formalin on processor", "identifiedSample.aliquot.unit":"Core Diameter", "identifiedSample.aliquot.aliquotVolumeMass":"Number of Cores",
-                     "identifiedSample.extractionKit":"DNA Extraction Protocol", "identifiedSample.aliquot.specimen.specimenWeight":"Gauge of Biopsies", "identifiedSample.aliquot.specimen.collectionDate":"Snap Freezing Start DateTime"
+                     "identifiedSample.extractionKit":"DNA Extraction Protocol", "identifiedSample.aliquot.specimen.specimenWeight":"Gauge of Biopsies", "identifiedSample.aliquot.specimen.collectionDate":"Snap Freezing Start DateTime",
+                     "identifiedSample.aliquot.specimen.histologyNumber":"Tumour ID", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourLocation":"Disease Type",
+                     "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourType.tumourType":"Disease Subtype", "identifiedSample.aliquot.specimen.retrospectiveSample":"Retrospective Sample",
+                     "identifiedSample.aliquot.specimen.participant.previousTreatments.previousTreatmentName":"Previous Treatment"
         ]
 
         return labels

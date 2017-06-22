@@ -105,10 +105,10 @@ class OmicsSampleMetadataExportService {
 
     def getFields(){
         List fields = ["identifiedSample.specimen.participant.studySubject.studySubjectIdentifier","clinicID","identifiedSample.barcode",
-                       "identifiedSample.aliquotType.aliquotTypeName", "identifiedSample.createdOn","laboratoryID", "laboratorySampleID", "laboratoryMethod",
+                       "identifiedSample.aliquotType.aliquotTypeName", "identifiedSample.createdOn","laboratoryID", "laboratorySampleID",
                        "volume_ul", "laboratoryRemainingVolumeBanked","dispatchedBox.dispatchRecord.sentOn", "dispatchedBox.dispatchRecord.consignmentNumber",
                        "positionIfPlated", "dispatchedBox.barcode","", "", "", "", "", "", "","", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-                       "", "", "", "", "", "", "", "", ""
+                       "", "", "", "", "", "", "", "", "", "", "", "", ""
         ]
 
         return fields

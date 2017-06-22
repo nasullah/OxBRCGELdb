@@ -26,15 +26,19 @@ class QcTestExportService {
     }
 
     def testResultTypeTrineanOD260  = { domain, value ->
-        return "Trinean OD 260/280"
+        return "nanodrop_od_260_280"
     }
 
     def testResultTypeSummaryQC  = { domain, value ->
-        return "Summary QC"
+        return "summary_qc"
     }
 
-    def testResultTypeNanodropConcentration  = { domain, value ->
-        return "Nanodrop concentration"
+//    def testResultTypeNanodropConcentration  = { domain, value ->
+//        return "Nanodrop concentration"
+//    }
+
+    def laboratorySampleId = { domain, value ->
+        return domain?.identifiedSample?.barcode
     }
 
     def laboratoryID  = { domain, value ->
@@ -46,12 +50,12 @@ class QcTestExportService {
     }
 
     def testResultTypeQubit = { domain, value ->
-        return "Qubit"
+        return "qubit"
     }
 
     def testResultTypeDeltaCq = { domain, value ->
         if(domain?.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.toString()?.contains('Punch Biopsy FFPE')) {
-            return "delta Cq"
+            return "delta_cq"
         }
     }
 
@@ -86,7 +90,7 @@ class QcTestExportService {
     }
 
     def testResultTypeTumourContent = { domain, value ->
-        return "Tumour Content"
+        return "tumour_content"
     }
 
     def gelIdTumourContent = { domain, value ->
@@ -143,7 +147,7 @@ class QcTestExportService {
     }
 
     def testResultTypeCellularity = { domain, value ->
-        return "Cellularity"
+        return "cellularity"
     }
 
     def gelIdCellularity = { domain, value ->
@@ -209,7 +213,7 @@ class QcTestExportService {
     }
 
     def testResultTypeNecrosisPercentage = { domain, value ->
-        return "Percent Necrosis"
+        return "percent_necrosis"
     }
 
     def gelIdNecrosisPercentage = { domain, value ->
@@ -268,7 +272,7 @@ class QcTestExportService {
 
     def getSummaryQCFields(){
         List SummaryQCFields = ["identifiedSample.barcode","testResultTypeSummaryQC","identifiedSample.extractionDate","identifiedSample.passFail","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
-                                "laboratoryID"]
+                                "laboratoryID", "Laboratory Sample ID"]
         return SummaryQCFields
     }
 
@@ -285,13 +289,13 @@ class QcTestExportService {
 
     def getSummaryQCFormatters(){
         Map summaryQCFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'testResultTypeSummaryQC':testResultTypeSummaryQC,'laboratoryID':laboratoryID, "identifiedSample.passFail": passFail,
-                                   "identifiedSample.extractionDate":extractionDate]
+                                   "identifiedSample.extractionDate":extractionDate, "Laboratory Sample ID":laboratorySampleId]
         return summaryQCFormatters
     }
 
     def getTrineanOD260Fields(){
         List trineanOD260Fields = ["identifiedSample.barcode","testResultTypeTrineanOD260","identifiedSample.extractionDate","identifiedSample.a260A280","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
-                                   "laboratoryID"]
+                                   "laboratoryID", "Laboratory Sample ID"]
         return trineanOD260Fields
     }
 
@@ -307,35 +311,36 @@ class QcTestExportService {
     }
 
     def getTrineanOD260Formatters(){
-        Map trineanOD260Formatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'testResultTypeTrineanOD260':testResultTypeTrineanOD260,'laboratoryID':laboratoryID, "identifiedSample.extractionDate":extractionDate]
+        Map trineanOD260Formatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'testResultTypeTrineanOD260':testResultTypeTrineanOD260,'laboratoryID':laboratoryID,
+                                      "identifiedSample.extractionDate":extractionDate, "Laboratory Sample ID":laboratorySampleId]
         return trineanOD260Formatters
     }
 
-    def getNanodropConcentrationFields(){
-        List nanodropConcentrationFields = ["identifiedSample.barcode","testResultNanodropConcentration","identifiedSample.extractionDate","identifiedSample.dNAConcentrationNanodrop","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
-                                            "laboratoryID"]
-        return nanodropConcentrationFields
-    }
-
-    def getNanodropConcentrationLabels(){
-        Map nanodropConcentrationLabels = ["identifiedSample.barcode" : "Sample ID","testResultNanodropConcentration" : "Test Result Type","identifiedSample.dNAConcentrationNanodrop":"Test Result Value","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : "Participant ID",
-                                           "laboratoryID" : "Laboratory ID"]
-        return nanodropConcentrationLabels
-    }
-
-    def getNanodropConcentrationParameters(){
-        Map nanodropConcentrationParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n", "quoteCharacter": "\u0000"]
-        return nanodropConcentrationParameters
-    }
-
-    def getNanodropConcentrationformatters(){
-        Map nanodropConcentrationformatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'testResultNanodropConcentration':testResultTypeNanodropConcentration,'laboratoryID':laboratoryID, "identifiedSample.extractionDate":extractionDate]
-        return nanodropConcentrationformatters
-    }
+//    def getNanodropConcentrationFields(){
+//        List nanodropConcentrationFields = ["identifiedSample.barcode","testResultNanodropConcentration","identifiedSample.extractionDate","identifiedSample.dNAConcentrationNanodrop","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
+//                                            "laboratoryID"]
+//        return nanodropConcentrationFields
+//    }
+//
+//    def getNanodropConcentrationLabels(){
+//        Map nanodropConcentrationLabels = ["identifiedSample.barcode" : "Sample ID","testResultNanodropConcentration" : "Test Result Type","identifiedSample.dNAConcentrationNanodrop":"Test Result Value","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : "Participant ID",
+//                                           "laboratoryID" : "Laboratory ID"]
+//        return nanodropConcentrationLabels
+//    }
+//
+//    def getNanodropConcentrationParameters(){
+//        Map nanodropConcentrationParameters = [title: "Dispatched Samples to Oxford Biorepository","header.enabled":false, "column.widths": [0.2, 0.3, 0.5], "lineEnd":"\r\n", "quoteCharacter": "\u0000"]
+//        return nanodropConcentrationParameters
+//    }
+//
+//    def getNanodropConcentrationformatters(){
+//        Map nanodropConcentrationformatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'testResultNanodropConcentration':testResultTypeNanodropConcentration,'laboratoryID':laboratoryID, "identifiedSample.extractionDate":extractionDate]
+//        return nanodropConcentrationformatters
+//    }
 
     def getQubitFields(){
         List qubitFields = ["identifiedSample.barcode","dNAConcentrationQubit","identifiedSample.extractionDate","identifiedSample.dNAConcentrationQubit","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
-                                            "laboratoryID"]
+                            "laboratoryID", "Laboratory Sample ID"]
         return qubitFields
     }
 
@@ -351,12 +356,13 @@ class QcTestExportService {
     }
 
     def getQubitFormatters(){
-        Map nanodropConcentrationformatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'dNAConcentrationQubit':testResultTypeQubit,'laboratoryID':laboratoryID, "identifiedSample.extractionDate":extractionDate]
+        Map nanodropConcentrationformatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'dNAConcentrationQubit':testResultTypeQubit,'laboratoryID':laboratoryID,
+                                               "identifiedSample.extractionDate":extractionDate, "Laboratory Sample ID":laboratorySampleId]
         return nanodropConcentrationformatters
     }
     def getDeltaCqFields(){
         List deltaCqFields = ["identifiedSample.barcode","dNADeltaCq","identifiedSample.extractionDate","identifiedSample.delatQC","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
-                              "laboratoryID"]
+                              "laboratoryID", "Laboratory Sample ID"]
         return deltaCqFields
     }
 
@@ -373,13 +379,13 @@ class QcTestExportService {
 
     def getDeltaCqFormatters(){
         Map deltaCqFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdDeltaCq,'dNADeltaCq':testResultTypeDeltaCq,'laboratoryID':laboratoryIDDeltaCq, "identifiedSample.extractionDate":extractionDateDeltaCq,
-                                 "identifiedSample.barcode":sampleIDDeltaCq, "identifiedSample.delatQC":deltaQC]
+                                 "identifiedSample.barcode":sampleIDDeltaCq, "identifiedSample.delatQC":deltaQC, "Laboratory Sample ID":laboratorySampleId]
         return deltaCqFormatters
     }
 
     def getTumourContentFields(){
         List tumourContentFields = ["identifiedSample.barcode","testResultTypeTumourContent", "tumourContentDate", "percentageTumourContent","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
-                              "laboratoryID"]
+                                    "laboratoryID", "Laboratory Sample ID"]
         return tumourContentFields
     }
 
@@ -395,13 +401,13 @@ class QcTestExportService {
 
     def getTumourContentFormatters(){
         Map tumourContentFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdTumourContent,'testResultTypeTumourContent':testResultTypeTumourContent,'laboratoryID':laboratoryIDTumourContent, "tumourContentDate":dateTumourContent,
-                                 "identifiedSample.barcode":sampleIDTumourContent, "percentageTumourContent":percentageTumourContent]
+                                 "identifiedSample.barcode":sampleIDTumourContent, "percentageTumourContent":percentageTumourContent, "Laboratory Sample ID":laboratorySampleId]
         return tumourContentFormatters
     }
 
     def getCellularityFields(){
         List cellularityFields = ["identifiedSample.barcode","testResultTypeCellularity", "identifiedSample.aliquot.gelSuitabilityReport.reportDate", "identifiedSample.aliquot.gelSuitabilityReport.cellularity","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
-                                    "laboratoryID"]
+                                  "laboratoryID", "Laboratory Sample ID"]
         return cellularityFields
     }
 
@@ -417,13 +423,13 @@ class QcTestExportService {
 
     def getCellularityFormatters(){
         Map cellularityFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdCellularity,'testResultTypeCellularity':testResultTypeCellularity,'laboratoryID':laboratoryIDCellularity,
-                                     "identifiedSample.aliquot.gelSuitabilityReport.reportDate":dateCellularity, "identifiedSample.barcode":sampleIDCellularity, "identifiedSample.aliquot.gelSuitabilityReport.cellularity":cellularity]
+                                     "identifiedSample.aliquot.gelSuitabilityReport.reportDate":dateCellularity, "identifiedSample.barcode":sampleIDCellularity, "identifiedSample.aliquot.gelSuitabilityReport.cellularity":cellularity, "Laboratory Sample ID":laboratorySampleId]
         return cellularityFormatters
     }
 
     def getNecrosisPercentageFields(){
         List necrosisPercentageFields = ["identifiedSample.barcode","testResultTypeNecrosisPercentage", "identifiedSample.aliquot.gelSuitabilityReport.reportDate", "identifiedSample.aliquot.gelSuitabilityReport.percentageNecrosis","identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier",
-                                  "laboratoryID"]
+                                         "laboratoryID", "Laboratory Sample ID"]
         return necrosisPercentageFields
     }
 
@@ -439,7 +445,7 @@ class QcTestExportService {
 
     def getNecrosisPercentageFormatters(){
         Map necrosisPercentageFormatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelIdNecrosisPercentage,'testResultTypeNecrosisPercentage':testResultTypeNecrosisPercentage,'laboratoryID':laboratoryIDNecrosisPercentage,
-                                     "identifiedSample.aliquot.gelSuitabilityReport.reportDate":dateNecrosisPercentage, "identifiedSample.barcode":sampleIDNecrosisPercentage, "identifiedSample.aliquot.gelSuitabilityReport.percentageNecrosis":necrosisPercentage]
+                                     "identifiedSample.aliquot.gelSuitabilityReport.reportDate":dateNecrosisPercentage, "identifiedSample.barcode":sampleIDNecrosisPercentage, "identifiedSample.aliquot.gelSuitabilityReport.percentageNecrosis":necrosisPercentage, "Laboratory Sample ID":laboratorySampleId]
         return necrosisPercentageFormatters
     }
 }
