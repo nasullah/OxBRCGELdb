@@ -163,6 +163,13 @@
             </li>
 
             <li class="">
+                <a href="${createLink(uri: '/previousTreatmentType')}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    Add Previous Treatment Type
+                </a>
+            </li>
+
+            <li class="">
                 <a href="${createLink(uri: '/sampleTrackingEventType')}">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     Add Sample Tracking Event Type
