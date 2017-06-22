@@ -7,11 +7,11 @@
 
 			<div class="row">
 				<div class="col-lg-6">
-					<div class="${hasErrors(bean: previousTreatmentInstance, field: 'previousTreatmentName', 'error')} ">
-						<label for="previousTreatmentName" class="control-label"><g:message code="previousTreatment.previousTreatmentName.label" default="Previous Treatment Name" /></label>
+					<div class="${hasErrors(bean: previousTreatmentInstance, field: 'previousTreatmentType', 'error')} required">
+						<label for="previousTreatmentType" class="control-label"><g:message code="previousTreatment.previousTreatmentType.label" default="Previous Treatment Type" /><span class="required-indicator">*</span></label>
 						<div>
-							<g:textField class="form-control" name="previousTreatmentName" value="${previousTreatmentInstance?.previousTreatmentName}"/>
-							<span class="help-inline">${hasErrors(bean: previousTreatmentInstance, field: 'previousTreatmentName', 'error')}</span>
+							<g:select class="form-control" id="previousTreatmentType" name="previousTreatmentType.id" from="${geldb.PreviousTreatmentType.list().sort{it.previousTreatmentTypeName}}" optionKey="id" required="" value="${previousTreatmentInstance?.previousTreatmentType?.id}" noSelection="['':'- Choose -']"/>
+							<span class="help-inline">${hasErrors(bean: previousTreatmentInstance, field: 'previousTreatmentType', 'error')}</span>
 						</div>
 					</div>
 				</div>

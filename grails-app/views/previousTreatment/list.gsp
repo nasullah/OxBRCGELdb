@@ -17,7 +17,7 @@
 		<thead>
 			<tr>
 			
-				<g:sortableColumn property="previousTreatmentName" title="${message(code: 'previousTreatment.previousTreatmentName.label', default: 'Previous Treatment Name')}" />
+				<g:sortableColumn property="previousTreatmentName" title="${message(code: 'previousTreatment.previousTreatmentName.label', default: 'Previous Treatment Type')}" />
 			
 				<th><g:message code="previousTreatment.participant.label" default="Participant" /></th>
 			
@@ -27,7 +27,7 @@
 		<g:each in="${previousTreatmentInstanceList}" status="i" var="previousTreatmentInstance">
 			<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 			
-				<td><g:link action="show" id="${previousTreatmentInstance.id}">${fieldValue(bean: previousTreatmentInstance, field: "previousTreatmentName")}</g:link></td>
+				<td><g:link action="show" id="${previousTreatmentInstance.id}">${fieldValue(bean: previousTreatmentInstance, field: "previousTreatmentType")}</g:link></td>
 			
 				<td>${fieldValue(bean: previousTreatmentInstance, field: "participant")}</td>
 			

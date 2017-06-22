@@ -24,9 +24,9 @@
 			</tr>
 		
 			<tr class="prop">
-				<td valign="top" class="name"><g:message code="previousTreatment.previousTreatmentName.label" default="Previous Treatment Name" /></td>
+				<td valign="top" class="name"><g:message code="previousTreatment.previousTreatmentName.label" default="Previous Treatment Type" /></td>
 				
-				<td valign="top" class="value">${fieldValue(bean: previousTreatmentInstance, field: "previousTreatmentName")}</td>
+				<td valign="top" class="value">${fieldValue(bean: previousTreatmentInstance, field: "previousTreatmentType")}</td>
 				
 			</tr>
 		
