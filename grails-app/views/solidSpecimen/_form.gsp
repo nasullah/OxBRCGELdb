@@ -217,7 +217,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'collectedBy', 'error')} ">
                         <label for="collectedBy" class="control-label"><g:message code="solidSpecimen.collectedBy.label" default="Collected By" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="collectedBy" name="collectedBy.id" from="${geldb.StaffMember.findAllByStaffRoleNotEqualAndStaffRoleNotEqual('Surgeon', 'Pathologist').sort {it.staffName}}" optionKey="id" value="${solidSpecimenInstance?.collectedBy?.id}" required="" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="collectedBy" name="collectedBy.id" from="${geldb.StaffMember.findAllByStaffRoleNotEqualAndStaffRoleNotEqual('Surgeon', 'Pathologist').sort {it.staffRole}}" optionKey="id" value="${solidSpecimenInstance?.collectedBy?.id}" required="" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'collectedBy', 'error')}</span>
                         </div>
                     </div>
@@ -227,7 +227,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'surgeon', 'error')} ">
                         <label for="surgeon" class="control-label"><g:message code="solidSpecimen.surgeon.label" default="Surgeon" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="surgeon" name="surgeon.id" from="${geldb.StaffMember.findAllByStaffRoleOrStaffRole('Surgeon', 'Radiologist').sort {it.staffRole}}" optionKey="id" value="${solidSpecimenInstance?.surgeon?.id}"  required="" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="surgeon" name="surgeon.id" from="${geldb.StaffMember.findAllByStaffRoleOrStaffRoleOrStaffRole('Surgeon', 'Radiologist', 'Haem-onc nurses').sort {it.staffRole}}" optionKey="id" value="${solidSpecimenInstance?.surgeon?.id}"  required="" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'surgeon', 'error')}</span>
                         </div>
                     </div>
