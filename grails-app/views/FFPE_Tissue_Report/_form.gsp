@@ -28,7 +28,7 @@
         <div class="${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'reportStaff', 'error')} required">
             <label for="reportStaff" class="control-label"><g:message code="FFPE_Tissue_Report.reportStaff.label" default="Reporting Pathologist" /><span class="required-indicator">*</span></label>
             <div>
-                <g:select class="form-control" id="reportStaff" name="reportStaff.id" from="${geldb.StaffMember.findAllByStaffRole('Pathologist').sort {it.staffName}}"
+                <g:select class="form-control" id="reportStaff" name="reportStaff.id" from="${geldb.StaffMember.findAllByStaffRoleOrStaffRole('Pathologist', 'Haematologist').sort {it.staffRole}}"
                           optionKey="id" required="" value="${FFPE_Tissue_ReportInstance?.reportStaff?.id}" noSelection="['':'- Choose -']"/>
                 <span class="help-inline">${hasErrors(bean: FFPE_Tissue_ReportInstance, field: 'reportStaff', 'error')}</span>
             </div>

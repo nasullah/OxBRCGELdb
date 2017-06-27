@@ -28,7 +28,7 @@
         <div class="${hasErrors(bean: gelSuitabilityReportInstance, field: 'reportStaff', 'error')} required">
             <label for="reportStaff" class="control-label"><g:message code="gelSuitabilityReport.reportStaff.label" default="Report Staff" /><span class="required-indicator">*</span></label>
             <div>
-                <g:select class="form-control" id="reportStaff" name="reportStaff.id" from="${geldb.StaffMember.findAllByStaffRole('Pathologist').sort {it.staffName}}" optionKey="id" required="" value="${gelSuitabilityReportInstance?.reportStaff?.id}" noSelection="['':'- Choose -']" onchange="autoFillSlideMarked()" />
+                <g:select class="form-control" id="reportStaff" name="reportStaff.id" from="${geldb.StaffMember.findAllByStaffRoleOrStaffRole('Pathologist', 'Haematologist').sort {it.staffRole}}" optionKey="id" required="" value="${gelSuitabilityReportInstance?.reportStaff?.id}" noSelection="['':'- Choose -']" onchange="autoFillSlideMarked()" />
                 <span class="help-inline">${hasErrors(bean: gelSuitabilityReportInstance, field: 'reportStaff', 'error')}</span>
             </div>
         </div>
