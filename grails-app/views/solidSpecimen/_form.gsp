@@ -227,7 +227,7 @@
                     <div class="${hasErrors(bean: solidSpecimenInstance, field: 'surgeon', 'error')} ">
                         <label for="surgeon" class="control-label"><g:message code="solidSpecimen.surgeon.label" default="Surgeon" /><span class="required-indicator">*</span></label>
                         <div>
-                            <g:select class="form-control" id="surgeon" name="surgeon.id" from="${geldb.StaffMember.findAllByStaffRoleOrStaffRoleOrStaffRole('Surgeon', 'Radiologist', 'Haem-onc nurses').sort {it.staffRole}}" optionKey="id" value="${solidSpecimenInstance?.surgeon?.id}"  required="" noSelection="['':'- Choose -']"/>
+                            <g:select class="form-control" id="surgeon" name="surgeon.id" from="${geldb.StaffMember.findAllByStaffRoleOrStaffRoleOrStaffRoleOrStaffRole('Surgeon', 'Radiologist', 'Haem-onc nurses', 'Haematologist').sort {it.staffRole}}" optionKey="id" value="${solidSpecimenInstance?.surgeon?.id}"  required="" noSelection="['':'- Choose -']"/>
                             <span class="help-inline">${hasErrors(bean: solidSpecimenInstance, field: 'surgeon', 'error')}</span>
                         </div>
                     </div>
