@@ -469,7 +469,7 @@ class SampleMetadataExportService {
             if (domain?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(FluidSpecimen)) {
                 return ""
             } else {
-                return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')
+                return value?.toString()?.replace('[', '')?.replace(']', '')?.replace('null', '')?.replace('chemotherapy', 'neoadjuvant')?.replace('radiotherapy', 'neoadjuvant')
             }
         }
 
