@@ -68,6 +68,9 @@ class StudySubjectController {
             }else if (consentType.studyName == 'ORB_ specific programme clinically relevant genomics for adults') {
                 def listConsentVersionForm = ["Version 1 dated October 2013"]
                 render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
+            }else if (consentType.studyName == 'INForMED') {
+                def listConsentVersionForm = ["Version 1.0 dated 08.07.2016"]
+                render(template: "formVersions", model: [listConsentVersionForm: listConsentVersionForm])
             }
         }
     }
