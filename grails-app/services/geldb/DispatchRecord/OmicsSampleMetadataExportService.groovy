@@ -46,6 +46,8 @@ class OmicsSampleMetadataExportService {
                 return "RTH"
             }else if(centre =='Milton Keynes'){
                 return "RD8"
+            }else if(centre =='Buckinghamshire Healthcare'){
+                return "RXQ-CAN"
             }
         }
 
