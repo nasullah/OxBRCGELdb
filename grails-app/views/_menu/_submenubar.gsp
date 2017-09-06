@@ -72,8 +72,16 @@ This menu is used to show function that can be triggered on the content (an obje
                 <li class=${ params.action == "addBarcode" ? 'active' : '' }>
                     <g:link action="addBarcode"><span style="color:rgba(6, 6, 12, 0.97)"><i class="glyphicon glyphicon-barcode"></i></span> Add Barcode</g:link>
                 </li>
-                <li class=${ params.action == "controlChart" ? 'active' : '' }>
-                    <g:link action="controlChart"><span style="color:rgba(243, 13, 17, 0.97)"><i class="glyphicon glyphicon-stats"></i></span> Control Charts</g:link>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-stats" style="color: red"></i> Control Charts <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <g:link action="ffControlChart">FF Control Chart</g:link>
+                        </li>
+                        <li>
+                            <g:link action="controlChart">FFPE Control Charts</g:link>
+                        </li>
+                    </ul>
                 </li>
             </g:if>
             <g:if test="${ params.action == 'show' || params.action == 'edit'}">

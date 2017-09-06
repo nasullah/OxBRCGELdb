@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="kickstart" />
-    <title>Control Charts</title>
+    <title>FFPE Control Charts</title>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/highcharts-more.js"></script>
 </head>

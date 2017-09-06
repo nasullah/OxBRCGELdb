@@ -264,9 +264,30 @@ class DNA_ExtractController {
         }
     }
 
+    def ffControlChart(){
+        def controlAliquotList = Aliquot.findAllByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Punch Biopsy Frozen"), Specimen?.findByReference('Yes'))
+        def controlDNAList = controlAliquotList?.dNA_Extract?.flatten()
+        controlDNAList = controlDNAList?.sort {it?.extractionDate}
+        def qubitDataList = []
+        if (!controlDNAList.empty){
+            for (int i = 0; i < controlDNAList.size(); i++){
+                def qubitItems = []
+                def day = controlDNAList?.get(i)?.extractionDate[Calendar.DAY_OF_MONTH]
+                def month = controlDNAList?.get(i)?.extractionDate[Calendar.MONTH]
+                def year = controlDNAList?.get(i)?.extractionDate[Calendar.YEAR]
+                def qubit = controlDNAList?.get(i)?.dNAConcentrationQubit
+                qubitItems << 'Date.UTC(' + year + ',' + month + ',' + day + ')' << qubit
+                qubitDataList << qubitItems
+            }
+        }
+        [qubitDataList:qubitDataList]
+    }
+
     def controlChart(){
-        def controlDNAList = Specimen.findAllByReference('Yes')?.aliquot?.dNA_Extract
-        controlDNAList = controlDNAList?.flatten()
+        def controlFFPENBFAliquotList = Aliquot.findAllByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Punch Biopsy FFPE, NBF"), Specimen?.findByReference('Yes'))
+        def controlFFPEAliquotList = Aliquot.findAllByAliquotTypeAndSpecimen(AliquotType.findByAliquotTypeName("Punch Biopsy FFPE"), Specimen?.findByReference('Yes'))
+        def controlAliquotList = controlFFPENBFAliquotList + controlFFPEAliquotList
+        def controlDNAList = controlAliquotList?.dNA_Extract?.flatten()
         controlDNAList = controlDNAList?.sort {it?.extractionDate}
         def qubitDataList = []
         def deltaCQDataList = []
