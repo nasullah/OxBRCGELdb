@@ -72,7 +72,8 @@ class DispatchRecordController {
             response.contentType = grailsApplication.config.grails.mime.types[params.format]
             response.setHeader("Content-disposition", "attachment; filename= All Dispatched Item Data.${params.extension}")
             def allDispatchedItems = DispatchItem.list()
-            exportService.export(params.format, response.outputStream, allDispatchedItems, allDispatchedSamplesDataService.fields, allDispatchedSamplesDataService.labels, allDispatchedSamplesDataService.formatters, allDispatchedSamplesDataService.parameters)
+            def dnaSamples = allDispatchedItems.findAll {DNA_Extract.findById(it.identifiedSample.id)}
+            exportService.export(params.format, response.outputStream, dnaSamples, allDispatchedSamplesDataService.fields, allDispatchedSamplesDataService.labels, allDispatchedSamplesDataService.formatters, allDispatchedSamplesDataService.parameters)
         }
     }
 

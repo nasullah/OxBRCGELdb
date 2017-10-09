@@ -1,6 +1,8 @@
 package geldb.DispatchRecord
 
 import geldb.DNA_Extract
+import geldb.SampleTrackingEvent
+import geldb.SampleTrackingEventType
 import grails.transaction.Transactional
 
 /**
@@ -314,6 +316,14 @@ class AllDispatchedSamplesDataService {
             }
         }
 
+        def samplesArriveAtLab = { domain, value ->
+            def aliquot = domain?.identifiedSample?.aliquot
+            def sampleTrackingEvent = SampleTrackingEvent.findBySampleTrackingEventTypeAndIdentifiedSample(SampleTrackingEventType.findBySampleTrackingEventTypeName('Received at MDC lab'), aliquot)
+            if (sampleTrackingEvent){
+                return sampleTrackingEvent?.date?.format('yyy-MM-dd') + 'T' + sampleTrackingEvent?.time?.toString()
+            }
+        }
+
         Map formatters = ["identifiedSample.aliquot.specimen.participant.studySubject.studySubjectIdentifier" : gelId,'clinicID':clinicID,"identifiedSample.aliquot.specimen.fFPE_Tissue_Report.tumourStatus":tumourType,
                           "identifiedSample.aliquot.specimen.participant.nHSNumber":clean, "identifiedSample.aliquot.specimen.participant.diagnosis":clean,
                           "identifiedSample.extractionDate":extractionDate,"identifiedSample.aliquot.aliquotType": clean, "identifiedSample.barcode":aliquotBarcode, "laboratoryID":laboratoryID,
@@ -350,7 +360,7 @@ class AllDispatchedSamplesDataService {
                           "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.startTime":cleanMain, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.endDate":cleanMain, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.endTime":cleanMain,
                           "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.period":cleanMain, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.reportedBy":cleanMain, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.startDate":cleanMain,
                           "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.startTime":cleanMain, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.endDate":cleanMain, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.endTime":cleanMain,
-                          "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.period":cleanMain, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.reportedBy":cleanMain
+                          "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.period":cleanMain, "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.reportedBy":cleanMain, "Samples arrival date time":samplesArriveAtLab
         ]
 
         return formatters
@@ -388,7 +398,8 @@ class AllDispatchedSamplesDataService {
                        "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.startDate", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.startTime", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.endDate",
                        "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.endTime", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.period", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.cold_ischaemia.reportedBy",
                        "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.startDate", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.startTime", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.endDate",
-                       "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.endTime", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.period", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.reportedBy"
+                       "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.endTime", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.period", "identifiedSample.aliquot.specimen.fFPE_Tissue_Report.warm_ischaemia.reportedBy",
+                       "Samples arrival date time"
 
         ]
 
