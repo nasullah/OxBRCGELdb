@@ -79,9 +79,14 @@
         <td>Yes &#160; &#160; &#160;No</td>
     </tr>
 </table>
-<p><span style="font-weight: bold;font-size: 8pt">Date &amp; time specimen sliced/opened </span></p>
 
-<p><span style="font-size: 10pt">Collection Comments:.............................................................................................................................................. </span></p>
+<br/>
+
+<span style="font-weight: bold;font-size: 8pt">Date &amp; time specimen sliced/opened </span><br/>
+
+<span style="font-size: 10pt">Collection Comments:.............................................................................................................................................. </span><br/>
+
+<span style="font-size: 10pt">Specimen left in fridge:...........Yes / No...............   Time:................................ </span><br/>
 
 <table>
     <tr>
@@ -111,8 +116,8 @@
 <table border="1" width="100%">
 
     <tr>
-        <th width="55%"><span style="font-weight: bold;font-size: 7pt">To be completed by biobanker at time of sampling</span></th>
-        <th width="45%" bgcolor="#dcdcdc"><span style="font-weight: bold;font-size: 7pt">To be completed by ORB / NDS team</span></th>
+        <th width="65%"><span style="font-weight: bold;font-size: 7pt">To be completed by biobanker at time of sampling</span></th>
+        <th width="35%" bgcolor="#dcdcdc"><span style="font-weight: bold;font-size: 7pt">To be completed by ORB / NDS team</span></th>
 
     </tr>
 
@@ -125,11 +130,12 @@
         <th width="20%"><span style="font-weight: normal;font-size: 7pt">Full unique ID Sapphire / biobank ID/ barcode</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 7pt">Inking colour if appl.</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 7pt">Co-location FFPE block ref</span></th>
+        <th width="10%"><span style="font-weight: normal;font-size: 7pt">Suitable for frozen section</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 7pt">Storage Location Freezer, tower, box, position</span></th>
         <th width="5%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Punch weight mg</span></th>
-        <th width="10%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">H&amp;E slide prepared by</span></th>
+        <th width="5%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">H&amp;E slide prepared by</span></th>
         <th width="10%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">H&amp;E slide prepared on</span></th>
-        <th width="10%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">H&amp;E slide scanned by</span></th>
+        <th width="5%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">H&amp;E slide scanned by</span></th>
         <th width="10%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">H&amp;E slide scanned on</span></th>
 
 
@@ -139,6 +145,7 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -153,6 +160,7 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -166,6 +174,7 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -179,6 +188,35 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
+    </tr>
+
+    <tr>
+        <th><span style="font-weight: normal;font-size: 7pt">5</span></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
+    </tr>
+
+    <tr>
+        <th><span style="font-weight: normal;font-size: 7pt">6</span></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -213,9 +251,9 @@
 </div>
 <div class='content'></div>
 
-<p><span style="font-weight: bold; font-size: 10pt"><u>SECTION 2 (ctd): FROZEN TISSUE SECTION MARKING</u> </span></p>
+<p><span style="font-weight: bold; font-size: 10pt"><u>SECTION 3 : TUMOUR CONTENT ASSESSMENT</u> &#160;&#160;&#160;&#160;&#160;&#160;</span><span style="font-size: 10pt"> Frozen section:................................</span></p>
 
-<p></p>
+<p><span style="font-size: 10pt">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Mirror section:................................ </span></p>
 
 
 <table border="1" width="100%">
@@ -233,8 +271,9 @@
     <tr>
         <th width="5%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">&#160;</span></th>
         <th width="20%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Frozen tissue slide ID (1)</span></th>
-        <th width="10%"><span style="font-weight: normal;font-size: 7pt">By initials</span></th>
+        <th width="5%"><span style="font-weight: normal;font-size: 7pt">By initials</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 7pt">On date</span></th>
+        <th width="5%"><span style="font-weight: normal;font-size: 7pt">With frozen section</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 7pt">% tumour (2)</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 7pt">% necrosis (3) </span></th>
         <th width="5%"><span style="font-weight: normal;font-size: 7pt">Cellularity (4)</span></th>
@@ -249,6 +288,7 @@
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;E<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
@@ -263,6 +303,7 @@
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;E<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
@@ -276,6 +317,7 @@
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;E<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
@@ -289,6 +331,7 @@
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
+        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><center><span style="font-weight: normal;font-size: 7pt">A &#160;&#160;&#160;&#160;&#160;&#160;D <br/>B &#160;&#160;&#160;&#160;&#160;&#160;E<br/> C &#160;&#160;&#160;&#160;&#160;&#160;F</span></center></th>
