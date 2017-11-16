@@ -48,8 +48,11 @@ class DispatchRecordController {
             exportService.export(params.format, response.outputStream, ffpeSamples, qcTestExportService.deltaCqFields, qcTestExportService.deltaCqLabels, qcTestExportService.deltaCqFormatters,qcTestExportService.deltaCqParameters )
             def tumourSamples = dispatchItems.findAll {tumour -> tumour?.identifiedSample?.aliquot?.specimen?.first()?.instanceOf(SolidSpecimen)}
             exportService.export(params.format, response.outputStream, tumourSamples, qcTestExportService.tumourContentFields, qcTestExportService.tumourContentLabels, qcTestExportService.tumourContentFormatters,qcTestExportService.tumourContentParameters )
-            exportService.export(params.format, response.outputStream, tumourSamples, qcTestExportService.cellularityFields, qcTestExportService.cellularityLabels, qcTestExportService.cellularityFormatters,qcTestExportService.cellularityParameters )
-            exportService.export(params.format, response.outputStream, tumourSamples, qcTestExportService.necrosisPercentageFields, qcTestExportService.necrosisPercentageLabels, qcTestExportService.necrosisPercentageFormatters,qcTestExportService.necrosisPercentageParameters )
+            def filteredTumourSamplesForCellularity = tumourSamples.findAll {it.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.first() != 'blood_tumour'}
+            filteredTumourSamplesForCellularity = filteredTumourSamplesForCellularity.findAll {it.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.first() != 'bone_marrow_aspirate_tumour_sorted_cells'}
+            exportService.export(params.format, response.outputStream, filteredTumourSamplesForCellularity, qcTestExportService.cellularityFields, qcTestExportService.cellularityLabels, qcTestExportService.cellularityFormatters,qcTestExportService.cellularityParameters )
+            def filteredTumourSamplesForNecrosis = filteredTumourSamplesForCellularity.findAll {it.identifiedSample?.aliquot?.aliquotType?.aliquotTypeName?.first() != 'bone_marrow_aspirate_tumour_cells'}
+            exportService.export(params.format, response.outputStream, filteredTumourSamplesForNecrosis, qcTestExportService.necrosisPercentageFields, qcTestExportService.necrosisPercentageLabels, qcTestExportService.necrosisPercentageFormatters,qcTestExportService.necrosisPercentageParameters )
         }
     }
 
