@@ -130,7 +130,7 @@
         <th width="20%"><span style="font-weight: normal;font-size: 7pt">Full unique ID Sapphire / biobank ID/ barcode</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 7pt">Inking colour if appl.</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 7pt">Co-location FFPE block ref</span></th>
-        <th width="10%"><span style="font-weight: normal;font-size: 7pt">Suitable for frozen section</span></th>
+        <th width="10%"><span style="font-weight: normal;font-size: 7pt">Assessment not possible – FS required</span></th>
         <th width="10%"><span style="font-weight: normal;font-size: 7pt">Storage Location Freezer, tower, box, position</span></th>
         <th width="5%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">Punch weight mg</span></th>
         <th width="5%" bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt">H&amp;E slide prepared by</span></th>
@@ -145,7 +145,7 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -160,7 +160,7 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -174,7 +174,7 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -188,7 +188,7 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -202,7 +202,7 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -216,7 +216,7 @@
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
-        <th><center><span style="font-weight: normal;font-size: 7pt">Y &#160;&#160;&#160;&#160;&#160;&#160;N</span></center></th>
+        <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
         <th bgcolor="#dcdcdc"><span style="font-weight: normal;font-size: 7pt"></span></th>
@@ -253,7 +253,7 @@
 
 <p><span style="font-weight: bold; font-size: 10pt"><u>SECTION 3 : TUMOUR CONTENT ASSESSMENT</u> &#160;&#160;&#160;&#160;&#160;&#160;</span><span style="font-size: 10pt"> Frozen section:................................</span></p>
 
-<p><span style="font-size: 10pt">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Mirror section:................................ </span></p>
+<p><span style="font-size: 10pt">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Mirror block:................................ </span></p>
 
 
 <table border="1" width="100%">
