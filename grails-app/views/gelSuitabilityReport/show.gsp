@@ -56,6 +56,13 @@
         </tr>
 
         <tr class="prop">
+            <td valign="top" class="name"><g:message code="gelSuitabilityReport.frozenSectionCut.label" default="Frozen Section Cut" /></td>
+
+            <td valign="top" class="value">${fieldValue(bean: gelSuitabilityReportInstance, field: "frozenSectionCut")}</td>
+
+        </tr>
+
+        <tr class="prop">
             <td valign="top" class="name"><g:message code="gelSuitabilityReport.slideMarkedBy.label" default="Slide Marked By" /></td>
 
             <g:if test="${gelSuitabilityReportInstance?.slideMarkedBy?.toString()?.isNumber()}">

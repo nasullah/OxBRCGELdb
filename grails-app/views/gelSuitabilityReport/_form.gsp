@@ -57,6 +57,21 @@
             </div>
         </div>
     </div>
+
+    <div class="col-lg-6">
+        <div class="${hasErrors(bean: gelSuitabilityReportInstance, field: 'frozenSectionCut', 'error')} ">
+            <label for="frozenSectionCut" class="control-label"><g:message code="gelSuitabilityReport.frozenSectionCut.label" default="Frozen Section Cut" /><span class="required-indicator">*</span></label>
+            <div>
+                <g:radioGroup name="frozenSectionCut"
+                              values="['Yes', 'No']"
+                              labels="['Yes', 'No']"
+                              value="${gelSuitabilityReportInstance?.frozenSectionCut}"
+                              required="">
+                    ${it.label}  ${it.radio} &nbsp; &nbsp;
+                </g:radioGroup>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row">
