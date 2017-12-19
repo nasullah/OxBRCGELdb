@@ -177,12 +177,14 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 environments {
     development {
         uploadFolder = "C:/Users/nasullah.alham/Desktop/upload_folder/"
+        hizniShare = "C:/Users/nasullah.alham/Desktop/hizni_share/"
     }
     test {
         uploadFolder = "C:/Users/nasullah.alham/Desktop/upload_folder/"
     }
     production {
         uploadFolder = "/media/1TBdisk/Gelimages/"
+        hizniShare = "/home/hizni_share/"
     }
 }
 
